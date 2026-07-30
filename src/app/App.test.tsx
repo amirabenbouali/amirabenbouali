@@ -20,4 +20,12 @@ describe('App routes', () => {
     expect(screen.getByRole('heading', { name: 'Atria' })).toBeInTheDocument();
     expect(screen.getByText(/product systems/i)).toBeInTheDocument();
   });
+
+  it('renders the writing journal index and an article page', () => {
+    renderWithRouter(routes, '/writing');
+
+    expect(screen.getByRole('heading', { name: 'Field Notes' })).toBeInTheDocument();
+    expect(screen.getByText(/Thoughts on software, design and building things/i)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Why every calendar app overwhelms me/i })).toBeInTheDocument();
+  });
 });
