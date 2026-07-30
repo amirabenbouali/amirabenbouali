@@ -15,11 +15,11 @@ export type Profile = {
 export const profile: Profile = {
   name: 'Amira Benbouali',
   location: 'London',
-  title: 'Software engineer and product builder',
-  identityLabel: 'Amira / London / Software & Product',
-  headline: 'I build software that feels quiet.',
+  title: 'Software Engineer',
+  identityLabel: 'Amira Benbouali',
+  headline: 'Building thoughtful software, developer tools and products from London.',
   introduction:
-    'I design and engineer careful digital systems for teams who value clarity, restraint, and momentum.',
+    'Building thoughtful software, developer tools and products from London.',
   philosophy:
     'My work sits between product judgment and engineering depth: calm interfaces, durable systems, and tools that respect attention.',
   contact: {

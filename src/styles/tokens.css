@@ -1,20 +1,50 @@
 :root {
   color-scheme: dark;
-  --color-night-950: #050606;
-  --color-night-900: #0a0b0a;
-  --color-night-850: #10110f;
-  --color-surface-900: #151511;
-  --color-surface-800: #1c1c17;
-  --color-rule: rgba(236, 229, 207, 0.14);
-  --color-rule-strong: rgba(236, 229, 207, 0.24);
-  --color-ivory: #eee6d2;
-  --color-ivory-muted: rgba(238, 230, 210, 0.72);
-  --color-ivory-subtle: rgba(238, 230, 210, 0.5);
-  --color-olive: #8f9771;
-  --color-olive-muted: rgba(143, 151, 113, 0.72);
-  --color-lunar: #d8c77d;
-  --color-lunar-soft: rgba(216, 199, 125, 0.36);
-  --color-grey-warm: #938b7a;
+
+  --background-root: #050606;
+  --background-page: #080907;
+  --background-elevated: #0d0e0c;
+  --background-recessed: #030404;
+  --background-mist: rgba(147, 139, 122, 0.1);
+
+  --surface-quiet: #12130f;
+  --surface-raised: #181813;
+  --surface-inset: #0b0c0a;
+  --surface-note: rgba(238, 230, 210, 0.045);
+
+  --text-primary: #eee6d2;
+  --text-secondary: rgba(238, 230, 210, 0.74);
+  --text-tertiary: rgba(238, 230, 210, 0.54);
+  --text-disabled: rgba(238, 230, 210, 0.34);
+  --text-inverse: #050606;
+
+  --accent-olive: #8f9771;
+  --accent-olive-muted: rgba(143, 151, 113, 0.72);
+  --accent-lunar: #d8c77d;
+  --accent-lunar-soft: rgba(216, 199, 125, 0.34);
+  --accent-warm-grey: #938b7a;
+  --accent-shadow: #25241d;
+
+  --border-faint: rgba(238, 230, 210, 0.1);
+  --border-soft: rgba(238, 230, 210, 0.16);
+  --border-medium: rgba(238, 230, 210, 0.24);
+  --border-olive: rgba(143, 151, 113, 0.25);
+
+  --color-night-950: var(--background-root);
+  --color-night-900: var(--background-page);
+  --color-night-850: var(--background-elevated);
+  --color-surface-900: var(--surface-quiet);
+  --color-surface-800: var(--surface-raised);
+  --color-rule: var(--border-soft);
+  --color-rule-strong: var(--border-medium);
+  --color-ivory: var(--text-primary);
+  --color-ivory-muted: var(--text-secondary);
+  --color-ivory-subtle: var(--text-tertiary);
+  --color-olive: var(--accent-olive);
+  --color-olive-muted: var(--accent-olive-muted);
+  --color-lunar: var(--accent-lunar);
+  --color-lunar-soft: var(--accent-lunar-soft);
+  --color-grey-warm: var(--accent-warm-grey);
   --color-focus: #ead98d;
 
   --font-serif: Georgia, 'Times New Roman', Times, serif;
@@ -22,20 +52,48 @@
   --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
   --font-accent: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
 
-  --space-2xs: clamp(0.25rem, 0.2rem + 0.2vw, 0.375rem);
-  --space-xs: clamp(0.5rem, 0.4rem + 0.4vw, 0.75rem);
-  --space-sm: clamp(0.75rem, 0.65rem + 0.5vw, 1rem);
-  --space-md: clamp(1rem, 0.8rem + 1vw, 1.5rem);
-  --space-lg: clamp(1.5rem, 1.15rem + 1.7vw, 2.5rem);
-  --space-xl: clamp(2.5rem, 1.6rem + 4vw, 5rem);
-  --space-2xl: clamp(4rem, 2.5rem + 7vw, 9rem);
+  --space-3xs: 0.125rem;
+  --space-2xs: 0.25rem;
+  --space-xs: 0.5rem;
+  --space-sm: 0.75rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4.5rem;
+  --space-4xl: 6rem;
+  --space-5xl: 8rem;
+  --space-fluid-sm: clamp(0.75rem, 0.65rem + 0.5vw, 1rem);
+  --space-fluid-md: clamp(1rem, 0.8rem + 1vw, 1.5rem);
+  --space-fluid-lg: clamp(1.5rem, 1.15rem + 1.7vw, 2.5rem);
+  --space-fluid-xl: clamp(2.5rem, 1.6rem + 4vw, 5rem);
+  --space-fluid-2xl: clamp(4rem, 2.5rem + 7vw, 9rem);
 
   --page-gutter: clamp(1rem, 4vw, 4.75rem);
+  --page-gutter-wide: clamp(1rem, 3vw, 3rem);
   --content-max: 1180px;
+  --content-wide: 1440px;
+  --measure-readable: 42rem;
+  --measure-narrow: 28rem;
+
   --radius-sm: 4px;
   --radius-md: 8px;
+  --radius-round: 999px;
 
-  --duration-slow: 900ms;
+  --duration-instant: 120ms;
+  --duration-fast: 240ms;
   --duration-base: 420ms;
+  --duration-slow: 900ms;
+  --duration-drift: 14000ms;
   --ease-atmospheric: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-standard: cubic-bezier(0.2, 0, 0, 1);
+
+  --depth-moon: drop-shadow(0 0 58px rgba(216, 199, 125, 0.05));
+  --depth-soft: 0 24px 80px rgba(0, 0, 0, 0.32);
+  --depth-recessed: inset 0 1px 0 rgba(238, 230, 210, 0.04);
+
+  --grain-opacity: 0.13;
+  --fog-opacity: 0.36;
+  --moon-glow: rgba(216, 199, 125, 0.045);
+  --vignette-opacity: 0.72;
 }

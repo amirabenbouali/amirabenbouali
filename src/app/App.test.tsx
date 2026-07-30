@@ -7,9 +7,10 @@ describe('App routes', () => {
   it('renders the homepage observatory landing', () => {
     renderWithRouter(routes);
 
-    expect(screen.getByRole('heading', { name: /i build software that feels quiet/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /software engineer/i })).toBeInTheDocument();
+    expect(screen.getAllByText('Amira Benbouali')).toHaveLength(2);
     expect(screen.getByRole('link', { name: /enter the observatory/i })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: /product engineering as quiet observation/i })).toBeInTheDocument();
+    expect(screen.getByText(/work chapters will begin here/i)).toBeInTheDocument();
   });
 
   it('renders a project case study shell from project data', () => {

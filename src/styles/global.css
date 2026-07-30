@@ -3,7 +3,7 @@
 }
 
 html {
-  background: var(--color-night-950);
+  background: var(--background-root);
   scroll-behavior: smooth;
 }
 
@@ -11,10 +11,10 @@ body {
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
-  color: var(--color-ivory);
+  color: var(--text-primary);
   background:
-    linear-gradient(180deg, rgba(10, 11, 10, 0.4), var(--color-night-950) 76%),
-    var(--color-night-950);
+    linear-gradient(180deg, rgba(13, 14, 12, 0.58), var(--background-root) 76%),
+    var(--background-root);
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
 }
@@ -32,8 +32,8 @@ select {
 }
 
 ::selection {
-  color: var(--color-night-950);
-  background: var(--color-lunar);
+  color: var(--text-inverse);
+  background: var(--accent-lunar);
 }
 
 :focus-visible {
