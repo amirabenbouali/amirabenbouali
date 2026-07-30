@@ -6,6 +6,7 @@ html {
   position: relative;
   background: var(--background-root);
   scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
 }
 
 body {
@@ -39,8 +40,8 @@ select {
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-focus);
-  outline-offset: 4px;
+  outline: 1px solid rgba(234, 217, 141, 0.72);
+  outline-offset: 5px;
 }
 
 #root {

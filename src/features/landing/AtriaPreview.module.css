@@ -1,0 +1,221 @@
+.preview {
+  display: grid;
+  grid-template-columns: minmax(6rem, 0.32fr) 1fr;
+  gap: clamp(1rem, 2vw, 1.5rem);
+  width: 100%;
+  height: 100%;
+  min-height: inherit;
+  padding: clamp(1rem, 2.5vw, 1.75rem);
+}
+
+.sidebar,
+.workspace {
+  border: 1px solid rgba(238, 230, 210, 0.075);
+  background: rgba(5, 6, 6, 0.18);
+}
+
+.sidebar {
+  display: grid;
+  align-content: start;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+}
+
+.mark {
+  width: 1.25rem;
+  height: 1px;
+  margin-bottom: var(--space-lg);
+  background: rgba(216, 199, 125, 0.54);
+}
+
+.sidebarItem,
+.toolbar button,
+.day,
+.card {
+  color: rgba(238, 230, 210, 0.6);
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  transition:
+    color var(--duration-base) var(--ease-atmospheric),
+    border-color var(--duration-base) var(--ease-atmospheric),
+    background-color var(--duration-base) var(--ease-atmospheric),
+    transform var(--duration-base) var(--ease-atmospheric);
+}
+
+.sidebarItem {
+  padding: var(--space-xs) 0;
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.sidebarItem:hover,
+.sidebarItem:focus-visible {
+  color: var(--text-primary);
+  transform: translate3d(0.18rem, 0, 0);
+}
+
+.workspace {
+  display: grid;
+  grid-template-rows: auto auto auto 1fr;
+  gap: clamp(0.9rem, 2vw, 1.25rem);
+  padding: clamp(1rem, 2.5vw, 1.5rem);
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  color: rgba(238, 230, 210, 0.48);
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.toolbar button {
+  min-height: 1.9rem;
+  padding: 0 var(--space-sm);
+  border-color: rgba(238, 230, 210, 0.08);
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.toolbar button:hover,
+.toolbar button:focus-visible {
+  color: var(--text-primary);
+  border-color: rgba(216, 199, 125, 0.22);
+  background: rgba(216, 199, 125, 0.045);
+}
+
+.calendar {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: var(--space-xs);
+}
+
+.day {
+  display: grid;
+  gap: var(--space-xs);
+  min-height: clamp(4rem, 9vw, 5.5rem);
+  padding: var(--space-sm);
+  border-color: rgba(238, 230, 210, 0.065);
+  text-align: left;
+}
+
+.day span,
+.card span {
+  color: rgba(143, 151, 113, 0.74);
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.day strong,
+.card strong {
+  color: rgba(238, 230, 210, 0.72);
+  font-family: var(--font-serif);
+  font-size: clamp(1.3rem, 2.3vw, 2rem);
+  font-weight: 400;
+}
+
+.day:hover,
+.day:focus-visible,
+.card:hover,
+.card:focus-visible {
+  border-color: rgba(216, 199, 125, 0.2);
+  background: rgba(238, 230, 210, 0.035);
+  transform: translate3d(0, -0.12rem, 0);
+}
+
+.panelGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--space-xs);
+}
+
+.card {
+  display: grid;
+  gap: var(--space-xs);
+  min-height: 6rem;
+  padding: var(--space-sm);
+  border-color: rgba(238, 230, 210, 0.065);
+  text-align: left;
+}
+
+.card strong {
+  font-size: clamp(1.1rem, 1.6vw, 1.45rem);
+  line-height: 1.1;
+}
+
+.chart {
+  display: flex;
+  align-items: end;
+  gap: var(--space-xs);
+  min-height: 6rem;
+  padding-top: var(--space-lg);
+}
+
+.chart span {
+  flex: 1;
+  min-height: 18%;
+  background: linear-gradient(180deg, rgba(143, 151, 113, 0.3), rgba(143, 151, 113, 0.05));
+  transform-origin: bottom;
+  transition:
+    opacity var(--duration-slow) var(--ease-atmospheric),
+    transform var(--duration-slow) var(--ease-atmospheric);
+}
+
+.chart span:nth-child(2) {
+  min-height: 38%;
+}
+
+.chart span:nth-child(3) {
+  min-height: 68%;
+}
+
+.chart span:nth-child(4) {
+  min-height: 48%;
+}
+
+.preview:hover .chart span,
+.preview:focus-within .chart span {
+  opacity: 0.84;
+}
+
+.preview:hover .chart span:nth-child(3),
+.preview:focus-within .chart span:nth-child(3) {
+  transform: scaleY(1.06);
+}
+
+@media (max-width: 620px) {
+  .preview {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    display: flex;
+    align-items: center;
+    overflow: auto;
+  }
+
+  .mark {
+    margin: 0 var(--space-sm) 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebarItem,
+  .toolbar button,
+  .day,
+  .card,
+  .chart span {
+    transition: none;
+    transform: none !important;
+  }
+}

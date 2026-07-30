@@ -9,6 +9,7 @@ import { projects } from '../../data/projects';
 import { profile } from '../../data/profile';
 import { useActiveSection } from '../../hooks/useActiveSection';
 import { usePointerParallax } from '../../hooks/usePointerParallax';
+import { AtriaPreview } from './AtriaPreview';
 import { Chapter, ChapterBody, ChapterHeading, ChapterMetadata, ChapterVisual } from './EditorialChapter';
 import styles from './LandingPage.module.css';
 
@@ -123,7 +124,13 @@ export function LandingPage() {
               <ChapterHeading>{project.title}</ChapterHeading>
               <ChapterBody>{project.summary}</ChapterBody>
             </div>
-            <ChapterVisual role="img" aria-label={`${project.title} visual placeholder`} />
+            {project.slug === 'atria' ? (
+              <ChapterVisual>
+                <AtriaPreview />
+              </ChapterVisual>
+            ) : (
+              <ChapterVisual role="img" aria-label={`${project.title} visual placeholder`} />
+            )}
           </Chapter>
         ))}
       </section>

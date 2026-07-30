@@ -15,6 +15,7 @@
 }
 
 .identity {
+  position: relative;
   display: inline-flex;
   align-items: center;
   min-width: 0;
@@ -24,6 +25,39 @@
   letter-spacing: 0.1em;
   line-height: 1.2;
   text-transform: uppercase;
+  transition:
+    color var(--duration-base) var(--ease-atmospheric),
+    letter-spacing var(--duration-base) var(--ease-atmospheric);
+}
+
+.identity::after,
+.navLink::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -0.45rem;
+  height: 1px;
+  opacity: 0;
+  background: linear-gradient(90deg, rgba(216, 199, 125, 0.58), transparent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition:
+    opacity var(--duration-base) var(--ease-atmospheric),
+    transform var(--duration-slow) var(--ease-atmospheric);
+}
+
+.identity:hover,
+.identity:focus-visible {
+  letter-spacing: 0.13em;
+}
+
+.identity:hover::after,
+.identity:focus-visible::after,
+.navLink:hover::after,
+.navLink:focus-visible::after {
+  opacity: 1;
+  transform: scaleX(1);
 }
 
 .identity span {
@@ -40,18 +74,25 @@
 }
 
 .navLink {
+  position: relative;
   font-size: 0.74rem;
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  transition: color var(--duration-base) var(--ease-atmospheric);
+  transition:
+    color var(--duration-base) var(--ease-atmospheric),
+    letter-spacing var(--duration-base) var(--ease-atmospheric),
+    opacity var(--duration-base) var(--ease-atmospheric);
 }
 
-.navLink:hover {
+.navLink:hover,
+.navLink:focus-visible {
   color: var(--text-primary);
+  letter-spacing: 0.13em;
 }
 
 .menuButton {
+  position: relative;
   display: none;
   align-items: center;
   justify-content: center;
@@ -62,6 +103,21 @@
   background: transparent;
   border-radius: 0;
   cursor: pointer;
+  transition:
+    border-color var(--duration-base) var(--ease-atmospheric),
+    background-color var(--duration-base) var(--ease-atmospheric),
+    transform var(--duration-base) var(--ease-atmospheric);
+}
+
+.menuButton:hover,
+.menuButton:focus-visible {
+  border-color: var(--border-medium);
+  background: rgba(238, 230, 210, 0.035);
+  transform: translate3d(0, -1px, 0);
+}
+
+.menuButton:active {
+  transform: translate3d(0, 0, 0);
 }
 
 @media (max-width: 700px) {
@@ -123,5 +179,14 @@
   .header {
     opacity: 1;
     animation: none;
+  }
+
+  .identity,
+  .identity::after,
+  .navLink,
+  .navLink::after,
+  .menuButton {
+    transition: none;
+    transform: none !important;
   }
 }

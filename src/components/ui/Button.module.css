@@ -1,4 +1,5 @@
 .button {
+  position: relative;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -15,11 +16,51 @@
     color var(--duration-base) var(--ease-atmospheric),
     border-color var(--duration-base) var(--ease-atmospheric),
     background-color var(--duration-base) var(--ease-atmospheric),
+    letter-spacing var(--duration-base) var(--ease-atmospheric),
+    transform var(--duration-base) var(--ease-atmospheric);
+}
+
+.button::before {
+  content: '';
+  position: absolute;
+  left: var(--space-sm);
+  right: var(--space-sm);
+  bottom: 0.55rem;
+  height: 1px;
+  opacity: 0;
+  background: linear-gradient(90deg, transparent, rgba(216, 199, 125, 0.72), transparent);
+  transform: scaleX(0.24);
+  transform-origin: center;
+  transition:
+    opacity var(--duration-base) var(--ease-atmospheric),
+    transform var(--duration-slow) var(--ease-atmospheric);
+}
+
+.button svg {
+  transition:
+    opacity var(--duration-base) var(--ease-atmospheric),
     transform var(--duration-base) var(--ease-atmospheric);
 }
 
 .button:hover {
-  transform: translateY(-1px);
+  letter-spacing: 0.14em;
+  transform: translate3d(0, -1px, 0);
+}
+
+.button:hover::before,
+.button:focus-visible::before {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.button:hover svg,
+.button:focus-visible svg {
+  opacity: 0.82;
+  transform: translate3d(0.16rem, 0.12rem, 0);
+}
+
+.button:active {
+  transform: translate3d(0, 0, 0);
 }
 
 .primary {
@@ -55,4 +96,13 @@
 .text:hover {
   color: var(--accent-lunar);
   border-color: var(--accent-lunar-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .button,
+  .button::before,
+  .button svg {
+    transition: none;
+    transform: none !important;
+  }
 }

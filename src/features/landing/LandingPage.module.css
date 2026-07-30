@@ -21,6 +21,7 @@
     radial-gradient(ellipse at 30% 79%, rgba(143, 151, 113, 0.052), transparent 39%),
     radial-gradient(ellipse at 18% 18%, rgba(238, 230, 210, 0.018), transparent 36%),
     linear-gradient(180deg, #0b0c0b 0%, #070807 48%, #050606 100%);
+  animation: hero-light-shift 30s ease-in-out infinite alternate;
 }
 
 .heroAtmosphere {
@@ -183,6 +184,16 @@
 
 .introHeading {
   margin-top: clamp(1.4rem, 4vh, 3rem);
+  transition:
+    color var(--duration-slow) var(--ease-atmospheric),
+    letter-spacing var(--duration-slow) var(--ease-atmospheric),
+    transform var(--duration-slow) var(--ease-atmospheric);
+}
+
+.introInner:hover .introHeading {
+  color: #f4ecd7;
+  letter-spacing: 0.004em;
+  transform: translate3d(0, -0.16rem, 0);
 }
 
 .introCopy {
@@ -227,6 +238,7 @@
 }
 
 .projectIndex a:hover,
+.projectIndex a:focus-visible,
 .projectIndexActive {
   color: rgba(238, 230, 210, 0.78) !important;
   transform: translate3d(0.25rem, 0, 0);
@@ -327,10 +339,27 @@
   }
 }
 
+@keyframes hero-light-shift {
+  from {
+    background-position: 0 0, 0 0, 0 0, 0 0;
+  }
+
+  to {
+    background-position: 1.4rem -0.8rem, -1rem 0.6rem, 0.4rem 0.8rem, 0 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .moonParallax {
     transform: none;
     transition: none;
+  }
+
+  .hero,
+  .introHeading {
+    animation: none;
+    transition: none;
+    transform: none !important;
   }
 
   .scrollIndicator span {

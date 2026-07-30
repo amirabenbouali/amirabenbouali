@@ -9,6 +9,7 @@
     radial-gradient(circle at 78% 31%, rgba(238, 230, 210, 0.3) 0 1px, transparent 1.5px),
     radial-gradient(circle at 44% 58%, rgba(238, 230, 210, 0.18) 0 1px, transparent 1.4px),
     radial-gradient(circle at 88% 13%, rgba(238, 230, 210, 0.2) 0 1px, transparent 1.4px);
+  animation: star-breathe 22s ease-in-out infinite;
 }
 
 .fog {
@@ -133,9 +134,26 @@
   }
 }
 
+@keyframes star-breathe {
+  0% {
+    opacity: 0.46;
+    transform: translate3d(0, 0, 0);
+  }
+
+  42% {
+    opacity: 0.58;
+  }
+
+  100% {
+    opacity: 0.46;
+    transform: translate3d(0.18rem, -0.12rem, 0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .fog,
-  .moon {
+  .moon,
+  .stars {
     animation: none;
   }
 
