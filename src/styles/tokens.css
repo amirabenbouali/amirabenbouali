@@ -1,0 +1,41 @@
+:root {
+  color-scheme: dark;
+  --color-night-950: #050606;
+  --color-night-900: #0a0b0a;
+  --color-night-850: #10110f;
+  --color-surface-900: #151511;
+  --color-surface-800: #1c1c17;
+  --color-rule: rgba(236, 229, 207, 0.14);
+  --color-rule-strong: rgba(236, 229, 207, 0.24);
+  --color-ivory: #eee6d2;
+  --color-ivory-muted: rgba(238, 230, 210, 0.72);
+  --color-ivory-subtle: rgba(238, 230, 210, 0.5);
+  --color-olive: #8f9771;
+  --color-olive-muted: rgba(143, 151, 113, 0.72);
+  --color-lunar: #d8c77d;
+  --color-lunar-soft: rgba(216, 199, 125, 0.36);
+  --color-grey-warm: #938b7a;
+  --color-focus: #ead98d;
+
+  --font-serif: Georgia, 'Times New Roman', Times, serif;
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-mono: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  --font-accent: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, serif;
+
+  --space-2xs: clamp(0.25rem, 0.2rem + 0.2vw, 0.375rem);
+  --space-xs: clamp(0.5rem, 0.4rem + 0.4vw, 0.75rem);
+  --space-sm: clamp(0.75rem, 0.65rem + 0.5vw, 1rem);
+  --space-md: clamp(1rem, 0.8rem + 1vw, 1.5rem);
+  --space-lg: clamp(1.5rem, 1.15rem + 1.7vw, 2.5rem);
+  --space-xl: clamp(2.5rem, 1.6rem + 4vw, 5rem);
+  --space-2xl: clamp(4rem, 2.5rem + 7vw, 9rem);
+
+  --page-gutter: clamp(1rem, 4vw, 4.75rem);
+  --content-max: 1180px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+
+  --duration-slow: 900ms;
+  --duration-base: 420ms;
+  --ease-atmospheric: cubic-bezier(0.22, 1, 0.36, 1);
+}

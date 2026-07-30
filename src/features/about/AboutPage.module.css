@@ -1,0 +1,27 @@
+.page {
+  min-height: 100vh;
+  padding: calc(var(--space-2xl) + 3rem) var(--page-gutter) var(--space-2xl);
+  background: var(--color-night-950);
+}
+
+.page h1 {
+  max-width: 12ch;
+  margin-top: var(--space-sm);
+  font-size: clamp(3rem, 9vw, 8rem);
+  line-height: 0.9;
+}
+
+.page p:not(.kicker) {
+  max-width: 42rem;
+  margin-top: var(--space-lg);
+  color: var(--color-ivory-muted);
+  font-size: 1.2rem;
+}
+
+.kicker {
+  color: var(--color-olive-muted);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
