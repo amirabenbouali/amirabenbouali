@@ -10,6 +10,8 @@
   gap: var(--space-md);
   padding: var(--space-fluid-md) var(--page-gutter);
   color: var(--text-secondary);
+  opacity: 0;
+  animation: nav-reveal 1s var(--ease-atmospheric) 1.05s forwards;
 }
 
 .identity {
@@ -102,5 +104,24 @@
 
   .navLink {
     font-size: 0.78rem;
+  }
+}
+
+@keyframes nav-reveal {
+  from {
+    opacity: 0;
+    transform: translate3d(0, -0.35rem, 0);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .header {
+    opacity: 1;
+    animation: none;
   }
 }

@@ -7,15 +7,18 @@
 
 .hero {
   position: relative;
+  --pointer-x: 0px;
+  --pointer-y: 0px;
   min-height: 100svh;
   display: grid;
   align-items: center;
-  padding-block: calc(var(--space-fluid-2xl) + 2rem) var(--space-fluid-xl);
+  padding-block: calc(var(--space-fluid-2xl) + 1.5rem) var(--space-fluid-xl);
   isolation: isolate;
   overflow: hidden;
   background:
-    radial-gradient(circle at 73% 36%, rgba(216, 199, 125, 0.045), transparent 28%),
-    radial-gradient(ellipse at 34% 82%, rgba(143, 151, 113, 0.06), transparent 36%),
+    radial-gradient(circle at 77% 42%, rgba(216, 199, 125, 0.034), transparent 31%),
+    radial-gradient(ellipse at 30% 79%, rgba(143, 151, 113, 0.052), transparent 39%),
+    radial-gradient(ellipse at 18% 18%, rgba(238, 230, 210, 0.018), transparent 36%),
     linear-gradient(180deg, #0b0c0b 0%, #070807 48%, #050606 100%);
 }
 
@@ -23,7 +26,8 @@
   position: relative;
   z-index: 10;
   display: grid;
-  gap: var(--space-fluid-md);
+  gap: clamp(1.1rem, 2.2vh, 1.75rem);
+  padding-top: 4vh;
 }
 
 .headline {
@@ -38,21 +42,28 @@
   max-width: var(--measure-narrow);
   color: var(--text-secondary);
   font-size: clamp(1.12rem, 1.5vw, 1.45rem);
-  line-height: 1.48;
+  line-height: 1.52;
 }
 
 .stars {
   z-index: 1;
 }
 
-.moonWrap {
+.moonParallax {
   position: absolute;
-  right: clamp(-15rem, -12vw, -5rem);
-  bottom: clamp(3rem, 8vh, 7rem);
+  right: clamp(-24rem, -18vw, -8rem);
+  bottom: clamp(-1rem, 3vh, 4rem);
   z-index: 2;
-  width: clamp(22rem, 44vw, 43rem);
+  width: clamp(32rem, 58vw, 60rem);
   aspect-ratio: 1;
-  opacity: 0.94;
+  opacity: 0.92;
+  transform: translate3d(var(--pointer-x), var(--pointer-y), 0);
+  transition: transform 900ms var(--ease-atmospheric);
+}
+
+.moonWrap {
+  width: 100%;
+  height: 100%;
 }
 
 .diagram {
@@ -64,7 +75,7 @@
   aspect-ratio: 1;
   border: 1px solid rgba(238, 230, 210, 0.075);
   border-radius: 50%;
-  opacity: 0.34;
+  opacity: 0.26;
 }
 
 .diagram::before {
@@ -114,6 +125,27 @@
   opacity: 0.62;
 }
 
+.scrollIndicator {
+  position: absolute;
+  left: var(--page-gutter);
+  bottom: var(--space-fluid-lg);
+  z-index: 10;
+  width: 1px;
+  height: 4.75rem;
+  overflow: hidden;
+  background: rgba(238, 230, 210, 0.16);
+}
+
+.scrollIndicator span {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1px;
+  height: 1.2rem;
+  background: rgba(216, 199, 125, 0.6);
+  animation: scroll-mark 3.8s var(--ease-atmospheric) infinite;
+}
+
 .workPlaceholder {
   min-height: 26vh;
   padding-block: var(--space-fluid-xl);
@@ -127,18 +159,19 @@
 @media (max-width: 820px) {
   .hero {
     align-items: end;
+    padding-bottom: clamp(7rem, 18vh, 10rem);
   }
 
-  .moonWrap {
-    right: -15rem;
+  .moonParallax {
+    right: -18rem;
     bottom: 24vh;
-    width: 32rem;
+    width: clamp(34rem, 82vw, 44rem);
   }
 
   .diagram {
     right: -2rem;
-    top: 17vh;
-    opacity: 0.22;
+    top: 15vh;
+    opacity: 0.16;
   }
 
   .heroMeta {
@@ -148,16 +181,60 @@
 
 @media (max-width: 520px) {
   .hero {
-    padding-top: 7.5rem;
+    align-items: end;
+    padding-top: 8rem;
+    padding-bottom: 6.5rem;
+  }
+
+  .heroContent {
+    gap: var(--space-md);
   }
 
   .support {
     max-width: 18rem;
+    font-size: 1.08rem;
   }
 
-  .moonWrap {
-    right: -17rem;
-    bottom: 31vh;
-    width: 29rem;
+  .moonParallax {
+    right: -17.5rem;
+    bottom: 34vh;
+    width: 31rem;
+  }
+
+  .scrollIndicator {
+    height: 3.5rem;
+  }
+}
+
+@keyframes scroll-mark {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, -1.2rem, 0);
+  }
+
+  24% {
+    opacity: 1;
+  }
+
+  72% {
+    opacity: 0.7;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translate3d(0, 4.75rem, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .moonParallax {
+    transform: none;
+    transition: none;
+  }
+
+  .scrollIndicator span {
+    animation: none;
+    opacity: 0.72;
+    transform: translate3d(0, 1.25rem, 0);
   }
 }
