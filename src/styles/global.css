@@ -3,11 +3,13 @@
 }
 
 html {
+  position: relative;
   background: var(--background-root);
   scroll-behavior: smooth;
 }
 
 body {
+  position: relative;
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
