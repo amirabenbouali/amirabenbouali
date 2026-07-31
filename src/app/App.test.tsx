@@ -28,4 +28,12 @@ describe('App routes', () => {
     expect(screen.getByText(/Thoughts on software, design and building things/i)).toBeInTheDocument();
     expect(screen.getByRole('link', { name: /Why every calendar app overwhelms me/i })).toBeInTheDocument();
   });
+
+  it('renders the about page as a reflective essay', () => {
+    renderWithRouter(routes, '/about');
+
+    expect(screen.getByRole('heading', { name: /making thought usable/i })).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /The best engineering removes weight/i })).toBeInTheDocument();
+    expect(screen.getByText(/Questions I keep returning to/i)).toBeInTheDocument();
+  });
 });
