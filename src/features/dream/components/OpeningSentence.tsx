@@ -25,6 +25,7 @@ export function OpeningSentence({ pointer }: OpeningSentenceProps) {
     const suspended = Math.sin(clock.elapsedTime * 0.42) * 0.018;
 
     if (group.current) {
+      group.current.visible = phases.darkExit < 0.55;
       group.current.position.y = 0.32 + suspended - phases.cameraPassage * 0.22;
       group.current.rotation.x += (pointer.current.y * 0.018 - group.current.rotation.x) * 0.04;
       group.current.rotation.y += (pointer.current.x * 0.028 - group.current.rotation.y) * 0.04;

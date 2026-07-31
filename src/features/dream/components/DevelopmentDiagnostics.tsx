@@ -1,6 +1,8 @@
 import type { DreamTimelineSnapshot } from '../timeline/dreamTimeline';
 import type { QualityTier } from '../hooks/useViewportQuality';
 import { getOpeningCameraRig, getOpeningPhases } from '../timeline/openingTimeline';
+import { generateCalendarCells, getAtriaCameraRig, getAtriaPhases } from '../atria/atriaModel';
+import type { useAtriaState } from '../atria/useAtriaState';
 import styles from '../DreamExperience.module.css';
 
 type DevelopmentDiagnosticsProps = {
@@ -10,6 +12,7 @@ type DevelopmentDiagnosticsProps = {
   pixelRatio: number;
   reducedMotion: boolean;
   webglSupported: boolean;
+  atria: ReturnType<typeof useAtriaState>;
 };
 
 export function DevelopmentDiagnostics({
@@ -18,12 +21,15 @@ export function DevelopmentDiagnostics({
   quality,
   pixelRatio,
   reducedMotion,
-  webglSupported
+  webglSupported,
+  atria
 }: DevelopmentDiagnosticsProps) {
   if (!enabled) return null;
 
   const phases = getOpeningPhases(timeline.progress);
-  const camera = getOpeningCameraRig(timeline.progress);
+  const atriaPhases = getAtriaPhases(timeline.progress);
+  const camera = timeline.activeScene.id === 'atria' ? getAtriaCameraRig(timeline.progress) : getOpeningCameraRig(timeline.progress);
+  const visibleCells = generateCalendarCells(quality).length;
 
   return (
     <aside className={styles.diagnostics} aria-hidden="true">
@@ -33,6 +39,12 @@ export function DevelopmentDiagnostics({
       <span>quality {quality}</span>
       <span>portal {phases.portalFormation.toFixed(3)}</span>
       <span>passage {phases.cameraPassage.toFixed(3)}</span>
+      <span>atria {atriaPhases.local.toFixed(3)}</span>
+      <span>time {atria.timeOfDay}</span>
+      <span>mode {atria.mode}</span>
+      <span>cells {visibleCells}</span>
+      <span>event {atria.selectedEvent}</span>
+      <span>memory {atria.memory.selectedCell}</span>
       <span>camera {camera.position.map((value) => value.toFixed(1)).join(',')}</span>
       <span>dpr {pixelRatio}</span>
       <span>motion {reducedMotion ? 'reduced' : 'on'}</span>

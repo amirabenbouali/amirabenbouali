@@ -31,7 +31,7 @@ export const openingRange = {
   approachEnd: 0.24,
   passageStart: 0.22,
   passageEnd: 0.3,
-  darkExitStart: 0.27,
+  darkExitStart: 0.235,
   darkExitEnd: 0.36
 } as const;
 

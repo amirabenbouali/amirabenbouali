@@ -11,7 +11,7 @@ export function LetterPassage() {
     const phases = getOpeningPhases(dreamTimelineProgress.current);
     if (!group.current) return;
 
-    group.current.visible = phases.cameraPassage > 0.02;
+    group.current.visible = phases.cameraPassage > 0.02 && phases.darkExit < 0.62;
     group.current.position.z = -3.2 - phases.cameraPassage * 4.8;
     group.current.scale.setScalar(0.8 + phases.cameraPassage * 1.8);
   });

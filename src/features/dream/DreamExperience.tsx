@@ -11,6 +11,7 @@ import { useReducedMotionPreference } from './hooks/useReducedMotionPreference';
 import { useScrollProgress } from './hooks/useScrollProgress';
 import { useViewportQuality } from './hooks/useViewportQuality';
 import { useWebGLSupport } from './hooks/useWebGLSupport';
+import { useAtriaState } from './atria/useAtriaState';
 import { dreamScrollLength } from './dreamScenes.config';
 import { createDreamTimeline } from './timeline/dreamTimeline';
 import styles from './DreamExperience.module.css';
@@ -23,6 +24,7 @@ export function DreamExperience() {
   const webglSupported = useWebGLSupport();
   const isPageVisible = usePageVisibility();
   const timeline = useScrollProgress();
+  const atria = useAtriaState();
   const { pointer, handlePointerMove, handlePointerLeave } = usePointerInfluence();
 
   useEffect(() => {
@@ -37,7 +39,7 @@ export function DreamExperience() {
   };
 
   if (reducedMotion.prefersReducedMotion) {
-    return <ReducedMotionExperience reducedMotion={reducedMotion} quality={quality.tier} webglSupported={webglSupported} />;
+    return <ReducedMotionExperience reducedMotion={reducedMotion} quality={quality.tier} webglSupported={webglSupported} atria={atria} />;
   }
 
   const style = { '--dream-scroll-length': `${dreamScrollLength}svh` } as CSSProperties;
@@ -70,6 +72,7 @@ export function DreamExperience() {
         <DreamCanvas
           pointer={pointer}
           quality={quality.tier}
+          atria={atria}
           isActive={isPageVisible}
           webglSupported={webglSupported}
           onLoaded={() => setIsLoaded(true)}
@@ -82,6 +85,7 @@ export function DreamExperience() {
         reducedMotion={reducedMotion}
         quality={quality.tier}
         webglSupported={webglSupported}
+        atria={atria}
       />
       <DevelopmentDiagnostics
         timeline={timeline}
@@ -89,6 +93,7 @@ export function DreamExperience() {
         pixelRatio={quality.pixelRatio}
         reducedMotion={reducedMotion.prefersReducedMotion}
         webglSupported={webglSupported}
+        atria={atria}
       />
       <AtmosphericGrain />
     </main>

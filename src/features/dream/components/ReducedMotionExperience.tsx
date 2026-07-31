@@ -1,15 +1,21 @@
 import { dreamScenes } from '../dreamScenes.config';
+import { getProjectBySlug } from '../../../data/projects';
 import type { ReducedMotionController } from '../hooks/useReducedMotionPreference';
 import type { QualityTier } from '../hooks/useViewportQuality';
+import type { useAtriaState } from '../atria/useAtriaState';
+import { AtriaControls } from './AtriaControls';
 import styles from '../DreamExperience.module.css';
 
 type ReducedMotionExperienceProps = {
   reducedMotion: ReducedMotionController;
   quality: QualityTier;
   webglSupported: boolean;
+  atria: ReturnType<typeof useAtriaState>;
 };
 
-export function ReducedMotionExperience({ reducedMotion, quality, webglSupported }: ReducedMotionExperienceProps) {
+const atriaProject = getProjectBySlug('atria');
+
+export function ReducedMotionExperience({ reducedMotion, quality, webglSupported, atria }: ReducedMotionExperienceProps) {
   return (
     <main className={styles.reduced} aria-labelledby="dream-title">
       <a className={styles.skipLink} href="#reduced-content">
@@ -55,6 +61,14 @@ export function ReducedMotionExperience({ reducedMotion, quality, webglSupported
         <h2 id="reduced-work">Selected work</h2>
         <p>Atria, Foundry, kansoDB and Mini CI are present as semantic placeholders for future project scenes.</p>
       </section>
+      {atriaProject ? (
+        <section className={styles.atriaPanel} aria-labelledby="reduced-atria">
+          <p className={styles.reducedKicker}>Atria chamber</p>
+          <h2 id="reduced-atria">Atria — Time Becomes Architecture</h2>
+          <p>{atriaProject.summary}</p>
+          <AtriaControls atria={atria} />
+        </section>
+      ) : null}
       <section aria-labelledby="reduced-about">
         <h2 id="reduced-about">About</h2>
         <p>Amira is a London-based software engineer and product builder. The reflective About scene is deferred.</p>

@@ -383,6 +383,106 @@
   text-transform: uppercase;
 }
 
+.atriaPanel,
+.atriaStaticFallback {
+  display: grid;
+  gap: var(--space-md);
+  max-width: 44rem;
+  padding-top: var(--space-lg);
+  border-top: 1px solid rgba(23, 24, 18, 0.16);
+}
+
+.atriaPanel dl {
+  display: grid;
+  gap: 0.8rem;
+  margin: 0;
+}
+
+.atriaPanel dl div {
+  display: grid;
+  gap: 0.18rem;
+}
+
+.atriaPanel dt {
+  color: rgba(23, 24, 18, 0.52);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.atriaPanel dd {
+  margin: 0;
+  color: rgba(23, 24, 18, 0.74);
+  line-height: 1.65;
+}
+
+.atriaControls,
+.controlGroup {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.controlGroup span {
+  color: rgba(23, 24, 18, 0.5);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.segmentedControls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.segmentedControls button,
+.editorialAction {
+  color: #171812;
+  border: 1px solid rgba(23, 24, 18, 0.24);
+  background: transparent;
+  padding: 0.62rem 0.78rem;
+  font-family: var(--font-sans);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.segmentedControls button[aria-pressed='true'] {
+  color: #ece7dd;
+  background: #171812;
+}
+
+.segmentedControls button:focus-visible,
+.editorialAction:focus-visible {
+  outline: 2px solid var(--accent-lunar);
+  outline-offset: 4px;
+}
+
+.staticCalendar {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 0.42rem;
+  max-width: 34rem;
+  padding: 1rem;
+  border: 1px solid rgba(23, 24, 18, 0.16);
+  background: rgba(23, 24, 18, 0.04);
+}
+
+.staticCalendar span {
+  aspect-ratio: 1.4;
+  border: 1px solid rgba(23, 24, 18, 0.14);
+  background: rgba(23, 24, 18, 0.06);
+}
+
+.staticCalendar span[data-lit='true'] {
+  background: rgba(197, 183, 130, 0.62);
+  box-shadow: 0 0 18px rgba(197, 183, 130, 0.22);
+}
+
 .diagnostics {
   position: fixed;
   left: var(--page-gutter);

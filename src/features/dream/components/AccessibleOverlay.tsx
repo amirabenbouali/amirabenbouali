@@ -1,7 +1,10 @@
 import { dreamScenes } from '../dreamScenes.config';
+import { getProjectBySlug } from '../../../data/projects';
 import type { DreamTimelineSnapshot } from '../timeline/dreamTimeline';
 import type { QualityTier } from '../hooks/useViewportQuality';
 import type { ReducedMotionController } from '../hooks/useReducedMotionPreference';
+import type { useAtriaState } from '../atria/useAtriaState';
+import { AtriaControls } from './AtriaControls';
 import styles from '../DreamExperience.module.css';
 
 type AccessibleOverlayProps = {
@@ -9,6 +12,7 @@ type AccessibleOverlayProps = {
   reducedMotion: ReducedMotionController;
   quality: QualityTier;
   webglSupported: boolean;
+  atria: ReturnType<typeof useAtriaState>;
 };
 
 const projects = [
@@ -34,7 +38,9 @@ const projects = [
   }
 ];
 
-export function AccessibleOverlay({ timeline, reducedMotion, quality, webglSupported }: AccessibleOverlayProps) {
+const atriaProject = getProjectBySlug('atria');
+
+export function AccessibleOverlay({ timeline, reducedMotion, quality, webglSupported, atria }: AccessibleOverlayProps) {
   const jumpToScene = (start: number) => {
     const max = document.documentElement.scrollHeight - window.innerHeight;
     window.scrollTo({ top: max * start, behavior: reducedMotion.prefersReducedMotion ? 'auto' : 'smooth' });
@@ -104,6 +110,29 @@ export function AccessibleOverlay({ timeline, reducedMotion, quality, webglSuppo
             ))}
           </ol>
         </section>
+
+        {atriaProject ? (
+          <section className={styles.atriaPanel} aria-labelledby="atria-overlay-title">
+            <p className={styles.reducedKicker}>Current chamber</p>
+            <h3 id="atria-overlay-title">Atria — Time Becomes Architecture</h3>
+            <p>{atriaProject.summary}</p>
+            <dl>
+              <div>
+                <dt>Role</dt>
+                <dd>{atriaProject.role}</dd>
+              </div>
+              <div>
+                <dt>Stack</dt>
+                <dd>{atriaProject.stack.join(', ')}</dd>
+              </div>
+              <div>
+                <dt>Selected features</dt>
+                <dd>Events as rooms, recurring schedules, Today view, Insights, calm workspace modes.</dd>
+              </div>
+            </dl>
+            <AtriaControls atria={atria} />
+          </section>
+        ) : null}
 
         <section aria-labelledby="about-heading">
           <h3 id="about-heading">About</h3>

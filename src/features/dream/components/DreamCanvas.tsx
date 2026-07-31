@@ -3,6 +3,7 @@ import { Component, Suspense } from 'react';
 import type { MutableRefObject, ReactNode } from 'react';
 import type { QualityTier } from '../hooks/useViewportQuality';
 import { getPixelRatioForQuality } from '../hooks/useViewportQuality';
+import type { useAtriaState } from '../atria/useAtriaState';
 import { DreamScene } from './DreamScene';
 import type { PointerInfluenceRef } from './PointerInfluence';
 import { WebGLFallback } from './WebGLFallback';
@@ -11,13 +12,17 @@ import styles from '../DreamExperience.module.css';
 type DreamCanvasProps = {
   pointer: MutableRefObject<PointerInfluenceRef>;
   quality: QualityTier;
+  atria: ReturnType<typeof useAtriaState>;
   isActive: boolean;
   webglSupported: boolean;
   onLoaded: () => void;
   onError: (error: unknown) => void;
 };
 
-class DreamErrorBoundary extends Component<{ children: ReactNode; onError: (error: unknown) => void }, { hasError: boolean }> {
+class DreamErrorBoundary extends Component<
+  { children: ReactNode; onError: (error: unknown) => void; atria: ReturnType<typeof useAtriaState> },
+  { hasError: boolean }
+> {
   state = { hasError: false };
 
   static getDerivedStateFromError() {
@@ -30,22 +35,22 @@ class DreamErrorBoundary extends Component<{ children: ReactNode; onError: (erro
 
   render() {
     if (this.state.hasError) {
-      return <WebGLFallback reason="error" />;
+      return <WebGLFallback reason="error" atria={this.props.atria} />;
     }
 
     return this.props.children;
   }
 }
 
-export function DreamCanvas({ pointer, quality, isActive, webglSupported, onLoaded, onError }: DreamCanvasProps) {
+export function DreamCanvas({ pointer, quality, atria, isActive, webglSupported, onLoaded, onError }: DreamCanvasProps) {
   if (!webglSupported) {
-    return <WebGLFallback reason="unsupported" />;
+    return <WebGLFallback reason="unsupported" atria={atria} />;
   }
 
   const pixelRatio = getPixelRatioForQuality(quality);
 
   return (
-    <DreamErrorBoundary onError={onError}>
+    <DreamErrorBoundary onError={onError} atria={atria}>
       <Canvas
         className={styles.canvas}
         dpr={[1, pixelRatio]}
@@ -57,7 +62,7 @@ export function DreamCanvas({ pointer, quality, isActive, webglSupported, onLoad
         }}
       >
         <Suspense fallback={null}>
-          <DreamScene pointer={pointer} quality={quality} isActive={isActive} />
+          <DreamScene pointer={pointer} quality={quality} atria={atria} isActive={isActive} />
         </Suspense>
       </Canvas>
     </DreamErrorBoundary>
