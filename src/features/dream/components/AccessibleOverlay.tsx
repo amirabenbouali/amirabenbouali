@@ -4,6 +4,7 @@ import type { DreamTimelineSnapshot } from '../timeline/dreamTimeline';
 import type { QualityTier } from '../hooks/useViewportQuality';
 import type { ReducedMotionController } from '../hooks/useReducedMotionPreference';
 import type { useAtriaState } from '../atria/useAtriaState';
+import { getFoundryModeReadiness } from '../foundry/foundryTransition';
 import { AtriaControls } from './AtriaControls';
 import styles from '../DreamExperience.module.css';
 
@@ -133,6 +134,18 @@ export function AccessibleOverlay({ timeline, reducedMotion, quality, webglSuppo
             <AtriaControls atria={atria} />
           </section>
         ) : null}
+
+        <section className={styles.atriaPanel} aria-labelledby="foundry-transition-title">
+          <p className={styles.reducedKicker}>Current transformation</p>
+          <h3 id="foundry-transition-title">Atria to Foundry</h3>
+          <p>
+            The calendar does not disappear. Its selected rooms become system nodes, its rows become dependency edges, its
+            weekly columns become domain axes, and its event light becomes the first travelling Foundry signal.
+          </p>
+          <p className={styles.systemMeta}>
+            {atria.memory.source} / {getFoundryModeReadiness(atria.mode).label} / selected cell {atria.memory.selectedCell}
+          </p>
+        </section>
 
         <section aria-labelledby="about-heading">
           <h3 id="about-heading">About</h3>

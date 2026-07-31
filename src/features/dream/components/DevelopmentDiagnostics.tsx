@@ -2,6 +2,7 @@ import type { DreamTimelineSnapshot } from '../timeline/dreamTimeline';
 import type { QualityTier } from '../hooks/useViewportQuality';
 import { getOpeningCameraRig, getOpeningPhases } from '../timeline/openingTimeline';
 import { generateCalendarCells, getAtriaCameraRig, getAtriaPhases } from '../atria/atriaModel';
+import { foundryRange, getFoundryPhases, getFoundryTransitionCameraRig } from '../foundry/foundryTransition';
 import type { useAtriaState } from '../atria/useAtriaState';
 import styles from '../DreamExperience.module.css';
 
@@ -28,7 +29,13 @@ export function DevelopmentDiagnostics({
 
   const phases = getOpeningPhases(timeline.progress);
   const atriaPhases = getAtriaPhases(timeline.progress);
-  const camera = timeline.activeScene.id === 'atria' ? getAtriaCameraRig(timeline.progress) : getOpeningCameraRig(timeline.progress);
+  const foundryPhases = getFoundryPhases(timeline.progress);
+  const camera =
+    timeline.progress >= foundryRange.start && timeline.progress <= foundryRange.end
+      ? getFoundryTransitionCameraRig(timeline.progress)
+      : timeline.activeScene.id === 'atria'
+        ? getAtriaCameraRig(timeline.progress)
+        : getOpeningCameraRig(timeline.progress);
   const visibleCells = generateCalendarCells(quality).length;
 
   return (
@@ -40,6 +47,7 @@ export function DevelopmentDiagnostics({
       <span>portal {phases.portalFormation.toFixed(3)}</span>
       <span>passage {phases.cameraPassage.toFixed(3)}</span>
       <span>atria {atriaPhases.local.toFixed(3)}</span>
+      <span>foundry {foundryPhases.local.toFixed(3)}</span>
       <span>time {atria.timeOfDay}</span>
       <span>mode {atria.mode}</span>
       <span>cells {visibleCells}</span>

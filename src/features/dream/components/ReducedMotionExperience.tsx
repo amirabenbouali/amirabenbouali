@@ -3,6 +3,7 @@ import { getProjectBySlug } from '../../../data/projects';
 import type { ReducedMotionController } from '../hooks/useReducedMotionPreference';
 import type { QualityTier } from '../hooks/useViewportQuality';
 import type { useAtriaState } from '../atria/useAtriaState';
+import { getFoundryModeReadiness } from '../foundry/foundryTransition';
 import { AtriaControls } from './AtriaControls';
 import styles from '../DreamExperience.module.css';
 
@@ -69,6 +70,17 @@ export function ReducedMotionExperience({ reducedMotion, quality, webglSupported
           <AtriaControls atria={atria} />
         </section>
       ) : null}
+      <section className={styles.atriaPanel} aria-labelledby="reduced-foundry-transition">
+        <p className={styles.reducedKicker}>Transformation</p>
+        <h2 id="reduced-foundry-transition">Atria to Foundry</h2>
+        <p>
+          In reduced motion, the transition is represented as a readable lineage: selected calendar cells become domain,
+          ownership, monitoring and readiness nodes while row and column lines become the first system edges.
+        </p>
+        <p className={styles.systemMeta}>
+          {atria.memory.source} / {getFoundryModeReadiness(atria.mode).label} / selected cell {atria.memory.selectedCell}
+        </p>
+      </section>
       <section aria-labelledby="reduced-about">
         <h2 id="reduced-about">About</h2>
         <p>Amira is a London-based software engineer and product builder. The reflective About scene is deferred.</p>

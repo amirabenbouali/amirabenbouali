@@ -1,6 +1,7 @@
 import { dreamScenes } from '../dreamScenes.config';
 import { getProjectBySlug } from '../../../data/projects';
 import type { useAtriaState } from '../atria/useAtriaState';
+import { getFoundryModeReadiness } from '../foundry/foundryTransition';
 import { AtriaControls } from './AtriaControls';
 import styles from '../DreamExperience.module.css';
 
@@ -37,6 +38,12 @@ export function WebGLFallback({ reason = 'unsupported', atria }: WebGLFallbackPr
               <span key={index} data-lit={index % 6 === 1 || index % 9 === 0 ? 'true' : undefined} />
             ))}
           </div>
+          {atria ? (
+            <p className={styles.systemMeta}>
+              Foundry inherits {atria.memory.source}; {getFoundryModeReadiness(atria.mode).label}; selected cell{' '}
+              {atria.memory.selectedCell}.
+            </p>
+          ) : null}
         </section>
       ) : null}
       <ol>

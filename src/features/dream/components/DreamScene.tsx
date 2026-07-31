@@ -50,7 +50,7 @@ export function DreamScene({ pointer, quality, atria, isActive }: DreamSceneProp
       <OpeningSentence pointer={pointer} />
       <LetterPassage />
       <AtriaWorld pointer={pointer} quality={quality} atria={atria} isActive={isActive} />
-      {dreamScenes.slice(3).map((scene, index) => (
+      {dreamScenes.slice(4).map((scene, index) => (
         <PlaceholderScene key={scene.id} scene={scene} position={[index % 2 === 0 ? -0.72 : 0.72, -0.4, -18 - index * 4.2]} />
       ))}
     </>
