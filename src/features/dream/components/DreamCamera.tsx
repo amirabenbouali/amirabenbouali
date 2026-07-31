@@ -4,7 +4,8 @@ import { forwardRef, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { dreamTimelineProgress, getDreamTimelineSnapshot } from '../timeline/dreamTimeline';
 import { getAtriaCameraRig } from '../atria/atriaModel';
-import { foundryRange, getFoundryTransitionCameraRig } from '../foundry/foundryTransition';
+import { foundryRange } from '../foundry/foundryTransition';
+import { getFoundryCameraRig } from '../foundry/foundrySystem';
 import { getOpeningCameraRig } from '../timeline/openingTimeline';
 import type { PointerInfluenceRef } from './PointerInfluence';
 import type { MutableRefObject } from 'react';
@@ -42,7 +43,7 @@ export const DreamCamera = forwardRef<THREE.PerspectiveCamera, DreamCameraProps>
     pointer.current.y = smoothPointer.current.y;
 
     if (dreamTimelineProgress.current >= foundryRange.start && dreamTimelineProgress.current <= foundryRange.end) {
-      const rig = getFoundryTransitionCameraRig(dreamTimelineProgress.current);
+      const rig = getFoundryCameraRig(dreamTimelineProgress.current);
       desiredPosition.fromArray(rig.position);
       desiredTarget.fromArray(rig.target);
     } else if (dreamTimelineProgress.current >= 0.24 && dreamTimelineProgress.current <= 0.36) {

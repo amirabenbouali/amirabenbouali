@@ -2,8 +2,10 @@ import type { DreamTimelineSnapshot } from '../timeline/dreamTimeline';
 import type { QualityTier } from '../hooks/useViewportQuality';
 import { getOpeningCameraRig, getOpeningPhases } from '../timeline/openingTimeline';
 import { generateCalendarCells, getAtriaCameraRig, getAtriaPhases } from '../atria/atriaModel';
-import { foundryRange, getFoundryPhases, getFoundryTransitionCameraRig } from '../foundry/foundryTransition';
+import { foundryRange, getFoundryPhases } from '../foundry/foundryTransition';
+import { getFoundryCameraRig, getFoundrySystemSnapshot } from '../foundry/foundrySystem';
 import type { useAtriaState } from '../atria/useAtriaState';
+import type { useFoundryState } from '../foundry/useFoundryState';
 import styles from '../DreamExperience.module.css';
 
 type DevelopmentDiagnosticsProps = {
@@ -14,6 +16,7 @@ type DevelopmentDiagnosticsProps = {
   reducedMotion: boolean;
   webglSupported: boolean;
   atria: ReturnType<typeof useAtriaState>;
+  foundry: ReturnType<typeof useFoundryState>;
 };
 
 export function DevelopmentDiagnostics({
@@ -23,16 +26,18 @@ export function DevelopmentDiagnostics({
   pixelRatio,
   reducedMotion,
   webglSupported,
-  atria
+  atria,
+  foundry
 }: DevelopmentDiagnosticsProps) {
   if (!enabled) return null;
 
   const phases = getOpeningPhases(timeline.progress);
   const atriaPhases = getAtriaPhases(timeline.progress);
   const foundryPhases = getFoundryPhases(timeline.progress);
+  const foundrySnapshot = getFoundrySystemSnapshot(timeline.progress);
   const camera =
     timeline.progress >= foundryRange.start && timeline.progress <= foundryRange.end
-      ? getFoundryTransitionCameraRig(timeline.progress)
+      ? getFoundryCameraRig(timeline.progress)
       : timeline.activeScene.id === 'atria'
         ? getAtriaCameraRig(timeline.progress)
         : getOpeningCameraRig(timeline.progress);
@@ -48,8 +53,10 @@ export function DevelopmentDiagnostics({
       <span>passage {phases.cameraPassage.toFixed(3)}</span>
       <span>atria {atriaPhases.local.toFixed(3)}</span>
       <span>foundry {foundryPhases.local.toFixed(3)}</span>
+      <span>incident {foundrySnapshot.stage}</span>
       <span>time {atria.timeOfDay}</span>
       <span>mode {atria.mode}</span>
+      <span>owner {foundry.ownershipAligned ? 'aligned' : 'unclear'}</span>
       <span>cells {visibleCells}</span>
       <span>event {atria.selectedEvent}</span>
       <span>memory {atria.memory.selectedCell}</span>

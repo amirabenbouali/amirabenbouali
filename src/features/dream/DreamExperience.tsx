@@ -12,6 +12,7 @@ import { useScrollProgress } from './hooks/useScrollProgress';
 import { useViewportQuality } from './hooks/useViewportQuality';
 import { useWebGLSupport } from './hooks/useWebGLSupport';
 import { useAtriaState } from './atria/useAtriaState';
+import { useFoundryState } from './foundry/useFoundryState';
 import { dreamScrollLength } from './dreamScenes.config';
 import { createDreamTimeline } from './timeline/dreamTimeline';
 import styles from './DreamExperience.module.css';
@@ -25,6 +26,7 @@ export function DreamExperience() {
   const isPageVisible = usePageVisibility();
   const timeline = useScrollProgress();
   const atria = useAtriaState();
+  const foundry = useFoundryState();
   const { pointer, handlePointerMove, handlePointerLeave } = usePointerInfluence();
 
   useEffect(() => {
@@ -39,7 +41,15 @@ export function DreamExperience() {
   };
 
   if (reducedMotion.prefersReducedMotion) {
-    return <ReducedMotionExperience reducedMotion={reducedMotion} quality={quality.tier} webglSupported={webglSupported} atria={atria} />;
+    return (
+      <ReducedMotionExperience
+        reducedMotion={reducedMotion}
+        quality={quality.tier}
+        webglSupported={webglSupported}
+        atria={atria}
+        foundry={foundry}
+      />
+    );
   }
 
   const style = { '--dream-scroll-length': `${dreamScrollLength}svh` } as CSSProperties;
@@ -73,6 +83,7 @@ export function DreamExperience() {
           pointer={pointer}
           quality={quality.tier}
           atria={atria}
+          foundry={foundry}
           isActive={isPageVisible}
           webglSupported={webglSupported}
           onLoaded={() => setIsLoaded(true)}
@@ -86,6 +97,7 @@ export function DreamExperience() {
         quality={quality.tier}
         webglSupported={webglSupported}
         atria={atria}
+        foundry={foundry}
       />
       <DevelopmentDiagnostics
         timeline={timeline}
@@ -94,6 +106,7 @@ export function DreamExperience() {
         reducedMotion={reducedMotion.prefersReducedMotion}
         webglSupported={webglSupported}
         atria={atria}
+        foundry={foundry}
       />
       <AtmosphericGrain />
     </main>

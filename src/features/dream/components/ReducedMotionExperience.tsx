@@ -4,7 +4,11 @@ import type { ReducedMotionController } from '../hooks/useReducedMotionPreferenc
 import type { QualityTier } from '../hooks/useViewportQuality';
 import type { useAtriaState } from '../atria/useAtriaState';
 import { getFoundryModeReadiness } from '../foundry/foundryTransition';
+import { foundryRange } from '../foundry/foundryTransition';
+import { getFoundrySystemSnapshot } from '../foundry/foundrySystem';
+import type { useFoundryState } from '../foundry/useFoundryState';
 import { AtriaControls } from './AtriaControls';
+import { FoundryControls } from './FoundryControls';
 import styles from '../DreamExperience.module.css';
 
 type ReducedMotionExperienceProps = {
@@ -12,11 +16,13 @@ type ReducedMotionExperienceProps = {
   quality: QualityTier;
   webglSupported: boolean;
   atria: ReturnType<typeof useAtriaState>;
+  foundry: ReturnType<typeof useFoundryState>;
 };
 
 const atriaProject = getProjectBySlug('atria');
 
-export function ReducedMotionExperience({ reducedMotion, quality, webglSupported, atria }: ReducedMotionExperienceProps) {
+export function ReducedMotionExperience({ reducedMotion, quality, webglSupported, atria, foundry }: ReducedMotionExperienceProps) {
+  const foundrySnapshot = getFoundrySystemSnapshot(foundryRange.end);
   return (
     <main className={styles.reduced} aria-labelledby="dream-title">
       <a className={styles.skipLink} href="#reduced-content">
@@ -72,14 +78,15 @@ export function ReducedMotionExperience({ reducedMotion, quality, webglSupported
       ) : null}
       <section className={styles.atriaPanel} aria-labelledby="reduced-foundry-transition">
         <p className={styles.reducedKicker}>Transformation</p>
-        <h2 id="reduced-foundry-transition">Atria to Foundry</h2>
+        <h2 id="reduced-foundry-transition">Foundry</h2>
         <p>
-          In reduced motion, the transition is represented as a readable lineage: selected calendar cells become domain,
-          ownership, monitoring and readiness nodes while row and column lines become the first system edges.
+          In reduced motion, Foundry is represented as a stable operational system: domains, ownership anchors, readiness
+          states, dependency paths, a warning, a reroute and a repaired route retained as memory.
         </p>
         <p className={styles.systemMeta}>
           {atria.memory.source} / {getFoundryModeReadiness(atria.mode).label} / selected cell {atria.memory.selectedCell}
         </p>
+        <FoundryControls foundry={foundry} snapshot={foundrySnapshot} />
       </section>
       <section aria-labelledby="reduced-about">
         <h2 id="reduced-about">About</h2>

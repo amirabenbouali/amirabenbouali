@@ -16,7 +16,8 @@ import {
   getFoundryModeReadiness,
   getFoundryPhases,
   getFoundrySignalPosition,
-  getMappingProgress
+  getMappingProgress,
+  smoothstep
 } from '../foundry/foundryTransition';
 import type { useAtriaState } from '../atria/useAtriaState';
 import type { QualityTier } from '../hooks/useViewportQuality';
@@ -149,12 +150,13 @@ export function AtriaWorld({ pointer, quality, atria, isActive }: AtriaWorldProp
 
     if (signal.current) {
       const signalPosition = getFoundrySignalPosition(foundry.local, selectedCellId);
+      const foundrySignalHandoff = smoothstep((foundry.local - 0.56) / 0.12);
       signal.current.position.set(signalPosition[0], signalPosition[1], signalPosition[2]);
       const visibility = foundry.signal * (1 - foundry.stillness);
       signal.current.visible = progress >= foundryRange.start + 0.04;
       signal.current.scale.setScalar(0.07 + visibility * 0.16 * readiness.intensity);
       const material = signal.current.material as THREE.MeshBasicMaterial;
-      material.opacity = visibility * (0.5 + readiness.intensity * 0.48);
+      material.opacity = visibility * (0.5 + readiness.intensity * 0.48) * (1 - foundrySignalHandoff);
     }
 
     if (issue.current) {

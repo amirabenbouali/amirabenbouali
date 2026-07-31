@@ -5,7 +5,10 @@ import type { QualityTier } from '../hooks/useViewportQuality';
 import type { ReducedMotionController } from '../hooks/useReducedMotionPreference';
 import type { useAtriaState } from '../atria/useAtriaState';
 import { getFoundryModeReadiness } from '../foundry/foundryTransition';
+import { getFoundrySystemSnapshot } from '../foundry/foundrySystem';
+import type { useFoundryState } from '../foundry/useFoundryState';
 import { AtriaControls } from './AtriaControls';
+import { FoundryControls } from './FoundryControls';
 import styles from '../DreamExperience.module.css';
 
 type AccessibleOverlayProps = {
@@ -14,6 +17,7 @@ type AccessibleOverlayProps = {
   quality: QualityTier;
   webglSupported: boolean;
   atria: ReturnType<typeof useAtriaState>;
+  foundry: ReturnType<typeof useFoundryState>;
 };
 
 const projects = [
@@ -41,7 +45,8 @@ const projects = [
 
 const atriaProject = getProjectBySlug('atria');
 
-export function AccessibleOverlay({ timeline, reducedMotion, quality, webglSupported, atria }: AccessibleOverlayProps) {
+export function AccessibleOverlay({ timeline, reducedMotion, quality, webglSupported, atria, foundry }: AccessibleOverlayProps) {
+  const foundrySnapshot = getFoundrySystemSnapshot(timeline.progress);
   const jumpToScene = (start: number) => {
     const max = document.documentElement.scrollHeight - window.innerHeight;
     window.scrollTo({ top: max * start, behavior: reducedMotion.prefersReducedMotion ? 'auto' : 'smooth' });
@@ -137,14 +142,21 @@ export function AccessibleOverlay({ timeline, reducedMotion, quality, webglSuppo
 
         <section className={styles.atriaPanel} aria-labelledby="foundry-transition-title">
           <p className={styles.reducedKicker}>Current transformation</p>
-          <h3 id="foundry-transition-title">Atria to Foundry</h3>
+          <h3 id="foundry-transition-title">Foundry</h3>
           <p>
-            The calendar does not disappear. Its selected rooms become system nodes, its rows become dependency edges, its
-            weekly columns become domain axes, and its event light becomes the first travelling Foundry signal.
+            An engineering operating system for ownership, triage, deployment readiness and operational learning. Atria's
+            rooms become domains, its lines become dependencies, and its event light continues as the live operational
+            signal.
           </p>
           <p className={styles.systemMeta}>
             {atria.memory.source} / {getFoundryModeReadiness(atria.mode).label} / selected cell {atria.memory.selectedCell}
           </p>
+          <p>
+            Domains connect through owned routes and monitored dependencies. During the incident, a risky data dependency
+            loses alignment, monitoring detects the failure, traffic reroutes through Identity, and the repaired route
+            remains reinforced.
+          </p>
+          <FoundryControls foundry={foundry} snapshot={foundrySnapshot} />
         </section>
 
         <section aria-labelledby="about-heading">

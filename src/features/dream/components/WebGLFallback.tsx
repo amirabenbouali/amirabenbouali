@@ -2,16 +2,22 @@ import { dreamScenes } from '../dreamScenes.config';
 import { getProjectBySlug } from '../../../data/projects';
 import type { useAtriaState } from '../atria/useAtriaState';
 import { getFoundryModeReadiness } from '../foundry/foundryTransition';
+import { foundryRange } from '../foundry/foundryTransition';
+import { foundryDomains, foundryEdges, getFoundrySystemSnapshot } from '../foundry/foundrySystem';
+import type { useFoundryState } from '../foundry/useFoundryState';
 import { AtriaControls } from './AtriaControls';
+import { FoundryControls } from './FoundryControls';
 import styles from '../DreamExperience.module.css';
 
 type WebGLFallbackProps = {
   reason?: 'unsupported' | 'error';
   atria?: ReturnType<typeof useAtriaState>;
+  foundry?: ReturnType<typeof useFoundryState>;
 };
 
-export function WebGLFallback({ reason = 'unsupported', atria }: WebGLFallbackProps) {
+export function WebGLFallback({ reason = 'unsupported', atria, foundry }: WebGLFallbackProps) {
   const atriaProject = getProjectBySlug('atria');
+  const foundrySnapshot = getFoundrySystemSnapshot(foundryRange.end);
 
   return (
     <main className={styles.fallback} role="status" aria-labelledby="fallback-title">
@@ -44,6 +50,17 @@ export function WebGLFallback({ reason = 'unsupported', atria }: WebGLFallbackPr
               {atria.memory.selectedCell}.
             </p>
           ) : null}
+          <div className={styles.foundryDiagram} aria-label="Foundry systems diagram">
+            {foundryDomains.map((domain) => (
+              <span key={domain.id} data-readiness={domain.readiness}>
+                {domain.label}
+              </span>
+            ))}
+            {foundryEdges.slice(0, 6).map((edge) => (
+              <i key={edge.id} data-kind={edge.kind} />
+            ))}
+          </div>
+          {foundry ? <FoundryControls foundry={foundry} snapshot={foundrySnapshot} /> : null}
         </section>
       ) : null}
       <ol>

@@ -12,18 +12,21 @@ import { DreamCamera } from './DreamCamera';
 import { LetterPassage } from './LetterPassage';
 import { OpeningSentence } from './OpeningSentence';
 import { PlaceholderScene } from './PlaceholderScene';
+import { FoundryWorld } from './FoundryWorld';
 import type { QualityTier } from '../hooks/useViewportQuality';
 import type { useAtriaState } from '../atria/useAtriaState';
+import type { useFoundryState } from '../foundry/useFoundryState';
 import type { MutableRefObject } from 'react';
 
 type DreamSceneProps = {
   pointer: MutableRefObject<PointerInfluenceRef>;
   quality: QualityTier;
   atria: ReturnType<typeof useAtriaState>;
+  foundry: ReturnType<typeof useFoundryState>;
   isActive: boolean;
 };
 
-export function DreamScene({ pointer, quality, atria, isActive }: DreamSceneProps) {
+export function DreamScene({ pointer, quality, atria, foundry, isActive }: DreamSceneProps) {
   const pale = useMemo(() => new THREE.Color('#ece7dd'), []);
   const dark = useMemo(() => new THREE.Color('#050605'), []);
   const current = useMemo(() => new THREE.Color('#ece7dd'), []);
@@ -50,6 +53,7 @@ export function DreamScene({ pointer, quality, atria, isActive }: DreamSceneProp
       <OpeningSentence pointer={pointer} />
       <LetterPassage />
       <AtriaWorld pointer={pointer} quality={quality} atria={atria} isActive={isActive} />
+      <FoundryWorld pointer={pointer} quality={quality} foundry={foundry} isActive={isActive} />
       {dreamScenes.slice(4).map((scene, index) => (
         <PlaceholderScene key={scene.id} scene={scene} position={[index % 2 === 0 ? -0.72 : 0.72, -0.4, -18 - index * 4.2]} />
       ))}
