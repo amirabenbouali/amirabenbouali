@@ -5,9 +5,9 @@ describe('opening timeline', () => {
   it('calculates ordered portal phases', () => {
     expect(getOpeningPhases(0.01).sentence).toBeGreaterThan(0);
     expect(getOpeningPhases(0.1).destabilize).toBeGreaterThan(0);
-    expect(getOpeningPhases(0.18).portalFormation).toBeGreaterThan(0);
-    expect(getOpeningPhases(0.26).cameraPassage).toBeGreaterThan(0);
-    expect(getOpeningPhases(0.34).darkExit).toBeGreaterThan(0);
+    expect(getOpeningPhases(0.14).portalFormation).toBeGreaterThan(0);
+    expect(getOpeningPhases(0.2).cameraPassage).toBeGreaterThan(0);
+    expect(getOpeningPhases(0.22).darkExit).toBeGreaterThan(0);
   });
 
   it('keeps letter transforms deterministic', () => {

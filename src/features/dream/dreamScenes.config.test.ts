@@ -25,8 +25,8 @@ describe('dream scene configuration', () => {
   it('calculates local scene progress', () => {
     const atria = dreamScenes.find((scene) => scene.id === 'atria');
     expect(atria).toBeDefined();
-    expect(getLocalSceneProgress(0.24, atria)).toBe(0);
-    expect(getLocalSceneProgress(0.3, atria)).toBeCloseTo(0.5);
+    expect(getLocalSceneProgress(0.17, atria)).toBe(0);
+    expect(getLocalSceneProgress(0.265, atria)).toBeCloseTo(0.5);
     expect(getLocalSceneProgress(0.36, atria)).toBe(1);
   });
 

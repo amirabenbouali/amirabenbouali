@@ -20,7 +20,7 @@ type DevelopmentDiagnosticsProps = {
 };
 
 export function DevelopmentDiagnostics({
-  enabled = import.meta.env.DEV,
+  enabled = import.meta.env.VITE_DREAM_DIAGNOSTICS === 'true',
   timeline,
   quality,
   pixelRatio,

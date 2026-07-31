@@ -33,7 +33,7 @@ export const dreamScenes: DreamSceneConfig[] = [
     title: 'Technical dream shell',
     summary: 'A pale spatial world establishes the persistent canvas, camera and timeline without final scene design.',
     start: 0,
-    end: 0.14,
+    end: 0.1,
     camera: { position: [0, 0.2, 7.6], target: [0, 0.05, 0] },
     quality: 'low',
     accessibleHeadingId: 'dream-title'
@@ -44,8 +44,8 @@ export const dreamScenes: DreamSceneConfig[] = [
     label: 'Portal',
     title: 'Portal placeholder',
     summary: 'A restrained coordinate marker reserves the future transition without building the morphing letter yet.',
-    start: 0.14,
-    end: 0.24,
+    start: 0.1,
+    end: 0.17,
     camera: { position: [0.35, 0.18, 4.2], target: [0.1, 0.02, -2] },
     quality: 'low'
   },
@@ -55,7 +55,7 @@ export const dreamScenes: DreamSceneConfig[] = [
     label: 'Atria',
     title: 'Atria',
     summary: 'Placeholder for the future calendar architecture scene.',
-    start: 0.24,
+    start: 0.17,
     end: 0.36,
     camera: { position: [0.1, 0.36, 0.4], target: [0, 0.12, -7] },
     quality: 'medium',

@@ -19,6 +19,208 @@
   display: block;
 }
 
+.openingLayer {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  color: #11120f;
+  pointer-events: none;
+  transform-origin: 50% 50%;
+  will-change: opacity, transform;
+}
+
+.openingWrap {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: min(1220px, 90vw);
+  transform: translate(-50%, -50%);
+}
+
+.openingKicker {
+  margin: 0 0 1.75rem;
+  color: rgba(17, 18, 15, 0.5);
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.openingTitle {
+  max-width: 72rem;
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(4.6rem, 8.45vw, 9.05rem);
+  font-weight: 400;
+  letter-spacing: -0.07em;
+  line-height: 0.86;
+  perspective: 900px;
+}
+
+.openingLead {
+  display: inline-block;
+  max-width: 10.2em;
+  will-change: filter, transform;
+}
+
+.openingWord {
+  display: inline-flex;
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.openingLetter {
+  display: inline-block;
+  position: relative;
+  transform-style: preserve-3d;
+  transform-origin: 50% 52%;
+  will-change: filter, opacity, transform;
+}
+
+.openingPortal {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 0.54em;
+  aspect-ratio: 1;
+  border: 2px solid rgba(17, 18, 15, 0.55);
+  border-radius: 50%;
+  opacity: 0;
+  box-shadow:
+    inset 0 0 0.16em rgba(17, 18, 15, 0.12),
+    0 0 2.6em rgba(17, 18, 15, 0.12);
+  transform: translate(-50%, -50%) scale(0.1);
+  transform-origin: 50% 50%;
+  will-change: border-color, opacity, transform;
+}
+
+.openingCopy {
+  max-width: 26rem;
+  margin: 2.2rem 0 0 48%;
+  color: rgba(17, 18, 15, 0.58);
+  font-size: 0.82rem;
+  line-height: 1.8;
+}
+
+.openingScroll {
+  position: absolute;
+  right: 0;
+  bottom: -10svh;
+  margin: 0;
+  color: rgba(17, 18, 15, 0.45);
+  font-family: var(--font-sans);
+  font-size: 0.56rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+}
+
+.sceneHtmlOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  transform-origin: 50% 50%;
+  will-change: opacity, transform;
+}
+
+.atriaSceneOverlay {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  color: #eee8dc;
+  pointer-events: none;
+  will-change: opacity, transform;
+}
+
+.atriaSceneTitle {
+  position: absolute;
+  left: 5vw;
+  top: 11vh;
+  z-index: 1;
+}
+
+.atriaSceneTitle small {
+  display: block;
+  margin-bottom: 0.9rem;
+  color: rgba(238, 232, 220, 0.48);
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.atriaSceneTitle h2 {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(3.6rem, 8.2vw, 8.1rem);
+  font-weight: 400;
+  letter-spacing: -0.07em;
+  line-height: 0.82;
+  opacity: 0.78;
+}
+
+.atriaSceneTitle em {
+  color: #9da789;
+  font-family: 'Brush Script MT', 'Segoe Script', cursive;
+  font-style: italic;
+  font-weight: 400;
+}
+
+.atriaSceneTitle p {
+  max-width: 27rem;
+  margin: 1.6rem 0 0;
+  color: rgba(238, 232, 220, 0.48);
+  font-size: 0.82rem;
+  line-height: 1.8;
+}
+
+.atriaSun {
+  position: absolute;
+  right: 8vw;
+  top: 16vh;
+  width: 15vmin;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 42% 40%, rgba(255, 242, 200, 0.74) 0 7%, rgba(202, 186, 126, 0.58) 18%, rgba(157, 167, 137, 0.13) 52%, transparent 70%);
+  box-shadow: 0 0 100px rgba(197, 183, 130, 0.14);
+  opacity: 0.68;
+  will-change: opacity, transform;
+}
+
+.atriaTime {
+  position: absolute;
+  right: 8vw;
+  bottom: 10vh;
+  color: rgba(238, 232, 220, 0.48);
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
+}
+
+.atriaWord {
+  position: absolute;
+  color: rgba(238, 232, 220, 0.14);
+  font-family: var(--font-serif);
+  font-size: clamp(1.25rem, 2vw, 2rem);
+  font-style: italic;
+}
+
+.atriaWordOne {
+  left: 7vw;
+  bottom: 18vh;
+}
+
+.atriaWordTwo {
+  right: 10vw;
+  top: 36vh;
+}
+
 .spatialLead,
 .spatialLetter {
   color: #171812;
@@ -208,9 +410,17 @@
 .motionControls {
   position: fixed;
   right: var(--page-gutter);
-  top: var(--space-fluid-xl);
+  top: auto;
+  bottom: var(--space-fluid-lg);
   color: #fff;
   mix-blend-mode: difference;
+  opacity: 0.2;
+  transition: opacity var(--duration-base) var(--ease-standard);
+}
+
+.motionControls:hover,
+.motionControls:focus-within {
+  opacity: 1;
 }
 
 .motionControlsStatic {
@@ -584,12 +794,76 @@
   }
 
   .motionControls {
-    left: var(--page-gutter);
-    right: auto;
-    top: 4.4rem;
+    left: auto;
+    right: var(--page-gutter);
+    top: auto;
+    bottom: calc(var(--space-md) + 2.5rem);
+    max-width: 11rem;
+    justify-content: flex-end;
+    gap: 0.35rem 0.65rem;
+    opacity: 0.42;
+  }
+
+  .motionControls button {
+    border-color: transparent;
+    padding: 0;
+    font-size: 0.52rem;
+    line-height: 1.6;
   }
 
   .foundryDiagram {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .openingWrap {
+    width: calc(100vw - 2rem);
+  }
+
+  .openingTitle {
+    max-width: 22rem;
+    font-size: clamp(3.05rem, 16.2vw, 5rem);
+  }
+
+  .openingKicker {
+    max-width: 18rem;
+    margin-bottom: 1.2rem;
+  }
+
+  .openingCopy {
+    max-width: 21rem;
+    margin: 1.6rem 0 0;
+  }
+
+  .openingScroll {
+    right: 0.2rem;
+    bottom: -18svh;
+  }
+
+  .atriaSceneTitle {
+    left: 1.25rem;
+    top: 9.5vh;
+  }
+
+  .atriaSceneTitle h2 {
+    font-size: clamp(3rem, 17vw, 4.7rem);
+  }
+
+  .atriaSceneTitle p {
+    max-width: 19rem;
+  }
+
+  .atriaSun {
+    right: 1.5rem;
+    top: 18vh;
+    width: 6rem;
+  }
+
+  .atriaTime {
+    right: 1.25rem;
+    bottom: 8vh;
+  }
+
+  .atriaWord {
+    display: none;
   }
 }

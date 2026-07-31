@@ -20,9 +20,9 @@ export type CalendarCellData = {
 };
 
 export const atriaRange = {
-  start: 0.24,
-  arrivalEnd: 0.285,
-  inspectEnd: 0.325,
+  start: 0.17,
+  arrivalEnd: 0.245,
+  inspectEnd: 0.31,
   end: 0.36
 } as const;
 

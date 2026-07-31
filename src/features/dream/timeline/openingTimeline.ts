@@ -22,17 +22,17 @@ export type ThoughtLetterTransform = {
 
 export const openingRange = {
   start: 0,
-  sentenceEnd: 0.09,
-  destabilizeStart: 0.06,
-  destabilizeEnd: 0.16,
-  portalStart: 0.12,
-  portalEnd: 0.23,
-  approachStart: 0.14,
-  approachEnd: 0.24,
-  passageStart: 0.22,
-  passageEnd: 0.3,
-  darkExitStart: 0.235,
-  darkExitEnd: 0.36
+  sentenceEnd: 0.1,
+  destabilizeStart: 0.075,
+  destabilizeEnd: 0.17,
+  portalStart: 0.075,
+  portalEnd: 0.17,
+  approachStart: 0.11,
+  approachEnd: 0.205,
+  passageStart: 0.15,
+  passageEnd: 0.225,
+  darkExitStart: 0.145,
+  darkExitEnd: 0.22
 } as const;
 
 export const thoughtLetters = [
@@ -93,10 +93,10 @@ export function getThoughtLetterTransform(index: number, destabilize: number, po
 
 export function getOpeningCameraRig(progress: number) {
   const phases = getOpeningPhases(progress);
-  const z = 7.2 - phases.cameraApproach * 4.4 - phases.cameraPassage * 8.8;
-  const x = 0.1 - phases.cameraApproach * 0.38 + phases.cameraPassage * 0.08;
-  const y = 0.34 - phases.cameraApproach * 0.18 + phases.cameraPassage * 0.04;
-  const targetZ = -0.2 - phases.cameraApproach * 1.8 - phases.cameraPassage * 9.5 - phases.darkExit * 8;
+  const z = 8.6 - phases.cameraApproach * 4.2 - phases.cameraPassage * 9.6;
+  const x = 0.02 - phases.cameraApproach * 0.2 + phases.cameraPassage * 0.04;
+  const y = 0.28 - phases.cameraApproach * 0.1 + phases.cameraPassage * 0.03;
+  const targetZ = -0.2 - phases.cameraApproach * 1.3 - phases.cameraPassage * 9.2 - phases.darkExit * 8;
 
   return {
     position: [x, y, z] as [number, number, number],

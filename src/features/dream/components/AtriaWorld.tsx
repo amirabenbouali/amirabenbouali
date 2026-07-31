@@ -3,6 +3,7 @@ import { useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import {
   atriaModes,
+  atriaRange,
   generateCalendarCells,
   getAtriaPhases,
   resolveTimeOfDay,
@@ -99,16 +100,16 @@ export function AtriaWorld({ pointer, quality, atria, isActive }: AtriaWorldProp
     timeColor.lerp(baseColor, 0.025);
 
     if (group.current) {
-      group.current.visible = progress >= 0.24 && progress <= foundryRange.end + 0.02;
-      group.current.position.z = -18.5 + phases.arrival * 2.4 - foundry.reassemble * 0.62;
+      group.current.visible = progress >= atriaRange.start && progress <= foundryRange.end + 0.02;
+      group.current.position.z = -18.8 + phases.arrival * 2.2 - foundry.reassemble * 0.62;
       group.current.position.y = -0.16 + phases.inspect * 0.12 + foundry.reveal * 0.05;
       group.current.rotation.y = -0.04 + phases.inspect * 0.035 + foundry.reorient * 0.08;
     }
 
     if (facade.current) {
-      facade.current.position.x = Math.sin(phases.inspect * Math.PI) * -0.72;
+      facade.current.position.x = Math.sin(phases.inspect * Math.PI) * -0.28;
       facade.current.position.z = phases.close * 0.92 + foundry.detach * 0.16;
-      facade.current.scale.setScalar(0.62 + phases.arrival * 0.28 - foundry.reveal * 0.04);
+      facade.current.scale.setScalar(1.04 + phases.arrival * 0.2 - foundry.reveal * 0.04);
     }
 
     if (key.current) {
@@ -258,7 +259,7 @@ export function AtriaWorld({ pointer, quality, atria, isActive }: AtriaWorldProp
               userData={{ atriaAnchor: cell.anchor, cellId: cell.id, order: cell.anchor.order }}
             >
               <mesh userData={{ materialRole: 'frame' }}>
-                <boxGeometry args={[1.14, 0.76, 0.22 + cell.depth]} />
+                <boxGeometry args={[1.12, 0.72, 0.16 + cell.depth * 0.42]} />
                 <meshStandardMaterial color="#11130f" roughness={0.88} metalness={0.02} />
               </mesh>
               <mesh position={[0, 0, 0.14 + cell.depth * 0.08]} userData={{ materialRole: 'room' }}>

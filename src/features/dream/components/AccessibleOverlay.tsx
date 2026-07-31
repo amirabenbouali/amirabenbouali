@@ -61,7 +61,7 @@ export function AccessibleOverlay({ timeline, reducedMotion, quality, webglSuppo
       </a>
       <div className={styles.topbar} aria-hidden="true">
         <span>Amira Benbouali</span>
-        <span>Dream shell</span>
+        <span>Lucid software dream</span>
       </div>
       <div className={styles.stageLabel} aria-live="polite">
         <span>{timeline.activeScene.index}</span>

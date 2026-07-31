@@ -3,7 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import { forwardRef, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { dreamTimelineProgress, getDreamTimelineSnapshot } from '../timeline/dreamTimeline';
-import { getAtriaCameraRig } from '../atria/atriaModel';
+import { atriaRange, getAtriaCameraRig } from '../atria/atriaModel';
 import { foundryRange } from '../foundry/foundryTransition';
 import { getFoundryCameraRig } from '../foundry/foundrySystem';
 import { getOpeningCameraRig } from '../timeline/openingTimeline';
@@ -46,7 +46,7 @@ export const DreamCamera = forwardRef<THREE.PerspectiveCamera, DreamCameraProps>
       const rig = getFoundryCameraRig(dreamTimelineProgress.current);
       desiredPosition.fromArray(rig.position);
       desiredTarget.fromArray(rig.target);
-    } else if (dreamTimelineProgress.current >= 0.24 && dreamTimelineProgress.current <= 0.36) {
+    } else if (dreamTimelineProgress.current >= atriaRange.start && dreamTimelineProgress.current <= atriaRange.end) {
       const rig = getAtriaCameraRig(dreamTimelineProgress.current);
       desiredPosition.fromArray(rig.position);
       desiredTarget.fromArray(rig.target);
