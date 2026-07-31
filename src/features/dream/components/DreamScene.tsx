@@ -1,8 +1,16 @@
+import { useFrame } from '@react-three/fiber';
+import { useMemo } from 'react';
+import * as THREE from 'three';
 import { dreamScenes } from '../dreamScenes.config';
+import { getOpeningPhases } from '../timeline/openingTimeline';
+import { dreamTimelineProgress } from '../timeline/dreamTimeline';
 import type { PointerInfluenceRef } from './PointerInfluence';
+import { AtriaTeaser } from './AtriaTeaser';
 import { AmbientWorld } from './AmbientWorld';
 import { AtmosphericLighting } from './AtmosphericLighting';
 import { DreamCamera } from './DreamCamera';
+import { LetterPassage } from './LetterPassage';
+import { OpeningSentence } from './OpeningSentence';
 import { PlaceholderScene } from './PlaceholderScene';
 import type { QualityTier } from '../hooks/useViewportQuality';
 import type { MutableRefObject } from 'react';
@@ -14,6 +22,22 @@ type DreamSceneProps = {
 };
 
 export function DreamScene({ pointer, quality, isActive }: DreamSceneProps) {
+  const pale = useMemo(() => new THREE.Color('#ece7dd'), []);
+  const dark = useMemo(() => new THREE.Color('#050605'), []);
+  const current = useMemo(() => new THREE.Color('#ece7dd'), []);
+
+  useFrame(({ scene }) => {
+    const phases = getOpeningPhases(dreamTimelineProgress.current);
+    current.copy(pale).lerp(dark, phases.darkExit);
+    scene.background = current;
+
+    if (scene.fog instanceof THREE.Fog) {
+      scene.fog.color.copy(current);
+      scene.fog.near = 7 - phases.darkExit * 3;
+      scene.fog.far = 38 - phases.darkExit * 16;
+    }
+  });
+
   return (
     <>
       <color attach="background" args={['#ece7dd']} />
@@ -21,8 +45,11 @@ export function DreamScene({ pointer, quality, isActive }: DreamSceneProps) {
       <DreamCamera pointer={pointer} isActive={isActive} />
       <AtmosphericLighting pointer={pointer} />
       <AmbientWorld quality={quality} isActive={isActive} />
-      {dreamScenes.map((scene, index) => (
-        <PlaceholderScene key={scene.id} scene={scene} position={[index % 2 === 0 ? -0.72 : 0.72, 0.08, -index * 4.2]} />
+      <OpeningSentence pointer={pointer} />
+      <LetterPassage />
+      <AtriaTeaser />
+      {dreamScenes.slice(3).map((scene, index) => (
+        <PlaceholderScene key={scene.id} scene={scene} position={[index % 2 === 0 ? -0.72 : 0.72, -0.4, -18 - index * 4.2]} />
       ))}
     </>
   );

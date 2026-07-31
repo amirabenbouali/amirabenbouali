@@ -2,6 +2,8 @@ import { useFrame } from '@react-three/fiber';
 import { useRef } from 'react';
 import type * as THREE from 'three';
 import type { QualityTier } from '../hooks/useViewportQuality';
+import { dreamTimelineProgress } from '../timeline/dreamTimeline';
+import { getOpeningPhases } from '../timeline/openingTimeline';
 
 type AmbientWorldProps = {
   quality: QualityTier;
@@ -10,18 +12,25 @@ type AmbientWorldProps = {
 
 export function AmbientWorld({ quality, isActive }: AmbientWorldProps) {
   const drift = useRef<THREE.Group>(null);
+  const floorMaterial = useRef<THREE.MeshBasicMaterial>(null);
   const lineCount = quality === 'high' ? 11 : quality === 'medium' ? 7 : 4;
 
   useFrame(({ clock }) => {
+    const phases = getOpeningPhases(dreamTimelineProgress.current);
+
+    if (floorMaterial.current) {
+      floorMaterial.current.color.set(phases.darkExit > 0.5 ? '#070807' : '#e7e1d6');
+    }
+
     if (!isActive || !drift.current) return;
-    drift.current.position.y = Math.sin(clock.elapsedTime * 0.16) * 0.04;
+    drift.current.position.y = Math.sin(clock.elapsedTime * 0.16) * 0.04 - phases.cameraPassage * 0.08;
   });
 
   return (
     <group ref={drift}>
       <mesh position={[0, -1.34, -12]} rotation={[-Math.PI / 2, 0, 0]}>
         <planeGeometry args={[18, 54, 1, 1]} />
-        <meshBasicMaterial color="#e7e1d6" />
+        <meshBasicMaterial ref={floorMaterial} color="#e7e1d6" />
       </mesh>
       {Array.from({ length: lineCount }, (_, index) => {
         const z = -index * 4.2;

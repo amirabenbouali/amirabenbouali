@@ -3,6 +3,7 @@ import { useFrame } from '@react-three/fiber';
 import { forwardRef, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { dreamTimelineProgress, getDreamTimelineSnapshot } from '../timeline/dreamTimeline';
+import { getOpeningCameraRig } from '../timeline/openingTimeline';
 import type { PointerInfluenceRef } from './PointerInfluence';
 import type { MutableRefObject } from 'react';
 
@@ -38,8 +39,14 @@ export const DreamCamera = forwardRef<THREE.PerspectiveCamera, DreamCameraProps>
     pointer.current.x = smoothPointer.current.x;
     pointer.current.y = smoothPointer.current.y;
 
-    desiredPosition.copy(interpolateSceneVector('position', dreamTimelineProgress.current));
-    desiredTarget.copy(interpolateSceneVector('target', dreamTimelineProgress.current));
+    if (dreamTimelineProgress.current <= 0.36) {
+      const rig = getOpeningCameraRig(dreamTimelineProgress.current);
+      desiredPosition.fromArray(rig.position);
+      desiredTarget.fromArray(rig.target);
+    } else {
+      desiredPosition.copy(interpolateSceneVector('position', dreamTimelineProgress.current));
+      desiredTarget.copy(interpolateSceneVector('target', dreamTimelineProgress.current));
+    }
 
     desiredPosition.x += smoothPointer.current.x * 0.16;
     desiredPosition.y += smoothPointer.current.y * 0.08;

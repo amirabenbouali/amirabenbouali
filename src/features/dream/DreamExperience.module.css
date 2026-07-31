@@ -19,6 +19,27 @@
   display: block;
 }
 
+.spatialLead,
+.spatialLetter {
+  color: #171812;
+  font-family: var(--font-serif);
+  font-weight: 400;
+  line-height: 0.86;
+  letter-spacing: -0.06em;
+  white-space: nowrap;
+  pointer-events: none;
+  user-select: none;
+  text-shadow: 0 0.06em 0.18em rgba(23, 24, 18, 0.08);
+}
+
+.spatialLead {
+  font-size: clamp(2rem, 4.2vw, 4.15rem);
+}
+
+.spatialLetter {
+  font-size: clamp(4rem, 8.8vw, 8.4rem);
+}
+
 .scrollSpace {
   height: calc(var(--dream-scroll-length, 920svh) - 100svh);
 }
@@ -254,6 +275,41 @@
   margin: 0;
   color: rgba(23, 24, 18, 0.7);
   line-height: 1.8;
+}
+
+.openingSentence {
+  max-width: 52rem;
+  font-family: var(--font-serif);
+  font-size: clamp(2.4rem, 6vw, 6rem);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 0.94;
+}
+
+.staticPortalFrame {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(24rem, 72vw);
+  aspect-ratio: 1;
+  color: #171812;
+}
+
+.staticPortalFrame span {
+  font-family: var(--font-serif);
+  font-size: min(22rem, 64vw);
+  line-height: 0.8;
+  color: rgba(23, 24, 18, 0.86);
+}
+
+.staticPortalFrame i {
+  position: absolute;
+  inset: 27%;
+  border: 1px solid rgba(23, 24, 18, 0.22);
+  border-radius: 50%;
+  background:
+    linear-gradient(rgba(5, 6, 5, 0.62), rgba(5, 6, 5, 0.62)),
+    repeating-linear-gradient(90deg, rgba(197, 183, 130, 0.32) 0 2px, transparent 2px 28px);
 }
 
 .accessibleContent ol,

@@ -3,6 +3,8 @@ import { useRef } from 'react';
 import type { MutableRefObject } from 'react';
 import * as THREE from 'three';
 import type { PointerInfluenceRef } from './PointerInfluence';
+import { dreamTimelineProgress } from '../timeline/dreamTimeline';
+import { getOpeningPhases } from '../timeline/openingTimeline';
 
 type AtmosphericLightingProps = {
   pointer: MutableRefObject<PointerInfluenceRef>;
@@ -19,6 +21,7 @@ export function AtmosphericLighting({ pointer }: AtmosphericLightingProps) {
   const smoothPointer = useRef({ x: 0, y: 0 });
 
   useFrame(() => {
+    const phases = getOpeningPhases(dreamTimelineProgress.current);
     smoothPointer.current.x += (pointer.current.targetX - smoothPointer.current.x) * 0.035;
     smoothPointer.current.y += (pointer.current.targetY - smoothPointer.current.y) * 0.035;
 
@@ -28,13 +31,13 @@ export function AtmosphericLighting({ pointer }: AtmosphericLightingProps) {
 
     if (keyLight.current) {
       keyLight.current.color.copy(color.current);
-      keyLight.current.intensity += (2.25 - horizontal * 0.9 - keyLight.current.intensity) * 0.025;
+      keyLight.current.intensity += ((2.25 - horizontal * 0.9) * (1 - phases.darkExit * 0.72) - keyLight.current.intensity) * 0.025;
       keyLight.current.position.x += (smoothPointer.current.x * 3.6 - keyLight.current.position.x) * 0.025;
       keyLight.current.position.y += (4.8 - horizontal * 1.4 - keyLight.current.position.y) * 0.02;
     }
 
     if (ambientLight.current) {
-      ambientLight.current.intensity += (0.58 - horizontal * 0.22 - ambientLight.current.intensity) * 0.025;
+      ambientLight.current.intensity += ((0.58 - horizontal * 0.22) * (1 - phases.darkExit * 0.78) - ambientLight.current.intensity) * 0.025;
       ambientLight.current.color.copy(color.current);
     }
   });

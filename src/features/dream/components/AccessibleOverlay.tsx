@@ -40,6 +40,8 @@ export function AccessibleOverlay({ timeline, reducedMotion, quality, webglSuppo
     window.scrollTo({ top: max * start, behavior: reducedMotion.prefersReducedMotion ? 'auto' : 'smooth' });
   };
 
+  const skipExperience = () => jumpToScene(0.36);
+
   return (
     <>
       <a className={styles.skipLink} href="#dream-accessible-content">
@@ -57,6 +59,9 @@ export function AccessibleOverlay({ timeline, reducedMotion, quality, webglSuppo
         <span style={{ transform: `scaleY(${Math.max(0.02, timeline.progress)})` }} />
       </div>
       <div className={styles.motionControls}>
+        <button type="button" onClick={skipExperience}>
+          Skip experience
+        </button>
         <button type="button" onClick={() => reducedMotion.setOverride(reducedMotion.prefersReducedMotion ? 'motion' : 'reduce')}>
           {reducedMotion.prefersReducedMotion ? 'Enable motion' : 'Reduce motion'}
         </button>
@@ -82,6 +87,7 @@ export function AccessibleOverlay({ timeline, reducedMotion, quality, webglSuppo
       <section id="dream-accessible-content" className={styles.accessibleContent} aria-labelledby="accessible-title">
         <p className={styles.reducedKicker}>Semantic portfolio content</p>
         <h2 id="accessible-title">Amira Benbouali</h2>
+        <p className={styles.openingSentence}>everything begins as an unfinished thought</p>
         <p>
           Software engineer and product builder in London. This milestone establishes the technical shell for a future
           continuous dream portfolio while keeping the actual content readable without WebGL.

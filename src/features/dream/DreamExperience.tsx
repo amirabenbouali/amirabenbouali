@@ -53,6 +53,7 @@ export function DreamExperience() {
     >
       <div className={styles.semantic}>
         <h1 id="dream-title">Amira Benbouali lucid portfolio foundation</h1>
+        <p>everything begins as an unfinished thought</p>
         <p>
           A persistent WebGL canvas, controlled camera, semantic content layer and accessible fallback prepare the portfolio
           for future dream scenes.

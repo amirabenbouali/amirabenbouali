@@ -17,9 +17,15 @@ export function ReducedMotionExperience({ reducedMotion, quality, webglSupported
       </a>
       <p className={styles.reducedKicker}>Reduced motion dream shell</p>
       <h1 id="dream-title">Amira Benbouali lucid portfolio foundation</h1>
+      <p className={styles.openingSentence}>everything begins as an unfinished thought</p>
+      <div className={styles.staticPortalFrame} aria-hidden="true">
+        <span>o</span>
+        <i />
+      </div>
       <p>
         Motion is reduced, so the portfolio story is presented as a quiet vertical reading experience. Future scenes remain
-        in order without camera travel, pointer motion or spatial deformation.
+        in order without camera travel, pointer motion or spatial deformation: thought becomes an architectural opening,
+        then a distant Atria silhouette waits beyond it.
       </p>
       <div className={styles.motionControlsStatic}>
         <button type="button" onClick={() => reducedMotion.setOverride('motion')}>

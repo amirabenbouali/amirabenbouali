@@ -1,5 +1,5 @@
-import { screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { fireEvent, screen } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
 import { routes } from './router';
 import { renderWithRouter } from '../test-utils';
 
@@ -10,6 +10,16 @@ describe('App routes', () => {
     expect(screen.getAllByRole('heading', { name: /Amira Benbouali lucid portfolio foundation/i }).length).toBeGreaterThan(0);
     expect(screen.getByRole('heading', { name: /Selected work/i })).toBeInTheDocument();
     expect(screen.getByText(/persistent WebGL canvas/i)).toBeInTheDocument();
+  });
+
+  it('allows the cinematic introduction to be skipped', () => {
+    const scrollTo = vi.spyOn(window, 'scrollTo').mockImplementation(() => undefined);
+    renderWithRouter(routes);
+
+    fireEvent.click(screen.getByRole('button', { name: 'Skip experience' }));
+
+    expect(scrollTo).toHaveBeenCalled();
+    scrollTo.mockRestore();
   });
 
   it('renders a project case study shell from project data', () => {
