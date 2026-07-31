@@ -1,8 +1,8 @@
 .experience {
   position: relative;
-  min-height: 1180svh;
+  min-height: var(--dream-scroll-length, 920svh);
   overflow: clip;
-  background: #e4dfd2;
+  background: #ece7dd;
   color: #171812;
 }
 
@@ -19,29 +19,8 @@
   display: block;
 }
 
-.spatialLead,
-.spatialLetter {
-  color: #171812;
-  font-family: var(--font-serif);
-  font-weight: 400;
-  line-height: 0.86;
-  letter-spacing: -0.065em;
-  white-space: nowrap;
-  pointer-events: none;
-  user-select: none;
-  transform-origin: center;
-}
-
-.spatialLead {
-  font-size: clamp(1.95rem, 3.9vw, 3.85rem);
-}
-
-.spatialLetter {
-  font-size: clamp(3.55rem, 8vw, 7.75rem);
-}
-
 .scrollSpace {
-  height: 1080svh;
+  height: calc(var(--dream-scroll-length, 920svh) - 100svh);
 }
 
 .semantic {
@@ -63,7 +42,7 @@
   display: grid;
   place-items: center;
   color: rgba(23, 24, 18, 0.58);
-  background: #e4dfd2;
+  background: #ece7dd;
   font-family: var(--font-sans);
   font-size: 0.72rem;
   font-weight: 700;
@@ -192,6 +171,48 @@
   color: var(--accent-lunar);
 }
 
+.motionControls,
+.motionControlsStatic {
+  z-index: 14;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  font-family: var(--font-sans);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.motionControls {
+  position: fixed;
+  right: var(--page-gutter);
+  top: var(--space-fluid-xl);
+  color: #fff;
+  mix-blend-mode: difference;
+}
+
+.motionControlsStatic {
+  color: #171812;
+}
+
+.motionControls button,
+.motionControlsStatic button {
+  color: inherit;
+  border: 1px solid currentColor;
+  background: transparent;
+  padding: 0.55rem 0.7rem;
+  cursor: pointer;
+}
+
+.motionControls button:focus-visible,
+.motionControlsStatic button:focus-visible,
+.sceneNavigator button:focus-visible,
+.sceneNavigator summary:focus-visible {
+  outline: 2px solid var(--accent-lunar);
+  outline-offset: 4px;
+}
+
 .accessibleContent {
   position: relative;
   z-index: 1;
@@ -201,25 +222,43 @@
   margin: 0 auto;
   padding: var(--space-fluid-2xl) var(--page-gutter);
   color: #171812;
-  background: #e4dfd2;
+  background: #ece7dd;
 }
 
-.accessibleContent h2 {
+.accessibleContent h2,
+.fallback h1,
+.reduced h1,
+.reduced h2 {
+  max-width: 58rem;
   margin: 0;
   font-family: var(--font-serif);
-  font-size: clamp(2.6rem, 7vw, 6rem);
+  font-size: clamp(3.2rem, 8vw, 8rem);
   font-weight: 400;
   letter-spacing: 0;
-  line-height: 0.96;
+  line-height: 0.94;
+}
+
+.accessibleContent h3 {
+  margin: 0 0 var(--space-md);
+  font-family: var(--font-serif);
+  font-size: clamp(1.8rem, 4vw, 3.4rem);
+  font-weight: 400;
+  line-height: 1;
 }
 
 .accessibleContent p,
-.accessibleContent li span {
+.accessibleContent li span,
+.fallback span,
+.reduced p {
+  max-width: 42rem;
+  margin: 0;
   color: rgba(23, 24, 18, 0.7);
   line-height: 1.8;
 }
 
-.accessibleContent ol {
+.accessibleContent ol,
+.fallback ol,
+.readingList {
   display: grid;
   gap: var(--space-lg);
   margin: 0;
@@ -227,16 +266,21 @@
   list-style: none;
 }
 
-.accessibleContent li {
+.accessibleContent li,
+.fallback li,
+.readingList li {
   display: grid;
-  gap: 0.35rem;
+  gap: 0.4rem;
+  max-width: 44rem;
   padding-top: var(--space-md);
   border-top: 1px solid rgba(23, 24, 18, 0.14);
 }
 
-.accessibleContent strong {
+.accessibleContent strong,
+.fallback strong,
+.readingList strong {
   font-family: var(--font-serif);
-  font-size: clamp(1.35rem, 3vw, 2rem);
+  font-size: clamp(1.25rem, 2.8vw, 2rem);
   font-weight: 400;
 }
 
@@ -249,7 +293,7 @@
   padding: var(--space-fluid-2xl) var(--page-gutter);
   background:
     radial-gradient(circle at 72% 18%, rgba(143, 151, 113, 0.15), transparent 30%),
-    #e4dfd2;
+    #ece7dd;
   color: #171812;
 }
 
@@ -264,51 +308,8 @@
   text-transform: uppercase;
 }
 
-.fallback h1,
-.reduced h1,
-.reduced h2 {
-  max-width: 58rem;
-  margin: 0;
-  font-family: var(--font-serif);
-  font-size: clamp(3.4rem, 9vw, 8.4rem);
-  font-weight: 400;
-  letter-spacing: 0;
-  line-height: 0.92;
-}
-
-.fallback span,
-.reduced p {
-  max-width: 38rem;
-  margin: 0;
-  color: rgba(23, 24, 18, 0.68);
-  font-size: clamp(1rem, 1.8vw, 1.2rem);
-  line-height: 1.8;
-}
-
-.fallback ol {
-  display: grid;
-  gap: var(--space-md);
-  margin: var(--space-lg) 0 0;
-  padding: 0;
-  list-style: none;
-}
-
-.fallback li {
-  display: grid;
-  gap: 0.3rem;
-  max-width: 44rem;
-  padding-top: var(--space-md);
-  border-top: 1px solid rgba(23, 24, 18, 0.14);
-}
-
-.fallback strong {
-  font-family: var(--font-serif);
-  font-size: clamp(1.2rem, 2.6vw, 1.8rem);
-  font-weight: 400;
-}
-
 .reduced {
-  gap: 18svh;
+  gap: 16svh;
 }
 
 .reduced section {
@@ -316,9 +317,36 @@
   gap: var(--space-lg);
 }
 
+.readingList span,
+.systemMeta {
+  color: rgba(23, 24, 18, 0.56);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.1em;
+  line-height: 1.7;
+  text-transform: uppercase;
+}
+
+.diagnostics {
+  position: fixed;
+  left: var(--page-gutter);
+  top: 5.5rem;
+  z-index: 16;
+  display: grid;
+  gap: 0.2rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  letter-spacing: 0.08em;
+  mix-blend-mode: difference;
+  pointer-events: none;
+  text-transform: uppercase;
+}
+
 @media (max-width: 680px) {
   .topbar span:last-child,
-  .progressRail {
+  .progressRail,
+  .diagnostics {
     display: none;
   }
 
@@ -329,5 +357,11 @@
   .sceneNavigator {
     right: var(--page-gutter);
     bottom: calc(var(--space-md) + 2rem);
+  }
+
+  .motionControls {
+    left: var(--page-gutter);
+    right: auto;
+    top: 4.4rem;
   }
 }

@@ -1,66 +1,63 @@
 import { Canvas } from '@react-three/fiber';
-import { Component, Suspense, useState } from 'react';
-import type { MutableRefObject, ReactNode, RefObject } from 'react';
+import { Component, Suspense } from 'react';
+import type { MutableRefObject, ReactNode } from 'react';
+import type { QualityTier } from '../hooks/useViewportQuality';
+import { getPixelRatioForQuality } from '../hooks/useViewportQuality';
 import { DreamScene } from './DreamScene';
 import type { PointerInfluenceRef } from './PointerInfluence';
 import { WebGLFallback } from './WebGLFallback';
 import styles from '../DreamExperience.module.css';
 
 type DreamCanvasProps = {
-  rootRef: RefObject<HTMLElement>;
   pointer: MutableRefObject<PointerInfluenceRef>;
+  quality: QualityTier;
+  isActive: boolean;
+  webglSupported: boolean;
   onLoaded: () => void;
+  onError: (error: unknown) => void;
 };
 
-class DreamErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
+class DreamErrorBoundary extends Component<{ children: ReactNode; onError: (error: unknown) => void }, { hasError: boolean }> {
   state = { hasError: false };
 
   static getDerivedStateFromError() {
     return { hasError: true };
   }
 
+  componentDidCatch(error: unknown) {
+    this.props.onError(error);
+  }
+
   render() {
     if (this.state.hasError) {
-      return <WebGLFallback />;
+      return <WebGLFallback reason="error" />;
     }
 
     return this.props.children;
   }
 }
 
-function canUseWebGL() {
-  if (typeof navigator !== 'undefined' && navigator.userAgent.toLowerCase().includes('jsdom')) {
-    return false;
+export function DreamCanvas({ pointer, quality, isActive, webglSupported, onLoaded, onError }: DreamCanvasProps) {
+  if (!webglSupported) {
+    return <WebGLFallback reason="unsupported" />;
   }
 
-  try {
-    const canvas = document.createElement('canvas');
-    return Boolean(canvas.getContext('webgl2') ?? canvas.getContext('webgl'));
-  } catch {
-    return false;
-  }
-}
-
-export function DreamCanvas({ rootRef, pointer, onLoaded }: DreamCanvasProps) {
-  const [webglAvailable] = useState(() => (typeof document === 'undefined' ? true : canUseWebGL()));
-
-  if (!webglAvailable) {
-    return <WebGLFallback />;
-  }
+  const pixelRatio = getPixelRatioForQuality(quality);
 
   return (
-    <DreamErrorBoundary>
+    <DreamErrorBoundary onError={onError}>
       <Canvas
         className={styles.canvas}
-        dpr={[1, 1.45]}
-        gl={{ antialias: true, powerPreference: 'high-performance', alpha: false }}
+        dpr={[1, pixelRatio]}
+        gl={{ antialias: quality !== 'low', powerPreference: 'high-performance', alpha: false }}
+        frameloop={isActive ? 'always' : 'demand'}
         onCreated={({ gl }) => {
-          gl.setClearColor('#e4dfd2');
+          gl.setClearColor('#ece7dd');
           onLoaded();
         }}
       >
         <Suspense fallback={null}>
-          <DreamScene rootRef={rootRef} pointer={pointer} />
+          <DreamScene pointer={pointer} quality={quality} isActive={isActive} />
         </Suspense>
       </Canvas>
     </DreamErrorBoundary>

@@ -7,11 +7,9 @@ describe('App routes', () => {
   it('renders the homepage dream opening semantics', () => {
     renderWithRouter(routes);
 
-    expect(screen.getAllByRole('heading', { name: /everything begins as an unfinished thought/i }).length).toBeGreaterThan(
-      0,
-    );
-    expect(screen.getByRole('heading', { name: /nothing is replaced\. everything transforms/i })).toBeInTheDocument();
-    expect(screen.getAllByText(/Atria: time becomes architecture/i).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole('heading', { name: /Amira Benbouali lucid portfolio foundation/i }).length).toBeGreaterThan(0);
+    expect(screen.getByRole('heading', { name: /Selected work/i })).toBeInTheDocument();
+    expect(screen.getByText(/persistent WebGL canvas/i)).toBeInTheDocument();
   });
 
   it('renders a project case study shell from project data', () => {
