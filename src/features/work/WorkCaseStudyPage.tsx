@@ -10,7 +10,7 @@ export function WorkCaseStudyPage() {
     return (
       <main className={styles.page}>
         <p>Case study not found.</p>
-        <Link to="/">Return to the observatory</Link>
+        <Link to="/">Return to the building</Link>
       </main>
     );
   }

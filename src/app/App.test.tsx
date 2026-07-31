@@ -4,22 +4,21 @@ import { routes } from './router';
 import { renderWithRouter } from '../test-utils';
 
 describe('App routes', () => {
-  it('renders the homepage observatory landing', () => {
+  it('renders the homepage dream opening semantics', () => {
     renderWithRouter(routes);
 
-    expect(screen.getByRole('heading', { name: /i build software that feels quiet/i })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: /view selected work/i })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: /field notes from the studio/i })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'Atria' })).toBeInTheDocument();
-    expect(screen.getByRole('heading', { name: 'Foundry' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'amira@amirabenbouali.com' })).toBeInTheDocument();
+    expect(screen.getAllByRole('heading', { name: /everything begins as an unfinished thought/i }).length).toBeGreaterThan(
+      0,
+    );
+    expect(screen.getByRole('heading', { name: /nothing is replaced\. everything transforms/i })).toBeInTheDocument();
+    expect(screen.getAllByText(/Atria: time becomes architecture/i).length).toBeGreaterThan(0);
   });
 
   it('renders a project case study shell from project data', () => {
     renderWithRouter(routes, '/work/atria');
 
     expect(screen.getByRole('heading', { name: 'Atria' })).toBeInTheDocument();
-    expect(screen.getByText(/product systems/i)).toBeInTheDocument();
+    expect(screen.getByText(/calm planning environment/i)).toBeInTheDocument();
   });
 
   it('renders the writing journal index and an article page', () => {

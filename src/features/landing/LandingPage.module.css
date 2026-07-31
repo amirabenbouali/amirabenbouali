@@ -2,7 +2,7 @@
   position: relative;
   overflow: clip;
   background:
-    linear-gradient(180deg, var(--background-root) 0%, #090a08 32%, #12120f 56%, #18140e 78%, var(--background-root) 100%);
+    linear-gradient(180deg, var(--background-root) 0%, #090a08 28%, #12130f 55%, #17140e 78%, var(--background-root) 100%);
   color: var(--text-primary);
 }
 

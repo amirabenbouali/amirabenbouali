@@ -88,12 +88,12 @@
   --ease-atmospheric: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-standard: cubic-bezier(0.2, 0, 0, 1);
 
-  --depth-moon: drop-shadow(0 0 58px rgba(216, 199, 125, 0.05));
+  --depth-architectural: drop-shadow(0 0 58px rgba(216, 199, 125, 0.05));
   --depth-soft: 0 24px 80px rgba(0, 0, 0, 0.32);
   --depth-recessed: inset 0 1px 0 rgba(238, 230, 210, 0.04);
 
   --grain-opacity: 0.13;
   --fog-opacity: 0.36;
-  --moon-glow: rgba(216, 199, 125, 0.045);
+  --light-leak: rgba(216, 199, 125, 0.045);
   --vignette-opacity: 0.72;
 }
