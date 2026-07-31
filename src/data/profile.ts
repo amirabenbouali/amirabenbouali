@@ -39,7 +39,7 @@ export const profile: Profile = {
   philosophy:
     'My work sits between product judgment and engineering depth: calm interfaces, durable systems, and tools that respect attention.',
   contact: {
-    email: 'hello@amirabenbouali.com',
+    email: 'amira@amirabenbouali.com',
     availability: 'Available for selective product engineering collaborations.'
   }
 };

@@ -7,10 +7,10 @@ import styles from './SiteHeader.module.css';
 type NavItem = { label: string; href: string; to?: never } | { label: string; to: string; href?: never };
 
 const navItems: NavItem[] = [
-  { label: 'Work', href: '#work-introduction' },
+  { label: 'Work', href: '/#work' },
   { label: 'Writing', to: '/writing' },
   { label: 'About', to: '/about' },
-  { label: 'Contact', href: `mailto:${profile.contact.email}` }
+  { label: 'Contact', href: '/#signal' }
 ];
 
 export function SiteHeader() {
