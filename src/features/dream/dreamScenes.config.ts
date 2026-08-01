@@ -2,6 +2,7 @@ export type DreamSceneId =
   | 'opening'
   | 'portal'
   | 'atria'
+  | 'fold'
   | 'foundry'
   | 'kansodb'
   | 'mini-ci'
@@ -33,7 +34,7 @@ export const dreamScenes: DreamSceneConfig[] = [
     title: 'Technical dream shell',
     summary: 'A pale spatial world establishes the persistent canvas, camera and timeline without final scene design.',
     start: 0,
-    end: 0.1,
+    end: 0.13,
     camera: { position: [0, 0.2, 7.6], target: [0, 0.05, 0] },
     quality: 'low',
     accessibleHeadingId: 'dream-title'
@@ -44,8 +45,8 @@ export const dreamScenes: DreamSceneConfig[] = [
     label: 'Portal',
     title: 'Portal placeholder',
     summary: 'A restrained coordinate marker reserves the future transition without building the morphing letter yet.',
-    start: 0.1,
-    end: 0.17,
+    start: 0.13,
+    end: 0.19,
     camera: { position: [0.35, 0.18, 4.2], target: [0.1, 0.02, -2] },
     quality: 'low'
   },
@@ -55,78 +56,89 @@ export const dreamScenes: DreamSceneConfig[] = [
     label: 'Atria',
     title: 'Atria',
     summary: 'Placeholder for the future calendar architecture scene.',
-    start: 0.17,
-    end: 0.36,
+    start: 0.19,
+    end: 0.4,
     camera: { position: [0.1, 0.36, 0.4], target: [0, 0.12, -7] },
     quality: 'medium',
     accessibleHeadingId: 'project-atria'
   },
   {
-    id: 'foundry',
+    id: 'fold',
     index: '03',
+    label: 'Atria to Foundry',
+    title: 'The calendar folds',
+    summary: 'The Atria facade folds slowly into the structural language of the next project.',
+    start: 0.4,
+    end: 0.485,
+    camera: { position: [-0.25, 0.42, -5.3], target: [0.2, 0.1, -12] },
+    quality: 'medium'
+  },
+  {
+    id: 'foundry',
+    index: '04',
     label: 'Foundry',
     title: 'Foundry',
     summary: 'Placeholder for the future engineering-system scene.',
-    start: 0.36,
-    end: 0.49,
+    start: 0.485,
+    end: 0.69,
     camera: { position: [-0.25, 0.42, -5.3], target: [0.2, 0.1, -12] },
     quality: 'medium',
     accessibleHeadingId: 'project-foundry'
   },
   {
     id: 'kansodb',
-    index: '04',
+    index: '05',
     label: 'kansoDB',
     title: 'kansoDB',
     summary: 'Placeholder for the future query-language scene.',
-    start: 0.49,
-    end: 0.62,
+    start: 0.69,
+    end: 0.895,
     camera: { position: [0.3, 0.5, -11], target: [-0.15, 0.08, -17] },
     quality: 'medium',
     accessibleHeadingId: 'project-kansodb'
   },
   {
     id: 'mini-ci',
-    index: '05',
+    index: '06',
     label: 'Mini CI',
     title: 'Mini CI',
     summary: 'Placeholder for the future production-line scene.',
-    start: 0.62,
-    end: 0.74,
+    start: 0.895,
+    end: 0.935,
     camera: { position: [-0.2, 0.42, -16.2], target: [0, 0.08, -23] },
     quality: 'medium',
     accessibleHeadingId: 'project-mini-ci'
   },
   {
     id: 'memory',
-    index: '06',
+    index: '07',
     label: 'Memory',
     title: 'About',
     summary: 'Placeholder for the future personal-memory scene.',
-    start: 0.74,
-    end: 0.84,
+    start: 0.935,
+    end: 0.965,
     camera: { position: [0.2, 0.52, -21.5], target: [0, 0.06, -28] },
     quality: 'low',
     accessibleHeadingId: 'about-heading'
   },
   {
     id: 'assembly',
-    index: '07',
+    index: '08',
     label: 'Assembly',
     title: 'Identity assembly',
     summary: 'Placeholder for the future name-assembly scene.',
-    start: 0.84,
-    end: 0.93,
+    start: 0.965,
+    end: 0.985,
     camera: { position: [-0.12, 0.46, -26.2], target: [0.08, 0.08, -33] },
     quality: 'low'
   },
   {
     id: 'contact',
-    index: '08',
+    index: '09',
     label: 'Contact',
     title: 'Contact',
     summary: 'Placeholder for the future contact signal.',
-    start: 0.93,
+    start: 0.985,
     end: 1,
     camera: { position: [0, 0.38, -31], target: [0, 0.04, -37] },
     quality: 'low',
@@ -134,7 +146,7 @@ export const dreamScenes: DreamSceneConfig[] = [
   }
 ];
 
-export const dreamScrollLength = 1180;
+export const dreamScrollLength = 2200;
 
 export function clampProgress(progress: number) {
   if (Number.isNaN(progress)) return 0;

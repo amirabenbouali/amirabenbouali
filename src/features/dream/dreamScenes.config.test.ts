@@ -22,19 +22,27 @@ describe('dream scene configuration', () => {
     expect(getSceneByProgress(0.99).id).toBe('contact');
   });
 
+  it('keeps the primary project worlds spacious enough to read', () => {
+    for (const id of ['atria', 'foundry', 'kansodb']) {
+      const scene = dreamScenes.find((candidate) => candidate.id === id);
+      expect(scene).toBeDefined();
+      expect(scene ? scene.end - scene.start : 0).toBeGreaterThanOrEqual(0.2);
+    }
+  });
+
   it('calculates local scene progress', () => {
     const atria = dreamScenes.find((scene) => scene.id === 'atria');
     expect(atria).toBeDefined();
-    expect(getLocalSceneProgress(0.17, atria)).toBe(0);
-    expect(getLocalSceneProgress(0.265, atria)).toBeCloseTo(0.5);
-    expect(getLocalSceneProgress(0.36, atria)).toBe(1);
+    expect(getLocalSceneProgress(0.19, atria)).toBe(0);
+    expect(getLocalSceneProgress(0.295, atria)).toBeCloseTo(0.5);
+    expect(getLocalSceneProgress(0.4, atria)).toBe(1);
   });
 
   it('selects previous and next scenes', () => {
-    const foundry = getSceneByProgress(0.4);
+    const foundry = getSceneByProgress(0.5);
     const adjacent = getAdjacentScenes(foundry);
 
-    expect(adjacent.previous?.id).toBe('atria');
+    expect(adjacent.previous?.id).toBe('fold');
     expect(adjacent.next?.id).toBe('kansodb');
   });
 

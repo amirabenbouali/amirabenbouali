@@ -15,16 +15,16 @@ const foldCells = Array.from({ length: 35 }, (_, index) => index);
 const tokens = ['SELECT', 'ideas', 'FROM', 'memory', 'WHERE'];
 const nameLetters = 'AMIRA BENBOUALI'.split('');
 const spans = [
-  [0, 0.1],
-  [0.075, 0.16],
-  [0.14, 0.29],
-  [0.26, 0.36],
-  [0.33, 0.49],
-  [0.46, 0.61],
-  [0.58, 0.73],
-  [0.7, 0.84],
-  [0.81, 0.94],
-  [0.91, 1]
+  [0, 0.13],
+  [0.115, 0.19],
+  [0.18, 0.4],
+  [0.385, 0.485],
+  [0.47, 0.69],
+  [0.675, 0.895],
+  [0.88, 0.935],
+  [0.925, 0.965],
+  [0.955, 0.985],
+  [0.975, 1]
 ] as const;
 
 const memoryFragments = [
@@ -50,6 +50,10 @@ function smooth(value: number) {
 
 function local(progress: number, start: number, end: number) {
   return clamp((progress - start) / (end - start));
+}
+
+function phase(progress: number, start: number, end: number) {
+  return smooth(local(progress, start, end));
 }
 
 function setLayer(layer: HTMLElement | null, opacity: number, scale = 1, tx = 0, ty = 0, blur = 0) {
@@ -143,7 +147,7 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
       const smy = smoothPointer.current.y;
       const vals = spans.map(([start, end]) => local(p, start, end));
 
-      const h = vals[0];
+      const h = phase(vals[0], 0.42, 1);
       const po = vals[1];
       setLayer(hero.current, 1 - po * 1.4, 1 + po * 0.16, 0, -po * 25, po * 5);
       letterRefs.current.forEach((letter, index) => {
@@ -163,13 +167,18 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
 
       const a = vals[2];
       const foldProgress = vals[3];
-      setLayer(atria.current, clamp(a * 1.45 - foldProgress * 1.2), 0.78 + a * 0.22, 0, lerp(70, 0, smooth(a)), 0);
+      const aIn = phase(a, 0, 0.2);
+      const aDrift = phase(a, 0.2, 0.62);
+      const aLeave = phase(a, 0.76, 1);
+      const foldIn = phase(foldProgress, 0, 0.25);
+      const foldMove = phase(foldProgress, 0.32, 1);
+      setLayer(atria.current, clamp(aIn * 1.45 - foldIn * 1.2), 0.78 + aIn * 0.22, 0, lerp(70, 0, aIn) - aLeave * 16, 0);
       const rx = (smy - 0.5) * -5;
       const ry = (smx - 0.5) * 10;
       if (calendarWrap.current) {
         calendarWrap.current.style.transform = `translate(-50%,-50%) perspective(1100px) rotateX(${7 + rx}deg) rotateY(${
           -8 + ry
-        }deg) scale(${0.82 + a * 0.18})`;
+        }deg) scale(${0.82 + aIn * 0.18 + Math.sin(p * Math.PI * 10) * aDrift * 0.004})`;
       }
       const hue = lerp(40, 215, smx);
       if (atria.current) {
@@ -179,29 +188,34 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
           smx
         )}%),#050605)`;
       }
-      if (sun.current) sun.current.style.transform = `translate(${(smx - 0.5) * 60}px,${(smy - 0.5) * 28}px)`;
+      if (sun.current) sun.current.style.transform = `translate(${(smx - 0.5) * 60}px,${(smy - 0.5) * 28 + Math.sin(p * Math.PI * 8) * aDrift * 8}px)`;
       if (timeLabel.current) {
         timeLabel.current.textContent = smx < 0.33 ? 'morning · 06:42' : smx < 0.67 ? 'afternoon · 14:18' : 'night · 22:07';
       }
 
-      setLayer(fold.current, clamp(foldProgress * 1.6 - vals[4] * 1.1));
+      setLayer(fold.current, clamp(foldIn * 1.6 - vals[4] * 1.1));
       foldRefs.current.forEach((cell, index) => {
         if (!cell) return;
         const col = index % 7;
         const row = Math.floor(index / 7);
         const dir = col - 3;
-        cell.style.transform = `translate3d(${dir * foldProgress * 38}px,${(row - 2) * foldProgress * 28}px,${
-          -Math.abs(dir) * foldProgress * 45
-        }px) rotateY(${dir * foldProgress * 10}deg) rotateX(${row * foldProgress * 3}deg)`;
-        cell.style.opacity = String(1 - foldProgress * 0.25);
+        cell.style.transform = `translate3d(${dir * foldMove * 38}px,${(row - 2) * foldMove * 28}px,${
+          -Math.abs(dir) * foldMove * 45
+        }px) rotateY(${dir * foldMove * 10}deg) rotateX(${row * foldMove * 3}deg)`;
+        cell.style.opacity = String(1 - foldMove * 0.25);
       });
 
       const f = vals[4];
       const t = vals[5];
-      setLayer(foundry.current, clamp(f * 1.5 - t * 1.25), 0.9 + f * 0.1);
-      const sig = Math.min(1, f * 1.2);
+      const fIn = phase(f, 0, 0.18);
+      const fIdle = phase(f, 0.18, 0.64);
+      const fTransform = phase(f, 0.72, 1);
+      const tIn = phase(t, 0, 0.18);
+      const tTransform = phase(t, 0.68, 1);
+      setLayer(foundry.current, clamp(fIn * 1.5 - tIn * 1.25), 0.9 + fIn * 0.1);
+      const sig = Math.min(1, fIn * 0.22 + fTransform * 0.78);
       if (signal.current) signal.current.style.transform = `translate(${sig * 42}vw,${Math.sin(sig * Math.PI) * 18}vh)`;
-      const breakPhase = clamp((f - 0.52) / 0.22);
+      const breakPhase = phase(f, 0.76, 0.94);
       if (fracture.current) {
         fracture.current.style.height = `${breakPhase * 180}px`;
         fracture.current.style.opacity = String(breakPhase);
@@ -209,18 +223,22 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
       if (foundryStatus.current) foundryStatus.current.textContent = breakPhase > 0.7 ? 'rerouting · restoring coherence' : 'system coherent';
       nodeRefs.current.forEach((node, index) => {
         if (!node) return;
-        node.style.transform = `translate(${(smx - 0.5) * (index % 2 ? 18 : -18)}px,${(smy - 0.5) * (index % 2 ? 12 : -12)}px)`;
+        node.style.transform = `translate(${(smx - 0.5) * (index % 2 ? 18 : -18)}px,${
+          (smy - 0.5) * (index % 2 ? 12 : -12) + Math.sin(p * Math.PI * 9 + index) * fIdle * 3
+        }px)`;
       });
 
-      setLayer(terminal.current, clamp(t * 1.55 - vals[6] * 1.2), 0.92 + t * 0.08);
+      setLayer(terminal.current, clamp(tIn * 1.55 - vals[6] * 1.2), 0.92 + tIn * 0.08);
       if (cursorWorld.current) {
-        cursorWorld.current.style.height = `${100 + t * window.innerHeight * 0.65}px`;
-        cursorWorld.current.style.transform = `translate(-50%,-50%) rotate(${t * 90}deg)`;
+        cursorWorld.current.style.height = `${100 + tTransform * window.innerHeight * 0.65}px`;
+        cursorWorld.current.style.transform = `translate(-50%,-50%) rotate(${tTransform * 90}deg)`;
       }
       tokenRefs.current.forEach((token, index) => {
         if (!token) return;
         const angle = (index / 5) * Math.PI * 2;
-        token.style.transform = `translate(${Math.cos(angle) * t * 90}px,${Math.sin(angle) * t * 70}px) rotate(${(index - 2) * t * 3}deg)`;
+        token.style.transform = `translate(${Math.cos(angle) * tTransform * 90}px,${
+          Math.sin(angle) * tTransform * 70 + Math.sin(p * Math.PI * 7 + index) * phase(t, 0.18, 0.66) * 4
+        }px) rotate(${(index - 2) * tTransform * 3}deg)`;
       });
 
       const pi = vals[6];
@@ -270,23 +288,23 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
       setLayer(contact.current, clamp(co * 1.5), 0.94 + co * 0.06);
       if (stageLabel.current) {
         stageLabel.current.textContent =
-          p < 0.08
+          p < 0.12
             ? 'the unfinished thought'
-            : p < 0.16
+            : p < 0.19
               ? 'the letter becomes a passage'
-              : p < 0.29
+              : p < 0.4
                 ? 'atria · time becomes architecture'
-                : p < 0.36
+                : p < 0.485
                   ? 'the calendar folds'
-                  : p < 0.49
+                  : p < 0.69
                     ? 'foundry · the living system'
-                    : p < 0.61
+                    : p < 0.895
                       ? 'kansodb · language becomes matter'
-                      : p < 0.73
+                      : p < 0.935
                         ? 'mini ci · production dream'
-                        : p < 0.84
+                        : p < 0.965
                           ? 'about · fragments of amira'
-                          : p < 0.94
+                          : p < 0.985
                             ? 'everything returns'
                             : 'wake up · send a signal';
       }
