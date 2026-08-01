@@ -69,7 +69,7 @@ export function DreamCanvas({ pointer, quality, atria, foundry, isActive, webglS
         }}
       >
         <Suspense fallback={null}>
-          <DreamScene pointer={pointer} quality={quality} atria={atria} foundry={foundry} isActive={isActive} />
+          <DreamScene pointer={pointer} quality={quality} isActive={isActive} />
         </Suspense>
       </Canvas>
     </DreamErrorBoundary>

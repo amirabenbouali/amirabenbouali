@@ -134,7 +134,7 @@ export const dreamScenes: DreamSceneConfig[] = [
   }
 ];
 
-export const dreamScrollLength = 920;
+export const dreamScrollLength = 520;
 
 export function clampProgress(progress: number) {
   if (Number.isNaN(progress)) return 0;

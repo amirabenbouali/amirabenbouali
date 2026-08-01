@@ -2,9 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { AtmosphericGrain } from '../../components/ui/Atmosphere';
 import { AccessibleOverlay } from './components/AccessibleOverlay';
-import { AtriaStageOverlay } from './components/AtriaStageOverlay';
 import { DevelopmentDiagnostics } from './components/DevelopmentDiagnostics';
 import { DreamCanvas } from './components/DreamCanvas';
+import { GoldenDreamOverlay } from './components/GoldenDreamOverlay';
 import { ReducedMotionExperience } from './components/ReducedMotionExperience';
 import { usePointerInfluence } from './components/PointerInfluence';
 import { usePageVisibility } from './hooks/usePageVisibility';
@@ -91,7 +91,7 @@ export function DreamExperience() {
           onError={handleCanvasError}
         />
       </div>
-      <AtriaStageOverlay timeline={timeline} atria={atria} />
+      <GoldenDreamOverlay timeline={timeline} pointer={pointer} />
       <div className={styles.scrollSpace} aria-hidden="true" />
       <AccessibleOverlay
         timeline={timeline}

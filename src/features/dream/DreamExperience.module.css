@@ -19,6 +19,409 @@
   display: block;
 }
 
+.goldenTopbar {
+  position: fixed;
+  z-index: 40;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 22px 28px;
+  color: white;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  mix-blend-mode: difference;
+  text-transform: uppercase;
+}
+
+.goldenProgress {
+  position: fixed;
+  z-index: 40;
+  top: 50%;
+  right: 22px;
+  width: 1px;
+  height: 160px;
+  background: rgba(255, 255, 255, 0.18);
+  transform: translateY(-50%);
+}
+
+.goldenProgress::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: calc(var(--progress) * 1%);
+  background: white;
+}
+
+.goldenStageLabel {
+  position: fixed;
+  left: 28px;
+  bottom: 24px;
+  z-index: 40;
+  color: white;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  mix-blend-mode: difference;
+  text-transform: uppercase;
+}
+
+.goldenScene {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.goldenHero {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  transition: opacity 0.4s ease;
+}
+
+.goldenHeroInner {
+  position: relative;
+  width: min(1200px, 90vw);
+}
+
+.goldenKicker {
+  margin: 0 0 30px;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  opacity: 0.52;
+  text-transform: uppercase;
+}
+
+.goldenSentence {
+  margin: 0;
+  font-family: Georgia, serif;
+  font-size: clamp(54px, 8.6vw, 145px);
+  font-weight: 400;
+  letter-spacing: -0.07em;
+  line-height: 0.86;
+  perspective: 900px;
+  transform-style: preserve-3d;
+}
+
+.goldenChunk {
+  display: inline-block;
+}
+
+.goldenThought {
+  position: relative;
+  display: inline-flex;
+  transform-style: preserve-3d;
+}
+
+.goldenLetter {
+  position: relative;
+  display: inline-block;
+  transform-style: preserve-3d;
+  will-change: filter, opacity, transform;
+}
+
+.goldenLetterO {
+  z-index: 6;
+}
+
+.goldenPortalRing {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.54em;
+  height: 0.54em;
+  border: 2px solid rgba(18, 19, 16, 0.9);
+  border-radius: 50%;
+  opacity: 0;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.2),
+    0 0 70px rgba(18, 19, 16, 0.12);
+  transform: translate(-50%, -50%) scale(0.1);
+}
+
+.goldenSubcopy {
+  max-width: 430px;
+  margin: 38px 0 0 48%;
+  font-size: 13px;
+  line-height: 1.8;
+  opacity: 0.58;
+}
+
+.goldenScrollCue {
+  position: absolute;
+  right: 0;
+  bottom: -8vh;
+  font-family: Inter, Arial, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.17em;
+  opacity: 0.5;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+}
+
+.goldenTunnel {
+  position: absolute;
+  inset: -15%;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at center, #050605 0 11%, #1a1c17 12%, #090a08 35%, #000 70%);
+  opacity: 0;
+  transform: scale(0.2);
+  transform-origin: center;
+}
+
+.goldenTunnel::before,
+.goldenTunnel::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  width: 32vmin;
+  height: 32vmin;
+  margin: auto;
+  border: 1px solid rgba(232, 226, 214, 0.14);
+  border-radius: 50%;
+}
+
+.goldenTunnel::after {
+  width: 58vmin;
+  height: 58vmin;
+  opacity: 0.5;
+}
+
+.goldenChamber {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 38%, rgba(144, 158, 121, 0.09), transparent 26%),
+    linear-gradient(180deg, #0e100d, #050605 76%);
+  opacity: 0;
+  perspective: 1100px;
+}
+
+.goldenFog {
+  position: absolute;
+  inset: 0;
+  animation: goldenFog 9s ease-in-out infinite alternate;
+  background:
+    radial-gradient(ellipse at 50% 78%, rgba(232, 226, 214, 0.07), transparent 45%),
+    linear-gradient(180deg, transparent, rgba(232, 226, 214, 0.04));
+  filter: blur(22px);
+}
+
+@keyframes goldenFog {
+  to {
+    transform: translate3d(3vw, -1vh, 0) scale(1.04);
+  }
+}
+
+.goldenFacadeWrap {
+  position: absolute;
+  top: 53%;
+  left: 50%;
+  width: min(1100px, 78vw);
+  height: min(620px, 62vh);
+  transform: translate(-50%, -50%) rotateX(7deg) rotateY(-8deg) translateZ(-180px);
+  transform-style: preserve-3d;
+}
+
+.goldenFacade {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 10px;
+  transform-style: preserve-3d;
+}
+
+.goldenDay {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(232, 226, 214, 0.12);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.025), rgba(255, 255, 255, 0.008));
+  box-shadow: inset 0 0 35px rgba(255, 255, 255, 0.012);
+  transform-style: preserve-3d;
+}
+
+.goldenDay::before {
+  content: attr(data-day);
+  position: absolute;
+  top: 9px;
+  left: 10px;
+  color: rgba(232, 226, 214, 0.34);
+  font-size: 9px;
+  letter-spacing: 0.16em;
+}
+
+.goldenWindow {
+  position: absolute;
+  right: 12%;
+  bottom: 13%;
+  left: 12%;
+  height: 22%;
+  background: linear-gradient(90deg, rgba(156, 167, 134, 0.1), rgba(219, 205, 166, 0.8), rgba(156, 167, 134, 0.12));
+  box-shadow: 0 0 28px rgba(219, 205, 166, 0.2);
+  opacity: 0.15;
+  transform: translateZ(18px);
+}
+
+.goldenDay:nth-child(3n) .goldenWindow {
+  height: 34%;
+  opacity: 0.75;
+}
+
+.goldenDay:nth-child(5n) .goldenWindow {
+  bottom: 42%;
+  opacity: 0.48;
+}
+
+.goldenDay:nth-child(7n) .goldenWindow {
+  height: 16%;
+  opacity: 0.9;
+}
+
+.goldenChamberTitle {
+  position: absolute;
+  top: 12vh;
+  left: 5vw;
+  z-index: 4;
+  color: #e8e2d6;
+}
+
+.goldenChamberTitle small {
+  display: block;
+  margin-bottom: 16px;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  opacity: 0.5;
+  text-transform: uppercase;
+}
+
+.goldenChamberTitle h2 {
+  margin: 0;
+  font: 400 clamp(66px, 9vw, 138px) / 0.82 Georgia, serif;
+  letter-spacing: -0.07em;
+}
+
+.goldenChamberTitle p {
+  max-width: 380px;
+  margin-top: 24px;
+  color: rgba(232, 226, 214, 0.58);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.goldenLightOrb {
+  position: absolute;
+  top: 16vh;
+  right: 8vw;
+  width: 16vmin;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  background: radial-gradient(circle at 40% 38%, #f3e9c7 0 7%, #c8b985 18%, rgba(156, 167, 134, 0.18) 52%, transparent 70%);
+  box-shadow: 0 0 120px rgba(202, 188, 139, 0.22);
+  filter: blur(1px);
+  opacity: 0.65;
+}
+
+.goldenTimeLabel {
+  position: absolute;
+  right: 8vw;
+  bottom: 10vh;
+  color: rgba(232, 226, 214, 0.5);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.goldenDreamFragment {
+  position: absolute;
+  color: rgba(232, 226, 214, 0.18);
+  font-family: Georgia, serif;
+  font-size: clamp(20px, 2vw, 34px);
+  font-style: italic;
+  white-space: nowrap;
+  animation: goldenFloat 7s ease-in-out infinite;
+}
+
+.goldenF1 {
+  left: 7%;
+  bottom: 18%;
+  transform: rotate(-7deg);
+}
+
+.goldenF2 {
+  top: 36%;
+  right: 10%;
+  animation-delay: -3s;
+}
+
+@keyframes goldenFloat {
+  50% {
+    transform: translateY(-12px) rotate(-2deg);
+  }
+}
+
+.goldenTease {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  color: #e8e2d6;
+  background: #050605;
+  opacity: 0;
+}
+
+.goldenTease h3 {
+  margin: 0;
+  font: 400 clamp(55px, 8vw, 120px) / 0.9 Georgia, serif;
+  letter-spacing: -0.06em;
+  text-align: center;
+}
+
+.goldenTease h3 em {
+  display: block;
+  color: #9ca786;
+  font-family: 'Brush Script MT', 'Segoe Script', cursive;
+  font-weight: 400;
+}
+
+.goldenTease p {
+  position: absolute;
+  bottom: 10vh;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  opacity: 0.45;
+  text-transform: uppercase;
+}
+
+.goldenRestart {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 45;
+  padding: 10px 12px;
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.38);
+  backdrop-filter: blur(14px);
+  cursor: pointer;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  pointer-events: auto;
+  text-transform: uppercase;
+}
+
 .openingLayer {
   position: absolute;
   inset: 0;
@@ -310,6 +713,14 @@
   mix-blend-mode: difference;
   text-transform: uppercase;
   pointer-events: none;
+}
+
+.topbar,
+.stageLabel,
+.progressRail,
+.motionControls,
+.sceneNavigator {
+  display: none;
 }
 
 .stageLabel {
@@ -778,6 +1189,39 @@
 }
 
 @media (max-width: 680px) {
+  .goldenTopbar {
+    padding: 18px;
+  }
+
+  .goldenTopbar span:last-child {
+    display: none;
+  }
+
+  .goldenHeroInner {
+    width: 88vw;
+  }
+
+  .goldenSubcopy {
+    margin-left: 0;
+  }
+
+  .goldenFacadeWrap {
+    width: 88vw;
+    height: 52vh;
+  }
+
+  .goldenFacade {
+    gap: 5px;
+  }
+
+  .goldenChamberTitle {
+    top: 9vh;
+  }
+
+  .goldenChamberTitle p {
+    display: none;
+  }
+
   .topbar span:last-child,
   .progressRail,
   .diagnostics {
@@ -866,4 +1310,19 @@
   .atriaWord {
     display: none;
   }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .goldenFog,
+  .goldenDreamFragment {
+    animation: none;
+  }
+}
+
+.topbar,
+.stageLabel,
+.progressRail,
+.motionControls,
+.sceneNavigator {
+  display: none;
 }
