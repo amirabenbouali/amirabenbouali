@@ -19,6 +19,954 @@
   display: block;
 }
 
+.conceptScene {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  overflow: hidden;
+  color: #11120f;
+  background: #ece7dd;
+  pointer-events: none;
+}
+
+.conceptLayer {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.conceptActive {
+  pointer-events: auto;
+}
+
+.conceptTopbar {
+  position: fixed;
+  z-index: 100;
+  inset: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 26px;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.17em;
+  mix-blend-mode: difference;
+  text-transform: uppercase;
+}
+
+.conceptStageLabel {
+  position: fixed;
+  z-index: 100;
+  left: 26px;
+  bottom: 22px;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  mix-blend-mode: difference;
+  text-transform: uppercase;
+}
+
+.conceptProgress {
+  position: fixed;
+  z-index: 100;
+  top: 50%;
+  right: 20px;
+  width: 1px;
+  height: 180px;
+  background: rgba(255, 255, 255, 0.18);
+  transform: translateY(-50%);
+}
+
+.conceptProgress::after {
+  content: '';
+  position: absolute;
+  inset: 0 auto auto 0;
+  width: 1px;
+  height: calc(var(--progress) * 1%);
+  background: #fff;
+}
+
+.conceptRestart {
+  position: fixed;
+  z-index: 120;
+  right: 18px;
+  bottom: 18px;
+  padding: 9px 11px;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(0, 0, 0, 0.34);
+  backdrop-filter: blur(12px);
+  cursor: pointer;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  pointer-events: auto;
+  text-transform: uppercase;
+}
+
+.conceptGrain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.1;
+  mix-blend-mode: soft-light;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.86' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.75'/%3E%3C/svg%3E");
+}
+
+.conceptHero {
+  background:
+    radial-gradient(circle at 20% 18%, rgba(157, 167, 137, 0.14), transparent 28%),
+    linear-gradient(180deg, #f0ece3, #ded8cc);
+  opacity: 1;
+}
+
+.conceptHeroWrap {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: min(1220px, 90vw);
+  transform: translate(-50%, -50%);
+}
+
+.conceptKicker {
+  margin-bottom: 28px;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  opacity: 0.5;
+  text-transform: uppercase;
+}
+
+.conceptHeroTitle {
+  margin: 0;
+  font: 400 clamp(54px, 8.5vw, 145px) / 0.86 Georgia, serif;
+  letter-spacing: -0.07em;
+  perspective: 900px;
+}
+
+.conceptChunk {
+  display: inline-block;
+}
+
+.conceptWord {
+  position: relative;
+  display: inline-flex;
+  transform-style: preserve-3d;
+}
+
+.conceptLetter {
+  position: relative;
+  display: inline-block;
+  transform-style: preserve-3d;
+  will-change: filter, transform;
+}
+
+.conceptPortalRing {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.54em;
+  height: 0.54em;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  opacity: 0;
+  box-shadow: 0 0 60px rgba(0, 0, 0, 0.16);
+  transform: translate(-50%, -50%) scale(0.1);
+}
+
+.conceptHeroCopy {
+  max-width: 420px;
+  margin: 35px 0 0 48%;
+  font-size: 13px;
+  line-height: 1.8;
+  opacity: 0.58;
+}
+
+.conceptScrollMark {
+  position: absolute;
+  right: 0;
+  bottom: -10vh;
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  opacity: 0.45;
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+}
+
+.conceptPortal {
+  background: radial-gradient(circle, #010201 0 8%, #20231b 9%, #090a08 36%, #000 72%);
+  transform: scale(0.12);
+}
+
+.conceptPortalCircle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30vmin;
+  height: 30vmin;
+  border: 1px solid rgba(238, 232, 220, 0.15);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.conceptPortalCircle:nth-child(2) {
+  width: 58vmin;
+  height: 58vmin;
+  opacity: 0.5;
+}
+
+.conceptPortalCircle:nth-child(3) {
+  width: 82vmin;
+  height: 82vmin;
+  opacity: 0.22;
+}
+
+.conceptSceneTitle {
+  position: absolute;
+  z-index: 5;
+  top: 11vh;
+  left: 5vw;
+  color: #eee8dc;
+}
+
+.conceptSceneTitle small {
+  display: block;
+  margin-bottom: 14px;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  opacity: 0.48;
+  text-transform: uppercase;
+}
+
+.conceptSceneTitle h2 {
+  margin: 0;
+  font: 400 clamp(64px, 9vw, 140px) / 0.82 Georgia, serif;
+  letter-spacing: -0.07em;
+}
+
+.conceptSceneTitle p {
+  max-width: 430px;
+  font-size: 13px;
+  line-height: 1.8;
+  opacity: 0.58;
+}
+
+.conceptSceneTitle em {
+  color: #9da789;
+  font-family: 'Brush Script MT', 'Segoe Script', cursive;
+  font-weight: 400;
+}
+
+.conceptAtria {
+  background:
+    radial-gradient(circle at 50% 35%, rgba(157, 167, 137, 0.11), transparent 28%),
+    linear-gradient(#10120f, #050605);
+}
+
+.conceptAtriaFog {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 80%, rgba(238, 232, 220, 0.08), transparent 50%);
+  filter: blur(24px);
+}
+
+.conceptCalendarWrap {
+  position: absolute;
+  top: 53%;
+  left: 50%;
+  width: min(1100px, 78vw);
+  height: min(620px, 62vh);
+  perspective: 1100px;
+  transform-style: preserve-3d;
+}
+
+.conceptCalendar {
+  display: grid;
+  width: 100%;
+  height: 100%;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 9px;
+  transform-style: preserve-3d;
+}
+
+.conceptDay {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(238, 232, 220, 0.12);
+  background: rgba(255, 255, 255, 0.018);
+}
+
+.conceptDay::before {
+  content: attr(data-day);
+  position: absolute;
+  top: 8px;
+  left: 9px;
+  color: rgba(238, 232, 220, 0.3);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+}
+
+.conceptEvent {
+  position: absolute;
+  right: 12%;
+  bottom: 14%;
+  left: 12%;
+  height: 18%;
+  background: linear-gradient(90deg, rgba(157, 167, 137, 0.06), rgba(197, 183, 130, 0.84), rgba(157, 167, 137, 0.06));
+  box-shadow: 0 0 24px rgba(197, 183, 130, 0.18);
+  opacity: 0.14;
+}
+
+.conceptDay:nth-child(3n) .conceptEvent {
+  height: 34%;
+  opacity: 0.8;
+}
+
+.conceptDay:nth-child(5n) .conceptEvent {
+  bottom: 42%;
+  opacity: 0.48;
+}
+
+.conceptDay:nth-child(7n) .conceptEvent {
+  height: 14%;
+  opacity: 0.9;
+}
+
+.conceptSun {
+  position: absolute;
+  top: 16vh;
+  right: 8vw;
+  width: 15vmin;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  background: radial-gradient(circle at 42% 40%, #fff2c8 0 7%, #caba7e 18%, rgba(157, 167, 137, 0.16) 52%, transparent 70%);
+  box-shadow: 0 0 120px rgba(197, 183, 130, 0.2);
+}
+
+.conceptTime,
+.conceptFoundryStatus {
+  position: absolute;
+  right: 8vw;
+  bottom: 10vh;
+  color: rgba(238, 232, 220, 0.48);
+  font-size: 10px;
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
+}
+
+.conceptAtriaWord {
+  position: absolute;
+  color: rgba(238, 232, 220, 0.14);
+  font: italic clamp(20px, 2vw, 32px) Georgia, serif;
+  animation: conceptBreathe 7s ease-in-out infinite;
+}
+
+.conceptAw1 {
+  left: 7vw;
+  bottom: 18vh;
+}
+
+.conceptAw2 {
+  top: 36vh;
+  right: 10vw;
+  animation-delay: -2s;
+}
+
+@keyframes conceptBreathe {
+  50% {
+    transform: translateY(-10px) scale(1.02);
+  }
+}
+
+.conceptFold {
+  background: #050605;
+}
+
+.conceptFoldGrid {
+  position: absolute;
+  inset: 15%;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  grid-template-rows: repeat(5, 1fr);
+  gap: 10px;
+  perspective: 1000px;
+}
+
+.conceptFoldCell {
+  border: 1px solid rgba(238, 232, 220, 0.14);
+  background: rgba(255, 255, 255, 0.015);
+  will-change: opacity, transform;
+}
+
+.conceptFoundry {
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    radial-gradient(circle at 55% 48%, rgba(127, 145, 160, 0.12), transparent 35%),
+    #071014;
+  background-size: 48px 48px, 48px 48px, auto, auto;
+}
+
+.conceptGraph,
+.conceptTokenWorld {
+  position: absolute;
+  inset: 0;
+  perspective: 900px;
+  transform-style: preserve-3d;
+}
+
+.conceptNode {
+  position: absolute;
+  width: 150px;
+  padding: 16px;
+  color: #eee8dc;
+  border: 1px solid rgba(238, 232, 220, 0.16);
+  background: rgba(7, 16, 20, 0.88);
+  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.24);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.conceptNode b {
+  display: block;
+  margin-top: 8px;
+  font-size: 13px;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.n1 {
+  left: 12%;
+  top: 22%;
+}
+
+.n2 {
+  right: 12%;
+  top: 24%;
+}
+
+.n3 {
+  left: 42%;
+  bottom: 14%;
+}
+
+.n4 {
+  left: 54%;
+  top: 44%;
+}
+
+.conceptEdge {
+  position: absolute;
+  height: 1px;
+  background: rgba(127, 145, 160, 0.5);
+  transform-origin: left center;
+}
+
+.e1 {
+  left: 25%;
+  top: 34%;
+  width: 48%;
+  transform: rotate(2deg);
+}
+
+.e2 {
+  left: 24%;
+  top: 38%;
+  width: 38%;
+  transform: rotate(35deg);
+}
+
+.e3 {
+  left: 56%;
+  top: 37%;
+  width: 31%;
+  transform: rotate(111deg);
+}
+
+.e4 {
+  left: 53%;
+  top: 55%;
+  width: 20%;
+  transform: rotate(-10deg);
+}
+
+.conceptSignal {
+  position: absolute;
+  top: 34%;
+  left: 12%;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: #b7d6e5;
+  box-shadow: 0 0 22px rgba(183, 214, 229, 0.9);
+}
+
+.conceptFracture {
+  position: absolute;
+  top: 38%;
+  left: 57%;
+  width: 2px;
+  height: 0;
+  background: linear-gradient(#fff, transparent);
+  box-shadow: 0 0 18px #fff;
+  opacity: 0;
+  transform: rotate(18deg);
+  transform-origin: top;
+}
+
+.conceptFoundryStatus {
+  bottom: 9vh;
+}
+
+.conceptTerminal {
+  color: #dfe9d6;
+  background: #020302;
+}
+
+.conceptCursorWorld {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 100px;
+  background: #b9dba8;
+  box-shadow: 0 0 28px rgba(185, 219, 168, 0.7);
+  transform: translate(-50%, -50%);
+}
+
+.conceptQuery {
+  position: absolute;
+  left: 7vw;
+  bottom: 12vh;
+  color: #cfe1c5;
+  font: clamp(18px, 2.4vw, 34px) / 1.65 'Courier New', monospace;
+  white-space: pre;
+}
+
+.kw {
+  color: #b9dba8;
+}
+
+.obj {
+  color: #e5d49c;
+}
+
+.cond {
+  color: #c6a8c8;
+}
+
+.conceptTokenBlock {
+  position: absolute;
+  padding: 12px 15px;
+  color: #dfe9d6;
+  border: 1px solid rgba(223, 233, 214, 0.16);
+  background: rgba(255, 255, 255, 0.025);
+  box-shadow: 0 16px 60px rgba(0, 0, 0, 0.25);
+  font: 12px 'Courier New', monospace;
+}
+
+.tb1 {
+  left: 12%;
+  top: 22%;
+}
+
+.tb2 {
+  left: 39%;
+  top: 36%;
+}
+
+.tb3 {
+  right: 13%;
+  top: 18%;
+}
+
+.tb4 {
+  right: 22%;
+  bottom: 20%;
+}
+
+.tb5 {
+  left: 22%;
+  bottom: 18%;
+}
+
+.conceptAstTrunk {
+  position: absolute;
+  top: 38%;
+  left: 50%;
+  width: 2px;
+  height: 210px;
+  background: linear-gradient(#b9dba8, transparent);
+  transform-origin: top;
+}
+
+.conceptAstBranch {
+  position: absolute;
+  height: 1px;
+  background: rgba(185, 219, 168, 0.5);
+  transform-origin: left;
+}
+
+.b1 {
+  left: 50%;
+  top: 48%;
+  width: 180px;
+  transform: rotate(-31deg);
+}
+
+.b2 {
+  left: 50%;
+  top: 51%;
+  width: 190px;
+  transform: rotate(31deg);
+}
+
+.b3 {
+  left: 49%;
+  top: 58%;
+  width: 220px;
+  transform: rotate(158deg);
+}
+
+.conceptPipeline {
+  background: linear-gradient(180deg, #111411, #060706);
+}
+
+.conceptRails {
+  position: absolute;
+  top: 50%;
+  right: 8%;
+  left: 8%;
+  display: grid;
+  height: 180px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 18px;
+  transform: translateY(-50%);
+}
+
+.conceptStage {
+  position: relative;
+  overflow: hidden;
+  padding: 16px;
+  color: #eee8dc;
+  border: 1px solid rgba(238, 232, 220, 0.14);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.conceptStage b {
+  color: #9da789;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.conceptStage p {
+  margin-top: 46px;
+  font-size: 13px;
+  opacity: 0.55;
+}
+
+.conceptStage::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: -120%;
+  width: 80%;
+  height: 3px;
+  background: #9da789;
+  animation: conceptScan 3.4s linear infinite;
+}
+
+.conceptStage:nth-child(2)::after {
+  animation-delay: 0.45s;
+}
+
+.conceptStage:nth-child(3)::after {
+  animation-delay: 0.9s;
+}
+
+.conceptStage:nth-child(4)::after {
+  animation-delay: 1.35s;
+}
+
+.conceptStage:nth-child(5)::after {
+  animation-delay: 1.8s;
+}
+
+@keyframes conceptScan {
+  to {
+    transform: translateX(170%);
+  }
+}
+
+.conceptArtifact {
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  width: 54px;
+  height: 54px;
+  background: linear-gradient(135deg, #d6cfb9, #7e876f);
+  box-shadow: 0 0 35px rgba(214, 207, 185, 0.2);
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.conceptScanner {
+  position: absolute;
+  top: 12%;
+  left: 48%;
+  width: 2px;
+  height: 76%;
+  background: linear-gradient(transparent, #fff, transparent);
+  box-shadow: 0 0 25px #fff;
+  opacity: 0.5;
+}
+
+.conceptCrack {
+  position: absolute;
+  top: 37%;
+  left: 57%;
+  color: #a86458;
+  font: 20px monospace;
+  opacity: 0;
+}
+
+.conceptMemory {
+  color: #11120f;
+  background:
+    radial-gradient(circle at center, rgba(157, 167, 137, 0.08), transparent 35%),
+    linear-gradient(180deg, #e9e3d8, #cdc6b9);
+}
+
+.conceptMemoryTitle {
+  color: #11120f;
+}
+
+.conceptFragment {
+  position: absolute;
+  padding: 12px 14px;
+  border: 1px solid rgba(17, 18, 15, 0.16);
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
+  font-size: 11px;
+  line-height: 1.4;
+  transition: transform 0.25s ease;
+}
+
+.conceptFragment strong {
+  display: block;
+  margin-bottom: 5px;
+  font-family: Georgia, serif;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.f01 {
+  left: 9%;
+  top: 24%;
+  transform: rotate(-5deg);
+}
+
+.f02 {
+  left: 32%;
+  top: 18%;
+  transform: rotate(3deg);
+}
+
+.f03 {
+  right: 12%;
+  top: 23%;
+  transform: rotate(-2deg);
+}
+
+.f04 {
+  left: 18%;
+  bottom: 18%;
+  transform: rotate(4deg);
+}
+
+.f05 {
+  left: 46%;
+  bottom: 16%;
+  transform: rotate(-4deg);
+}
+
+.f06 {
+  right: 10%;
+  bottom: 18%;
+  transform: rotate(5deg);
+}
+
+.conceptMemoryLines svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.conceptMemoryLines line {
+  stroke: rgba(17, 18, 15, 0.16);
+  stroke-width: 1;
+}
+
+.conceptHiddenNote {
+  position: absolute;
+  top: 47%;
+  right: 7vw;
+  max-width: 330px;
+  font: italic 22px/1.4 Georgia, serif;
+  opacity: 0.34;
+}
+
+.conceptAssembly {
+  color: #eee8dc;
+  background: #050605;
+}
+
+.conceptOrbit {
+  position: absolute;
+  inset: 0;
+  perspective: 1200px;
+}
+
+.conceptPiece {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 34px;
+  height: 34px;
+  border: 1px solid rgba(238, 232, 220, 0.18);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.conceptName {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  font: 400 clamp(50px, 9vw, 140px) / 0.8 Georgia, serif;
+  letter-spacing: -0.07em;
+  white-space: nowrap;
+  transform: translate(-50%, -50%);
+}
+
+.conceptName span {
+  display: inline-block;
+  opacity: 0;
+}
+
+.conceptWakeCopy {
+  position: absolute;
+  bottom: 12vh;
+  left: 50%;
+  font-size: 11px;
+  letter-spacing: 0.17em;
+  opacity: 0.48;
+  text-transform: uppercase;
+  transform: translateX(-50%);
+}
+
+.conceptContact {
+  display: grid;
+  place-items: center;
+  color: #eee8dc;
+  background:
+    radial-gradient(circle at center, rgba(157, 167, 137, 0.1), transparent 30%),
+    #050605;
+  text-align: center;
+}
+
+.conceptContactInner {
+  position: relative;
+  z-index: 2;
+}
+
+.conceptContactInner h2 {
+  margin: 0;
+  font: 400 clamp(60px, 9vw, 140px) / 0.86 Georgia, serif;
+  letter-spacing: -0.07em;
+}
+
+.conceptContactInner h2 em {
+  display: block;
+  color: #9da789;
+  font-family: 'Brush Script MT', 'Segoe Script', cursive;
+  font-weight: 400;
+}
+
+.conceptContactForm {
+  display: flex;
+  width: min(620px, 84vw);
+  margin: 46px auto 0;
+  border-bottom: 1px solid rgba(238, 232, 220, 0.28);
+  pointer-events: auto;
+}
+
+.conceptContactForm input {
+  flex: 1;
+  padding: 14px 4px;
+  color: #eee8dc;
+  border: 0;
+  outline: 0;
+  background: none;
+  font: 18px Georgia, serif;
+}
+
+.conceptContactForm button {
+  color: #eee8dc;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.conceptFinalRipple {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(157, 167, 137, 0.5);
+  border-radius: 50%;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+}
+
+.conceptSent {
+  animation: conceptRipple 1.7s ease-out forwards;
+}
+
+@keyframes conceptRipple {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(14);
+  }
+}
+
+.conceptInspectNav {
+  position: absolute;
+  bottom: 4vh;
+  left: 50%;
+  display: flex;
+  gap: 24px;
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  opacity: 0.4;
+  text-transform: uppercase;
+  transform: translateX(-50%);
+}
+
+.conceptInspectNav a {
+  color: inherit;
+  pointer-events: auto;
+  text-decoration: none;
+}
+
 .goldenTopbar {
   position: fixed;
   z-index: 40;
@@ -1188,7 +2136,61 @@
   text-transform: uppercase;
 }
 
-@media (max-width: 680px) {
+@media (max-width: 760px) {
+  .conceptTopbar {
+    padding: 16px;
+  }
+
+  .conceptTopbar span:last-child {
+    display: none;
+  }
+
+  .conceptHeroWrap {
+    width: 88vw;
+  }
+
+  .conceptHeroCopy {
+    margin-left: 0;
+  }
+
+  .conceptSceneTitle {
+    top: 8vh;
+  }
+
+  .conceptSceneTitle p {
+    display: none;
+  }
+
+  .conceptCalendarWrap {
+    width: 88vw;
+    height: 50vh;
+  }
+
+  .conceptCalendar {
+    gap: 5px;
+  }
+
+  .conceptRails {
+    top: 28%;
+    bottom: 12%;
+    height: auto;
+    grid-template-columns: 1fr 1fr;
+    transform: none;
+  }
+
+  .conceptPipelineStage {
+    min-height: 100px;
+  }
+
+  .conceptFragment {
+    padding: 9px;
+    font-size: 9px;
+  }
+
+  .conceptFragment strong {
+    font-size: 14px;
+  }
+
   .goldenTopbar {
     padding: 18px;
   }
