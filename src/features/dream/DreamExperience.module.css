@@ -227,6 +227,7 @@
   z-index: 5;
   top: 11vh;
   left: 5vw;
+  max-width: min(880px, 68vw);
   color: #eee8dc;
 }
 
@@ -241,7 +242,7 @@
 
 .conceptSceneTitle h2 {
   margin: 0;
-  font: 400 clamp(64px, 9vw, 140px) / 0.82 Georgia, serif;
+  font: 400 clamp(64px, 8.4vw, 132px) / 0.82 Georgia, serif;
   letter-spacing: -0.07em;
 }
 
@@ -273,10 +274,10 @@
 
 .conceptCalendarWrap {
   position: absolute;
-  top: 53%;
-  left: 50%;
-  width: min(1100px, 78vw);
-  height: min(620px, 62vh);
+  top: 58%;
+  left: 56%;
+  width: min(1060px, 72vw);
+  height: min(600px, 58vh);
   perspective: 1100px;
   transform-style: preserve-3d;
 }
@@ -439,8 +440,8 @@
 }
 
 .n1 {
-  left: 12%;
-  top: 22%;
+  left: 14%;
+  top: 58%;
 }
 
 .n2 {
@@ -450,12 +451,12 @@
 
 .n3 {
   left: 42%;
-  bottom: 14%;
+  bottom: 13%;
 }
 
 .n4 {
-  left: 54%;
-  top: 44%;
+  left: 56%;
+  top: 47%;
 }
 
 .conceptEdge {
@@ -467,16 +468,16 @@
 
 .e1 {
   left: 25%;
-  top: 34%;
+  top: 61%;
   width: 48%;
-  transform: rotate(2deg);
+  transform: rotate(-21deg);
 }
 
 .e2 {
   left: 24%;
-  top: 38%;
+  top: 64%;
   width: 38%;
-  transform: rotate(35deg);
+  transform: rotate(21deg);
 }
 
 .e3 {
@@ -495,8 +496,8 @@
 
 .conceptSignal {
   position: absolute;
-  top: 34%;
-  left: 12%;
+  top: 57%;
+  left: 14%;
   width: 9px;
   height: 9px;
   border-radius: 50%;
@@ -569,8 +570,8 @@
 }
 
 .tb1 {
-  left: 12%;
-  top: 22%;
+  left: 17%;
+  top: 56%;
 }
 
 .tb2 {
@@ -736,23 +737,37 @@
 .conceptMemory {
   color: #11120f;
   background:
-    radial-gradient(circle at center, rgba(157, 167, 137, 0.08), transparent 35%),
-    linear-gradient(180deg, #e9e3d8, #cdc6b9);
+    radial-gradient(circle at 64% 48%, rgba(157, 167, 137, 0.1), transparent 32%),
+    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.42), transparent 28%),
+    linear-gradient(180deg, #ede8de, #d1cabd);
 }
 
 .conceptMemoryTitle {
+  top: 13vh;
+  left: 6vw;
+  max-width: min(680px, 52vw);
   color: #11120f;
+}
+
+.conceptMemoryTitle h2 {
+  font-size: clamp(50px, 6.3vw, 96px);
+  line-height: 0.86;
+}
+
+.conceptMemoryTitle p {
+  max-width: 470px;
 }
 
 .conceptFragment {
   position: absolute;
-  padding: 12px 14px;
-  border: 1px solid rgba(17, 18, 15, 0.16);
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(8px);
-  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.08);
+  min-width: 190px;
+  padding: 14px 16px;
+  border: 1px solid rgba(17, 18, 15, 0.12);
+  background: rgba(246, 242, 233, 0.72);
+  box-shadow: 0 16px 42px rgba(17, 18, 15, 0.08);
   font-size: 11px;
   line-height: 1.4;
+  opacity: 0.86;
   transition: transform 0.25s ease;
 }
 
@@ -765,39 +780,39 @@
 }
 
 .f01 {
-  left: 9%;
-  top: 24%;
-  transform: rotate(-5deg);
+  left: 8%;
+  top: 55%;
+  transform: rotate(-3deg);
 }
 
 .f02 {
-  left: 32%;
-  top: 18%;
-  transform: rotate(3deg);
+  left: 48%;
+  top: 21%;
+  transform: rotate(2deg);
 }
 
 .f03 {
-  right: 12%;
-  top: 23%;
+  right: 11%;
+  top: 28%;
   transform: rotate(-2deg);
 }
 
 .f04 {
-  left: 18%;
-  bottom: 18%;
-  transform: rotate(4deg);
+  left: 20%;
+  bottom: 15%;
+  transform: rotate(3deg);
 }
 
 .f05 {
-  left: 46%;
-  bottom: 16%;
-  transform: rotate(-4deg);
+  left: 47%;
+  bottom: 13%;
+  transform: rotate(-2deg);
 }
 
 .f06 {
-  right: 10%;
-  bottom: 18%;
-  transform: rotate(5deg);
+  right: 9%;
+  bottom: 17%;
+  transform: rotate(3deg);
 }
 
 .conceptMemoryLines svg {
@@ -809,17 +824,18 @@
 }
 
 .conceptMemoryLines line {
-  stroke: rgba(17, 18, 15, 0.16);
+  stroke: rgba(17, 18, 15, 0.09);
   stroke-width: 1;
 }
 
 .conceptHiddenNote {
   position: absolute;
-  top: 47%;
-  right: 7vw;
-  max-width: 330px;
-  font: italic 22px/1.4 Georgia, serif;
-  opacity: 0.34;
+  top: 49%;
+  right: 12vw;
+  max-width: 290px;
+  color: rgba(17, 18, 15, 0.42);
+  font: italic 20px/1.42 Georgia, serif;
+  opacity: 0.5;
 }
 
 .conceptAssembly {

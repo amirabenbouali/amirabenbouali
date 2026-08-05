@@ -15,16 +15,16 @@ const foldCells = Array.from({ length: 35 }, (_, index) => index);
 const tokens = ['SELECT', 'ideas', 'FROM', 'memory', 'WHERE'];
 const nameLetters = 'AMIRA BENBOUALI'.split('');
 const spans = [
-  [0, 0.13],
-  [0.115, 0.19],
-  [0.18, 0.4],
-  [0.385, 0.485],
-  [0.47, 0.69],
-  [0.675, 0.895],
-  [0.88, 0.935],
-  [0.925, 0.965],
-  [0.955, 0.985],
-  [0.975, 1]
+  [0, 0.07],
+  [0.06, 0.12],
+  [0.11, 0.3],
+  [0.29, 0.37],
+  [0.36, 0.55],
+  [0.54, 0.73],
+  [0.72, 0.83],
+  [0.82, 0.92],
+  [0.91, 0.96],
+  [0.95, 1]
 ] as const;
 
 const memoryFragments = [
@@ -147,7 +147,7 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
       const smy = smoothPointer.current.y;
       const vals = spans.map(([start, end]) => local(p, start, end));
 
-      const h = phase(vals[0], 0.42, 1);
+      const h = phase(vals[0], 0.5, 1);
       const po = vals[1];
       setLayer(hero.current, 1 - po * 1.4, 1 + po * 0.16, 0, -po * 25, po * 5);
       letterRefs.current.forEach((letter, index) => {
@@ -167,12 +167,12 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
 
       const a = vals[2];
       const foldProgress = vals[3];
-      const aIn = phase(a, 0, 0.2);
-      const aDrift = phase(a, 0.2, 0.62);
-      const aLeave = phase(a, 0.76, 1);
-      const foldIn = phase(foldProgress, 0, 0.25);
-      const foldMove = phase(foldProgress, 0.32, 1);
-      setLayer(atria.current, clamp(aIn * 1.45 - foldIn * 1.2), 0.78 + aIn * 0.22, 0, lerp(70, 0, aIn) - aLeave * 16, 0);
+      const aIn = phase(a, 0, 0.14);
+      const aDrift = phase(a, 0.16, 0.76);
+      const aLeave = phase(a, 0.86, 1);
+      const foldIn = phase(foldProgress, 0, 0.18);
+      const foldMove = phase(foldProgress, 0.5, 1);
+      setLayer(atria.current, clamp(aIn * 1.45 - foldIn * 2.4), 0.78 + aIn * 0.22, 0, lerp(70, 0, aIn) - aLeave * 16, 0);
       const rx = (smy - 0.5) * -5;
       const ry = (smx - 0.5) * 10;
       if (calendarWrap.current) {
@@ -193,7 +193,7 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
         timeLabel.current.textContent = smx < 0.33 ? 'morning · 06:42' : smx < 0.67 ? 'afternoon · 14:18' : 'night · 22:07';
       }
 
-      setLayer(fold.current, clamp(foldIn * 1.6 - vals[4] * 1.1));
+      setLayer(fold.current, clamp(foldIn * 1.6 - vals[4] * 2.4));
       foldRefs.current.forEach((cell, index) => {
         if (!cell) return;
         const col = index % 7;
@@ -207,12 +207,13 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
 
       const f = vals[4];
       const t = vals[5];
-      const fIn = phase(f, 0, 0.18);
-      const fIdle = phase(f, 0.18, 0.64);
-      const fTransform = phase(f, 0.72, 1);
-      const tIn = phase(t, 0, 0.18);
-      const tTransform = phase(t, 0.68, 1);
-      setLayer(foundry.current, clamp(fIn * 1.5 - tIn * 1.25), 0.9 + fIn * 0.1);
+      const fIn = phase(f, 0, 0.14);
+      const fIdle = phase(f, 0.16, 0.78);
+      const fTransform = phase(f, 0.84, 1);
+      const tIn = phase(t, 0, 0.14);
+      const tIdle = phase(t, 0.16, 0.76);
+      const tTransform = phase(t, 0.82, 1);
+      setLayer(foundry.current, clamp(fIn * 1.5 - tIn * 2.4), 0.9 + fIn * 0.1);
       const sig = Math.min(1, fIn * 0.22 + fTransform * 0.78);
       if (signal.current) signal.current.style.transform = `translate(${sig * 42}vw,${Math.sin(sig * Math.PI) * 18}vh)`;
       const breakPhase = phase(f, 0.76, 0.94);
@@ -228,7 +229,7 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
         }px)`;
       });
 
-      setLayer(terminal.current, clamp(tIn * 1.55 - vals[6] * 1.2), 0.92 + tIn * 0.08);
+      setLayer(terminal.current, clamp(tIn * 1.55 - vals[6] * 2.2), 0.92 + tIn * 0.08);
       if (cursorWorld.current) {
         cursorWorld.current.style.height = `${100 + tTransform * window.innerHeight * 0.65}px`;
         cursorWorld.current.style.transform = `translate(-50%,-50%) rotate(${tTransform * 90}deg)`;
@@ -237,13 +238,13 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
         if (!token) return;
         const angle = (index / 5) * Math.PI * 2;
         token.style.transform = `translate(${Math.cos(angle) * tTransform * 90}px,${
-          Math.sin(angle) * tTransform * 70 + Math.sin(p * Math.PI * 7 + index) * phase(t, 0.18, 0.66) * 4
+          Math.sin(angle) * tTransform * 70 + Math.sin(p * Math.PI * 7 + index) * tIdle * 4
         }px) rotate(${(index - 2) * tTransform * 3}deg)`;
       });
 
       const pi = vals[6];
       const m = vals[7];
-      setLayer(pipeline.current, clamp(pi * 1.55 - m * 1.2), 0.92 + pi * 0.08);
+      setLayer(pipeline.current, clamp(pi * 1.55 - m * 4.5), 0.92 + pi * 0.08);
       const travel = clamp(pi * 1.08);
       if (artifact.current) {
         artifact.current.style.left = `${10 + travel * 78}%`;
@@ -255,18 +256,18 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
         crack.current.style.transform = `scale(${0.8 + fail * 0.2})`;
       }
 
-      setLayer(memory.current, clamp(m * 1.55 - vals[8] * 1.2), 0.94 + m * 0.06);
+      setLayer(memory.current, clamp(m * 1.55 - vals[8] * 2), 0.94 + m * 0.06);
       fragmentRefs.current.forEach((fragment, index) => {
         if (!fragment) return;
-        const dx = (smx - 0.5) * (index % 2 ? 34 : -34);
-        const dy = (smy - 0.5) * (index % 3 ? 22 : -22);
+        const dx = (smx - 0.5) * (index % 2 ? 12 : -12);
+        const dy = (smy - 0.5) * (index % 3 ? 8 : -8);
         fragment.style.translate = `${dx}px ${dy}px`;
       });
       updateLines();
 
       const as = vals[8];
       const co = vals[9];
-      setLayer(assembly.current, clamp(as * 1.55 - co * 1.15), 0.9 + as * 0.1);
+      setLayer(assembly.current, clamp(as * 1.55 - co * 2), 0.9 + as * 0.1);
       pieceRefs.current.forEach((piece, index) => {
         if (!piece) return;
         const base = pieces[index];
@@ -288,23 +289,23 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
       setLayer(contact.current, clamp(co * 1.5), 0.94 + co * 0.06);
       if (stageLabel.current) {
         stageLabel.current.textContent =
-          p < 0.12
+          p < 0.06
             ? 'the unfinished thought'
-            : p < 0.19
+            : p < 0.12
               ? 'the letter becomes a passage'
-              : p < 0.4
+              : p < 0.3
                 ? 'atria · time becomes architecture'
-                : p < 0.485
+                : p < 0.37
                   ? 'the calendar folds'
-                  : p < 0.69
-                    ? 'foundry · the living system'
-                    : p < 0.895
+                : p < 0.55
+                  ? 'foundry · the living system'
+                    : p < 0.73
                       ? 'kansodb · language becomes matter'
-                      : p < 0.935
+                      : p < 0.83
                         ? 'mini ci · production dream'
-                        : p < 0.965
+                        : p < 0.92
                           ? 'about · fragments of amira'
-                          : p < 0.985
+                          : p < 0.96
                             ? 'everything returns'
                             : 'wake up · send a signal';
       }
