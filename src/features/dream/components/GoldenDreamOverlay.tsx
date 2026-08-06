@@ -10,10 +10,11 @@ type GoldenDreamOverlayProps = {
 };
 
 const letters = ['t', 'h', 'o', 'u', 'g', 'h', 't'];
-const days = Array.from({ length: 35 }, (_, index) => String(index + 1).padStart(2, '0'));
 const foldCells = Array.from({ length: 35 }, (_, index) => index);
 const tokens = ['SELECT', 'ideas', 'FROM', 'memory', 'WHERE'];
 const nameLetters = 'AMIRA BENBOUALI'.split('');
+const atriaWeekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+const atriaTasks = ['Review product notes', 'Prepare launch checklist', 'Refine recurring flow'];
 const spans = [
   [0, 0.07],
   [0.06, 0.12],
@@ -59,6 +60,7 @@ function phase(progress: number, start: number, end: number) {
 function setLayer(layer: HTMLElement | null, opacity: number, scale = 1, tx = 0, ty = 0, blur = 0) {
   if (!layer) return;
   layer.style.opacity = String(opacity);
+  layer.style.visibility = opacity < 0.002 ? 'hidden' : 'visible';
   layer.style.transform = `translate3d(${tx}px,${ty}px,0) scale(${scale})`;
   layer.style.filter = `blur(${blur}px)`;
   layer.classList.toggle(styles.conceptActive, opacity > 0.45);
@@ -137,7 +139,13 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
       });
     };
 
-    const frameLoop = () => {
+    let lastFrame = 0;
+
+    const frameLoop = (now = 0) => {
+      frame = requestAnimationFrame(frameLoop);
+      if (document.hidden || now - lastFrame < 16) return;
+      lastFrame = now;
+
       const p = clamp(progress.current);
       const mx = (pointer.current.targetX + 1) / 2;
       const my = (pointer.current.targetY + 1) / 2;
@@ -176,9 +184,9 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
       const rx = (smy - 0.5) * -5;
       const ry = (smx - 0.5) * 10;
       if (calendarWrap.current) {
-        calendarWrap.current.style.transform = `translate(-50%,-50%) perspective(1100px) rotateX(${7 + rx}deg) rotateY(${
-          -8 + ry
-        }deg) scale(${0.82 + aIn * 0.18 + Math.sin(p * Math.PI * 10) * aDrift * 0.004})`;
+        calendarWrap.current.style.transform = `perspective(1100px) rotateX(${5 + rx * 0.45}deg) rotateY(${
+          -4 + ry * 0.42
+        }deg) scale(${0.96 + aIn * 0.04 + Math.sin(p * Math.PI * 10) * aDrift * 0.004})`;
       }
       const hue = lerp(40, 215, smx);
       if (atria.current) {
@@ -311,10 +319,9 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
                             : 'wake up · send a signal';
       }
 
-      frame = requestAnimationFrame(frameLoop);
     };
 
-    frameLoop();
+    frame = requestAnimationFrame(frameLoop);
     return () => cancelAnimationFrame(frame);
   }, [pieces, pointer]);
 
@@ -361,27 +368,93 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
 
         <section ref={atria} className={`${styles.conceptLayer} ${styles.conceptAtria}`}>
           <div className={styles.conceptAtriaFog} />
-          <div className={styles.conceptSceneTitle}>
-            <small>001 · Atria</small>
-            <h2>
-              Time becomes
-              <br />
-              <em>architecture.</em>
-            </h2>
-            <p>Days become rooms. Events become light. The cursor changes the hour of the dream.</p>
-          </div>
-          <div ref={sun} className={styles.conceptSun} />
-          <div ref={calendarWrap} className={styles.conceptCalendarWrap}>
-            <div className={styles.conceptCalendar}>
-              {days.map((day) => (
-                <div key={day} className={styles.conceptDay} data-day={day}>
-                  <div className={styles.conceptEvent} />
+          <div className={styles.conceptAtriaLayout}>
+            <div className={styles.conceptAtriaCopy}>
+              <small>001 · Atria · planning environment</small>
+              <h2>
+                Time becomes
+                <br />
+                <em>architecture.</em>
+              </h2>
+              <p>
+                Atria is a calm calendar and task-planning workspace designed to reduce visual noise while still supporting
+                detailed organisation.
+              </p>
+              <dl className={styles.conceptAtriaMeta}>
+                <div>
+                  <dt>Role</dt>
+                  <dd>Product design and frontend engineering</dd>
                 </div>
-              ))}
+                <div>
+                  <dt>Stack</dt>
+                  <dd>React, TypeScript, Vite, Zustand, date-fns, Framer Motion</dd>
+                </div>
+                <div>
+                  <dt>Focus</dt>
+                  <dd>Calendar interactions, local-first state, recurring events</dd>
+                </div>
+                <div>
+                  <dt>Status</dt>
+                  <dd>Personal product</dd>
+                </div>
+              </dl>
+            </div>
+            <div ref={calendarWrap} className={styles.conceptAtriaWorkspace}>
+              <div className={styles.conceptAtriaOrbit} />
+              <div className={`${styles.conceptAtriaLine} ${styles.al1}`} />
+              <div className={`${styles.conceptAtriaLine} ${styles.al2}`} />
+              <div className={styles.conceptWorkspaceShell}>
+                <div className={styles.conceptWorkspaceHead}>
+                  <span>Atria</span>
+                  <div>
+                    <span>Calm</span>
+                    <span>Balanced</span>
+                    <span>Planner</span>
+                  </div>
+                </div>
+                <div className={styles.conceptWorkspaceBody}>
+                  <div className={styles.conceptWeekPanel}>
+                    <div className={styles.conceptWeekHeader}>
+                      <span>September</span>
+                      <strong>Planning should create clarity, not pressure.</strong>
+                    </div>
+                    <div className={styles.conceptWeekGrid}>
+                      {atriaWeekDays.map((day, index) => (
+                        <div key={day} className={`${styles.conceptWeekDay} ${index === 2 ? styles.conceptSelectedDay : ''}`}>
+                          <b>{day}</b>
+                          <span>{9 + index}</span>
+                          {index === 1 ? <div className={`${styles.conceptAtriaEvent} ${styles.ae1}`}>Design critique</div> : null}
+                          {index === 2 ? (
+                            <div className={`${styles.conceptAtriaEvent} ${styles.ae2}`}>
+                              Product review <i>↻</i>
+                            </div>
+                          ) : null}
+                          {index === 4 ? <div className={`${styles.conceptAtriaEvent} ${styles.ae3}`}>Deep work</div> : null}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <aside className={styles.conceptTaskSidebar}>
+                    <div className={styles.conceptTodayCard}>
+                      <span>Today</span>
+                      <strong>3 events · 4 tasks</strong>
+                      <p>Next calm block begins at 14:00.</p>
+                    </div>
+                    <ul>
+                      {atriaTasks.map((task) => (
+                        <li key={task}>{task}</li>
+                      ))}
+                    </ul>
+                  </aside>
+                </div>
+                <div className={styles.conceptCommandPalette}>
+                  <span>⌘K</span>
+                  <strong>Reschedule recurring planning block</strong>
+                </div>
+              </div>
             </div>
           </div>
-          <div className={`${styles.conceptAtriaWord} ${styles.conceptAw1}`}>a quiet place for unfinished weeks</div>
-          <div className={`${styles.conceptAtriaWord} ${styles.conceptAw2}`}>the building remembers tomorrow</div>
+          <div ref={sun} className={styles.conceptSun} />
           <div ref={timeLabel} className={styles.conceptTime}>
             morning · 06:42
           </div>

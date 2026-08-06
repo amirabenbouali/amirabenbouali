@@ -83,7 +83,7 @@ export function createDreamTimeline(root: HTMLElement) {
     trigger: root,
     start: 'top top',
     end: 'bottom bottom',
-    scrub: 1.2,
+    scrub: 0.35,
     onUpdate: (self) => setDreamTimelineProgress(self.progress)
   });
 
