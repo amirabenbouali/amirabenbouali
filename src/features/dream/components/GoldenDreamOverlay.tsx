@@ -37,6 +37,42 @@ const memoryFragments = [
   ['Building', 'the part I return to every day', 'f06']
 ] as const;
 
+const foundryNodes = [
+  {
+    label: 'Domain',
+    title: 'Payments',
+    details: ['Owner · Amira', 'Health · 98%'],
+    className: 'n1'
+  },
+  {
+    label: 'Incident',
+    title: 'Payment latency spike',
+    details: ['Severity · SEV-2', 'Status · Investigating'],
+    className: 'n2'
+  },
+  {
+    label: 'Readiness',
+    title: 'Notification pipeline',
+    details: ['Rollout · 25%', 'Tests · Passed'],
+    className: 'n3'
+  },
+  {
+    label: 'Monitoring',
+    title: 'API latency',
+    details: ['P95 · 184ms', 'Status · Healthy'],
+    className: 'n4'
+  }
+] as const;
+
+const foundryDashboardPanels = [
+  ['Domains', 'Payments', 'Owner Amira · 98% health'],
+  ['Incidents', 'Latency spike', 'SEV-2 · Investigating'],
+  ['Deployments', 'Checkout service', 'Staged · 3 checks'],
+  ['Readiness', 'Notification pipeline', '25% rollout · tests passed'],
+  ['Monitoring', 'API latency', 'P95 184ms · healthy'],
+  ['Triage queue', '2 open signals', 'Impact sorted · owner assigned']
+] as const;
+
 function clamp(value: number, min = 0, max = 1) {
   return Math.max(min, Math.min(max, value));
 }
@@ -223,13 +259,18 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
       const tTransform = phase(t, 0.82, 1);
       setLayer(foundry.current, clamp(fIn * 1.5 - tIn * 2.4), 0.9 + fIn * 0.1);
       const sig = Math.min(1, fIn * 0.22 + fTransform * 0.78);
-      if (signal.current) signal.current.style.transform = `translate(${sig * 42}vw,${Math.sin(sig * Math.PI) * 18}vh)`;
+      const foundryResolve = phase(f, 0.62, 0.94);
+      if (foundry.current) foundry.current.style.setProperty('--foundry-resolve', foundryResolve.toFixed(3));
+      if (signal.current) signal.current.style.transform = `translate(${sig * 32}vw,${Math.sin(sig * Math.PI) * 18}vh)`;
+      if (signal.current) signal.current.style.opacity = String(1 - foundryResolve * 0.82);
       const breakPhase = phase(f, 0.76, 0.94);
       if (fracture.current) {
         fracture.current.style.height = `${breakPhase * 180}px`;
-        fracture.current.style.opacity = String(breakPhase);
+        fracture.current.style.opacity = String(breakPhase * (1 - foundryResolve * 0.9));
       }
-      if (foundryStatus.current) foundryStatus.current.textContent = breakPhase > 0.7 ? 'rerouting · restoring coherence' : 'system coherent';
+      if (foundryStatus.current) {
+        foundryStatus.current.textContent = foundryResolve > 0.68 ? 'operations dashboard resolved' : 'system responsibilities connecting';
+      }
       nodeRefs.current.forEach((node, index) => {
         if (!node) return;
         node.style.transform = `translate(${(smx - 0.5) * (index % 2 ? 18 : -18)}px,${
@@ -475,38 +516,72 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
         </section>
 
         <section ref={foundry} className={`${styles.conceptLayer} ${styles.conceptFoundry}`}>
-          <div className={styles.conceptSceneTitle}>
+          <div className={`${styles.conceptSceneTitle} ${styles.conceptFoundryTitle}`}>
             <small>002 · Foundry</small>
             <h2>
               The grid becomes
               <br />a <em>living system.</em>
             </h2>
-            <p>Ownership, incidents and deployment readiness become architecture you can move through.</p>
+            <p>
+              Foundry is an engineering operations platform for managing service ownership, incidents, deployment readiness and
+              operational health in one place.
+            </p>
+            <p>
+              Built to simulate how core engineering teams plan, ship, monitor and maintain production systems.
+            </p>
+            <dl className={styles.conceptFoundryMeta}>
+              <div>
+                <dt>Role</dt>
+                <dd>Product design · Frontend architecture · Backend systems</dd>
+              </div>
+              <div>
+                <dt>Stack</dt>
+                <dd>Next.js · TypeScript · PostgreSQL · Prisma · Vitest · Playwright</dd>
+              </div>
+            </dl>
+            <a href="/work/foundry" className={styles.conceptFoundryCta}>
+              View Foundry case study ↗
+            </a>
           </div>
           <div className={styles.conceptGraph}>
-            {[
-              ['domain', 'payments', 'n1'],
-              ['readiness', 'production safe', 'n2'],
-              ['monitoring', 'healthy', 'n3'],
-              ['issue', 'signal instability', 'n4']
-            ].map(([label, value, className], index) => (
+            {foundryNodes.map((node, index) => (
               <div
-                key={label}
+                key={node.label}
                 ref={(node) => {
                   nodeRefs.current[index] = node;
                 }}
-                className={`${styles.conceptNode} ${styles[className]}`}
+                className={`${styles.conceptNode} ${styles[node.className]}`}
               >
-                {label}
-                <b>{value}</b>
+                <span>{node.label}</span>
+                <b>{node.title}</b>
+                {node.details.map((detail) => (
+                  <small key={detail}>{detail}</small>
+                ))}
               </div>
             ))}
-            <div className={`${styles.conceptEdge} ${styles.e1}`} />
-            <div className={`${styles.conceptEdge} ${styles.e2}`} />
-            <div className={`${styles.conceptEdge} ${styles.e3}`} />
-            <div className={`${styles.conceptEdge} ${styles.e4}`} />
+            <svg className={styles.conceptGraphLines} viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+              <line x1="26" y1="26" x2="76" y2="32" />
+              <line x1="20" y1="32" x2="20" y2="71" />
+              <line x1="29" y1="75" x2="71" y2="72" />
+              <line x1="84" y1="39" x2="80" y2="67" />
+            </svg>
             <div ref={signal} className={styles.conceptSignal} />
             <div ref={fracture} className={styles.conceptFracture} />
+          </div>
+          <div className={styles.conceptFoundryDashboard} aria-hidden="true">
+            <div className={styles.conceptFoundryDashboardHeader}>
+              <span>Foundry operations</span>
+              <b>Production readiness</b>
+            </div>
+            <div className={styles.conceptFoundryDashboardGrid}>
+              {foundryDashboardPanels.map(([label, title, detail]) => (
+                <div key={label} className={styles.conceptFoundryPanel}>
+                  <span>{label}</span>
+                  <b>{title}</b>
+                  <small>{detail}</small>
+                </div>
+              ))}
+            </div>
           </div>
           <div ref={foundryStatus} className={styles.conceptFoundryStatus}>
             system coherent
