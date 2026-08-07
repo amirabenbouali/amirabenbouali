@@ -1,5 +1,3 @@
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
   getAdjacentScenes,
   getLocalSceneProgress,
@@ -61,35 +59,28 @@ export function setDreamTimelineProgress(progress: number) {
 }
 
 export function createDreamTimeline(root: HTMLElement) {
-  if (typeof window.matchMedia !== 'function') {
-    const update = () => {
-      const max = Math.max(1, root.offsetHeight - window.innerHeight);
-      setDreamTimelineProgress(window.scrollY / max);
-    };
+  let frame = 0;
+  let queued = false;
 
-    update();
-    window.addEventListener('scroll', update, { passive: true });
-    window.addEventListener('resize', update);
+  const measure = () => {
+    queued = false;
+    const max = Math.max(1, root.offsetHeight - window.innerHeight);
+    setDreamTimelineProgress(window.scrollY / max);
+  };
 
-    return () => {
-      window.removeEventListener('scroll', update);
-      window.removeEventListener('resize', update);
-    };
-  }
+  const queueMeasure = () => {
+    if (queued) return;
+    queued = true;
+    frame = window.requestAnimationFrame(measure);
+  };
 
-  gsap.registerPlugin(ScrollTrigger);
-
-  const trigger = ScrollTrigger.create({
-    trigger: root,
-    start: 'top top',
-    end: 'bottom bottom',
-    scrub: 0.35,
-    onUpdate: (self) => setDreamTimelineProgress(self.progress)
-  });
-
-  setDreamTimelineProgress(trigger.progress);
+  measure();
+  window.addEventListener('scroll', queueMeasure, { passive: true });
+  window.addEventListener('resize', queueMeasure);
 
   return () => {
-    trigger.kill();
+    window.cancelAnimationFrame(frame);
+    window.removeEventListener('scroll', queueMeasure);
+    window.removeEventListener('resize', queueMeasure);
   };
 }

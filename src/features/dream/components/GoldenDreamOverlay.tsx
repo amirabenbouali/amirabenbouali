@@ -164,6 +164,8 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
 
   useEffect(() => {
     let frame = 0;
+    let lastFrame = 0;
+    let isRunning = false;
 
     const updateLines = () => {
       const pairs = [
@@ -186,11 +188,21 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
       });
     };
 
-    let lastFrame = 0;
+    const stopLoop = () => {
+      if (!frame) return;
+      cancelAnimationFrame(frame);
+      frame = 0;
+      isRunning = false;
+    };
 
     const frameLoop = (now = 0) => {
+      if (document.hidden) {
+        stopLoop();
+        return;
+      }
+
       frame = requestAnimationFrame(frameLoop);
-      if (document.hidden || now - lastFrame < 16) return;
+      if (now - lastFrame < 16) return;
       lastFrame = now;
 
       const p = clamp(progress.current);
@@ -321,14 +333,15 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
         crack.current.style.transform = `scale(${0.8 + fail * 0.2})`;
       }
 
-      setLayer(memory.current, clamp(m * 1.55 - vals[8] * 2), 0.94 + m * 0.06);
+      const memoryOpacity = clamp(m * 1.55 - vals[8] * 2);
+      setLayer(memory.current, memoryOpacity, 0.94 + m * 0.06);
       fragmentRefs.current.forEach((fragment, index) => {
         if (!fragment) return;
         const dx = (smx - 0.5) * (index % 2 ? 12 : -12);
         const dy = (smy - 0.5) * (index % 3 ? 8 : -8);
         fragment.style.translate = `${dx}px ${dy}px`;
       });
-      updateLines();
+      if (memoryOpacity > 0.05) updateLines();
 
       const as = vals[8];
       const co = vals[9];
@@ -377,8 +390,28 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
 
     };
 
-    frame = requestAnimationFrame(frameLoop);
-    return () => cancelAnimationFrame(frame);
+    const startLoop = () => {
+      if (isRunning || document.hidden) return;
+      isRunning = true;
+      lastFrame = 0;
+      frame = requestAnimationFrame(frameLoop);
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        stopLoop();
+      } else {
+        startLoop();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    startLoop();
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      stopLoop();
+    };
   }, [pieces, pointer]);
 
   const restart = () => window.scrollTo({ top: 0, behavior: 'smooth' });

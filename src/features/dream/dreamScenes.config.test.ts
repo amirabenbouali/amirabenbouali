@@ -35,8 +35,8 @@ describe('dream scene configuration', () => {
     }
   });
 
-  it('keeps the opening brisk and gives the ending room', () => {
-    expect(dreamScrollLength).toBeGreaterThanOrEqual(5200);
+  it('keeps the scroll runway concise while preserving scene reading beats', () => {
+    expect(dreamScrollLength).toBe(1600);
     expect(sceneSpan('opening')).toBeLessThanOrEqual(0.08);
     expect(sceneSpan('mini-ci')).toBeGreaterThanOrEqual(0.1);
     expect(sceneSpan('memory')).toBeGreaterThanOrEqual(0.09);
