@@ -11,7 +11,6 @@ type GoldenDreamOverlayProps = {
 
 const letters = ['t', 'h', 'o', 'u', 'g', 'h', 't'];
 const foldCells = Array.from({ length: 35 }, (_, index) => index);
-const tokens = ['SELECT', 'ideas', 'FROM', 'memory', 'WHERE'];
 const nameLetters = 'AMIRA BENBOUALI'.split('');
 const atriaWeekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 const atriaTasks = ['Review product notes', 'Prepare launch checklist', 'Refine recurring flow'];
@@ -73,6 +72,19 @@ const foundryDashboardPanels = [
   ['Triage queue', '2 open signals', 'Impact sorted · owner assigned']
 ] as const;
 
+const kansoPipelineCards = [
+  ['01 · Tokenizer', '8 tokens', 'Keywords, identifiers, operator and literal are separated.'],
+  ['02 · Parser', 'SelectStatement', 'Tokens become a structured syntax tree.'],
+  ['03 · Executor', '3 rows matched', 'The AST is evaluated against the in-memory tables.'],
+  ['04 · Status', '2.4 ms', 'Query complete · no errors.']
+] as const;
+
+const kansoResults = [
+  ['build a SQL engine', 'unfinished'],
+  ['redesign the parser', 'unfinished'],
+  ['add query optimisation', 'unfinished']
+] as const;
+
 function clamp(value: number, min = 0, max = 1) {
   return Math.max(min, Math.min(max, value));
 }
@@ -128,7 +140,6 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
   const letterRefs = useRef<Array<HTMLSpanElement | null>>([]);
   const foldRefs = useRef<Array<HTMLDivElement | null>>([]);
   const nodeRefs = useRef<Array<HTMLDivElement | null>>([]);
-  const tokenRefs = useRef<Array<HTMLDivElement | null>>([]);
   const fragmentRefs = useRef<Array<HTMLDivElement | null>>([]);
   const pieceRefs = useRef<Array<HTMLDivElement | null>>([]);
   const nameRefs = useRef<Array<HTMLSpanElement | null>>([]);
@@ -255,7 +266,6 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
       const fIdle = phase(f, 0.16, 0.78);
       const fTransform = phase(f, 0.84, 1);
       const tIn = phase(t, 0, 0.14);
-      const tIdle = phase(t, 0.16, 0.76);
       const tTransform = phase(t, 0.82, 1);
       setLayer(foundry.current, clamp(fIn * 1.5 - tIn * 2.4), 0.9 + fIn * 0.1);
       const sig = Math.min(1, fIn * 0.22 + fTransform * 0.78);
@@ -279,17 +289,22 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
       });
 
       setLayer(terminal.current, clamp(tIn * 1.55 - vals[6] * 4), 0.92 + tIn * 0.08);
+      const orbitOut = phase(t, 0.15, 0.27);
+      const pipelineIn = phase(t, 0.23, 0.34);
+      const pipelineOut = phase(t, 0.43, 0.54);
+      const astIn = phase(t, 0.5, 0.61);
+      const astOut = phase(t, 0.69, 0.79);
+      const resultPhase = phase(t, 0.72, 0.92);
+      if (terminal.current) {
+        terminal.current.style.setProperty('--kanso-orbit', (1 - orbitOut).toFixed(3));
+        terminal.current.style.setProperty('--kanso-pipeline', (pipelineIn * (1 - pipelineOut)).toFixed(3));
+        terminal.current.style.setProperty('--kanso-ast', (astIn * (1 - astOut)).toFixed(3));
+        terminal.current.style.setProperty('--kanso-result', resultPhase.toFixed(3));
+      }
       if (cursorWorld.current) {
-        cursorWorld.current.style.height = `${100 + tTransform * window.innerHeight * 0.65}px`;
+        cursorWorld.current.style.height = `${120 + tTransform * window.innerHeight * 0.18}px`;
         cursorWorld.current.style.transform = `translate(-50%,-50%) rotate(${tTransform * 90}deg)`;
       }
-      tokenRefs.current.forEach((token, index) => {
-        if (!token) return;
-        const angle = (index / 5) * Math.PI * 2;
-        token.style.transform = `translate(${Math.cos(angle) * tTransform * 90}px,${
-          Math.sin(angle) * tTransform * 70 + Math.sin(p * Math.PI * 7 + index) * tIdle * 4
-        }px) rotate(${(index - 2) * tTransform * 3}deg)`;
-      });
 
       const pi = vals[6];
       const m = vals[7];
@@ -589,39 +604,106 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
         </section>
 
         <section ref={terminal} className={`${styles.conceptLayer} ${styles.conceptTerminal}`}>
-          <div className={styles.conceptSceneTitle}>
+          <div className={`${styles.conceptSceneTitle} ${styles.conceptKansoTitle}`}>
             <small>003 · kansoDB</small>
             <h2>
               A signal becomes
               <br />
               <em>language.</em>
             </h2>
-            <p>The query is no longer text. It becomes the world the visitor travels through.</p>
-          </div>
-          <div ref={cursorWorld} className={styles.conceptCursorWorld} />
-          <div className={styles.conceptQuery}>
-            <span className={styles.kw}>SELECT</span> <span className={styles.obj}>ideas</span>
-            {'\n'}
-            <span className={styles.kw}>FROM</span> <span className={styles.obj}>memory</span>
-            {'\n'}
-            <span className={styles.kw}>WHERE</span> <span className={styles.cond}>status = 'unfinished';</span>
-          </div>
-          <div className={styles.conceptTokenWorld}>
-            {tokens.map((token, index) => (
-              <div
-                key={token}
-                ref={(node) => {
-                  tokenRefs.current[index] = node;
-                }}
-                className={`${styles.conceptTokenBlock} ${styles[`tb${index + 1}`]}`}
-              >
-                {token}
+            <p>
+              KansoDB is a lightweight SQL query engine that tokenises, parses and executes queries against an in-memory database.
+            </p>
+            <p>
+              Built from scratch to explore how database systems transform declarative language into structured execution.
+            </p>
+            <dl className={styles.conceptKansoMeta}>
+              <div>
+                <dt>Engineering focus</dt>
+                <dd>Lexing · Parsing · AST design · Query execution · Error handling</dd>
               </div>
-            ))}
-            <div className={styles.conceptAstTrunk} />
-            <div className={`${styles.conceptAstBranch} ${styles.b1}`} />
-            <div className={`${styles.conceptAstBranch} ${styles.b2}`} />
-            <div className={`${styles.conceptAstBranch} ${styles.b3}`} />
+              <div>
+                <dt>Stack</dt>
+                <dd>Ruby · SQL · RSpec · CLI</dd>
+              </div>
+            </dl>
+            <a href="/work/kansodb" className={styles.conceptKansoCta}>
+              Explore the query engine ↗
+            </a>
+          </div>
+          <div className={styles.conceptKansoEngine}>
+            <div className={styles.conceptQueryOrbit}>
+              <div className={`${styles.conceptOrbitWord} ${styles.kansoWordOne}`}>SELECT</div>
+              <div className={`${styles.conceptOrbitWord} ${styles.kansoWordTwo}`}>FROM</div>
+              <div className={`${styles.conceptOrbitWord} ${styles.kansoWordThree}`}>WHERE</div>
+              <div className={`${styles.conceptOrbitWord} ${styles.kansoWordFour}`}>memory</div>
+              <div ref={cursorWorld} className={styles.conceptCursorWorld} />
+              <div className={`${styles.conceptAstBranch} ${styles.b1}`} />
+              <div className={`${styles.conceptAstBranch} ${styles.b2}`} />
+              <div className={`${styles.conceptAstBranch} ${styles.b3}`} />
+              <div className={styles.conceptQuery}>
+                <span className={styles.kw}>SELECT</span> <span className={styles.obj}>ideas</span>
+                {'\n'}
+                <span className={styles.kw}>FROM</span> <span className={styles.obj}>memory</span>
+                {'\n'}
+                <span className={styles.kw}>WHERE</span> <span className={styles.obj}>status</span> ={' '}
+                <span className={styles.cond}>'unfinished'</span>;
+              </div>
+            </div>
+            <div className={styles.conceptKansoPipeline}>
+              <div className={styles.conceptKansoPipelineRow}>
+                {kansoPipelineCards.map(([label, title, body]) => (
+                  <div key={label} className={styles.conceptKansoPipelineCard}>
+                    <small>{label}</small>
+                    <b>{title}</b>
+                    <span>{body}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className={styles.conceptAstPanel}>
+              <div className={styles.conceptAstBox}>
+                <small>Abstract syntax tree</small>
+                <pre>
+                  <strong>SelectStatement</strong>
+                  {'\n'}├── columns
+                  {'\n'}│   └── Identifier("ideas")
+                  {'\n'}├── source
+                  {'\n'}│   └── Table("memory")
+                  {'\n'}└── condition
+                  {'\n'}    ├── Identifier("status")
+                  {'\n'}    ├── Operator("=")
+                  {'\n'}    └── Literal("unfinished")
+                </pre>
+              </div>
+            </div>
+            <div className={styles.conceptResultPanel}>
+              <div className={styles.conceptResultCard}>
+                <div className={styles.conceptResultHeader}>
+                  <div>
+                    <small>Execution result</small>
+                    <h3>Meaning emerges.</h3>
+                  </div>
+                  <span>3 rows · 2.4 ms</span>
+                </div>
+                <table className={styles.conceptResultTable}>
+                  <thead>
+                    <tr>
+                      <th>ideas</th>
+                      <th>status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {kansoResults.map(([idea, status]) => (
+                      <tr key={idea}>
+                        <td>{idea}</td>
+                        <td>{status}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </div>
         </section>
 
