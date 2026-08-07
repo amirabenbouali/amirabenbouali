@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties, FormEvent, MutableRefObject } from 'react';
 import type { DreamTimelineSnapshot } from '../timeline/dreamTimeline';
 import type { PointerInfluenceRef } from './PointerInfluence';
@@ -12,8 +12,12 @@ type GoldenDreamOverlayProps = {
 const letters = ['t', 'h', 'o', 'u', 'g', 'h', 't'];
 const foldCells = Array.from({ length: 35 }, (_, index) => index);
 const nameLetters = 'AMIRA BENBOUALI'.split('');
-const atriaWeekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-const atriaTasks = ['Review product notes', 'Prepare launch checklist', 'Refine recurring flow'];
+const atriaWeekDays = ['Mon', 'Tue', 'Wed', 'Thu'];
+const atriaModes = [
+  ['Calm', 'Only what matters now. More space, fewer decisions.'],
+  ['Balanced', 'A readable week with tasks and events in context.'],
+  ['Planner', 'Dense scheduling, time blocks and detailed planning.']
+] as const;
 const spans = [
   [0, 0.07],
   [0.06, 0.12],
@@ -249,11 +253,19 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
       }
       const hue = lerp(40, 215, smx);
       if (atria.current) {
-        atria.current.style.background = `radial-gradient(circle at ${35 + smx * 30}% 35%,hsla(${hue},35%,55%,.12),transparent 28%),linear-gradient(180deg,hsl(${hue},20%,${lerp(
-          11,
-          6,
-          smx
-        )}%),#050605)`;
+        const calendarExit = phase(a, 0.36, 0.54);
+        const modeIn = phase(a, 0.42, 0.58);
+        const modeOut = phase(a, 0.6, 0.74);
+        const workspaceIn = phase(a, 0.68, 0.82);
+        atria.current.style.setProperty('--atria-progress', a.toFixed(3));
+        atria.current.style.setProperty('--atria-calendar', String(clamp(1 - calendarExit)));
+        atria.current.style.setProperty('--atria-calendar-exit', calendarExit.toFixed(3));
+        atria.current.style.setProperty('--atria-modes', String(modeIn * (1 - modeOut)));
+        atria.current.style.setProperty('--atria-modes-in', modeIn.toFixed(3));
+        atria.current.style.setProperty('--atria-modes-out', modeOut.toFixed(3));
+        atria.current.style.setProperty('--atria-workspace', String(workspaceIn));
+        atria.current.style.setProperty('--atria-hue', hue.toFixed(1));
+        atria.current.style.background = `radial-gradient(circle at ${55 + smx * 24}% 43%,rgba(185,140,143,.12),transparent 32%),linear-gradient(rgba(75,74,66,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(75,74,66,.035) 1px,transparent 1px),#f3eee7`;
       }
       if (sun.current) sun.current.style.transform = `translate(${(smx - 0.5) * 60}px,${(smy - 0.5) * 28 + Math.sin(p * Math.PI * 8) * aDrift * 8}px)`;
       if (timeLabel.current) {
@@ -459,87 +471,142 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
           <div className={styles.conceptAtriaFog} />
           <div className={styles.conceptAtriaLayout}>
             <div className={styles.conceptAtriaCopy}>
-              <small>001 · Atria · planning environment</small>
+              <small>001 · Atria</small>
               <h2>
-                Time becomes
+                The room becomes
                 <br />
-                <em>architecture.</em>
+                <em>a calendar.</em>
               </h2>
               <p>
-                Atria is a calm calendar and task-planning workspace designed to reduce visual noise while still supporting
-                detailed organisation.
+                Atria is a planning environment for events, tasks and weekly reflection, designed to make busy schedules easier
+                to understand and rearrange.
+              </p>
+              <p className={styles.conceptAtriaSecondary}>
+                The interface adapts to how much structure you need — from a quiet daily view to a dense planning workspace.
               </p>
               <dl className={styles.conceptAtriaMeta}>
                 <div>
-                  <dt>Role</dt>
-                  <dd>Product design and frontend engineering</dd>
+                  <dt>Product</dt>
+                  <dd>Calendar · Tasks · Recurring events · Insights · Weekly review</dd>
                 </div>
                 <div>
-                  <dt>Stack</dt>
-                  <dd>React, TypeScript, Vite, Zustand, date-fns, Framer Motion</dd>
-                </div>
-                <div>
-                  <dt>Focus</dt>
-                  <dd>Calendar interactions, local-first state, recurring events</dd>
-                </div>
-                <div>
-                  <dt>Status</dt>
-                  <dd>Personal product</dd>
+                  <dt>Engineering</dt>
+                  <dd>React · TypeScript · Zustand · date-fns · Framer Motion · dnd-kit</dd>
                 </div>
               </dl>
+              <a className={styles.conceptAtriaCta} href="/work/atria">
+                Explore Atria ↗
+              </a>
             </div>
             <div ref={calendarWrap} className={styles.conceptAtriaWorkspace}>
               <div className={styles.conceptAtriaOrbit} />
               <div className={`${styles.conceptAtriaLine} ${styles.al1}`} />
               <div className={`${styles.conceptAtriaLine} ${styles.al2}`} />
+              <div className={styles.conceptAtriaCalendarShell}>
+                <div className={styles.conceptAtriaCalendar}>
+                  <div className={styles.conceptAtriaCorner} />
+                  {atriaWeekDays.map((day) => (
+                    <div key={day} className={styles.conceptAtriaDay}>
+                      {day}
+                    </div>
+                  ))}
+                  {['09', '11', '14', '16', '18'].map((time, row) => (
+                    <Fragment key={time}>
+                      <div className={styles.conceptAtriaTimeCell}>{time}</div>
+                      {atriaWeekDays.map((day, col) => {
+                        const key = `${day}-${time}`;
+                        return (
+                          <div key={key} className={styles.conceptAtriaCell}>
+                            {row === 0 && col === 0 ? (
+                              <div className={`${styles.conceptAtriaEvent} ${styles.ae1}`}>
+                                <b>Deep work</b>
+                                <span>09:00–11:00</span>
+                              </div>
+                            ) : null}
+                            {row === 1 && col === 1 ? (
+                              <div className={`${styles.conceptAtriaEvent} ${styles.ae2}`}>
+                                <b>Design review</b>
+                                <span>11:30</span>
+                              </div>
+                            ) : null}
+                            {row === 2 && col === 2 ? (
+                              <div className={`${styles.conceptAtriaEvent} ${styles.ae3}`}>
+                                <b>Project review</b>
+                                <span>14:00</span>
+                              </div>
+                            ) : null}
+                            {row === 3 && col === 3 ? (
+                              <div className={`${styles.conceptAtriaEvent} ${styles.ae4}`}>
+                                <b>Weekly reflection</b>
+                                <span>16:30</span>
+                              </div>
+                            ) : null}
+                            {row === 4 && col === 0 ? (
+                              <div className={`${styles.conceptAtriaEvent} ${styles.ae5}`}>
+                                <b>Run</b>
+                                <span>18:00</span>
+                              </div>
+                            ) : null}
+                          </div>
+                        );
+                      })}
+                    </Fragment>
+                  ))}
+                </div>
+                <div className={styles.conceptAtriaNote}>Move “Project review” to Wednesday?</div>
+              </div>
+              <div className={styles.conceptAtriaModePanel}>
+                <div className={styles.conceptAtriaModeCard}>
+                  <small>How much structure do you need today?</small>
+                  <div className={styles.conceptAtriaModes}>
+                    {atriaModes.map(([mode, copy]) => (
+                      <div key={mode} className={mode === 'Balanced' ? styles.conceptAtriaModeActive : styles.conceptAtriaMode}>
+                        <b>{mode}</b>
+                        <span>{copy}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <p>Atria changes its density without changing your data. The same week can feel quiet, balanced or highly structured.</p>
+                </div>
+              </div>
               <div className={styles.conceptWorkspaceShell}>
-                <div className={styles.conceptWorkspaceHead}>
-                  <span>Atria</span>
-                  <div>
-                    <span>Calm</span>
-                    <span>Balanced</span>
-                    <span>Planner</span>
+                <aside className={styles.conceptWorkspaceSidebar}>
+                  <div>atria.</div>
+                  <nav>
+                    <strong>Today</strong>
+                    <span>Calendar</span>
+                    <span>Tasks</span>
+                    <span>Insights</span>
+                    <span>Weekly review</span>
+                    <span>Settings</span>
+                  </nav>
+                </aside>
+                <main className={styles.conceptWorkspaceMain}>
+                  <div className={styles.conceptWorkspaceHead}>
+                    <h3>Your week</h3>
+                    <span>Balanced mode</span>
                   </div>
-                </div>
-                <div className={styles.conceptWorkspaceBody}>
-                  <div className={styles.conceptWeekPanel}>
-                    <div className={styles.conceptWeekHeader}>
-                      <span>September</span>
-                      <strong>Planning should create clarity, not pressure.</strong>
-                    </div>
-                    <div className={styles.conceptWeekGrid}>
-                      {atriaWeekDays.map((day, index) => (
-                        <div key={day} className={`${styles.conceptWeekDay} ${index === 2 ? styles.conceptSelectedDay : ''}`}>
-                          <b>{day}</b>
-                          <span>{9 + index}</span>
-                          {index === 1 ? <div className={`${styles.conceptAtriaEvent} ${styles.ae1}`}>Design critique</div> : null}
-                          {index === 2 ? (
-                            <div className={`${styles.conceptAtriaEvent} ${styles.ae2}`}>
-                              Product review <i>↻</i>
-                            </div>
-                          ) : null}
-                          {index === 4 ? <div className={`${styles.conceptAtriaEvent} ${styles.ae3}`}>Deep work</div> : null}
-                        </div>
-                      ))}
-                    </div>
+                  <div className={styles.conceptWorkspaceWeek}>
+                    {['Monday', 'Tuesday', 'Wednesday', 'Thursday'].map((day, index) => (
+                      <div key={day} className={styles.conceptWorkspaceDay}>
+                        <small>{day}</small>
+                        {index === 0 ? (
+                          <>
+                            <div className={styles.conceptWorkspaceTask}>Deep work<br />09:00</div>
+                            <div className={styles.conceptWorkspaceTaskSage}>Run<br />18:00</div>
+                          </>
+                        ) : null}
+                        {index === 1 ? <div className={styles.conceptWorkspaceTaskSage}>Design review<br />11:30</div> : null}
+                        {index === 2 ? <div className={styles.conceptWorkspaceTaskGold}>Project review<br />14:00</div> : null}
+                        {index === 3 ? <div className={styles.conceptWorkspaceTask}>Weekly reflection<br />16:30</div> : null}
+                      </div>
+                    ))}
                   </div>
-                  <aside className={styles.conceptTaskSidebar}>
-                    <div className={styles.conceptTodayCard}>
-                      <span>Today</span>
-                      <strong>3 events · 4 tasks</strong>
-                      <p>Next calm block begins at 14:00.</p>
-                    </div>
-                    <ul>
-                      {atriaTasks.map((task) => (
-                        <li key={task}>{task}</li>
-                      ))}
-                    </ul>
-                  </aside>
-                </div>
-                <div className={styles.conceptCommandPalette}>
-                  <span>⌘K</span>
-                  <strong>Reschedule recurring planning block</strong>
-                </div>
+                  <div className={styles.conceptWorkspaceInsight}>
+                    <span>Your most focused window this week</span>
+                    <strong>09:00–11:00</strong>
+                  </div>
+                </main>
               </div>
             </div>
           </div>
