@@ -1587,6 +1587,7 @@
 }
 
 .conceptPipeline {
+  --mini-story: 0;
   --mini-commit: 1;
   --mini-pipeline: 0;
   --mini-travel: 0;

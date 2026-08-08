@@ -373,17 +373,21 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
 
       const pi = vals[6];
       const m = vals[7];
-      setLayer(pipeline.current, clamp(pi * 1.55 - m * 4.5), 0.92 + pi * 0.08);
+      const miniSceneIn = phase(pi, 0, 0.22);
+      const miniSceneOut = phase(m, 0, 0.2);
+      const miniStory = phase(pi, 0.34, 0.98);
+      setLayer(pipeline.current, clamp(miniSceneIn * 1.2 - miniSceneOut * 1.8), 0.96 + miniSceneIn * 0.04);
       if (pipeline.current) {
-        const commitOut = phase(pi, 0.16, 0.27);
-        const pipelineIn = phase(pi, 0.21, 0.31);
-        const pipelineOut = phase(pi, 0.56, 0.66);
-        const failureIn = phase(pi, 0.48, 0.57);
-        const failureOut = phase(pi, 0.63, 0.71);
-        const dashboardIn = phase(pi, 0.68, 0.8);
-        const dashboardOut = phase(pi, 0.84, 0.91);
-        const finalIn = phase(pi, 0.89, 0.98);
-        const travel = phase(pi, 0.28, 0.54);
+        const commitOut = phase(miniStory, 0.18, 0.32);
+        const pipelineIn = phase(miniStory, 0.24, 0.38);
+        const pipelineOut = phase(miniStory, 0.62, 0.74);
+        const failureIn = phase(miniStory, 0.54, 0.68);
+        const failureOut = phase(miniStory, 0.74, 0.84);
+        const dashboardIn = phase(miniStory, 0.78, 0.9);
+        const dashboardOut = phase(miniStory, 0.92, 0.98);
+        const finalIn = phase(miniStory, 0.94, 1);
+        const travel = phase(miniStory, 0.34, 0.6);
+        pipeline.current.style.setProperty('--mini-story', miniStory.toFixed(3));
         pipeline.current.style.setProperty('--mini-commit', String(1 - commitOut));
         pipeline.current.style.setProperty('--mini-pipeline', String(pipelineIn * (1 - pipelineOut)));
         pipeline.current.style.setProperty('--mini-travel', travel.toFixed(3));
