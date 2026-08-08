@@ -32,12 +32,59 @@ const spans = [
 ] as const;
 
 const memoryFragments = [
-  ['London', 'the place where the work became real', 'f01'],
-  ['Computer Science', 'systems, interfaces, language', 'f02'],
-  ['Running', 'patience measured in kilometres', 'f03'],
-  ['Architecture', 'quiet spaces, clear structure', 'f04'],
-  ['Unfinished notes', 'ideas before they become products', 'f05'],
-  ['Building', 'the part I return to every day', 'f06']
+  [
+    '01 · origin',
+    'Computer Science',
+    'systems, interfaces, language',
+    'The place where curiosity became method: learning how software behaves beneath the surface.',
+    'f01'
+  ],
+  [
+    '02 · rhythm',
+    'Running',
+    'patience measured in kilometres',
+    'A reminder that consistency compounds — the same principle I use when building difficult things.',
+    'f02'
+  ],
+  [
+    '03 · place',
+    'London',
+    'where the work became real',
+    'A city that turned study into momentum, and ideas into projects meant to be shared.',
+    'f03'
+  ],
+  [
+    '04 · raw material',
+    'Unfinished notes',
+    'ideas before they become products',
+    'Fragments live here first: sketches, interfaces, systems, names and half-built mechanisms.',
+    'f04'
+  ],
+  [
+    '05 · practice',
+    'Building',
+    'the part I return to every day',
+    'The point where thinking becomes tangible — code, structure, interaction and iteration.',
+    'f05'
+  ],
+  [
+    '06 · instinct',
+    'Architecture',
+    'quiet spaces, clear structure',
+    'Why I care about systems that feel calm: good structure should make complexity easier to enter.',
+    'f06'
+  ]
+] as const;
+
+const memoryEdges = [
+  [0, 5],
+  [1, 5],
+  [2, 5],
+  [3, 5],
+  [4, 5],
+  [0, 2],
+  [2, 3],
+  [1, 4]
 ] as const;
 
 const foundryNodes = [
@@ -144,13 +191,14 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
   const letterRefs = useRef<Array<HTMLSpanElement | null>>([]);
   const foldRefs = useRef<Array<HTMLDivElement | null>>([]);
   const nodeRefs = useRef<Array<HTMLDivElement | null>>([]);
-  const fragmentRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const fragmentRefs = useRef<Array<HTMLElement | null>>([]);
   const pieceRefs = useRef<Array<HTMLDivElement | null>>([]);
   const nameRefs = useRef<Array<HTMLSpanElement | null>>([]);
   const lineRefs = useRef<Array<SVGLineElement | null>>([]);
   const progress = useRef(timeline.progress);
   const smoothPointer = useRef({ x: 0.5, y: 0.5 });
   const [sent, setSent] = useState(false);
+  const [activeMemoryFragment, setActiveMemoryFragment] = useState<number | null>(null);
 
   const pieces = useMemo(
     () =>
@@ -172,23 +220,17 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
     let isRunning = false;
 
     const updateLines = () => {
-      const pairs = [
-        [0, 1],
-        [1, 2],
-        [2, 3],
-        [3, 4],
-        [4, 5],
-        [5, 0]
-      ];
-      pairs.forEach(([from, to], index) => {
+      memoryEdges.forEach(([from, to], index) => {
         const source = fragmentRefs.current[from]?.getBoundingClientRect();
         const target = fragmentRefs.current[to]?.getBoundingClientRect();
         const line = lineRefs.current[index];
         if (!source || !target || !line) return;
-        line.setAttribute('x1', String(source.left + source.width / 2));
-        line.setAttribute('y1', String(source.top + source.height / 2));
-        line.setAttribute('x2', String(target.left + target.width / 2));
-        line.setAttribute('y2', String(target.top + target.height / 2));
+        const svg = line.ownerSVGElement?.getBoundingClientRect();
+        if (!svg) return;
+        line.setAttribute('x1', String(source.left - svg.left + source.width / 2));
+        line.setAttribute('y1', String(source.top - svg.top + source.height / 2));
+        line.setAttribute('x2', String(target.left - svg.left + target.width / 2));
+        line.setAttribute('y2', String(target.top - svg.top + target.height / 2));
       });
     };
 
@@ -347,10 +389,15 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
 
       const memoryOpacity = clamp(m * 1.55 - vals[8] * 2);
       setLayer(memory.current, memoryOpacity, 0.94 + m * 0.06);
+      const memoryFinal = phase(m, 0.68, 0.94);
+      if (memory.current) {
+        memory.current.style.setProperty('--memory-main', String(1 - memoryFinal));
+        memory.current.style.setProperty('--memory-final', String(memoryFinal));
+      }
       fragmentRefs.current.forEach((fragment, index) => {
         if (!fragment) return;
-        const dx = (smx - 0.5) * (index % 2 ? 12 : -12);
-        const dy = (smy - 0.5) * (index % 3 ? 8 : -8);
+        const dx = Math.sin(m * 3.2 + index * 1.1) * 8 + (smx - 0.5) * (index % 2 ? 8 : -8);
+        const dy = Math.cos(m * 2.6 + index * 0.7) * 5 + (smy - 0.5) * (index % 3 ? 5 : -5);
         fragment.style.translate = `${dx}px ${dy}px`;
       });
       if (memoryOpacity > 0.05) updateLines();
@@ -878,40 +925,78 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
         </section>
 
         <section ref={memory} className={`${styles.conceptLayer} ${styles.conceptMemory}`}>
-          <div className={`${styles.conceptSceneTitle} ${styles.conceptMemoryTitle}`}>
-            <small>About · discovered, not announced</small>
-            <h2>
-              The system becomes
-              <br />
-              <em>a memory of Amira.</em>
-            </h2>
-            <p>Move the cursor. The fragments connect differently depending on how you look at them.</p>
-          </div>
-          <div className={styles.conceptMemoryLines}>
-            <svg>
-              {[0, 1, 2, 3, 4, 5].map((line) => (
-                <line
-                  key={line}
-                  ref={(node) => {
-                    lineRefs.current[line] = node;
-                  }}
-                />
-              ))}
-            </svg>
-          </div>
-          {memoryFragments.map(([title, copy, className], index) => (
-            <div
-              key={title}
-              ref={(node) => {
-                fragmentRefs.current[index] = node;
-              }}
-              className={`${styles.conceptFragment} ${styles[className]}`}
-            >
-              <strong>{title}</strong>
-              {copy}
+          <div className={styles.conceptMemoryLayout}>
+            <div className={styles.conceptMemoryCopy}>
+              <small>About · discovered, not announced</small>
+              <h2>
+                The system becomes
+                <br />
+                <em>a memory of Amira.</em>
+              </h2>
+              <p>
+                Not a biography. A constellation of the things that shaped how I build: systems, cities, repetition, curiosity
+                and the habit of turning unfinished ideas into something real.
+              </p>
+              <div className={styles.conceptMemoryNote}>
+                Move through the fragments. The closer you get to one, the more the rest rearrange around it.
+              </div>
+              <div className={styles.conceptMemoryHint}>Hover or click a fragment to reveal the connection</div>
             </div>
-          ))}
-          <div className={styles.conceptHiddenNote}>not a biography. a constellation of choices.</div>
+
+            <div className={styles.conceptConstellation} onMouseLeave={() => setActiveMemoryFragment(null)}>
+              <div className={styles.conceptMemoryLines}>
+                <svg aria-hidden="true">
+                  {memoryEdges.map((edge, index) => {
+                    const active =
+                      activeMemoryFragment === null
+                        ? false
+                        : edge[0] === activeMemoryFragment || edge[1] === activeMemoryFragment || (activeMemoryFragment === 5 && index < 5);
+                    return (
+                      <line
+                        key={`${edge[0]}-${edge[1]}`}
+                        ref={(node) => {
+                          lineRefs.current[index] = node;
+                        }}
+                        className={active ? styles.conceptMemoryEdgeActive : undefined}
+                      />
+                    );
+                  })}
+                </svg>
+              </div>
+              <div className={styles.conceptMemoryCenterMark} />
+              {memoryFragments.map(([kicker, title, copy, detail, className], index) => (
+                <article
+                  key={title}
+                  ref={(node) => {
+                    fragmentRefs.current[index] = node;
+                  }}
+                  className={`${styles.conceptFragment} ${styles[className]} ${
+                    activeMemoryFragment === index ? styles.conceptFragmentActive : ''
+                  }`}
+                  onMouseEnter={() => setActiveMemoryFragment(index)}
+                  onClick={() => setActiveMemoryFragment((current) => (current === index ? null : index))}
+                >
+                  <small>{kicker}</small>
+                  <h3>{title}</h3>
+                  <p>{copy}</p>
+                  <div className={styles.conceptFragmentDetail}>{detail}</div>
+                </article>
+              ))}
+              <div className={styles.conceptHiddenNote}>not a biography. a constellation of choices.</div>
+            </div>
+          </div>
+          <div className={styles.conceptMemoryFinal}>
+            <div>
+              <h2>
+                The system
+                <em>was always connected.</em>
+              </h2>
+              <p>
+                Every project is a different expression of the same habits: curiosity, structure, patience and the need to make
+                ideas usable.
+              </p>
+            </div>
+          </div>
         </section>
 
         <section ref={assembly} className={`${styles.conceptLayer} ${styles.conceptAssembly}`}>

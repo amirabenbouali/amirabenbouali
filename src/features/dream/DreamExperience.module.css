@@ -1835,13 +1835,276 @@
 }
 
 .conceptMemory {
+  --memory-main: 1;
+  --memory-final: 0;
   color: #11120f;
   background:
-    radial-gradient(circle at 64% 48%, rgba(157, 167, 137, 0.1), transparent 32%),
-    radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.42), transparent 28%),
-    linear-gradient(180deg, #ede8de, #d1cabd);
+    radial-gradient(circle at 70% 45%, rgba(159, 175, 141, 0.1), transparent 35%),
+    linear-gradient(rgba(83, 91, 80, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(83, 91, 80, 0.035) 1px, transparent 1px),
+    #eee9de;
+  background-size: auto, 54px 54px, 54px 54px, auto;
 }
 
+.conceptMemoryLayout {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  grid-template-columns: minmax(390px, 0.62fr) minmax(0, 1fr);
+  gap: 4vw;
+  padding: 14vh 5vw 7vh;
+  opacity: var(--memory-main);
+  transform: scale(calc(1 - var(--memory-final) * 0.035));
+  transform-origin: center;
+}
+
+.conceptMemoryCopy {
+  position: relative;
+  z-index: 8;
+  align-self: start;
+  max-width: 640px;
+}
+
+.conceptMemoryCopy small {
+  display: block;
+  margin-bottom: 17px;
+  color: #8a9088;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.conceptMemoryCopy h2 {
+  margin: 0;
+  font: 400 clamp(64px, 7.2vw, 112px) / 0.86 Georgia, 'Times New Roman', serif;
+  letter-spacing: -0.065em;
+}
+
+.conceptMemoryCopy h2 em {
+  display: block;
+  margin-top: 10px;
+  color: #9faf8d;
+  font-family: 'Snell Roundhand', 'Segoe Script', 'Brush Script MT', cursive;
+  font-size: 0.76em;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+}
+
+.conceptMemoryCopy p {
+  max-width: 560px;
+  margin: 27px 0 0;
+  color: #737a72;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.conceptMemoryNote {
+  max-width: 520px;
+  margin-top: 29px;
+  padding-left: 16px;
+  color: #8a8f86;
+  border-left: 1px solid rgba(82, 92, 77, 0.24);
+  font: italic 17px/1.55 Georgia, serif;
+}
+
+.conceptMemoryHint {
+  margin-top: 25px;
+  color: #8a9188;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.conceptConstellation {
+  position: relative;
+  align-self: center;
+  height: 73vh;
+  min-width: 0;
+}
+
+.conceptMemoryCenterMark {
+  position: absolute;
+  top: 49%;
+  left: 50%;
+  z-index: 3;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #91a384;
+  box-shadow:
+    0 0 0 12px rgba(145, 163, 132, 0.06),
+    0 0 28px rgba(120, 144, 108, 0.2);
+}
+
+.conceptFragment {
+  position: absolute;
+  z-index: 4;
+  width: 190px;
+  padding: 17px 18px;
+  color: #111410;
+  border: 1px solid rgba(70, 78, 66, 0.12);
+  background: rgba(248, 244, 235, 0.88);
+  box-shadow: 0 10px 28px rgba(59, 57, 47, 0.06);
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  transition:
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    transform 0.35s ease;
+}
+
+.conceptFragment:hover,
+.conceptFragment:focus-visible,
+.conceptFragmentActive {
+  border-color: rgba(117, 137, 105, 0.32);
+  box-shadow: 0 18px 38px rgba(58, 57, 47, 0.11);
+  outline: none;
+  transform: translate(-50%, -50%) translateY(-5px);
+}
+
+.conceptFragment small {
+  display: block;
+  margin-bottom: 7px;
+  color: #90958d;
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.conceptFragment h3 {
+  margin: 0;
+  font: 400 19px/1.15 Georgia, serif;
+}
+
+.conceptFragment p {
+  margin: 6px 0 0;
+  color: #686f67;
+  font-size: 10px;
+  line-height: 1.45;
+}
+
+.conceptFragmentDetail {
+  max-height: 0;
+  margin-top: 0;
+  overflow: hidden;
+  color: #707770;
+  font-size: 10px;
+  line-height: 1.55;
+  opacity: 0;
+  transition:
+    max-height 0.45s ease,
+    margin 0.3s ease,
+    opacity 0.3s ease;
+}
+
+.conceptFragmentActive .conceptFragmentDetail,
+.conceptFragment:hover .conceptFragmentDetail,
+.conceptFragment:focus-visible .conceptFragmentDetail {
+  max-height: 120px;
+  margin-top: 12px;
+  opacity: 1;
+}
+
+.f01 {
+  left: 25%;
+  top: 18%;
+}
+
+.f02 {
+  left: 74%;
+  top: 20%;
+}
+
+.f03 {
+  left: 18%;
+  top: 56%;
+}
+
+.f04 {
+  left: 48%;
+  top: 77%;
+}
+
+.f05 {
+  left: 80%;
+  top: 68%;
+}
+
+.f06 {
+  left: 52%;
+  top: 43%;
+}
+
+.conceptMemoryLines svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.conceptMemoryLines line {
+  stroke: rgba(74, 85, 70, 0.14);
+  stroke-width: 1;
+  transition:
+    stroke 0.45s ease,
+    stroke-width 0.45s ease;
+}
+
+.conceptMemoryEdgeActive {
+  stroke: rgba(113, 135, 103, 0.52) !important;
+  stroke-width: 1.4;
+}
+
+.conceptHiddenNote {
+  position: absolute;
+  top: 47%;
+  right: 1%;
+  z-index: 5;
+  max-width: 380px;
+  color: rgba(93, 103, 90, 0.72);
+  font: italic clamp(22px, 2.3vw, 32px) / 1.42 Georgia, serif;
+  pointer-events: none;
+  text-shadow:
+    0 1px 0 rgba(246, 241, 232, 0.72),
+    0 0 18px rgba(246, 241, 232, 0.82);
+}
+
+.conceptMemoryFinal {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 5vw;
+  color: #111410;
+  text-align: center;
+  opacity: var(--memory-final);
+  pointer-events: none;
+}
+
+.conceptMemoryFinal h2 {
+  margin: 0;
+  font: 400 clamp(58px, 9vw, 140px) / 0.88 Georgia, serif;
+  letter-spacing: -0.065em;
+}
+
+.conceptMemoryFinal h2 em {
+  display: block;
+  color: #9faf8d;
+  font-family: 'Snell Roundhand', 'Segoe Script', 'Brush Script MT', cursive;
+  font-size: 0.72em;
+  font-weight: 400;
+}
+
+.conceptMemoryFinal p {
+  max-width: 580px;
+  margin: 24px auto 0;
+  color: #7a8078;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+/* Legacy memory title styles are no longer used by the constellation scene. */
 .conceptMemoryTitle {
   top: 13vh;
   left: 6vw;
@@ -1858,84 +2121,116 @@
   max-width: 470px;
 }
 
-.conceptFragment {
-  position: absolute;
-  min-width: 190px;
-  padding: 14px 16px;
-  border: 1px solid rgba(17, 18, 15, 0.12);
-  background: rgba(246, 242, 233, 0.72);
-  box-shadow: 0 16px 42px rgba(17, 18, 15, 0.08);
-  font-size: 11px;
-  line-height: 1.4;
-  opacity: 0.86;
-  transition: transform 0.25s ease;
+@media (max-width: 980px) {
+  .conceptMemoryLayout {
+    grid-template-columns: 1fr;
+    padding: 12vh 5vw 6vh;
+  }
+
+  .conceptMemoryCopy {
+    max-width: 720px;
+  }
+
+  .conceptMemoryCopy h2 {
+    font-size: clamp(58px, 11vw, 90px);
+  }
+
+  .conceptConstellation {
+    position: absolute;
+    top: 55vh;
+    right: 4vw;
+    left: 4vw;
+    height: 39vh;
+  }
+
+  .conceptFragment {
+    width: 160px;
+    padding: 13px;
+  }
+
+  .conceptHiddenNote {
+    display: none;
+  }
 }
 
-.conceptFragment strong {
-  display: block;
-  margin-bottom: 5px;
-  font-family: Georgia, serif;
-  font-size: 18px;
-  font-weight: 400;
-}
+@media (max-width: 640px) {
+  .conceptMemoryLayout {
+    padding: 11vh 20px 4vh;
+  }
 
-.f01 {
-  left: 8%;
-  top: 55%;
-  transform: rotate(-3deg);
-}
+  .conceptMemoryCopy h2 {
+    font-size: clamp(47px, 15vw, 72px);
+  }
 
-.f02 {
-  left: 48%;
-  top: 21%;
-  transform: rotate(2deg);
-}
+  .conceptMemoryCopy p {
+    margin-top: 18px;
+    font-size: 12px;
+    line-height: 1.65;
+  }
 
-.f03 {
-  right: 11%;
-  top: 28%;
-  transform: rotate(-2deg);
-}
+  .conceptMemoryNote {
+    margin-top: 18px;
+    font-size: 14px;
+  }
 
-.f04 {
-  left: 20%;
-  bottom: 15%;
-  transform: rotate(3deg);
-}
+  .conceptMemoryHint {
+    font-size: 8px;
+  }
 
-.f05 {
-  left: 47%;
-  bottom: 13%;
-  transform: rotate(-2deg);
-}
+  .conceptConstellation {
+    top: 59vh;
+    right: 10px;
+    left: 10px;
+    height: 34vh;
+  }
 
-.f06 {
-  right: 9%;
-  bottom: 17%;
-  transform: rotate(3deg);
-}
+  .conceptFragment {
+    width: 122px;
+    padding: 9px;
+  }
 
-.conceptMemoryLines svg {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-}
+  .conceptFragment small {
+    font-size: 6px;
+  }
 
-.conceptMemoryLines line {
-  stroke: rgba(17, 18, 15, 0.09);
-  stroke-width: 1;
-}
+  .conceptFragment h3 {
+    font-size: 14px;
+  }
 
-.conceptHiddenNote {
-  position: absolute;
-  top: 49%;
-  right: 12vw;
-  max-width: 290px;
-  color: rgba(17, 18, 15, 0.42);
-  font: italic 20px/1.42 Georgia, serif;
-  opacity: 0.5;
+  .conceptFragment p,
+  .conceptFragmentDetail {
+    font-size: 8px;
+  }
+
+  .f01 {
+    left: 25%;
+    top: 18%;
+  }
+
+  .f02 {
+    left: 74%;
+    top: 18%;
+  }
+
+  .f03 {
+    left: 20%;
+    top: 58%;
+  }
+
+  .f04 {
+    left: 48%;
+    top: 80%;
+  }
+
+  .f05 {
+    left: 78%;
+    top: 60%;
+  }
+
+  .f06 {
+    left: 50%;
+    top: 42%;
+  }
 }
 
 .conceptAssembly {
