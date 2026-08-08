@@ -1587,72 +1587,95 @@
 }
 
 .conceptPipeline {
+  --mini-commit: 1;
+  --mini-pipeline: 0;
+  --mini-travel: 0;
+  --mini-failure: 0;
+  --mini-dashboard: 0;
+  --mini-dashboard-in: 0;
+  --mini-final: 0;
+  color: #151714;
   background:
-    radial-gradient(circle at 76% 45%, rgba(174, 182, 140, 0.08), transparent 24%),
-    linear-gradient(180deg, #0e100d, #080a08);
+    linear-gradient(rgba(28, 32, 27, 0.026) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(28, 32, 27, 0.026) 1px, transparent 1px),
+    radial-gradient(circle at 68% 46%, rgba(111, 143, 114, 0.06), transparent 28%),
+    #f7f7f4;
+  background-size: 48px 48px, 48px 48px, auto, auto;
 }
 
 .conceptMiniCiLayout {
   position: absolute;
   inset: 0;
   display: grid;
-  grid-template-columns: minmax(320px, 0.9fr) minmax(520px, 1.4fr);
+  grid-template-columns: minmax(420px, 0.78fr) minmax(0, 1.22fr);
   align-items: center;
-  gap: 6vw;
-  padding: 96px 5vw 80px;
-  color: #f0ece2;
+  gap: 5vw;
+  padding: 14vh 5vw 7vh;
 }
 
 .conceptMiniCiCopy {
+  position: relative;
+  z-index: 8;
   min-width: 0;
+  max-width: 650px;
+  opacity: calc(1 - var(--mini-final) * 0.86);
+  transform: translate3d(0, calc(var(--mini-final) * -18px), 0);
 }
 
 .conceptMiniCiEyebrow {
-  margin-bottom: 24px;
-  color: rgba(240, 236, 226, 0.58);
+  margin-bottom: 17px;
+  color: #999d96;
   font-size: 10px;
-  letter-spacing: 0.19em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 }
 
 .conceptMiniCiCopy h2 {
   margin: 0;
-  font: 400 clamp(70px, 8vw, 138px) / 0.82 Georgia, serif;
+  font: 400 clamp(66px, 7.2vw, 116px) / 0.84 Georgia, 'Times New Roman', serif;
   letter-spacing: -0.065em;
 }
 
 .conceptMiniCiCopy h2 em {
   display: block;
-  margin-left: 12%;
-  color: #aeb68c;
-  font-family: 'Brush Script MT', 'Segoe Script', cursive;
-  font-size: 0.8em;
+  margin-top: 12px;
+  color: #657b64;
+  font-family: 'Snell Roundhand', 'Segoe Script', 'Brush Script MT', cursive;
+  font-size: 0.82em;
   font-weight: 400;
+  text-shadow: 0 1px 0 rgba(247, 247, 244, 0.38);
 }
 
 .conceptMiniCiCopy p {
-  max-width: 510px;
-  margin: 34px 0 0;
-  color: rgba(240, 236, 226, 0.58);
-  font-size: 15px;
-  line-height: 1.9;
+  max-width: 595px;
+  margin: 28px 0 0;
+  color: #777c75;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.conceptMiniCiSecondary {
+  margin-top: 9px !important;
+  color: #9b9e98 !important;
 }
 
 .conceptMiniCiMeta {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 18px 26px;
-  max-width: 620px;
-  margin: 36px 0 0;
-  color: rgba(240, 236, 226, 0.58);
-  font-size: 11px;
+  gap: 28px;
+  margin: 32px 0 0;
+  padding-top: 20px;
+  color: #757a73;
+  border-top: 1px solid rgba(30, 34, 29, 0.12);
+  font-size: 12px;
+  line-height: 1.65;
 }
 
 .conceptMiniCiMeta dt {
-  margin-bottom: 6px;
-  color: rgba(240, 236, 226, 0.35);
+  margin-bottom: 8px;
+  color: #989d95;
   font-size: 9px;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.17em;
   text-transform: uppercase;
 }
 
@@ -1663,175 +1686,326 @@
 .conceptMiniCiLinks {
   display: flex;
   gap: 20px;
-  margin-top: 34px;
+  margin-top: 28px;
   pointer-events: auto;
 }
 
 .conceptMiniCiLinks a {
-  padding-bottom: 5px;
-  color: inherit;
-  border-bottom: 1px solid rgba(240, 236, 226, 0.13);
+  padding-bottom: 7px;
+  color: #5f645d;
+  border-bottom: 1px solid #8c9188;
   font-size: 12px;
   text-decoration: none;
 }
 
 .conceptMachine {
   position: relative;
-  min-height: 620px;
+  align-self: center;
+  height: 73vh;
+  min-height: 520px;
   overflow: hidden;
-  border: 1px solid rgba(240, 236, 226, 0.13);
-  background: #0d100c;
+  border-left: 1px solid rgba(36, 40, 34, 0.07);
 }
 
-.conceptMachine::before {
-  content: '';
+.conceptCommitLayer,
+.conceptPipelineLayer,
+.conceptFailureLayer,
+.conceptMiniDashboardLayer,
+.conceptMiniFinal {
   position: absolute;
   inset: 0;
-  background:
-    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
-  background-size: 46px 46px;
+  display: grid;
+  place-items: center;
+  will-change: opacity, transform;
 }
 
-.conceptMachineHead {
-  position: absolute;
-  z-index: 3;
-  top: 18px;
-  right: 20px;
-  left: 20px;
-  display: flex;
-  justify-content: space-between;
-  color: rgba(240, 236, 226, 0.58);
+.conceptCommitLayer {
+  opacity: var(--mini-commit);
+  transform: translate3d(0, calc((1 - var(--mini-commit)) * -18px), 0);
+}
+
+.conceptMiniTerminal {
+  width: min(80%, 720px);
+  padding: 28px 30px;
+  color: #3f443d;
+  border: 1px solid rgba(26, 30, 25, 0.11);
+  background: #fff;
+  box-shadow: 0 28px 70px rgba(48, 52, 44, 0.07);
+  font: 14px/1.75 ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.conceptMiniTerminal small {
+  display: block;
+  margin-bottom: 18px;
+  color: #a0a39d;
   font-size: 9px;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
-.conceptRails {
+.conceptMiniTerminal span {
+  color: #737a72;
+}
+
+.conceptPipelineLayer {
+  opacity: var(--mini-pipeline);
+  transform: translate3d(0, calc((1 - var(--mini-pipeline)) * 18px), 0);
+}
+
+.conceptMiniTrack {
+  position: relative;
+  width: min(88%, 840px);
+  height: 260px;
+}
+
+.conceptMiniRail {
   position: absolute;
+  top: 50%;
+  right: 7%;
+  left: 7%;
+  height: 1px;
+  background: rgba(33, 37, 32, 0.15);
+}
+
+.conceptMiniStation {
+  position: absolute;
+  top: 50%;
+  width: 116px;
+  color: #151714;
+  text-align: center;
+  transform: translate(-50%, -50%);
+}
+
+.conceptMiniStation i {
+  position: relative;
   z-index: 2;
-  top: 28%;
-  right: 6%;
-  left: 6%;
+  display: block;
+  width: 18px;
+  height: 18px;
+  margin: 0 auto 10px;
+  border: 1px solid rgba(48, 52, 46, 0.24);
+  border-radius: 50%;
+  background: #f7f7f4;
+}
+
+.s3 i {
+  border-color: rgba(101, 123, 100, 0.42);
+  background: #657b64;
+  box-shadow: 0 0 0 8px rgba(101, 123, 100, 0.07);
+}
+
+.conceptMiniStation b {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 9px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.conceptMiniStation span {
+  color: #999d97;
+  font-size: 8px;
+}
+
+.s1 {
+  left: 8%;
+}
+
+.s2 {
+  left: 29%;
+}
+
+.s3 {
+  left: 50%;
+}
+
+.s4 {
+  left: 71%;
+}
+
+.s5 {
+  left: 92%;
+}
+
+.conceptMiniDot {
+  position: absolute;
+  z-index: 3;
+  top: 50%;
+  left: calc(8% + 84% * var(--mini-travel));
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #1f231f;
+  transform: translate(-50%, -50%);
+}
+
+.conceptMiniDotLabel {
+  position: absolute;
+  top: calc(50% + 34px);
+  left: calc(8% + 84% * var(--mini-travel));
+  color: #666c64;
+  font: 9px ui-monospace, monospace;
+  transform: translateX(-50%);
+}
+
+.conceptFailureLayer {
+  opacity: var(--mini-failure);
+  transform: translate3d(0, calc((1 - var(--mini-failure)) * 16px), 0);
+}
+
+.conceptFailureCard {
+  width: min(72%, 620px);
+  padding: 28px;
+  border: 1px solid rgba(168, 100, 100, 0.19);
+  background: #fff;
+  box-shadow: 0 28px 70px rgba(90, 58, 58, 0.07);
+  color: #25211f;
+}
+
+.conceptFailureCard small {
+  display: block;
+  margin-bottom: 15px;
+  color: #a67a7a;
+  font-size: 9px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.conceptFailureCard h3 {
+  margin: 0 0 12px;
+  font: 400 36px Georgia, serif;
+}
+
+.conceptFailureCard p {
+  margin: 0;
+  color: #725f5f;
+  font: 12px/1.7 ui-monospace, monospace;
+}
+
+.conceptMiniDashboardLayer {
+  opacity: var(--mini-dashboard);
+  transform: translate3d(0, calc((1 - var(--mini-dashboard-in)) * 18px), 0);
+}
+
+.conceptMiniApp {
+  display: grid;
+  grid-template-columns: 175px 1fr;
+  width: min(88%, 880px);
+  height: min(77%, 560px);
+  border: 1px solid rgba(30, 34, 29, 0.11);
+  background: #fff;
+  box-shadow: 0 32px 80px rgba(48, 52, 44, 0.08);
+}
+
+.conceptMiniSidebar {
+  padding: 22px;
+  border-right: 1px solid rgba(30, 34, 29, 0.09);
+}
+
+.conceptMiniSidebar div {
+  margin-bottom: 30px;
+  font: 400 25px Georgia, serif;
+}
+
+.conceptMiniSidebar nav {
+  display: grid;
+  gap: 12px;
+  color: #8a8f87;
+  font-size: 9px;
+}
+
+.conceptMiniMain {
+  padding: 24px;
+}
+
+.conceptMiniAppHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.conceptMiniAppHead h3 {
+  margin: 0;
+  font: 400 32px Georgia, serif;
+}
+
+.conceptMiniAppHead span {
+  padding: 6px 8px;
+  color: #6f8f72;
+  border: 1px solid rgba(111, 143, 114, 0.18);
+  font: 8px ui-monospace, monospace;
+}
+
+.conceptMiniJobs {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 14px;
+  gap: 8px;
 }
 
-.conceptStage {
-  position: relative;
-  min-height: 220px;
-  overflow: hidden;
-  padding: 18px;
-  color: #eee8dc;
-  border: 1px solid rgba(240, 236, 226, 0.12);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.008));
+.conceptMiniJob {
+  padding: 12px;
+  border: 1px solid rgba(111, 143, 114, 0.2);
+  background: rgba(111, 143, 114, 0.035);
 }
 
-.conceptStage b {
+.conceptMiniJob small {
   display: block;
-  color: #aeb68c;
-  font-size: 9px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.conceptStage p {
-  margin: 58px 0 0;
-  color: rgba(240, 236, 226, 0.58);
-  font-size: 12px;
-  line-height: 1.55;
-  opacity: 1;
-}
-
-.conceptStageBar {
-  position: absolute;
-  right: 18px;
-  left: 18px;
-  bottom: 18px;
-  height: 3px;
-  overflow: hidden;
-  background: rgba(240, 236, 226, 0.07);
-}
-
-.conceptStageBar::after {
-  content: '';
-  display: block;
-  width: 58%;
-  height: 100%;
-  background: #aeb68c;
-  animation: conceptScan 4s linear infinite;
-}
-
-.conceptStage:nth-child(2) .conceptStageBar::after {
-  animation-delay: 0.5s;
-}
-
-.conceptStage:nth-child(3) .conceptStageBar::after {
-  animation-delay: 1s;
-}
-
-.conceptStage:nth-child(4) .conceptStageBar::after {
-  animation-delay: 1.5s;
-}
-
-.conceptStage:nth-child(5) .conceptStageBar::after {
-  animation-delay: 2s;
-}
-
-@keyframes conceptScan {
-  0% {
-    transform: translateX(-130%);
-  }
-
-  70%,
-  100% {
-    transform: translateX(190%);
-  }
-}
-
-.conceptArtifact {
-  position: absolute;
-  z-index: 3;
-  top: 48%;
-  left: auto;
-  right: 11%;
-  width: 64px;
-  height: 64px;
-  background: linear-gradient(135deg, #d6cfb8, #858d72);
-  box-shadow: 0 0 34px rgba(214, 207, 184, 0.15);
-  transform: rotate(45deg);
-}
-
-.conceptScanner {
-  position: absolute;
-  top: 14%;
-  left: 56%;
-  width: 1px;
-  height: 72%;
-  background: linear-gradient(transparent, #fff, transparent);
-  box-shadow: 0 0 18px rgba(255, 255, 255, 0.4);
-  opacity: 0.35;
-}
-
-.conceptCrack {
-  position: absolute;
-  z-index: 4;
-  top: 37%;
-  left: 57%;
-  color: #a86458;
-  font: 20px monospace;
-  opacity: 0;
-}
-
-.conceptMachineNote {
-  position: absolute;
-  bottom: 18px;
-  left: 20px;
-  color: rgba(240, 236, 226, 0.35);
-  font-size: 10px;
+  margin-bottom: 6px;
+  color: #9da19b;
+  font-size: 7px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+}
+
+.conceptMiniJob b {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 10px;
+}
+
+.conceptMiniJob span {
+  color: #7e837b;
+  font-size: 8px;
+}
+
+.conceptMiniLogs {
+  margin-top: 14px;
+  padding: 14px;
+  color: #6f746d;
+  border: 1px solid rgba(30, 34, 29, 0.08);
+  background: #f8f8f5;
+  font: 9px/1.7 ui-monospace, monospace;
+}
+
+.conceptMiniFinal {
+  color: #151714;
+  text-align: center;
+  opacity: var(--mini-final);
+  pointer-events: none;
+}
+
+.conceptMiniFinal h3 {
+  margin: 0;
+  font: 400 clamp(58px, 8vw, 128px) / 0.88 Georgia, serif;
+  letter-spacing: -0.06em;
+}
+
+.conceptMiniFinal h3 em {
+  display: block;
+  color: #657b64;
+  font-family: 'Snell Roundhand', 'Segoe Script', 'Brush Script MT', cursive;
+  font-size: 0.72em;
+  font-weight: 400;
+  text-shadow: 0 1px 0 rgba(247, 247, 244, 0.38);
+}
+
+.conceptMiniFinal p {
+  max-width: 560px;
+  margin: 24px auto 0;
+  color: #838881;
+  font-size: 13px;
+  line-height: 1.8;
 }
 
 .conceptMemory {
@@ -3976,47 +4150,124 @@
   .conceptMiniCiLayout {
     grid-template-columns: 1fr;
     align-content: start;
-    gap: 28px;
+    gap: 18px;
     overflow-y: auto;
-    padding: 88px 20px 82px;
+    padding: 82px 20px 74px;
   }
 
   .conceptMiniCiCopy h2 {
-    font-size: clamp(56px, 18vw, 92px);
+    font-size: clamp(48px, 15vw, 74px);
   }
 
   .conceptMiniCiCopy p {
     max-width: none;
-    margin-top: 24px;
-    font-size: 13px;
-    line-height: 1.75;
+    margin-top: 18px;
+    font-size: 12px;
+    line-height: 1.65;
+  }
+
+  .conceptMiniCiSecondary {
+    display: none;
   }
 
   .conceptMiniCiMeta {
-    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-top: 18px;
+    padding-top: 14px;
+    font-size: 9px;
   }
 
   .conceptMachine {
-    min-height: 560px;
+    height: 34vh;
+    min-height: 260px;
+    border-top: 1px solid rgba(36, 40, 34, 0.07);
+    border-left: 0;
   }
 
-  .conceptRails {
-    top: 20%;
-    bottom: auto;
-    grid-template-columns: 1fr 1fr;
-    transform: none;
+  .conceptMiniTerminal {
+    width: 96%;
+    padding: 16px;
+    font-size: 10px;
   }
 
-  .conceptStage {
-    min-height: 100px;
+  .conceptMiniTrack {
+    width: 96%;
+    height: 170px;
   }
 
-  .conceptStage p {
-    margin-top: 26px;
+  .conceptMiniStation {
+    width: 64px;
   }
 
-  .conceptScanner {
+  .conceptMiniStation b {
+    font-size: 7px;
+  }
+
+  .conceptMiniStation span {
+    font-size: 6px;
+  }
+
+  .conceptFailureCard {
+    width: 94%;
+    padding: 16px;
+  }
+
+  .conceptFailureCard h3 {
+    font-size: 22px;
+  }
+
+  .conceptFailureCard p {
+    font-size: 9px;
+  }
+
+  .conceptMiniApp {
+    grid-template-columns: 72px 1fr;
+    width: 98%;
+    height: 96%;
+  }
+
+  .conceptMiniSidebar {
+    padding: 9px;
+  }
+
+  .conceptMiniSidebar div {
+    margin-bottom: 14px;
+    font-size: 15px;
+  }
+
+  .conceptMiniSidebar nav {
+    gap: 7px;
+    font-size: 7px;
+  }
+
+  .conceptMiniMain {
+    padding: 10px;
+  }
+
+  .conceptMiniAppHead h3 {
+    font-size: 19px;
+  }
+
+  .conceptMiniJobs {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5px;
+  }
+
+  .conceptMiniJob {
+    padding: 6px;
+  }
+
+  .conceptMiniLogs {
     display: none;
+  }
+
+  .conceptMiniFinal h3 {
+    font-size: clamp(42px, 14vw, 70px);
+  }
+
+  .conceptMiniFinal p {
+    max-width: 18rem;
+    font-size: 11px;
   }
 
   .conceptFragment {

@@ -185,8 +185,6 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
   const fracture = useRef<HTMLDivElement>(null);
   const foundryStatus = useRef<HTMLDivElement>(null);
   const cursorWorld = useRef<HTMLDivElement>(null);
-  const artifact = useRef<HTMLDivElement>(null);
-  const crack = useRef<HTMLDivElement>(null);
   const finalRipple = useRef<HTMLDivElement>(null);
   const letterRefs = useRef<Array<HTMLSpanElement | null>>([]);
   const foldRefs = useRef<Array<HTMLDivElement | null>>([]);
@@ -354,7 +352,8 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
         }px)`;
       });
 
-      setLayer(terminal.current, clamp(tIn * 1.55 - vals[6] * 4), 0.92 + tIn * 0.08);
+      const miniHandoff = phase(vals[6], 0, 0.16);
+      setLayer(terminal.current, clamp(tIn * 1.55 - miniHandoff * 1.7), 0.92 + tIn * 0.08);
       const orbitOut = phase(t, 0.15, 0.27);
       const pipelineIn = phase(t, 0.23, 0.34);
       const pipelineOut = phase(t, 0.43, 0.54);
@@ -375,19 +374,27 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
       const pi = vals[6];
       const m = vals[7];
       setLayer(pipeline.current, clamp(pi * 1.55 - m * 4.5), 0.92 + pi * 0.08);
-      const travel = clamp(pi * 1.08);
-      if (artifact.current) {
-        artifact.current.style.left = `${78 + Math.sin(travel * Math.PI) * 3}%`;
-        artifact.current.style.right = 'auto';
-        artifact.current.style.transform = `translateY(-50%) rotate(${45 + travel * 180}deg) scale(${1 + Math.sin(travel * Math.PI) * 0.12})`;
-      }
-      const fail = clamp((pi - 0.72) / 0.16) * (1 - clamp((pi - 0.9) / 0.08));
-      if (crack.current) {
-        crack.current.style.opacity = String(fail);
-        crack.current.style.transform = `scale(${0.8 + fail * 0.2})`;
+      if (pipeline.current) {
+        const commitOut = phase(pi, 0.16, 0.27);
+        const pipelineIn = phase(pi, 0.21, 0.31);
+        const pipelineOut = phase(pi, 0.56, 0.66);
+        const failureIn = phase(pi, 0.48, 0.57);
+        const failureOut = phase(pi, 0.63, 0.71);
+        const dashboardIn = phase(pi, 0.68, 0.8);
+        const dashboardOut = phase(pi, 0.84, 0.91);
+        const finalIn = phase(pi, 0.89, 0.98);
+        const travel = phase(pi, 0.28, 0.54);
+        pipeline.current.style.setProperty('--mini-commit', String(1 - commitOut));
+        pipeline.current.style.setProperty('--mini-pipeline', String(pipelineIn * (1 - pipelineOut)));
+        pipeline.current.style.setProperty('--mini-travel', travel.toFixed(3));
+        pipeline.current.style.setProperty('--mini-failure', String(failureIn * (1 - failureOut)));
+        pipeline.current.style.setProperty('--mini-dashboard', String(dashboardIn * (1 - dashboardOut)));
+        pipeline.current.style.setProperty('--mini-dashboard-in', dashboardIn.toFixed(3));
+        pipeline.current.style.setProperty('--mini-final', String(finalIn));
       }
 
-      const memoryOpacity = clamp(m * 1.55 - vals[8] * 2);
+      const memoryEntrance = phase(m, 0.18, 0.42);
+      const memoryOpacity = clamp(memoryEntrance * 1.55 - vals[8] * 2);
       setLayer(memory.current, memoryOpacity, 0.94 + m * 0.06);
       const memoryFinal = phase(m, 0.68, 0.94);
       if (memory.current) {
@@ -439,7 +446,7 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
                     : p < 0.73
                       ? 'kansodb · language becomes matter'
                       : p < 0.83
-                        ? 'mini ci · production dream'
+                        ? 'mini ci · confidence before release'
                         : p < 0.92
                           ? 'about · fragments of amira'
                           : p < 0.96
@@ -857,69 +864,133 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
         <section ref={pipeline} className={`${styles.conceptLayer} ${styles.conceptPipeline}`}>
           <div className={styles.conceptMiniCiLayout}>
             <div className={styles.conceptMiniCiCopy}>
-              <div className={styles.conceptMiniCiEyebrow}>004 · Mini CI · developer tool</div>
+              <div className={styles.conceptMiniCiEyebrow}>004 · Mini CI</div>
               <h2>
-                Branches
+                Every change
                 <br />
-                straighten
-                <br />
-                into a <em>production line.</em>
+                <em>earns trust.</em>
               </h2>
               <p>
-                Mini CI is a small continuous-integration pipeline I built from first principles to understand what happens between a
-                commit and a release. Instead of configuring an existing service, I created the queue, runner, build stages, logs,
-                status handling, and artifact flow myself.
+                Mini CI is a lightweight continuous integration platform that turns every commit into a repeatable, observable
+                release process.
+              </p>
+              <p className={styles.conceptMiniCiSecondary}>
+                Built to explore how engineering teams verify changes, surface failures and safely move code toward release.
               </p>
               <dl className={styles.conceptMiniCiMeta}>
                 <div>
-                  <dt>Role</dt>
-                  <dd>Design and engineering</dd>
+                  <dt>Engineering</dt>
+                  <dd>Pipelines · Build automation · Test orchestration · Logs · Failure handling · Releases</dd>
                 </div>
                 <div>
                   <dt>Stack</dt>
-                  <dd>Ruby, Bash, HTML, CSS, JavaScript</dd>
-                </div>
-                <div>
-                  <dt>Focus</dt>
-                  <dd>CI/CD internals and developer tooling</dd>
-                </div>
-                <div>
-                  <dt>Status</dt>
-                  <dd>Learning project · v1.0</dd>
+                  <dd>Ruby · Bash · Git · Docker · GitHub Actions</dd>
                 </div>
               </dl>
               <div className={styles.conceptMiniCiLinks}>
-                <a href="#dream-accessible-content">View repository ↗</a>
-                <a href="#dream-accessible-content">Read the case study ↓</a>
+                <a href="#dream-accessible-content">Explore Mini CI ↗</a>
               </div>
             </div>
 
             <div className={styles.conceptMachine}>
-              <div className={styles.conceptMachineHead}>
-                <span>Build 042</span>
-                <span>main · commit 8f3a1c</span>
-              </div>
-              <div className={styles.conceptRails}>
-                {[
-                  ['01 · source', 'Commit received and queued for execution.'],
-                  ['02 · build', 'Ruby runner executes the configured build steps.'],
-                  ['03 · test', 'Checks run and output is streamed into the log.'],
-                  ['04 · artifact', 'A successful build is packaged for later use.'],
-                  ['05 · release', 'The pipeline exposes a clear final state.']
-                ].map(([label, copy]) => (
-                  <div key={label} className={styles.conceptStage}>
-                    <b>{label}</b>
-                    <p>{copy}</p>
-                    <div className={styles.conceptStageBar} />
+              <div className={styles.conceptCommitLayer}>
+                <div className={styles.conceptMiniTerminal}>
+                  <small>Local repository</small>
+                  <div>
+                    <span>amira@mini-ci %</span> git commit -m "ship pipeline"
                   </div>
-                ))}
+                </div>
               </div>
-              <div className={styles.conceptScanner} />
-              <div ref={artifact} className={styles.conceptArtifact} />
-              <div ref={crack} className={styles.conceptCrack}>
-                FAILED BUILD // RESTORING SOURCE
+              <div className={styles.conceptPipelineLayer}>
+                <div className={styles.conceptMiniTrack}>
+                  <div className={styles.conceptMiniRail} />
+                  {[
+                    ['Commit', 'received', 's1'],
+                    ['Build', 'compile', 's2'],
+                    ['Tests', '127 checks', 's3'],
+                    ['Quality', 'lint + scan', 's4'],
+                    ['Release', 'ready', 's5']
+                  ].map(([title, copy, className]) => (
+                    <div key={title} className={`${styles.conceptMiniStation} ${styles[className]}`}>
+                      <i />
+                      <b>{title}</b>
+                      <span>{copy}</span>
+                    </div>
+                  ))}
+                  <div className={styles.conceptMiniDot} />
+                  <div className={styles.conceptMiniDotLabel}>a91c2f</div>
+                </div>
               </div>
-              <div className={styles.conceptMachineNote}>source → build → test → artifact → release</div>
+              <div className={styles.conceptFailureLayer}>
+                <div className={styles.conceptFailureCard}>
+                  <small>Pipeline paused · test gate</small>
+                  <h3>One failure stops the journey.</h3>
+                  <p>
+                    PaymentServiceTest
+                    <br />
+                    expected status: 200
+                    <br />
+                    received status: 500
+                    <br />
+                    line 82
+                  </p>
+                </div>
+              </div>
+              <div className={styles.conceptMiniDashboardLayer}>
+                <div className={styles.conceptMiniApp}>
+                  <aside className={styles.conceptMiniSidebar}>
+                    <div>mini ci.</div>
+                    <nav>
+                      <b>Runs</b>
+                      <span>Pipelines</span>
+                      <span>Artifacts</span>
+                      <span>Logs</span>
+                      <span>Settings</span>
+                    </nav>
+                  </aside>
+                  <main className={styles.conceptMiniMain}>
+                    <div className={styles.conceptMiniAppHead}>
+                      <h3>Pipeline #184</h3>
+                      <span>all checks passed</span>
+                    </div>
+                    <div className={styles.conceptMiniJobs}>
+                      {[
+                        ['01', 'Build', '31s · passed'],
+                        ['02', 'Tests', '127 passed'],
+                        ['03', 'Lint', '0 issues'],
+                        ['04', 'Security', 'clean'],
+                        ['05', 'Release', 'ready']
+                      ].map(([index, title, copy]) => (
+                        <div key={title} className={styles.conceptMiniJob}>
+                          <small>{index}</small>
+                          <b>{title}</b>
+                          <span>{copy}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <div className={styles.conceptMiniLogs}>
+                      14:04:11 build completed
+                      <br />
+                      14:04:42 test suite passed
+                      <br />
+                      14:05:08 security scan clean
+                      <br />
+                      14:05:21 artifact created
+                      <br />
+                      14:05:23 release candidate ready
+                    </div>
+                  </main>
+                </div>
+              </div>
+              <div className={styles.conceptMiniFinal}>
+                <div>
+                  <h3>
+                    Trust is built
+                    <em>one commit at a time.</em>
+                  </h3>
+                  <p>The pipeline disappears. What remains is confidence that the change has earned its way forward.</p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
