@@ -1595,6 +1595,11 @@
   --mini-dashboard: 0;
   --mini-dashboard-in: 0;
   --mini-final: 0;
+  --mini-stage-1: 0;
+  --mini-stage-2: 0;
+  --mini-stage-3: 0;
+  --mini-stage-4: 0;
+  --mini-stage-5: 0;
   color: #151714;
   background:
     linear-gradient(rgba(28, 32, 27, 0.026) 1px, transparent 1px),
@@ -1778,6 +1783,7 @@
 }
 
 .conceptMiniStation i {
+  --mini-stage-active: 0;
   position: relative;
   z-index: 2;
   display: block;
@@ -1789,10 +1795,44 @@
   background: #f7f7f4;
 }
 
-.s3 i {
-  border-color: rgba(101, 123, 100, 0.42);
+.conceptMiniStation i::before,
+.conceptMiniStation i::after {
+  content: '';
+  position: absolute;
+  border-radius: inherit;
+  opacity: var(--mini-stage-active);
+  transition: opacity 520ms ease;
+}
+
+.conceptMiniStation i::before {
+  inset: -1px;
   background: #657b64;
-  box-shadow: 0 0 0 8px rgba(101, 123, 100, 0.07);
+}
+
+.conceptMiniStation i::after {
+  inset: -14px;
+  z-index: -1;
+  background: rgba(101, 123, 100, 0.08);
+}
+
+.s1 i {
+  --mini-stage-active: var(--mini-stage-1);
+}
+
+.s2 i {
+  --mini-stage-active: var(--mini-stage-2);
+}
+
+.s3 i {
+  --mini-stage-active: var(--mini-stage-3);
+}
+
+.s4 i {
+  --mini-stage-active: var(--mini-stage-4);
+}
+
+.s5 i {
+  --mini-stage-active: var(--mini-stage-5);
 }
 
 .conceptMiniStation b {

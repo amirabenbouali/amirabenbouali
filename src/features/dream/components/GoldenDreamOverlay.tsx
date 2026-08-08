@@ -395,6 +395,10 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
         pipeline.current.style.setProperty('--mini-dashboard', String(dashboardIn * (1 - dashboardOut)));
         pipeline.current.style.setProperty('--mini-dashboard-in', dashboardIn.toFixed(3));
         pipeline.current.style.setProperty('--mini-final', String(finalIn));
+        [0, 0.25, 0.5, 0.75, 1].forEach((threshold, index) => {
+          const passed = phase(travel, Math.max(0, threshold - 0.018), Math.min(1, threshold + 0.018));
+          pipeline.current?.style.setProperty(`--mini-stage-${index + 1}`, passed.toFixed(3));
+        });
       }
 
       const memoryEntrance = phase(m, 0.18, 0.42);
