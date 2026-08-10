@@ -378,15 +378,15 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
       const miniStory = phase(pi, 0.34, 0.98);
       setLayer(pipeline.current, clamp(miniSceneIn * 1.2 - miniSceneOut * 1.8), 0.96 + miniSceneIn * 0.04);
       if (pipeline.current) {
-        const commitOut = phase(miniStory, 0.18, 0.32);
-        const pipelineIn = phase(miniStory, 0.24, 0.38);
-        const pipelineOut = phase(miniStory, 0.62, 0.74);
-        const failureIn = phase(miniStory, 0.54, 0.68);
-        const failureOut = phase(miniStory, 0.74, 0.84);
-        const dashboardIn = phase(miniStory, 0.78, 0.9);
-        const dashboardOut = phase(miniStory, 0.92, 0.98);
-        const finalIn = phase(miniStory, 0.94, 1);
-        const travel = phase(miniStory, 0.34, 0.6);
+        const commitOut = phase(miniStory, 0.18, 0.34);
+        const pipelineIn = phase(miniStory, 0.26, 0.4);
+        const pipelineOut = phase(miniStory, 0.94, 1);
+        const failureIn = phase(miniStory, 0.86, 0.94);
+        const failureOut = phase(miniStory, 0.96, 1);
+        const dashboardIn = phase(miniStory, 0.96, 1);
+        const dashboardOut = 0;
+        const finalIn = 0;
+        const travel = Math.pow(phase(miniStory, 0.18, 1), 1.45);
         pipeline.current.style.setProperty('--mini-story', miniStory.toFixed(3));
         pipeline.current.style.setProperty('--mini-commit', String(1 - commitOut));
         pipeline.current.style.setProperty('--mini-pipeline', String(pipelineIn * (1 - pipelineOut)));
@@ -396,7 +396,7 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
         pipeline.current.style.setProperty('--mini-dashboard-in', dashboardIn.toFixed(3));
         pipeline.current.style.setProperty('--mini-final', String(finalIn));
         [0, 0.25, 0.5, 0.75, 1].forEach((threshold, index) => {
-          const passed = phase(travel, Math.max(0, threshold - 0.018), Math.min(1, threshold + 0.018));
+          const passed = phase(travel, Math.max(0, threshold - 0.028), Math.min(1, threshold + 0.028));
           pipeline.current?.style.setProperty(`--mini-stage-${index + 1}`, passed.toFixed(3));
         });
       }

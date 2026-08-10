@@ -36,10 +36,10 @@ describe('dream scene configuration', () => {
   });
 
   it('keeps the scroll runway concise while preserving scene reading beats', () => {
-    expect(dreamScrollLength).toBe(2200);
+    expect(dreamScrollLength).toBe(2600);
     expect(sceneSpan('opening')).toBeLessThanOrEqual(0.08);
-    expect(sceneSpan('mini-ci')).toBeGreaterThanOrEqual(0.12);
-    expect(sceneSpan('memory')).toBeGreaterThanOrEqual(0.09);
+    expect(sceneSpan('mini-ci')).toBeGreaterThanOrEqual(0.16);
+    expect(sceneSpan('memory')).toBeGreaterThanOrEqual(0.06);
   });
 
   it('calculates local scene progress', () => {

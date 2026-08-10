@@ -104,7 +104,7 @@ export const dreamScenes: DreamSceneConfig[] = [
     title: 'Mini CI',
     summary: 'Placeholder for the future production-line scene.',
     start: 0.73,
-    end: 0.85,
+    end: 0.89,
     camera: { position: [-0.2, 0.42, -16.2], target: [0, 0.08, -23] },
     quality: 'medium',
     accessibleHeadingId: 'project-mini-ci'
@@ -115,8 +115,8 @@ export const dreamScenes: DreamSceneConfig[] = [
     label: 'Memory',
     title: 'About',
     summary: 'Placeholder for the future personal-memory scene.',
-    start: 0.85,
-    end: 0.94,
+    start: 0.89,
+    end: 0.955,
     camera: { position: [0.2, 0.52, -21.5], target: [0, 0.06, -28] },
     quality: 'low',
     accessibleHeadingId: 'about-heading'
@@ -127,8 +127,8 @@ export const dreamScenes: DreamSceneConfig[] = [
     label: 'Assembly',
     title: 'Identity assembly',
     summary: 'Placeholder for the future name-assembly scene.',
-    start: 0.94,
-    end: 0.97,
+    start: 0.955,
+    end: 0.98,
     camera: { position: [-0.12, 0.46, -26.2], target: [0.08, 0.08, -33] },
     quality: 'low'
   },
@@ -138,7 +138,7 @@ export const dreamScenes: DreamSceneConfig[] = [
     label: 'Contact',
     title: 'Contact',
     summary: 'Placeholder for the future contact signal.',
-    start: 0.97,
+    start: 0.98,
     end: 1,
     camera: { position: [0, 0.38, -31], target: [0, 0.04, -37] },
     quality: 'low',
@@ -146,7 +146,7 @@ export const dreamScenes: DreamSceneConfig[] = [
   }
 ];
 
-export const dreamScrollLength = 2200;
+export const dreamScrollLength = 2600;
 
 export function clampProgress(progress: number) {
   if (Number.isNaN(progress)) return 0;
