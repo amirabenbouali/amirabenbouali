@@ -2168,33 +2168,58 @@
     0 0 28px rgba(120, 144, 108, 0.2);
 }
 
-.conceptFragment {
+.conceptFragmentAnchor {
   position: absolute;
   z-index: 4;
+  width: 0;
+  height: 0;
+}
+
+.conceptFragmentMotion {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  cursor: pointer;
+  transform: translate3d(0, 0, 0);
+  transition: transform 0.35s ease;
+}
+
+.conceptFragmentMotion:hover {
+  outline: none;
+  transform: translateY(-5px);
+}
+
+.conceptFragmentMotion:focus-visible {
+  outline: none;
+}
+
+.conceptFragmentCard {
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 190px;
   padding: 17px 18px;
   color: #111410;
   border: 1px solid rgba(70, 78, 66, 0.12);
   background: rgba(248, 244, 235, 0.88);
   box-shadow: 0 10px 28px rgba(59, 57, 47, 0.06);
-  cursor: pointer;
   transform: translate(-50%, -50%);
+  transform-origin: center;
   transition:
     border-color 0.35s ease,
-    box-shadow 0.35s ease,
-    transform 0.35s ease;
+    box-shadow 0.35s ease;
 }
 
-.conceptFragment:hover,
-.conceptFragment:focus-visible,
-.conceptFragmentActive {
+.conceptFragmentMotion:hover .conceptFragmentCard,
+.conceptFragmentMotion:focus-visible .conceptFragmentCard,
+.conceptFragmentActive .conceptFragmentCard {
   border-color: rgba(117, 137, 105, 0.32);
   box-shadow: 0 18px 38px rgba(58, 57, 47, 0.11);
-  outline: none;
-  transform: translate(-50%, -50%) translateY(-5px);
 }
 
-.conceptFragment small {
+.conceptFragmentCard small {
   display: block;
   margin-bottom: 7px;
   color: #90958d;
@@ -2203,12 +2228,12 @@
   text-transform: uppercase;
 }
 
-.conceptFragment h3 {
+.conceptFragmentCard h3 {
   margin: 0;
   font: 400 19px/1.15 Georgia, serif;
 }
 
-.conceptFragment p {
+.conceptFragmentCard p {
   margin: 6px 0 0;
   color: #686f67;
   font-size: 10px;
@@ -2230,8 +2255,8 @@
 }
 
 .conceptFragmentActive .conceptFragmentDetail,
-.conceptFragment:hover .conceptFragmentDetail,
-.conceptFragment:focus-visible .conceptFragmentDetail {
+.conceptFragmentMotion:hover .conceptFragmentDetail,
+.conceptFragmentMotion:focus-visible .conceptFragmentDetail {
   max-height: 120px;
   margin-top: 12px;
   opacity: 1;
@@ -2375,7 +2400,7 @@
     height: 39vh;
   }
 
-  .conceptFragment {
+  .conceptFragmentCard {
     width: 160px;
     padding: 13px;
   }
@@ -2416,20 +2441,20 @@
     height: 34vh;
   }
 
-  .conceptFragment {
+  .conceptFragmentCard {
     width: 122px;
     padding: 9px;
   }
 
-  .conceptFragment small {
+  .conceptFragmentCard small {
     font-size: 6px;
   }
 
-  .conceptFragment h3 {
+  .conceptFragmentCard h3 {
     font-size: 14px;
   }
 
-  .conceptFragment p,
+  .conceptFragmentCard p,
   .conceptFragmentDetail {
     font-size: 8px;
   }
@@ -4328,12 +4353,12 @@
     font-size: 11px;
   }
 
-  .conceptFragment {
+  .conceptFragmentCard {
     padding: 9px;
     font-size: 9px;
   }
 
-  .conceptFragment strong {
+  .conceptFragmentCard h3 {
     font-size: 14px;
   }
 

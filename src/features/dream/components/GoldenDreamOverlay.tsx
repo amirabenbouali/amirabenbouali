@@ -1044,22 +1044,33 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
               </div>
               <div className={styles.conceptMemoryCenterMark} />
               {memoryFragments.map(([kicker, title, copy, detail, className], index) => (
-                <article
-                  key={title}
-                  ref={(node) => {
-                    fragmentRefs.current[index] = node;
-                  }}
-                  className={`${styles.conceptFragment} ${styles[className]} ${
-                    activeMemoryFragment === index ? styles.conceptFragmentActive : ''
-                  }`}
-                  onMouseEnter={() => setActiveMemoryFragment(index)}
-                  onClick={() => setActiveMemoryFragment((current) => (current === index ? null : index))}
-                >
-                  <small>{kicker}</small>
-                  <h3>{title}</h3>
-                  <p>{copy}</p>
-                  <div className={styles.conceptFragmentDetail}>{detail}</div>
-                </article>
+                <div key={title} className={`${styles.conceptFragmentAnchor} ${styles[className]}`}>
+                  <article
+                    ref={(node) => {
+                      fragmentRefs.current[index] = node;
+                    }}
+                    role="button"
+                    tabIndex={0}
+                    aria-expanded={activeMemoryFragment === index}
+                    className={`${styles.conceptFragmentMotion} ${
+                      activeMemoryFragment === index ? styles.conceptFragmentActive : ''
+                    }`}
+                    onMouseEnter={() => setActiveMemoryFragment(index)}
+                    onClick={() => setActiveMemoryFragment((current) => (current === index ? null : index))}
+                    onKeyDown={(event) => {
+                      if (event.key !== 'Enter' && event.key !== ' ') return;
+                      event.preventDefault();
+                      setActiveMemoryFragment((current) => (current === index ? null : index));
+                    }}
+                  >
+                    <div className={styles.conceptFragmentCard}>
+                      <small>{kicker}</small>
+                      <h3>{title}</h3>
+                      <p>{copy}</p>
+                      <div className={styles.conceptFragmentDetail}>{detail}</div>
+                    </div>
+                  </article>
+                </div>
               ))}
               <div className={styles.conceptHiddenNote}>not a biography. a constellation of choices.</div>
             </div>
