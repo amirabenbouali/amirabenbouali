@@ -280,10 +280,9 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
       const foldProgress = vals[3];
       const aIn = phase(a, 0, 0.14);
       const aDrift = phase(a, 0.16, 0.76);
-      const aLeave = phase(a, 0.86, 1);
       const foldIn = phase(foldProgress, 0, 0.18);
       const foldMove = phase(foldProgress, 0.5, 1);
-      setLayer(atria.current, clamp(aIn * 1.45 - foldIn * 2.4), 0.78 + aIn * 0.22, 0, lerp(70, 0, aIn) - aLeave * 16, 0);
+      setLayer(atria.current, clamp(aIn * 1.45 - foldIn * 2.4), 1);
       const rx = (smy - 0.5) * -5;
       const ry = (smx - 0.5) * 10;
       if (calendarWrap.current) {
@@ -297,6 +296,7 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
         const modeIn = phase(a, 0.42, 0.58);
         const modeOut = phase(a, 0.6, 0.74);
         const workspaceIn = phase(a, 0.68, 0.82);
+        atria.current.style.setProperty('--atria-arrival', aIn.toFixed(3));
         atria.current.style.setProperty('--atria-progress', a.toFixed(3));
         atria.current.style.setProperty('--atria-calendar', String(clamp(1 - calendarExit)));
         atria.current.style.setProperty('--atria-calendar-exit', calendarExit.toFixed(3));

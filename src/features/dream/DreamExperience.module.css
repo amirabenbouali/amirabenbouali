@@ -261,6 +261,7 @@
 }
 
 .conceptAtria {
+  --atria-arrival: 0;
   --atria-calendar: 1;
   --atria-modes: 0;
   --atria-workspace: 0;
@@ -272,19 +273,33 @@
   background-size: auto, 54px 54px, 54px 54px, auto;
 }
 
+.conceptAtria::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background:
+    radial-gradient(circle at 58% 48%, rgba(0, 0, 0, 0), rgba(12, 15, 11, 0.48) 72%),
+    linear-gradient(180deg, rgba(8, 11, 8, 0.24), rgba(8, 11, 8, 0.06) 36%, rgba(8, 11, 8, 0.2));
+  opacity: calc(1 - var(--atria-arrival));
+  pointer-events: none;
+}
+
 .conceptAtriaFog {
   position: absolute;
+  z-index: 2;
   inset: 0;
   background:
     radial-gradient(circle at 52% 46%, rgba(255, 255, 255, 0.72), transparent 42%),
     radial-gradient(ellipse at 58% 78%, rgba(185, 140, 143, 0.08), transparent 48%),
     linear-gradient(90deg, rgba(255, 255, 255, 0.2), transparent 42%);
-  opacity: 0.85;
+  opacity: calc(0.45 + var(--atria-arrival) * 0.4);
   filter: blur(10px);
 }
 
 .conceptAtriaLayout {
   position: absolute;
+  z-index: 3;
   inset: 0;
   display: grid;
   grid-template-columns: minmax(420px, 0.82fr) minmax(0, 1.18fr);
@@ -292,6 +307,8 @@
   gap: 5vw;
   padding: 14vh 5vw 7vh;
   color: #181914;
+  opacity: calc(0.34 + var(--atria-arrival) * 0.66);
+  transform: translate3d(0, calc((1 - var(--atria-arrival)) * 22px), 0);
 }
 
 .conceptAtriaCopy {
