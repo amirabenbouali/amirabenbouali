@@ -37,7 +37,8 @@ const sceneWindows = {
   atria: [0.104, 0.318],
   fold: [0.292, 0.382],
   foundry: [0.355, 0.565],
-  kanso: [0.532, 0.745],
+  foundryKansoBridge: [0.49, 0.665],
+  kanso: [0.628, 0.745],
   mini: [0.708, 0.905],
   memory: [0.872, 0.966],
   assembly: [0.942, 0.986],
@@ -191,6 +192,7 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
   const atria = useRef<HTMLElement>(null);
   const fold = useRef<HTMLElement>(null);
   const foundry = useRef<HTMLElement>(null);
+  const foundryKansoBridge = useRef<HTMLElement>(null);
   const terminal = useRef<HTMLElement>(null);
   const pipeline = useRef<HTMLElement>(null);
   const memory = useRef<HTMLElement>(null);
@@ -283,6 +285,7 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
         atria: sceneGate(p, sceneWindows.atria, 0.018, 0.018),
         fold: sceneGate(p, sceneWindows.fold, 0.012, 0.014),
         foundry: sceneGate(p, sceneWindows.foundry, 0.018, 0.018),
+        foundryKansoBridge: sceneGate(p, sceneWindows.foundryKansoBridge, 0.012, 0.012),
         kanso: sceneGate(p, sceneWindows.kanso, 0.018, 0.018),
         mini: sceneGate(p, sceneWindows.mini, 0.018, 0.018),
         memory: sceneGate(p, sceneWindows.memory, 0.016, 0.018),
@@ -368,12 +371,34 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
       const fIn = phase(f, 0, 0.14);
       const fIdle = phase(f, 0.16, 0.78);
       const fTransform = phase(f, 0.84, 1);
-      const tIn = phase(t, 0, 0.14);
+      const handoff = local(p, 0.49, 0.665);
+      const foundryExit = phase(handoff, 0.18, 0.42);
+      const bridgeChipIn = phase(handoff, 0, 0.22);
+      const bridgeChipOut = phase(handoff, 0.34, 0.48);
+      const bridgeThread = phase(handoff, 0.16, 0.58) * (1 - phase(handoff, 0.62, 0.78));
+      const bridgeSqlIn = phase(handoff, 0.42, 0.58);
+      const bridgeSqlOut = phase(handoff, 0.76, 0.92);
+      const bridgeChip = bridgeChipIn * (1 - bridgeChipOut);
+      const bridgeSql = bridgeSqlIn * (1 - bridgeSqlOut);
+      const bridgeOpacity = Math.max(bridgeChip, bridgeThread, bridgeSql);
+      const kansoEntrance = phase(p, 0.628, 0.678);
       const tTransform = phase(t, 0.82, 1);
-      setLayer(foundry.current, gates.foundry * clamp(fIn * 1.5 - tIn * 2.4), 0.9 + fIn * 0.1);
+      setLayer(foundry.current, gates.foundry * clamp(fIn * 1.5) * (1 - foundryExit), 0.9 + fIn * 0.1);
       const sig = Math.min(1, fIn * 0.22 + fTransform * 0.78);
       const foundryResolve = phase(f, 0.62, 0.94);
-      if (foundry.current) foundry.current.style.setProperty('--foundry-resolve', foundryResolve.toFixed(3));
+      if (foundry.current) {
+        foundry.current.style.setProperty('--foundry-resolve', foundryResolve.toFixed(3));
+        foundry.current.style.setProperty('--foundry-handoff', foundryExit.toFixed(3));
+        foundry.current.style.setProperty('--foundry-query-chip', bridgeChip.toFixed(3));
+      }
+      setLayer(foundryKansoBridge.current, gates.foundryKansoBridge * bridgeOpacity, 1, 0, 0, bridgeSqlOut * 1.4);
+      if (foundryKansoBridge.current) {
+        foundryKansoBridge.current.style.setProperty('--bridge-chip', bridgeChip.toFixed(3));
+        foundryKansoBridge.current.style.setProperty('--bridge-thread', bridgeThread.toFixed(3));
+        foundryKansoBridge.current.style.setProperty('--bridge-sql', bridgeSql.toFixed(3));
+        foundryKansoBridge.current.style.setProperty('--bridge-progress', handoff.toFixed(3));
+        foundryKansoBridge.current.style.setProperty('--bridge-sql-out', bridgeSqlOut.toFixed(3));
+      }
       if (signal.current) signal.current.style.transform = `translate(${sig * 32}vw,${Math.sin(sig * Math.PI) * 18}vh)`;
       if (signal.current) signal.current.style.opacity = String(1 - foundryResolve * 0.82);
       const breakPhase = phase(f, 0.76, 0.94);
@@ -392,7 +417,7 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
       });
 
       const miniHandoff = phase(vals[6], 0, 0.16);
-      setLayer(terminal.current, gates.kanso * clamp(tIn * 1.55 - miniHandoff * 1.7), 0.92 + tIn * 0.08);
+      setLayer(terminal.current, gates.kanso * clamp(kansoEntrance * 1.55 - miniHandoff * 1.7), 0.92 + kansoEntrance * 0.08);
       const orbitOut = phase(t, 0.15, 0.27);
       const pipelineIn = phase(t, 0.23, 0.34);
       const pipelineOut = phase(t, 0.43, 0.54);
@@ -489,8 +514,10 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
                 ? 'atria · time becomes architecture'
                 : p < 0.37
                   ? 'the calendar folds'
-                : p < 0.55
+                : p < 0.49
                   ? 'foundry · the living system'
+                  : p < 0.63
+                    ? 'architecture becomes language'
                     : p < 0.73
                       ? 'kansodb · language becomes matter'
                       : p < 0.83
@@ -784,6 +811,9 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
             </svg>
             <div ref={signal} className={styles.conceptSignal} />
             <div ref={fracture} className={styles.conceptFracture} />
+            <div className={styles.conceptFoundryQueryChip}>
+              <span>status</span> = 'open'
+            </div>
           </div>
           <div className={styles.conceptFoundryDashboard} aria-hidden="true">
             <div className={styles.conceptFoundryDashboardHeader}>
@@ -803,6 +833,16 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
           <div ref={foundryStatus} className={styles.conceptFoundryStatus}>
             system coherent
           </div>
+        </section>
+
+        <section ref={foundryKansoBridge} className={`${styles.conceptLayer} ${styles.conceptFoundryKansoBridge}`}>
+          <div className={styles.conceptBridgeThread} />
+          <div className={styles.conceptBridgeChip}>
+            <span>status</span> = 'open'
+          </div>
+          <pre className={styles.conceptBridgeSql}>{`SELECT *
+FROM incidents
+WHERE status = 'open';`}</pre>
         </section>
 
         <section ref={terminal} className={`${styles.conceptLayer} ${styles.conceptTerminal}`}>
