@@ -1,5 +1,5 @@
 import { Canvas } from '@react-three/fiber';
-import { Component, Suspense } from 'react';
+import { Component, Suspense, useEffect } from 'react';
 import type { MutableRefObject, ReactNode } from 'react';
 import type { QualityTier } from '../hooks/useViewportQuality';
 import { getPixelRatioForQuality } from '../hooks/useViewportQuality';
@@ -50,6 +50,10 @@ class DreamErrorBoundary extends Component<
 }
 
 export function DreamCanvas({ pointer, quality, atria, foundry, isActive, webglSupported, onLoaded, onError }: DreamCanvasProps) {
+  useEffect(() => {
+    if (!webglSupported) onLoaded();
+  }, [onLoaded, webglSupported]);
+
   if (!webglSupported) {
     return <WebGLFallback reason="unsupported" atria={atria} foundry={foundry} />;
   }
@@ -61,6 +65,7 @@ export function DreamCanvas({ pointer, quality, atria, foundry, isActive, webglS
       <Canvas
         className={styles.canvas}
         dpr={[1, pixelRatio]}
+        camera={{ position: [0, 0.2, 7.6], fov: 48, near: 0.05, far: 80 }}
         gl={{ antialias: quality !== 'low', powerPreference: 'high-performance', alpha: false }}
         frameloop={isActive ? 'always' : 'demand'}
         onCreated={({ gl }) => {

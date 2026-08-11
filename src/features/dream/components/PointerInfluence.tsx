@@ -2,14 +2,12 @@ import { useRef } from 'react';
 import type { PointerEvent } from 'react';
 
 export type PointerInfluenceRef = {
-  x: number;
-  y: number;
   targetX: number;
   targetY: number;
 };
 
 export function usePointerInfluence() {
-  const pointer = useRef<PointerInfluenceRef>({ x: 0, y: 0, targetX: 0, targetY: 0 });
+  const pointer = useRef<PointerInfluenceRef>({ targetX: 0, targetY: 0 });
 
   const handlePointerMove = (event: PointerEvent<HTMLElement>) => {
     if (event.pointerType === 'touch') {

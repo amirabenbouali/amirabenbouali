@@ -1,9 +1,7 @@
-import { useEffect, useRef, useState } from 'react';
+import { Suspense, lazy, useEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { AtmosphericGrain } from '../../components/ui/Atmosphere';
 import { AccessibleOverlay } from './components/AccessibleOverlay';
-import { DevelopmentDiagnostics } from './components/DevelopmentDiagnostics';
-import { DreamCanvas } from './components/DreamCanvas';
 import { GoldenDreamOverlay } from './components/GoldenDreamOverlay';
 import { ReducedMotionExperience } from './components/ReducedMotionExperience';
 import { usePointerInfluence } from './components/PointerInfluence';
@@ -17,6 +15,12 @@ import { useFoundryState } from './foundry/useFoundryState';
 import { dreamScrollLength } from './dreamScenes.config';
 import { createDreamTimeline } from './timeline/dreamTimeline';
 import styles from './DreamExperience.module.css';
+
+const DreamCanvas = lazy(() => import('./components/DreamCanvas').then((module) => ({ default: module.DreamCanvas })));
+const DevelopmentDiagnostics =
+  import.meta.env.VITE_DREAM_DIAGNOSTICS === 'true'
+    ? lazy(() => import('./components/DevelopmentDiagnostics').then((module) => ({ default: module.DevelopmentDiagnostics })))
+    : null;
 
 export function DreamExperience() {
   const rootRef = useRef<HTMLElement>(null);
@@ -80,16 +84,18 @@ export function DreamExperience() {
       ) : null}
 
       <div className={styles.stage}>
-        <DreamCanvas
-          pointer={pointer}
-          quality={quality.tier}
-          atria={atria}
-          foundry={foundry}
-          isActive={isPageVisible}
-          webglSupported={webglSupported}
-          onLoaded={() => setIsLoaded(true)}
-          onError={handleCanvasError}
-        />
+        <Suspense fallback={null}>
+          <DreamCanvas
+            pointer={pointer}
+            quality={quality.tier}
+            atria={atria}
+            foundry={foundry}
+            isActive={isPageVisible}
+            webglSupported={webglSupported}
+            onLoaded={() => setIsLoaded(true)}
+            onError={handleCanvasError}
+          />
+        </Suspense>
       </div>
       <GoldenDreamOverlay timeline={timeline} pointer={pointer} />
       <div className={styles.scrollSpace} aria-hidden="true" />
@@ -101,15 +107,19 @@ export function DreamExperience() {
         atria={atria}
         foundry={foundry}
       />
-      <DevelopmentDiagnostics
-        timeline={timeline}
-        quality={quality.tier}
-        pixelRatio={quality.pixelRatio}
-        reducedMotion={reducedMotion.prefersReducedMotion}
-        webglSupported={webglSupported}
-        atria={atria}
-        foundry={foundry}
-      />
+      {DevelopmentDiagnostics ? (
+        <Suspense fallback={null}>
+          <DevelopmentDiagnostics
+            timeline={timeline}
+            quality={quality.tier}
+            pixelRatio={quality.pixelRatio}
+            reducedMotion={reducedMotion.prefersReducedMotion}
+            webglSupported={webglSupported}
+            atria={atria}
+            foundry={foundry}
+          />
+        </Suspense>
+      ) : null}
       <AtmosphericGrain />
     </main>
   );
