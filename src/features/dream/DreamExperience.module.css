@@ -788,21 +788,33 @@
 }
 
 .conceptFoundry {
+  --foundry-opening-out: 0;
   --foundry-resolve: 0;
   --foundry-handoff: 0;
   --foundry-query-chip: 0;
+  --foundry-alive: 0;
+  --foundry-node-1: 0;
+  --foundry-node-2: 0;
+  --foundry-node-3: 0;
+  --foundry-node-4: 0;
+  --foundry-link-1: 0;
+  --foundry-link-2: 0;
+  --foundry-link-3: 0;
+  --foundry-link-4: 0;
+  --foundry-link-5: 0;
   background:
-    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-    radial-gradient(circle at 55% 48%, rgba(127, 145, 160, 0.12), transparent 35%),
-    #071014;
-  background-size: 48px 48px, 48px 48px, auto, auto;
+    linear-gradient(rgba(180, 200, 190, 0.045) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(180, 200, 190, 0.045) 1px, transparent 1px),
+    radial-gradient(circle at 67% 51%, rgba(121, 153, 131, 0.08), transparent 28%),
+    #061014;
+  background-size: 52px 52px, 52px 52px, auto, auto;
 }
 
 .conceptFoundryTitle {
-  max-width: min(620px, 42vw);
-  opacity: calc(1 - var(--foundry-handoff));
-  transform: translate3d(0, calc(var(--foundry-handoff) * -18px), 0);
+  top: 11vh;
+  max-width: min(640px, 42vw);
+  opacity: calc((1 - var(--foundry-handoff)) * (1 - var(--foundry-opening-out)));
+  transform: translate3d(0, calc((var(--foundry-handoff) + var(--foundry-opening-out)) * -18px), 0);
 }
 
 .conceptFoundryTitle h2 {
@@ -810,23 +822,26 @@
 }
 
 .conceptFoundryTitle p {
-  max-width: 520px;
-  margin: 22px 0 0;
+  max-width: 600px;
+  margin: 28px 0 0;
+  color: #939b96;
   font-size: 14px;
-  line-height: 1.85;
+  line-height: 1.75;
 }
 
 .conceptFoundryTitle p + p {
-  margin-top: 12px;
-  color: rgba(238, 232, 220, 0.52);
+  margin-top: 8px;
+  color: #69736d;
 }
 
 .conceptFoundryMeta {
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-  gap: 18px 34px;
+  grid-template-columns: 1fr 1fr;
+  gap: 28px;
   max-width: 560px;
   margin: 34px 0 0;
+  padding-top: 18px;
+  border-top: 1px solid rgba(180, 200, 190, 0.08);
 }
 
 .conceptFoundryMeta div {
@@ -835,26 +850,26 @@
 
 .conceptFoundryMeta dt {
   margin-bottom: 8px;
-  color: rgba(238, 232, 220, 0.38);
-  font-size: 10px;
-  letter-spacing: 0.2em;
+  color: #737f79;
+  font-size: 8px;
+  letter-spacing: 0.17em;
   text-transform: uppercase;
 }
 
 .conceptFoundryMeta dd {
   margin: 0;
-  color: rgba(238, 232, 220, 0.66);
-  font-size: 12px;
-  line-height: 1.6;
+  color: #8e9791;
+  font-size: 11px;
+  line-height: 1.65;
 }
 
 .conceptFoundryCta {
   display: inline-flex;
-  margin-top: 34px;
-  padding-bottom: 8px;
-  color: rgba(238, 232, 220, 0.82);
-  border-bottom: 1px solid rgba(238, 232, 220, 0.26);
-  font-size: 13px;
+  margin-top: 30px;
+  padding-bottom: 6px;
+  color: #c9cfcb;
+  border-bottom: 1px solid rgba(190, 204, 195, 0.25);
+  font-size: 11px;
   letter-spacing: 0.02em;
   text-decoration: none;
   transition:
@@ -879,71 +894,137 @@
 }
 
 .conceptFoundry .conceptGraph {
-  inset: 0 3vw 0 43vw;
+  inset: 13vh 5vw 7vh 50vw;
   overflow: hidden;
+  border-left: 1px solid rgba(180, 200, 190, 0.05);
   pointer-events: none;
-  opacity: calc(1 - var(--foundry-handoff));
-  transform: translate3d(calc(var(--foundry-handoff) * -14px), 0, 0);
+  opacity: calc((1 - var(--foundry-handoff)) * (1 - var(--foundry-opening-out)));
+  transform: translate3d(calc((var(--foundry-handoff) + var(--foundry-opening-out)) * -14px), 0, 0);
+}
+
+.conceptFoundryGlow {
+  position: absolute;
+  left: 50%;
+  top: 48%;
+  width: 150px;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgba(149, 181, 154, 0.15), rgba(149, 181, 154, 0.04) 38%, transparent 68%);
+  opacity: calc((0.38 + var(--foundry-alive) * 0.34) * (1 - var(--foundry-opening-out)));
+  transform: translate(-50%, -50%) scale(calc(0.92 + var(--foundry-alive) * 0.16));
+  animation: conceptFoundryHeartbeat 4.8s ease-in-out infinite;
+}
+
+@keyframes conceptFoundryHeartbeat {
+  0%,
+  100% {
+    opacity: 0.38;
+    transform: translate(-50%, -50%) scale(0.92);
+  }
+
+  50% {
+    opacity: 0.72;
+    transform: translate(-50%, -50%) scale(1.08);
+  }
 }
 
 .conceptNode {
   position: absolute;
   z-index: 2;
-  width: 188px;
-  padding: 18px;
+  width: 190px;
+  padding: 17px 18px;
   color: #eee8dc;
-  border: 1px solid rgba(238, 232, 220, 0.16);
-  background: rgba(7, 16, 20, 0.88);
-  box-shadow: 0 18px 60px rgba(0, 0, 0, 0.24);
+  border: 1px solid rgba(164, 187, 176, 0.15);
+  background: linear-gradient(180deg, rgba(9, 18, 22, 0.92), rgba(7, 14, 18, 0.86));
+  box-shadow:
+    inset 0 0 24px rgba(150, 180, 160, 0.018),
+    0 14px 45px rgba(0, 0, 0, 0.11);
   font-size: 10px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  opacity: calc(1 - (var(--foundry-resolve) * 0.86));
+  opacity: calc(var(--foundry-node, 0) * (1 - var(--foundry-opening-out)));
   will-change: opacity, transform;
 }
 
 .conceptNode span {
   display: block;
-  color: rgba(238, 232, 220, 0.45);
+  margin-bottom: 12px;
+  color: #69756f;
+  font-size: 8px;
+  letter-spacing: 0.16em;
 }
 
 .conceptNode b {
   display: block;
-  margin-top: 8px;
-  color: rgba(238, 232, 220, 0.92);
+  margin-top: 0;
+  color: #e1e6e1;
   font-size: 14px;
+  font-weight: 600;
   letter-spacing: 0;
   text-transform: none;
 }
 
 .conceptNode small {
   display: block;
-  margin-top: 8px;
-  color: rgba(238, 232, 220, 0.56);
-  font-size: 10px;
+  margin-top: 5px;
+  color: #7f8a84;
+  font-size: 9px;
   letter-spacing: 0.02em;
   line-height: 1.45;
   text-transform: none;
 }
 
 .n1 {
-  left: 9%;
-  top: 18%;
+  --foundry-node: var(--foundry-node-1);
+  left: 12%;
+  top: 12%;
 }
 
 .n2 {
-  right: 7%;
-  top: 24%;
+  --foundry-node: var(--foundry-node-2);
+  right: 5%;
+  top: 22%;
+  width: 205px;
 }
 
 .n3 {
-  left: 12%;
-  bottom: 14%;
+  --foundry-node: var(--foundry-node-3);
+  left: 16%;
+  bottom: 7%;
+  width: 205px;
 }
 
 .n4 {
+  --foundry-node: var(--foundry-node-4);
   right: 12%;
-  bottom: 18%;
+  bottom: 8%;
+  width: 205px;
+}
+
+.conceptNodeStatus {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.conceptNodeStatus small {
+  margin-top: 0;
+  color: #8e9791;
+  font-size: 8px;
+}
+
+.conceptNodeDot,
+.conceptNodeWarnDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #9fb6a0;
+  box-shadow: 0 0 10px rgba(159, 182, 160, 0.22);
+}
+
+.conceptNodeWarnDot {
+  background: #c1a26b;
 }
 
 .conceptGraphLines {
@@ -953,27 +1034,70 @@
   width: 100%;
   height: 100%;
   overflow: visible;
-  opacity: calc(0.82 - (var(--foundry-resolve) * 0.58));
+  opacity: calc(0.88 * (1 - var(--foundry-handoff)) * (1 - var(--foundry-opening-out)));
   pointer-events: none;
 }
 
-.conceptGraphLines line {
-  stroke: rgba(127, 145, 160, 0.64);
+.conceptGraphPath {
+  fill: none;
+  stroke: #41564f;
   stroke-linecap: round;
-  stroke-width: 1;
+  stroke-width: 1.2;
+  stroke-dasharray: 600;
+  stroke-dashoffset: calc((1 - var(--foundry-link, 0)) * 600);
+  opacity: calc(0.35 * var(--foundry-link, 0));
   vector-effect: non-scaling-stroke;
+}
+
+.conceptGraphPathOne {
+  --foundry-link: var(--foundry-link-1);
+}
+
+.conceptGraphPathTwo {
+  --foundry-link: var(--foundry-link-2);
+}
+
+.conceptGraphPathThree {
+  --foundry-link: var(--foundry-link-3);
+}
+
+.conceptGraphPathFour {
+  --foundry-link: var(--foundry-link-4);
+}
+
+.conceptGraphPathFive {
+  --foundry-link: var(--foundry-link-5);
+}
+
+.conceptGraphPulse {
+  fill: #b3d2ad;
+  opacity: calc(var(--foundry-alive) * 0.9 * (1 - var(--foundry-handoff)) * (1 - var(--foundry-opening-out)));
+  filter: drop-shadow(0 0 6px rgba(179, 210, 173, 0.4));
+}
+
+.conceptFoundryGraphLabel {
+  position: absolute;
+  left: 48%;
+  top: 51%;
+  color: #62706a;
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  opacity: calc(var(--foundry-alive) * (1 - var(--foundry-handoff)) * (1 - var(--foundry-opening-out)));
+  transform: translate(-50%, -50%);
 }
 
 .conceptSignal {
   position: absolute;
   z-index: 2;
-  top: 29%;
-  left: 10%;
+  top: 49%;
+  left: 48%;
   width: 9px;
   height: 9px;
   border-radius: 50%;
-  background: #b7d6e5;
-  box-shadow: 0 0 22px rgba(183, 214, 229, 0.9);
+  background: #b3d2ad;
+  box-shadow: 0 0 18px rgba(179, 210, 173, 0.45);
+  opacity: calc(var(--foundry-alive) * (1 - var(--foundry-opening-out)));
 }
 
 .conceptFracture {
@@ -1012,7 +1136,7 @@
 
 .conceptFoundryStatus {
   bottom: 9vh;
-  opacity: calc(1 - var(--foundry-handoff));
+  opacity: calc((1 - var(--foundry-handoff)) * (1 - var(--foundry-opening-out)));
 }
 
 .conceptFoundryDashboard {
@@ -1188,7 +1312,7 @@
   }
 
   .conceptFoundry .conceptGraph {
-    inset: 0 2vw 0 48vw;
+    inset: 15vh 3vw 8vh 53vw;
   }
 
   .conceptFoundryDashboard {
@@ -4230,12 +4354,61 @@
   }
 
   .conceptFoundry .conceptGraph {
-    opacity: calc((1 - var(--foundry-handoff)) * 0.5);
+    inset: auto 20px 72px;
+    height: min(36vh, 270px);
+    border-top: 1px solid rgba(180, 200, 190, 0.05);
+    border-left: 0;
+    opacity: calc((1 - var(--foundry-handoff)) * 0.68);
   }
 
-  .conceptFoundry .conceptNode,
   .conceptFoundryDashboard {
     display: none;
+  }
+
+  .conceptFoundry .conceptNode {
+    width: 136px;
+    padding: 10px 11px;
+  }
+
+  .conceptNode span {
+    margin-bottom: 7px;
+    font-size: 6px;
+  }
+
+  .conceptNode b {
+    font-size: 10px;
+  }
+
+  .conceptNode small,
+  .conceptNodeStatus small {
+    font-size: 7px;
+  }
+
+  .n1 {
+    left: 5%;
+    top: 7%;
+  }
+
+  .n2 {
+    right: 3%;
+    top: 12%;
+    width: 146px;
+  }
+
+  .n3 {
+    left: 9%;
+    bottom: 5%;
+    width: 146px;
+  }
+
+  .n4 {
+    right: 8%;
+    bottom: 3%;
+    width: 146px;
+  }
+
+  .conceptFoundryGraphLabel {
+    font-size: 6px;
   }
 
   .conceptFoundryQueryChip {
@@ -4633,7 +4806,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .goldenFog,
-  .goldenDreamFragment {
+  .goldenDreamFragment,
+  .conceptFoundryGlow {
     animation: none;
   }
 }

@@ -376,23 +376,32 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
       const fTransform = phase(f, 0.84, 1);
       const handoff = local(p, 0.525, 0.725);
       const foundryExit = phase(handoff, 0.22, 0.5);
-      const bridgeChipIn = phase(handoff, 0, 0.24);
-      const bridgeChipOut = phase(handoff, 0.4, 0.58);
-      const bridgeThread = phase(handoff, 0.18, 0.64) * (1 - phase(handoff, 0.7, 0.9));
-      const bridgeSqlIn = phase(handoff, 0.5, 0.66);
-      const bridgeSqlOut = phase(handoff, 0.82, 0.98);
+      const bridgeChipIn = phase(handoff, 0.58, 0.7);
+      const bridgeChipOut = phase(handoff, 0.78, 0.9);
+      const bridgeThread = phase(handoff, 0.64, 0.82) * (1 - phase(handoff, 0.88, 1));
+      const bridgeSqlIn = phase(handoff, 0.78, 0.92);
+      const bridgeSqlOut = phase(handoff, 0.94, 1);
       const bridgeChip = bridgeChipIn * (1 - bridgeChipOut);
       const bridgeSql = bridgeSqlIn * (1 - bridgeSqlOut);
       const bridgeOpacity = Math.max(bridgeChip, bridgeThread, bridgeSql);
-      const kansoEntrance = phase(p, 0.685, 0.725);
+      const kansoEntrance = phase(p, 0.715, 0.755);
       const tTransform = phase(t, 0.82, 1);
       setLayer(foundry.current, gates.foundry * clamp(fIn * 1.5) * (1 - foundryExit), 0.9 + fIn * 0.1);
       const sig = Math.min(1, fIn * 0.22 + fTransform * 0.78);
-      const foundryResolve = phase(f, 0.62, 0.94);
+      const foundryOpeningOut = phase(f, 0.56, 0.72);
+      const foundryResolve = phase(f, 0.74, 0.96);
       if (foundry.current) {
+        foundry.current.style.setProperty('--foundry-opening-out', foundryOpeningOut.toFixed(3));
         foundry.current.style.setProperty('--foundry-resolve', foundryResolve.toFixed(3));
         foundry.current.style.setProperty('--foundry-handoff', foundryExit.toFixed(3));
         foundry.current.style.setProperty('--foundry-query-chip', bridgeChip.toFixed(3));
+        [0.07, 0.2, 0.34, 0.47].forEach((threshold, index) => {
+          foundry.current?.style.setProperty(`--foundry-node-${index + 1}`, phase(f, threshold, threshold + 0.09).toFixed(3));
+        });
+        [0.18, 0.25, 0.32, 0.39, 0.46].forEach((threshold, index) => {
+          foundry.current?.style.setProperty(`--foundry-link-${index + 1}`, phase(f, threshold, threshold + 0.12).toFixed(3));
+        });
+        foundry.current.style.setProperty('--foundry-alive', phase(f, 0.52, 0.68).toFixed(3));
       }
       setLayer(foundryKansoBridge.current, gates.foundryKansoBridge * bridgeOpacity, 1, 0, 0, bridgeSqlOut * 1.4);
       if (foundryKansoBridge.current) {
@@ -812,6 +821,7 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
             </a>
           </div>
           <div className={styles.conceptGraph}>
+            <div className={styles.conceptFoundryGlow} />
             {foundryNodes.map((node, index) => (
               <div
                 key={node.label}
@@ -825,14 +835,26 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
                 {node.details.map((detail) => (
                   <small key={detail}>{detail}</small>
                 ))}
+                <div className={styles.conceptNodeStatus}>
+                  <i className={index === 1 ? styles.conceptNodeWarnDot : styles.conceptNodeDot} />
+                  <small>{index === 1 ? 'Active signal' : index === 2 ? 'Ready' : index === 3 ? 'Live' : 'Healthy'}</small>
+                </div>
               </div>
             ))}
-            <svg className={styles.conceptGraphLines} viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
-              <line x1="26" y1="26" x2="76" y2="32" />
-              <line x1="20" y1="32" x2="20" y2="71" />
-              <line x1="29" y1="75" x2="71" y2="72" />
-              <line x1="84" y1="39" x2="80" y2="67" />
+            <svg className={styles.conceptGraphLines} viewBox="0 0 1000 700" preserveAspectRatio="none" aria-hidden="true">
+              <path className={`${styles.conceptGraphPath} ${styles.conceptGraphPathOne}`} d="M260 135 C420 180, 620 170, 810 245" />
+              <path className={`${styles.conceptGraphPath} ${styles.conceptGraphPathTwo}`} d="M810 245 C780 390, 780 500, 760 590" />
+              <path className={`${styles.conceptGraphPath} ${styles.conceptGraphPathThree}`} d="M760 590 C600 560, 470 555, 310 590" />
+              <path className={`${styles.conceptGraphPath} ${styles.conceptGraphPathFour}`} d="M310 590 C300 430, 285 300, 260 135" />
+              <path className={`${styles.conceptGraphPath} ${styles.conceptGraphPathFive}`} d="M260 135 C430 310, 595 470, 760 590" />
+              <circle className={styles.conceptGraphPulse} r="5">
+                <animateMotion dur="4.2s" repeatCount="indefinite" path="M260 135 C420 180, 620 170, 810 245" />
+              </circle>
+              <circle className={styles.conceptGraphPulse} r="5">
+                <animateMotion dur="5.1s" repeatCount="indefinite" path="M760 590 C600 560, 470 555, 310 590" />
+              </circle>
             </svg>
+            <div className={styles.conceptFoundryGraphLabel}>system responsibilities connecting</div>
             <div ref={signal} className={styles.conceptSignal} />
             <div ref={fracture} className={styles.conceptFracture} />
             <div className={styles.conceptFoundryQueryChip}>
