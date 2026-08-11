@@ -21,29 +21,29 @@ const atriaModes = [
 const spans = [
   [0, 0.07],
   [0.06, 0.12],
-  [0.11, 0.3],
-  [0.29, 0.37],
-  [0.36, 0.55],
-  [0.54, 0.73],
-  [0.72, 0.89],
-  [0.88, 0.955],
-  [0.945, 0.98],
-  [0.97, 1]
+  [0.11, 0.315],
+  [0.3, 0.395],
+  [0.375, 0.595],
+  [0.575, 0.785],
+  [0.775, 0.925],
+  [0.912, 0.968],
+  [0.958, 0.986],
+  [0.98, 1]
 ] as const;
 
 const sceneWindows = {
   hero: [0, 0.102],
   portal: [0.052, 0.132],
-  atria: [0.104, 0.318],
-  fold: [0.292, 0.382],
-  foundry: [0.355, 0.565],
-  foundryKansoBridge: [0.49, 0.665],
-  kanso: [0.628, 0.745],
-  kansoMiniBridge: [0.688, 0.765],
-  mini: [0.708, 0.905],
-  memory: [0.872, 0.966],
-  assembly: [0.942, 0.986],
-  contact: [0.965, 1]
+  atria: [0.104, 0.33],
+  fold: [0.292, 0.41],
+  foundry: [0.37, 0.62],
+  foundryKansoBridge: [0.525, 0.725],
+  kanso: [0.655, 0.805],
+  kansoMiniBridge: [0.735, 0.835],
+  mini: [0.81, 0.94],
+  memory: [0.915, 0.976],
+  assembly: [0.958, 0.988],
+  contact: [0.98, 1]
 } as const;
 
 const memoryFragments = [
@@ -326,7 +326,7 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
       const aIn = phase(a, 0, 0.14);
       const aDrift = phase(a, 0.16, 0.76);
       const foldIn = phase(foldProgress, 0, 0.18);
-      const foldMove = phase(foldProgress, 0.5, 1);
+      const foldMove = phase(foldProgress, 0.36, 0.96);
       setLayer(atria.current, gates.atria * clamp(aIn * 1.45 - foldIn * 2.4), 1);
       const rx = (smy - 0.5) * -5;
       const ry = (smx - 0.5) * 10;
@@ -374,17 +374,17 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
       const fIn = phase(f, 0, 0.14);
       const fIdle = phase(f, 0.16, 0.78);
       const fTransform = phase(f, 0.84, 1);
-      const handoff = local(p, 0.49, 0.665);
-      const foundryExit = phase(handoff, 0.18, 0.42);
-      const bridgeChipIn = phase(handoff, 0, 0.22);
-      const bridgeChipOut = phase(handoff, 0.34, 0.48);
-      const bridgeThread = phase(handoff, 0.16, 0.58) * (1 - phase(handoff, 0.62, 0.78));
-      const bridgeSqlIn = phase(handoff, 0.42, 0.58);
-      const bridgeSqlOut = phase(handoff, 0.76, 0.92);
+      const handoff = local(p, 0.525, 0.725);
+      const foundryExit = phase(handoff, 0.22, 0.5);
+      const bridgeChipIn = phase(handoff, 0, 0.24);
+      const bridgeChipOut = phase(handoff, 0.4, 0.58);
+      const bridgeThread = phase(handoff, 0.18, 0.64) * (1 - phase(handoff, 0.7, 0.9));
+      const bridgeSqlIn = phase(handoff, 0.5, 0.66);
+      const bridgeSqlOut = phase(handoff, 0.82, 0.98);
       const bridgeChip = bridgeChipIn * (1 - bridgeChipOut);
       const bridgeSql = bridgeSqlIn * (1 - bridgeSqlOut);
       const bridgeOpacity = Math.max(bridgeChip, bridgeThread, bridgeSql);
-      const kansoEntrance = phase(p, 0.628, 0.678);
+      const kansoEntrance = phase(p, 0.685, 0.725);
       const tTransform = phase(t, 0.82, 1);
       setLayer(foundry.current, gates.foundry * clamp(fIn * 1.5) * (1 - foundryExit), 0.9 + fIn * 0.1);
       const sig = Math.min(1, fIn * 0.22 + fTransform * 0.78);
@@ -419,17 +419,17 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
         }px)`;
       });
 
-      const kansoMiniHandoff = local(p, 0.688, 0.765);
-      const kansoExit = phase(kansoMiniHandoff, 0.18, 0.42);
-      const kmResultIn = phase(kansoMiniHandoff, 0, 0.2);
-      const kmResultOut = phase(kansoMiniHandoff, 0.34, 0.52);
-      const kmThread = phase(kansoMiniHandoff, 0.18, 0.56) * (1 - phase(kansoMiniHandoff, 0.68, 0.86));
-      const kmLogIn = phase(kansoMiniHandoff, 0.46, 0.64);
-      const kmLogOut = phase(kansoMiniHandoff, 0.82, 1);
+      const kansoMiniHandoff = local(p, 0.735, 0.835);
+      const kansoExit = phase(kansoMiniHandoff, 0.2, 0.5);
+      const kmResultIn = phase(kansoMiniHandoff, 0, 0.22);
+      const kmResultOut = phase(kansoMiniHandoff, 0.42, 0.6);
+      const kmThread = phase(kansoMiniHandoff, 0.18, 0.64) * (1 - phase(kansoMiniHandoff, 0.72, 0.92));
+      const kmLogIn = phase(kansoMiniHandoff, 0.52, 0.7);
+      const kmLogOut = phase(kansoMiniHandoff, 0.84, 1);
       const kmResult = kmResultIn * (1 - kmResultOut);
       const kmLog = kmLogIn * (1 - kmLogOut);
       const kmOpacity = Math.max(kmResult, kmThread, kmLog);
-      const miniEntrance = phase(p, 0.758, 0.792);
+      const miniEntrance = phase(p, 0.825, 0.86);
       setLayer(terminal.current, gates.kanso * clamp(kansoEntrance * 1.55) * (1 - kansoExit), 0.92 + kansoEntrance * 0.08);
       const orbitOut = phase(t, 0.15, 0.27);
       const pipelineIn = phase(t, 0.23, 0.34);
@@ -461,7 +461,7 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
       const m = vals[7];
       const miniSceneIn = miniEntrance;
       const miniSceneOut = phase(m, 0, 0.2);
-      const miniStory = phase(pi, 0.43, 0.98);
+      const miniStory = phase(pi, 0.48, 0.99);
       setLayer(pipeline.current, gates.mini * clamp(miniSceneIn * 1.2 - miniSceneOut * 1.8), 0.96 + miniSceneIn * 0.04);
       if (pipeline.current) {
         const commitOut = phase(miniStory, 0.18, 0.34);
@@ -534,19 +534,19 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
               ? 'the letter becomes a passage'
               : p < 0.3
                 ? 'atria · time becomes architecture'
-                : p < 0.37
+                : p < 0.39
                   ? 'the calendar folds'
-                : p < 0.49
+                : p < 0.525
                   ? 'foundry · the living system'
-                  : p < 0.63
+                  : p < 0.685
                     ? 'architecture becomes language'
-                    : p < 0.73
+                    : p < 0.735
                       ? 'kansodb · language becomes matter'
-                      : p < 0.765
+                      : p < 0.825
                         ? 'query result becomes build signal'
-                      : p < 0.83
+                      : p < 0.87
                         ? 'mini ci · confidence before release'
-                        : p < 0.92
+                        : p < 0.935
                           ? 'about · fragments of amira'
                           : p < 0.96
                             ? 'everything returns'

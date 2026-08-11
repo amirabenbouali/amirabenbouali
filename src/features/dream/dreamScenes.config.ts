@@ -57,7 +57,7 @@ export const dreamScenes: DreamSceneConfig[] = [
     title: 'Atria',
     summary: 'Placeholder for the future calendar architecture scene.',
     start: 0.12,
-    end: 0.3,
+    end: 0.31,
     camera: { position: [0.1, 0.36, 0.4], target: [0, 0.12, -7] },
     quality: 'medium',
     accessibleHeadingId: 'project-atria'
@@ -68,8 +68,8 @@ export const dreamScenes: DreamSceneConfig[] = [
     label: 'Atria to Foundry',
     title: 'The calendar folds',
     summary: 'The Atria facade folds slowly into the structural language of the next project.',
-    start: 0.3,
-    end: 0.37,
+    start: 0.31,
+    end: 0.39,
     camera: { position: [-0.25, 0.42, -5.3], target: [0.2, 0.1, -12] },
     quality: 'medium'
   },
@@ -79,8 +79,8 @@ export const dreamScenes: DreamSceneConfig[] = [
     label: 'Foundry',
     title: 'Foundry',
     summary: 'Placeholder for the future engineering-system scene.',
-    start: 0.37,
-    end: 0.55,
+    start: 0.39,
+    end: 0.58,
     camera: { position: [-0.25, 0.42, -5.3], target: [0.2, 0.1, -12] },
     quality: 'medium',
     accessibleHeadingId: 'project-foundry'
@@ -91,8 +91,8 @@ export const dreamScenes: DreamSceneConfig[] = [
     label: 'kansoDB',
     title: 'kansoDB',
     summary: 'Placeholder for the future query-language scene.',
-    start: 0.55,
-    end: 0.73,
+    start: 0.58,
+    end: 0.77,
     camera: { position: [0.3, 0.5, -11], target: [-0.15, 0.08, -17] },
     quality: 'medium',
     accessibleHeadingId: 'project-kansodb'
@@ -103,8 +103,8 @@ export const dreamScenes: DreamSceneConfig[] = [
     label: 'Mini CI',
     title: 'Mini CI',
     summary: 'Placeholder for the future production-line scene.',
-    start: 0.73,
-    end: 0.89,
+    start: 0.77,
+    end: 0.915,
     camera: { position: [-0.2, 0.42, -16.2], target: [0, 0.08, -23] },
     quality: 'medium',
     accessibleHeadingId: 'project-mini-ci'
@@ -115,8 +115,8 @@ export const dreamScenes: DreamSceneConfig[] = [
     label: 'Memory',
     title: 'About',
     summary: 'Placeholder for the future personal-memory scene.',
-    start: 0.89,
-    end: 0.955,
+    start: 0.915,
+    end: 0.965,
     camera: { position: [0.2, 0.52, -21.5], target: [0, 0.06, -28] },
     quality: 'low',
     accessibleHeadingId: 'about-heading'
@@ -127,8 +127,8 @@ export const dreamScenes: DreamSceneConfig[] = [
     label: 'Assembly',
     title: 'Identity assembly',
     summary: 'Placeholder for the future name-assembly scene.',
-    start: 0.955,
-    end: 0.98,
+    start: 0.965,
+    end: 0.985,
     camera: { position: [-0.12, 0.46, -26.2], target: [0.08, 0.08, -33] },
     quality: 'low'
   },
@@ -138,7 +138,7 @@ export const dreamScenes: DreamSceneConfig[] = [
     label: 'Contact',
     title: 'Contact',
     summary: 'Placeholder for the future contact signal.',
-    start: 0.98,
+    start: 0.985,
     end: 1,
     camera: { position: [0, 0.38, -31], target: [0, 0.04, -37] },
     quality: 'low',
@@ -146,7 +146,7 @@ export const dreamScenes: DreamSceneConfig[] = [
   }
 ];
 
-export const dreamScrollLength = 2600;
+export const dreamScrollLength = 2850;
 
 export function clampProgress(progress: number) {
   if (Number.isNaN(progress)) return 0;

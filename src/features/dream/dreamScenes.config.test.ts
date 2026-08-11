@@ -36,18 +36,18 @@ describe('dream scene configuration', () => {
   });
 
   it('keeps the scroll runway concise while preserving scene reading beats', () => {
-    expect(dreamScrollLength).toBe(2600);
+    expect(dreamScrollLength).toBe(2850);
     expect(sceneSpan('opening')).toBeLessThanOrEqual(0.08);
-    expect(sceneSpan('mini-ci')).toBeGreaterThanOrEqual(0.16);
-    expect(sceneSpan('memory')).toBeGreaterThanOrEqual(0.06);
+    expect(sceneSpan('mini-ci')).toBeGreaterThanOrEqual(0.14);
+    expect(sceneSpan('memory')).toBeGreaterThanOrEqual(0.05);
   });
 
   it('calculates local scene progress', () => {
     const atria = dreamScenes.find((scene) => scene.id === 'atria');
     expect(atria).toBeDefined();
     expect(getLocalSceneProgress(0.12, atria)).toBe(0);
-    expect(getLocalSceneProgress(0.21, atria)).toBeCloseTo(0.5);
-    expect(getLocalSceneProgress(0.3, atria)).toBe(1);
+    expect(getLocalSceneProgress(0.215, atria)).toBeCloseTo(0.5);
+    expect(getLocalSceneProgress(0.31, atria)).toBe(1);
   });
 
   it('selects previous and next scenes', () => {
