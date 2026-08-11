@@ -62,10 +62,10 @@
   position: fixed;
   z-index: 100;
   left: 26px;
-  bottom: 22px;
+  bottom: 8px;
   color: #fff;
   font-family: Arial, Helvetica, sans-serif;
-  font-size: 10px;
+  font-size: 9px;
   letter-spacing: 0.16em;
   mix-blend-mode: difference;
   text-transform: uppercase;
@@ -2317,9 +2317,9 @@
   position: absolute;
   top: 47%;
   right: 1%;
-  z-index: 5;
+  z-index: 2;
   max-width: 380px;
-  color: rgba(93, 103, 90, 0.72);
+  color: rgba(93, 103, 90, 0.58);
   font: italic clamp(22px, 2.3vw, 32px) / 1.42 Georgia, serif;
   pointer-events: none;
   text-shadow:
