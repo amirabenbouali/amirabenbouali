@@ -4317,7 +4317,7 @@
   .conceptKansoEngine {
     inset: auto 20px 72px;
     height: min(31vh, 250px);
-    opacity: 0.72;
+    opacity: calc((1 - var(--kanso-handoff)) * 0.72);
   }
 
   .conceptQuery {
@@ -4349,6 +4349,31 @@
   .conceptResultTable th,
   .conceptResultTable td {
     padding: 7px 8px;
+  }
+
+  .conceptKansoMiniResult,
+  .conceptKansoMiniLog {
+    width: calc(100vw - 40px);
+  }
+
+  .conceptKansoMiniResult {
+    padding: 13px;
+  }
+
+  .conceptKansoMiniResult span,
+  .conceptKansoMiniResult b {
+    padding: 9px 10px;
+    font-size: 9px;
+  }
+
+  .conceptKansoMiniThread {
+    width: min(80vw, 360px);
+  }
+
+  .conceptKansoMiniLog {
+    padding: 18px;
+    font-size: clamp(11px, 3.4vw, 14px);
+    line-height: 1.7;
   }
 
   .conceptMiniCiLayout {
@@ -4618,6 +4643,7 @@
   --kanso-pipeline: 0;
   --kanso-ast: 0;
   --kanso-result: 0;
+  --kanso-handoff: 0;
   background:
     linear-gradient(rgba(155, 178, 153, 0.055) 1px, transparent 1px),
     linear-gradient(90deg, rgba(155, 178, 153, 0.055) 1px, transparent 1px),
@@ -4631,6 +4657,8 @@
   left: 5vw;
   z-index: 8;
   max-width: min(650px, 42vw);
+  opacity: calc(1 - var(--kanso-handoff));
+  transform: translate3d(0, calc(var(--kanso-handoff) * -18px), 0);
 }
 
 .conceptKansoTitle h2 {
@@ -4681,6 +4709,8 @@
   border-left: 1px solid rgba(168, 197, 157, 0.09);
   background: radial-gradient(circle at 50% 50%, rgba(144, 180, 137, 0.08), transparent 45%);
   box-shadow: none;
+  opacity: calc(1 - var(--kanso-handoff));
+  transform: translate3d(calc(var(--kanso-handoff) * -16px), 0, 0);
 }
 
 .conceptQueryOrbit,
@@ -4913,6 +4943,99 @@
   font-weight: 500;
 }
 
+.conceptKansoMiniBridge {
+  --km-result: 0;
+  --km-thread: 0;
+  --km-log: 0;
+  --km-progress: 0;
+  --km-log-out: 0;
+  color: #dfe9d6;
+  background:
+    linear-gradient(rgba(155, 178, 153, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(155, 178, 153, 0.035) 1px, transparent 1px),
+    radial-gradient(circle at 48% 48%, rgba(101, 123, 100, 0.14), transparent 34%),
+    linear-gradient(90deg, #050706 0 58%, #f7f7f4 160%);
+  background-size: 48px 48px, 48px 48px, auto, auto;
+  pointer-events: none;
+}
+
+.conceptKansoMiniResult,
+.conceptKansoMiniLog {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  width: min(560px, 58vw);
+  border: 1px solid rgba(168, 197, 157, 0.18);
+  box-shadow: 0 26px 82px rgba(0, 0, 0, 0.32);
+  will-change: opacity, transform;
+}
+
+.conceptKansoMiniResult {
+  top: 50%;
+  padding: 18px;
+  background: rgba(5, 8, 6, 0.88);
+  opacity: var(--km-result);
+  transform: translate3d(-50%, calc(-50% + (1 - var(--km-result)) * 18px), 0)
+    scale(calc(0.98 + var(--km-result) * 0.02));
+}
+
+.conceptKansoMiniResult small {
+  display: block;
+  margin-bottom: 14px;
+  color: #7d9479;
+  font: 9px/1 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.conceptKansoMiniResult div {
+  display: grid;
+  grid-template-columns: 1fr 0.6fr;
+}
+
+.conceptKansoMiniResult span,
+.conceptKansoMiniResult b {
+  padding: 12px 14px;
+  border: 1px solid rgba(168, 197, 157, 0.14);
+  font: 12px/1.35 ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+
+.conceptKansoMiniResult span {
+  color: rgba(223, 233, 214, 0.62);
+}
+
+.conceptKansoMiniResult b {
+  color: #dfe9d6;
+  font-weight: 500;
+}
+
+.conceptKansoMiniThread {
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  width: min(52vw, 680px);
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(168, 197, 157, 0.66), transparent);
+  opacity: var(--km-thread);
+  transform: translate3d(-50%, -50%, 0) scaleX(calc(0.2 + var(--km-thread) * 0.8));
+  transform-origin: center;
+  will-change: opacity, transform;
+}
+
+.conceptKansoMiniLog {
+  top: 50%;
+  margin: 0;
+  padding: 24px 26px;
+  color: #4c544b;
+  border-color: rgba(30, 34, 29, 0.12);
+  background: #fff;
+  font: clamp(13px, 1.25vw, 18px) / 1.75 ui-monospace, SFMono-Regular, Menlo, monospace;
+  opacity: var(--km-log);
+  transform: translate3d(-50%, calc(-50% + (1 - var(--km-log)) * 20px - var(--km-log-out) * 18px), 0);
+  white-space: pre-wrap;
+}
+
 @media (max-width: 1000px) {
   .conceptKansoTitle {
     top: 12vh;
@@ -5045,6 +5168,31 @@
   .conceptResultCard .conceptResultTable td {
     padding: 9px;
     font-size: 9px;
+  }
+
+  .conceptKansoMiniResult,
+  .conceptKansoMiniLog {
+    width: calc(100vw - 40px);
+  }
+
+  .conceptKansoMiniResult {
+    padding: 13px;
+  }
+
+  .conceptKansoMiniResult span,
+  .conceptKansoMiniResult b {
+    padding: 9px 10px;
+    font-size: 9px;
+  }
+
+  .conceptKansoMiniThread {
+    width: min(80vw, 360px);
+  }
+
+  .conceptKansoMiniLog {
+    padding: 18px;
+    font-size: clamp(11px, 3.4vw, 14px);
+    line-height: 1.7;
   }
 }
 

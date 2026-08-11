@@ -39,6 +39,7 @@ const sceneWindows = {
   foundry: [0.355, 0.565],
   foundryKansoBridge: [0.49, 0.665],
   kanso: [0.628, 0.745],
+  kansoMiniBridge: [0.688, 0.765],
   mini: [0.708, 0.905],
   memory: [0.872, 0.966],
   assembly: [0.942, 0.986],
@@ -194,6 +195,7 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
   const foundry = useRef<HTMLElement>(null);
   const foundryKansoBridge = useRef<HTMLElement>(null);
   const terminal = useRef<HTMLElement>(null);
+  const kansoMiniBridge = useRef<HTMLElement>(null);
   const pipeline = useRef<HTMLElement>(null);
   const memory = useRef<HTMLElement>(null);
   const assembly = useRef<HTMLElement>(null);
@@ -287,6 +289,7 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
         foundry: sceneGate(p, sceneWindows.foundry, 0.018, 0.018),
         foundryKansoBridge: sceneGate(p, sceneWindows.foundryKansoBridge, 0.012, 0.012),
         kanso: sceneGate(p, sceneWindows.kanso, 0.018, 0.018),
+        kansoMiniBridge: sceneGate(p, sceneWindows.kansoMiniBridge, 0.012, 0.012),
         mini: sceneGate(p, sceneWindows.mini, 0.018, 0.018),
         memory: sceneGate(p, sceneWindows.memory, 0.016, 0.018),
         assembly: sceneGate(p, sceneWindows.assembly, 0.014, 0.012),
@@ -416,8 +419,18 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
         }px)`;
       });
 
-      const miniHandoff = phase(vals[6], 0, 0.16);
-      setLayer(terminal.current, gates.kanso * clamp(kansoEntrance * 1.55 - miniHandoff * 1.7), 0.92 + kansoEntrance * 0.08);
+      const kansoMiniHandoff = local(p, 0.688, 0.765);
+      const kansoExit = phase(kansoMiniHandoff, 0.18, 0.42);
+      const kmResultIn = phase(kansoMiniHandoff, 0, 0.2);
+      const kmResultOut = phase(kansoMiniHandoff, 0.34, 0.52);
+      const kmThread = phase(kansoMiniHandoff, 0.18, 0.56) * (1 - phase(kansoMiniHandoff, 0.68, 0.86));
+      const kmLogIn = phase(kansoMiniHandoff, 0.46, 0.64);
+      const kmLogOut = phase(kansoMiniHandoff, 0.82, 1);
+      const kmResult = kmResultIn * (1 - kmResultOut);
+      const kmLog = kmLogIn * (1 - kmLogOut);
+      const kmOpacity = Math.max(kmResult, kmThread, kmLog);
+      const miniEntrance = phase(p, 0.758, 0.792);
+      setLayer(terminal.current, gates.kanso * clamp(kansoEntrance * 1.55) * (1 - kansoExit), 0.92 + kansoEntrance * 0.08);
       const orbitOut = phase(t, 0.15, 0.27);
       const pipelineIn = phase(t, 0.23, 0.34);
       const pipelineOut = phase(t, 0.43, 0.54);
@@ -429,6 +442,15 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
         terminal.current.style.setProperty('--kanso-pipeline', (pipelineIn * (1 - pipelineOut)).toFixed(3));
         terminal.current.style.setProperty('--kanso-ast', (astIn * (1 - astOut)).toFixed(3));
         terminal.current.style.setProperty('--kanso-result', resultPhase.toFixed(3));
+        terminal.current.style.setProperty('--kanso-handoff', kansoExit.toFixed(3));
+      }
+      setLayer(kansoMiniBridge.current, gates.kansoMiniBridge * kmOpacity, 1, 0, 0, kmLogOut * 1.1);
+      if (kansoMiniBridge.current) {
+        kansoMiniBridge.current.style.setProperty('--km-result', kmResult.toFixed(3));
+        kansoMiniBridge.current.style.setProperty('--km-thread', kmThread.toFixed(3));
+        kansoMiniBridge.current.style.setProperty('--km-log', kmLog.toFixed(3));
+        kansoMiniBridge.current.style.setProperty('--km-progress', kansoMiniHandoff.toFixed(3));
+        kansoMiniBridge.current.style.setProperty('--km-log-out', kmLogOut.toFixed(3));
       }
       if (cursorWorld.current) {
         cursorWorld.current.style.height = `${120 + tTransform * window.innerHeight * 0.18}px`;
@@ -437,9 +459,9 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
 
       const pi = vals[6];
       const m = vals[7];
-      const miniSceneIn = phase(pi, 0, 0.22);
+      const miniSceneIn = miniEntrance;
       const miniSceneOut = phase(m, 0, 0.2);
-      const miniStory = phase(pi, 0.34, 0.98);
+      const miniStory = phase(pi, 0.43, 0.98);
       setLayer(pipeline.current, gates.mini * clamp(miniSceneIn * 1.2 - miniSceneOut * 1.8), 0.96 + miniSceneIn * 0.04);
       if (pipeline.current) {
         const commitOut = phase(miniStory, 0.18, 0.34);
@@ -520,6 +542,8 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
                     ? 'architecture becomes language'
                     : p < 0.73
                       ? 'kansodb · language becomes matter'
+                      : p < 0.765
+                        ? 'query result becomes build signal'
                       : p < 0.83
                         ? 'mini ci · confidence before release'
                         : p < 0.92
@@ -947,6 +971,25 @@ WHERE status = 'open';`}</pre>
               </div>
             </div>
           </div>
+        </section>
+
+        <section ref={kansoMiniBridge} className={`${styles.conceptLayer} ${styles.conceptKansoMiniBridge}`}>
+          <div className={styles.conceptKansoMiniResult}>
+            <small>Execution result</small>
+            <div>
+              <span>ideas</span>
+              <span>status</span>
+            </div>
+            <div>
+              <b>ship pipeline</b>
+              <span>unfinished</span>
+            </div>
+          </div>
+          <div className={styles.conceptKansoMiniThread} />
+          <pre className={styles.conceptKansoMiniLog}>{`$ mini-ci run a91c2f
+queue: received
+build: compile
+tests: 127 checks pending`}</pre>
         </section>
 
         <section ref={pipeline} className={`${styles.conceptLayer} ${styles.conceptPipeline}`}>
