@@ -793,6 +793,15 @@
   --foundry-handoff: 0;
   --foundry-query-chip: 0;
   --foundry-alive: 0;
+  --foundry-grid-x: 0px;
+  --foundry-grid-y: 0px;
+  --foundry-connection-x: 0px;
+  --foundry-connection-y: 0px;
+  --foundry-card-x: 0px;
+  --foundry-card-y: 0px;
+  --foundry-signal-x: 0px;
+  --foundry-signal-y: 0px;
+  --foundry-system-push: 0px;
   --foundry-node-1: 0;
   --foundry-node-2: 0;
   --foundry-node-3: 0;
@@ -808,6 +817,11 @@
     radial-gradient(circle at 67% 51%, rgba(121, 153, 131, 0.08), transparent 28%),
     #061014;
   background-size: 52px 52px, 52px 52px, auto, auto;
+  background-position:
+    var(--foundry-grid-x) var(--foundry-grid-y),
+    var(--foundry-grid-x) var(--foundry-grid-y),
+    calc(67% + var(--foundry-connection-x)) calc(51% + var(--foundry-connection-y)),
+    0 0;
 }
 
 .conceptFoundryTitle {
@@ -899,7 +913,11 @@
   border-left: 1px solid rgba(180, 200, 190, 0.05);
   pointer-events: none;
   opacity: calc((1 - var(--foundry-handoff)) * (1 - var(--foundry-opening-out)));
-  transform: translate3d(calc((var(--foundry-handoff) + var(--foundry-opening-out)) * -14px), 0, 0);
+  transform: translate3d(
+    calc((var(--foundry-handoff) + var(--foundry-opening-out)) * -14px + var(--foundry-grid-x)),
+    var(--foundry-grid-y),
+    0
+  );
 }
 
 .conceptFoundryGlow {
@@ -911,7 +929,8 @@
   aspect-ratio: 1;
   background: radial-gradient(circle, rgba(149, 181, 154, 0.15), rgba(149, 181, 154, 0.04) 38%, transparent 68%);
   opacity: calc((0.38 + var(--foundry-alive) * 0.34) * (1 - var(--foundry-opening-out)));
-  transform: translate(-50%, -50%) scale(calc(0.92 + var(--foundry-alive) * 0.16));
+  transform: translate3d(calc(-50% + var(--foundry-signal-x)), calc(-50% + var(--foundry-signal-y)), 0)
+    scale(calc(0.92 + var(--foundry-alive) * 0.16));
   animation: conceptFoundryHeartbeat 4.8s ease-in-out infinite;
 }
 
@@ -919,12 +938,12 @@
   0%,
   100% {
     opacity: 0.38;
-    transform: translate(-50%, -50%) scale(0.92);
+    transform: translate3d(calc(-50% + var(--foundry-signal-x)), calc(-50% + var(--foundry-signal-y)), 0) scale(0.92);
   }
 
   50% {
     opacity: 0.72;
-    transform: translate(-50%, -50%) scale(1.08);
+    transform: translate3d(calc(-50% + var(--foundry-signal-x)), calc(-50% + var(--foundry-signal-y)), 0) scale(1.08);
   }
 }
 
@@ -1035,6 +1054,7 @@
   height: 100%;
   overflow: visible;
   opacity: calc(0.88 * (1 - var(--foundry-handoff)) * (1 - var(--foundry-opening-out)));
+  transform: translate3d(var(--foundry-connection-x), var(--foundry-connection-y), 0);
   pointer-events: none;
 }
 
@@ -1101,15 +1121,16 @@
 }
 
 .conceptFracture {
+  --foundry-fracture-scale: 0;
   position: absolute;
   top: 36%;
   left: 58%;
   width: 2px;
-  height: 0;
+  height: 180px;
   background: linear-gradient(#fff, transparent);
   box-shadow: 0 0 18px #fff;
   opacity: 0;
-  transform: rotate(18deg);
+  transform: rotate(18deg) scaleY(var(--foundry-fracture-scale));
   transform-origin: top;
 }
 
@@ -1156,7 +1177,11 @@
   background-size: 32px 32px, 32px 32px, auto;
   box-shadow: 0 28px 90px rgba(0, 0, 0, 0.34);
   opacity: calc(var(--foundry-resolve) * (1 - var(--foundry-handoff)) * (1 - var(--foundry-query-chip)));
-  transform: translate3d(calc(var(--foundry-handoff) * -18px), calc((1 - var(--foundry-resolve)) * 24px), 0);
+  transform: translate3d(
+    calc(var(--foundry-handoff) * -18px + var(--foundry-card-x)),
+    calc((1 - var(--foundry-resolve)) * 24px + var(--foundry-card-y) - var(--foundry-system-push)),
+    0
+  );
   pointer-events: none;
   will-change: opacity, transform;
 }
@@ -4354,8 +4379,8 @@
   }
 
   .conceptFoundry .conceptGraph {
-    inset: auto 20px 72px;
-    height: min(36vh, 270px);
+    inset: auto 20px 58px;
+    height: min(30vh, 236px);
     border-top: 1px solid rgba(180, 200, 190, 0.05);
     border-left: 0;
     opacity: calc((1 - var(--foundry-handoff)) * (1 - var(--foundry-opening-out)) * 0.68);

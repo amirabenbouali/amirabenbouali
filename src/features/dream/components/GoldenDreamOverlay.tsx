@@ -2,6 +2,8 @@ import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties, FormEvent, MutableRefObject } from 'react';
 import type { DreamTimelineSnapshot } from '../timeline/dreamTimeline';
 import type { PointerInfluenceRef } from './PointerInfluence';
+import { clamp, lerp, localProgress, phaseProgress, sceneGate } from '../motion/motionMath';
+import { foundryMotionPhases, foundrySystemDepth, getCameraPersonality, getPhaseValues } from '../motion/motionConfig';
 import styles from '../DreamExperience.module.css';
 
 type GoldenDreamOverlayProps = {
@@ -151,30 +153,12 @@ const kansoResults = [
   ['add query optimisation', 'unfinished']
 ] as const;
 
-function clamp(value: number, min = 0, max = 1) {
-  return Math.max(min, Math.min(max, value));
-}
-
-function lerp(start: number, end: number, amount: number) {
-  return start + (end - start) * amount;
-}
-
-function smooth(value: number) {
-  return value * value * (3 - 2 * value);
-}
-
 function local(progress: number, start: number, end: number) {
-  return clamp((progress - start) / (end - start));
+  return localProgress(progress, start, end);
 }
 
 function phase(progress: number, start: number, end: number) {
-  return smooth(local(progress, start, end));
-}
-
-function sceneGate(progress: number, [start, end]: readonly [number, number], fadeIn = 0.014, fadeOut = 0.014) {
-  const entered = start <= 0 ? 1 : phase(progress, start, start + fadeIn);
-  const remaining = end >= 1 ? 1 : 1 - phase(progress, end - fadeOut, end);
-  return clamp(Math.min(entered, remaining));
+  return phaseProgress(progress, start, end);
 }
 
 function setLayer(layer: HTMLElement | null, opacity: number, scale = 1, tx = 0, ty = 0, blur = 0) {
@@ -371,8 +355,8 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
 
       const f = vals[4];
       const t = vals[5];
-      const fIn = phase(f, 0, 0.14);
-      const fIdle = phase(f, 0.16, 0.78);
+      const foundryPhases = getPhaseValues(f, foundryMotionPhases);
+      const fIn = foundryPhases.enter;
       const handoff = local(p, 0.575, 0.655);
       const foundryExit = phase(handoff, 0.2, 0.46);
       const bridgeChipIn = phase(handoff, 0, 0.24);
@@ -386,14 +370,28 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
       const kansoEntrance = phase(p, 0.655, 0.685);
       const tTransform = phase(t, 0.82, 1);
       setLayer(foundry.current, gates.foundry * clamp(fIn * 1.5) * (1 - foundryExit), 0.9 + fIn * 0.1);
-      const foundryOpeningOut = phase(f, 0.58, 0.68);
-      const foundryResolve = phase(f, 0.7, 0.82);
-      const foundryAlive = phase(f, 0.2, 0.56);
+      const foundryOpeningOut = foundryPhases.transform;
+      const foundryResolve = foundryPhases.resolve;
+      const foundryAlive = foundryPhases.hold;
+      const foundrySystem = getCameraPersonality('foundry');
+      const foundryMotionEnergy = Math.max(foundryPhases.prepare * 0.35, foundryPhases.enter * 0.55, foundryPhases.transform, foundryPhases.resolve * 0.65);
+      const foundryDepthX = smx * foundrySystem.pointer * foundryMotionEnergy;
+      const foundryDepthY = smy * foundrySystem.pointer * foundryMotionEnergy;
+      const foundryPush = foundrySystem.push * (foundryPhases.transform * 0.55 + foundryPhases.resolve * 0.45) * (1 - foundryExit);
       if (foundry.current) {
         foundry.current.style.setProperty('--foundry-opening-out', foundryOpeningOut.toFixed(3));
         foundry.current.style.setProperty('--foundry-resolve', foundryResolve.toFixed(3));
         foundry.current.style.setProperty('--foundry-handoff', foundryExit.toFixed(3));
         foundry.current.style.setProperty('--foundry-query-chip', bridgeChip.toFixed(3));
+        foundry.current.style.setProperty('--foundry-grid-x', `${(foundryDepthX * foundrySystemDepth.grid * 18).toFixed(2)}px`);
+        foundry.current.style.setProperty('--foundry-grid-y', `${(foundryDepthY * foundrySystemDepth.grid * 12).toFixed(2)}px`);
+        foundry.current.style.setProperty('--foundry-connection-x', `${(foundryDepthX * foundrySystemDepth.connections * 22).toFixed(2)}px`);
+        foundry.current.style.setProperty('--foundry-connection-y', `${(foundryDepthY * foundrySystemDepth.connections * 14).toFixed(2)}px`);
+        foundry.current.style.setProperty('--foundry-card-x', `${(foundryDepthX * foundrySystemDepth.cards * 26).toFixed(2)}px`);
+        foundry.current.style.setProperty('--foundry-card-y', `${(foundryDepthY * foundrySystemDepth.cards * 16).toFixed(2)}px`);
+        foundry.current.style.setProperty('--foundry-signal-x', `${(foundryDepthX * foundrySystemDepth.signals * 30).toFixed(2)}px`);
+        foundry.current.style.setProperty('--foundry-signal-y', `${(foundryDepthY * foundrySystemDepth.signals * 18).toFixed(2)}px`);
+        foundry.current.style.setProperty('--foundry-system-push', `${(foundryPush * 24).toFixed(2)}px`);
         [0.05, 0.13, 0.22, 0.31].forEach((threshold, index) => {
           foundry.current?.style.setProperty(`--foundry-node-${index + 1}`, phase(f, threshold, threshold + 0.09).toFixed(3));
         });
@@ -411,12 +409,12 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
         foundryKansoBridge.current.style.setProperty('--bridge-sql-out', bridgeSqlOut.toFixed(3));
       }
       if (signal.current) {
-        signal.current.style.transform = `translate(${(smx - 0.5) * 8}px,${(smy - 0.5) * 6}px)`;
+        signal.current.style.transform = 'translate3d(var(--foundry-signal-x), var(--foundry-signal-y), 0)';
         signal.current.style.opacity = String(foundryAlive * (1 - foundryOpeningOut) * (1 - foundryExit));
       }
-      const breakPhase = phase(f, 0.78, 0.9);
+      const breakPhase = foundryPhases.exit;
       if (fracture.current) {
-        fracture.current.style.height = `${breakPhase * 180}px`;
+        fracture.current.style.setProperty('--foundry-fracture-scale', breakPhase.toFixed(3));
         fracture.current.style.opacity = String(breakPhase * (1 - foundryResolve * 0.9) * (1 - foundryExit) * (1 - bridgeChip));
       }
       if (foundryStatus.current) {
@@ -424,9 +422,10 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
       }
       nodeRefs.current.forEach((node, index) => {
         if (!node) return;
-        node.style.transform = `translate(${(smx - 0.5) * (index % 2 ? 18 : -18)}px,${
-          (smy - 0.5) * (index % 2 ? 12 : -12) + Math.sin(p * Math.PI * 9 + index) * fIdle * 3
-        }px)`;
+        const idleBreath = Math.sin(p * Math.PI * 9 + index) * foundryPhases.resolve * 1.5;
+        const depthX = foundryDepthX * foundrySystemDepth.cards * 26 * (index % 2 ? 1 : -0.72);
+        const depthY = foundryDepthY * foundrySystemDepth.cards * 16 * (index % 2 ? 0.8 : -0.62) + idleBreath;
+        node.style.transform = `translate3d(${depthX.toFixed(2)}px, ${depthY.toFixed(2)}px, 0)`;
       });
 
       const kansoMiniHandoff = local(p, 0.805, 0.865);
