@@ -4,6 +4,8 @@ import type { DreamTimelineSnapshot } from '../timeline/dreamTimeline';
 import type { PointerInfluenceRef } from './PointerInfluence';
 import { clamp, lerp, localProgress, phaseProgress, sceneGate } from '../motion/motionMath';
 import {
+  atriaCalmDepth,
+  atriaMotionPhases,
   foundryMotionPhases,
   foundrySystemDepth,
   getCameraPersonality,
@@ -314,24 +316,31 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
 
       const a = vals[2];
       const foldProgress = vals[3];
-      const aIn = phase(a, 0, 0.1);
-      const aDrift = phase(a, 0.12, 0.66);
+      const atriaPhases = getPhaseValues(a, atriaMotionPhases);
+      const aIn = atriaPhases.enter;
+      const aDrift = atriaPhases.transform * 0.35 + atriaPhases.resolve * 0.18;
       const foldIn = phase(foldProgress, 0, 0.16);
       const foldMove = phase(foldProgress, 0.28, 0.88);
       setLayer(atria.current, gates.atria * clamp(aIn * 1.45 - foldIn * 2.4), 1);
-      const rx = (smy - 0.5) * -5;
-      const ry = (smx - 0.5) * 10;
+      const atriaCamera = getCameraPersonality('atria');
+      const atriaMotionEnergy = Math.max(atriaPhases.prepare * 0.18, atriaPhases.enter * 0.3, atriaPhases.transform, atriaPhases.resolve * 0.42);
+      const atriaDepthX = smx * atriaCamera.pointer * atriaMotionEnergy;
+      const atriaDepthY = smy * atriaCamera.pointer * atriaMotionEnergy;
+      const atriaDriftX = atriaDepthX * atriaCamera.drift;
+      const atriaDriftY = atriaDepthY * atriaCamera.drift;
+      const rx = atriaDepthY * -2.2;
+      const ry = atriaDepthX * 3.6;
       if (calendarWrap.current) {
-        calendarWrap.current.style.transform = `perspective(1100px) rotateX(${5 + rx * 0.45}deg) rotateY(${
-          -4 + ry * 0.42
-        }deg) scale(${0.96 + aIn * 0.04 + Math.sin(p * Math.PI * 10) * aDrift * 0.004})`;
+        calendarWrap.current.style.transform = `translate3d(${(atriaDriftX * 18).toFixed(2)}px, ${(atriaDriftY * 10).toFixed(2)}px, 0) perspective(1200px) rotateX(${
+          3 + rx
+        }deg) rotateY(${-2 + ry}deg) scale(${0.97 + aIn * 0.03 + atriaPhases.resolve * 0.006})`;
       }
       const hue = lerp(40, 215, smx);
       if (atria.current) {
-        const calendarExit = phase(a, 0.42, 0.56);
-        const modeIn = phase(a, 0.52, 0.64);
-        const modeOut = phase(a, 0.68, 0.78);
-        const workspaceIn = phase(a, 0.78, 0.9);
+        const calendarExit = phase(a, 0.6, 0.72);
+        const modeIn = atriaPhases.transform;
+        const modeOut = phase(a, 0.76, 0.86);
+        const workspaceIn = atriaPhases.resolve;
         atria.current.style.setProperty('--atria-arrival', aIn.toFixed(3));
         atria.current.style.setProperty('--atria-progress', a.toFixed(3));
         atria.current.style.setProperty('--atria-calendar', String(clamp(1 - calendarExit)));
@@ -341,9 +350,22 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
         atria.current.style.setProperty('--atria-modes-out', modeOut.toFixed(3));
         atria.current.style.setProperty('--atria-workspace', String(workspaceIn));
         atria.current.style.setProperty('--atria-hue', hue.toFixed(1));
-        atria.current.style.background = `radial-gradient(circle at ${55 + smx * 24}% 43%,rgba(185,140,143,.12),transparent 32%),linear-gradient(rgba(75,74,66,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(75,74,66,.035) 1px,transparent 1px),#f3eee7`;
+        atria.current.style.setProperty('--atria-flex', atriaPhases.transform.toFixed(3));
+        atria.current.style.setProperty('--atria-settle', atriaPhases.resolve.toFixed(3));
+        atria.current.style.setProperty('--atria-grid-x', `${(atriaDepthX * atriaCalmDepth.grid * 14).toFixed(2)}px`);
+        atria.current.style.setProperty('--atria-grid-y', `${(atriaDepthY * atriaCalmDepth.grid * 9).toFixed(2)}px`);
+        atria.current.style.setProperty('--atria-card-x', `${(atriaDepthX * atriaCalmDepth.cards * 14).toFixed(2)}px`);
+        atria.current.style.setProperty('--atria-card-y', `${(atriaDepthY * atriaCalmDepth.cards * 8).toFixed(2)}px`);
+        atria.current.style.setProperty('--atria-layer-x', `${(atriaDepthX * atriaCalmDepth.connections * 18).toFixed(2)}px`);
+        atria.current.style.setProperty('--atria-layer-y', `${(atriaDepthY * atriaCalmDepth.connections * 10).toFixed(2)}px`);
+        atria.current.style.setProperty('--atria-highlight-x', `${(atriaDepthX * atriaCalmDepth.signals * 16).toFixed(2)}px`);
+        atria.current.style.setProperty('--atria-highlight-y', `${(atriaDepthY * atriaCalmDepth.signals * 10).toFixed(2)}px`);
+        atria.current.style.background = `radial-gradient(circle at ${55 + smx * 12}% 43%,rgba(185,140,143,.12),transparent 32%),linear-gradient(rgba(75,74,66,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(75,74,66,.035) 1px,transparent 1px),#f3eee7`;
       }
-      if (sun.current) sun.current.style.transform = `translate(${(smx - 0.5) * 60}px,${(smy - 0.5) * 28 + Math.sin(p * Math.PI * 8) * aDrift * 8}px)`;
+      if (sun.current) sun.current.style.transform = `translate(${(atriaDepthX * atriaCalmDepth.signals * 24).toFixed(2)}px,${(
+        atriaDepthY * atriaCalmDepth.signals * 14 +
+        Math.sin(p * Math.PI * 4) * aDrift * 3
+      ).toFixed(2)}px)`;
       if (timeLabel.current) {
         timeLabel.current.textContent = smx < 0.33 ? 'morning · 06:42' : smx < 0.67 ? 'afternoon · 14:18' : 'night · 22:07';
       }

@@ -265,12 +265,27 @@
   --atria-calendar: 1;
   --atria-modes: 0;
   --atria-workspace: 0;
+  --atria-flex: 0;
+  --atria-settle: 0;
+  --atria-grid-x: 0px;
+  --atria-grid-y: 0px;
+  --atria-card-x: 0px;
+  --atria-card-y: 0px;
+  --atria-layer-x: 0px;
+  --atria-layer-y: 0px;
+  --atria-highlight-x: 0px;
+  --atria-highlight-y: 0px;
   background:
     radial-gradient(circle at 72% 45%, rgba(185, 140, 143, 0.1), transparent 31%),
     linear-gradient(rgba(75, 74, 66, 0.035) 1px, transparent 1px),
     linear-gradient(90deg, rgba(75, 74, 66, 0.035) 1px, transparent 1px),
     #f3eee7;
   background-size: auto, 54px 54px, 54px 54px, auto;
+  background-position:
+    0 0,
+    var(--atria-grid-x) var(--atria-grid-y),
+    var(--atria-grid-x) var(--atria-grid-y),
+    0 0;
 }
 
 .conceptAtria::before {
@@ -407,7 +422,8 @@
   border: 1px solid rgba(185, 140, 143, 0.12);
   border-radius: 50%;
   opacity: calc(0.8 * var(--atria-calendar));
-  transform: rotate(-9deg) scale(calc(0.94 + var(--atria-progress, 0) * 0.06));
+  transform: translate3d(var(--atria-layer-x), var(--atria-layer-y), 0) rotate(-9deg)
+    scale(calc(0.94 + var(--atria-settle, 0) * 0.035));
 }
 
 .conceptAtriaLine {
@@ -444,7 +460,8 @@
 
 .conceptAtriaCalendarShell {
   opacity: var(--atria-calendar);
-  transform: translate3d(0, calc(var(--atria-calendar-exit, 0) * -30px), 0) scale(calc(1 - var(--atria-calendar-exit, 0) * 0.018));
+  transform: translate3d(var(--atria-card-x), calc(var(--atria-calendar-exit, 0) * -24px + var(--atria-card-y)), 0)
+    scale(calc(1 - var(--atria-calendar-exit, 0) * 0.014));
 }
 
 .conceptAtriaCalendar {
@@ -500,7 +517,7 @@
   box-shadow: 0 7px 18px rgba(75, 62, 62, 0.05);
   font-size: 9px;
   line-height: 1.3;
-  transform: translateY(calc((1 - var(--atria-calendar)) * 10px));
+  transform: translate3d(var(--atria-highlight-x), calc((1 - var(--atria-calendar)) * 10px + var(--atria-highlight-y)), 0);
 }
 
 .conceptAtriaEvent b,
@@ -535,7 +552,11 @@
   top: 28px;
   background: #ece3d5;
   border: 1px solid rgba(187, 168, 133, 0.18);
-  animation: conceptAtriaMove 7s ease-in-out infinite;
+  transform: translate3d(
+    calc(var(--atria-highlight-x) - (var(--atria-flex) * 14%)),
+    calc((1 - var(--atria-calendar)) * 10px + var(--atria-highlight-y) - (var(--atria-settle) * 4px)),
+    0
+  );
 }
 
 .ae4 {
@@ -567,12 +588,13 @@
   background: rgba(255, 255, 255, 0.55);
   box-shadow: 0 12px 28px rgba(71, 62, 58, 0.06);
   font: 10px/1.4 ui-monospace, SFMono-Regular, Menlo, monospace;
-  opacity: calc(var(--atria-calendar) * var(--atria-progress, 0) * 1.4);
+  opacity: calc(var(--atria-calendar) * var(--atria-flex, 0) * 1.2);
+  transform: translate3d(var(--atria-highlight-x), var(--atria-highlight-y), 0);
 }
 
 .conceptAtriaModePanel {
   opacity: var(--atria-modes);
-  transform: translate3d(0, calc((1 - var(--atria-modes-in, 0)) * 28px - var(--atria-modes-out, 0) * 20px), 0)
+  transform: translate3d(var(--atria-layer-x), calc((1 - var(--atria-modes-in, 0)) * 24px - var(--atria-modes-out, 0) * 18px + var(--atria-layer-y)), 0)
     scale(calc(0.985 + var(--atria-modes-in, 0) * 0.015 - var(--atria-modes-out, 0) * 0.008));
 }
 
@@ -644,7 +666,8 @@
   background: #f6f0e8;
   box-shadow: 0 34px 86px rgba(80, 67, 61, 0.13);
   opacity: var(--atria-workspace);
-  transform: translate3d(0, calc((1 - var(--atria-workspace)) * 32px), 0) scale(calc(0.982 + var(--atria-workspace) * 0.018));
+  transform: translate3d(var(--atria-card-x), calc((1 - var(--atria-workspace)) * 28px + var(--atria-card-y)), 0)
+    scale(calc(0.982 + var(--atria-workspace) * 0.018));
 }
 
 .conceptWorkspaceSidebar {

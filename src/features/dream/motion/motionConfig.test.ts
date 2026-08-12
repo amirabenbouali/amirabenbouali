@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import {
+  atriaCalmDepth,
+  atriaMotionPhases,
   foundryMotionPhases,
   foundrySystemDepth,
   getCameraPersonality,
@@ -53,6 +55,19 @@ describe('dream motion config', () => {
     const transform = getPhaseValues(0.56, kansoMotionPhases);
 
     expect(hold.hold).toBeGreaterThanOrEqual(0.49);
+    expect(hold.transform).toBe(0);
+    expect(transform.transform).toBeGreaterThan(0);
+  });
+
+  it('keeps Atria shallow, calm and readable before flexible planning begins', () => {
+    const hold = getPhaseValues(0.4, atriaMotionPhases);
+    const transform = getPhaseValues(0.62, atriaMotionPhases);
+
+    expect(atriaCalmDepth.typography).toBe(0);
+    expect(atriaCalmDepth.cards).toBeLessThan(kansoLanguageDepth.cards);
+    expect(atriaCalmDepth.signals).toBeLessThan(kansoLanguageDepth.signals);
+    expect(getCameraPersonality('atria').rotation).toBeLessThan(getCameraPersonality('kansodb').rotation);
+    expect(hold.hold).toBeGreaterThan(0.5);
     expect(hold.transform).toBe(0);
     expect(transform.transform).toBeGreaterThan(0);
   });

@@ -75,6 +75,15 @@ export const kansoLanguageDepth = {
   typography: 0
 } as const satisfies Record<DepthLayer, number>;
 
+export const atriaCalmDepth = {
+  background: 0.05,
+  grid: 0.09,
+  connections: 0.16,
+  cards: 0.28,
+  signals: 0.42,
+  typography: 0
+} as const satisfies Record<DepthLayer, number>;
+
 export const foundryMotionPhases = {
   prepare: [0, 0.06],
   enter: [0, 0.14],
@@ -91,6 +100,15 @@ export const kansoMotionPhases = {
   transform: [0.54, 0.72],
   resolve: [0.72, 0.92],
   exit: [0.82, 1]
+} as const satisfies CinematicPhases;
+
+export const atriaMotionPhases = {
+  prepare: [0, 0.12],
+  enter: [0.08, 0.24],
+  hold: [0.2, 0.58],
+  transform: [0.58, 0.74],
+  resolve: [0.74, 0.9],
+  exit: [0.86, 1]
 } as const satisfies CinematicPhases;
 
 export function getScenePersonality(sceneId: DreamSceneId) {
