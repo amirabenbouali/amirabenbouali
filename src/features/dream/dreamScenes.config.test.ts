@@ -16,6 +16,8 @@ describe('dream scene configuration', () => {
     return Number(((scene?.end ?? 0) - (scene?.start ?? 0)).toFixed(3));
   };
 
+  const sceneRunway = (id: string) => Math.round(sceneSpan(id) * dreamScrollLength);
+
   it('clamps progress into the timeline bounds', () => {
     expect(clampProgress(-1)).toBe(0);
     expect(clampProgress(0.42)).toBe(0.42);
@@ -26,28 +28,28 @@ describe('dream scene configuration', () => {
   it('looks up the active scene by global progress', () => {
     expect(getSceneByProgress(0).id).toBe('opening');
     expect(getSceneByProgress(0.26).id).toBe('atria');
-    expect(getSceneByProgress(0.99).id).toBe('contact');
+    expect(getSceneByProgress(0.995).id).toBe('contact');
   });
 
-  it('keeps the primary project worlds spacious enough to read', () => {
+  it('keeps the primary project worlds spacious enough to read in actual scroll distance', () => {
     for (const id of ['atria', 'foundry', 'kansodb']) {
-      expect(sceneSpan(id)).toBeGreaterThanOrEqual(0.18);
+      expect(sceneRunway(id)).toBeGreaterThanOrEqual(1000);
     }
   });
 
   it('keeps the scroll runway concise while preserving scene reading beats', () => {
-    expect(dreamScrollLength).toBe(2850);
+    expect(dreamScrollLength).toBe(7200);
     expect(sceneSpan('opening')).toBeLessThanOrEqual(0.08);
-    expect(sceneSpan('mini-ci')).toBeGreaterThanOrEqual(0.14);
-    expect(sceneSpan('memory')).toBeGreaterThanOrEqual(0.05);
+    expect(sceneRunway('mini-ci')).toBeGreaterThanOrEqual(600);
+    expect(sceneRunway('memory')).toBeGreaterThanOrEqual(200);
   });
 
   it('calculates local scene progress', () => {
     const atria = dreamScenes.find((scene) => scene.id === 'atria');
     expect(atria).toBeDefined();
-    expect(getLocalSceneProgress(0.12, atria)).toBe(0);
-    expect(getLocalSceneProgress(0.215, atria)).toBeCloseTo(0.5);
-    expect(getLocalSceneProgress(0.31, atria)).toBe(1);
+    expect(getLocalSceneProgress(0.1, atria)).toBe(0);
+    expect(getLocalSceneProgress(0.186, atria)).toBeCloseTo(0.5);
+    expect(getLocalSceneProgress(0.272, atria)).toBe(1);
   });
 
   it('selects previous and next scenes', () => {

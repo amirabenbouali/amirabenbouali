@@ -1155,7 +1155,7 @@
     rgba(6, 12, 14, 0.94);
   background-size: 32px 32px, 32px 32px, auto;
   box-shadow: 0 28px 90px rgba(0, 0, 0, 0.34);
-  opacity: calc(var(--foundry-resolve) * (1 - var(--foundry-handoff)));
+  opacity: calc(var(--foundry-resolve) * (1 - var(--foundry-handoff)) * (1 - var(--foundry-query-chip)));
   transform: translate3d(calc(var(--foundry-handoff) * -18px), calc((1 - var(--foundry-resolve)) * 24px), 0);
   pointer-events: none;
   will-change: opacity, transform;
@@ -4358,7 +4358,7 @@
     height: min(36vh, 270px);
     border-top: 1px solid rgba(180, 200, 190, 0.05);
     border-left: 0;
-    opacity: calc((1 - var(--foundry-handoff)) * 0.68);
+    opacity: calc((1 - var(--foundry-handoff)) * (1 - var(--foundry-opening-out)) * 0.68);
   }
 
   .conceptFoundryDashboard {
