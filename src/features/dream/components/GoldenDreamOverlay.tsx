@@ -3,7 +3,14 @@ import type { CSSProperties, FormEvent, MutableRefObject } from 'react';
 import type { DreamTimelineSnapshot } from '../timeline/dreamTimeline';
 import type { PointerInfluenceRef } from './PointerInfluence';
 import { clamp, lerp, localProgress, phaseProgress, sceneGate } from '../motion/motionMath';
-import { foundryMotionPhases, foundrySystemDepth, getCameraPersonality, getPhaseValues } from '../motion/motionConfig';
+import {
+  foundryMotionPhases,
+  foundrySystemDepth,
+  getCameraPersonality,
+  getPhaseValues,
+  kansoLanguageDepth,
+  kansoMotionPhases
+} from '../motion/motionConfig';
 import styles from '../DreamExperience.module.css';
 
 type GoldenDreamOverlayProps = {
@@ -440,18 +447,33 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
       const kmOpacity = Math.max(kmResult, kmThread, kmLog);
       const miniEntrance = phase(p, 0.865, 0.887);
       setLayer(terminal.current, gates.kanso * clamp(kansoEntrance * 1.55) * (1 - kansoExit), 0.92 + kansoEntrance * 0.08);
-      const orbitOut = phase(t, 0.15, 0.27);
-      const pipelineIn = phase(t, 0.23, 0.34);
-      const pipelineOut = phase(t, 0.43, 0.54);
-      const astIn = phase(t, 0.5, 0.61);
-      const astOut = phase(t, 0.69, 0.79);
-      const resultPhase = phase(t, 0.72, 0.92);
+      const kansoPhases = getPhaseValues(t, kansoMotionPhases);
+      const orbitOut = kansoPhases.enter;
+      const pipelineIn = kansoPhases.enter;
+      const pipelineOut = phase(t, 0.52, 0.64);
+      const astIn = kansoPhases.transform;
+      const astOut = phase(t, 0.78, 0.88);
+      const resultPhase = kansoPhases.resolve;
+      const kansoLanguage = getCameraPersonality('kansodb');
+      const kansoMotionEnergy = Math.max(kansoPhases.prepare * 0.25, kansoPhases.enter * 0.45, kansoPhases.transform, kansoPhases.resolve * 0.45);
+      const kansoDepthX = smx * kansoLanguage.pointer * kansoMotionEnergy;
+      const kansoDepthY = smy * kansoLanguage.pointer * kansoMotionEnergy;
+      const kansoRotation = kansoLanguage.rotation * kansoPhases.transform * (1 - kansoExit);
       if (terminal.current) {
         terminal.current.style.setProperty('--kanso-orbit', (1 - orbitOut).toFixed(3));
         terminal.current.style.setProperty('--kanso-pipeline', (pipelineIn * (1 - pipelineOut)).toFixed(3));
         terminal.current.style.setProperty('--kanso-ast', (astIn * (1 - astOut)).toFixed(3));
         terminal.current.style.setProperty('--kanso-result', resultPhase.toFixed(3));
         terminal.current.style.setProperty('--kanso-handoff', kansoExit.toFixed(3));
+        terminal.current.style.setProperty('--kanso-grid-x', `${(kansoDepthX * kansoLanguageDepth.grid * 16).toFixed(2)}px`);
+        terminal.current.style.setProperty('--kanso-grid-y', `${(kansoDepthY * kansoLanguageDepth.grid * 10).toFixed(2)}px`);
+        terminal.current.style.setProperty('--kanso-query-x', `${(kansoDepthX * kansoLanguageDepth.cards * 18).toFixed(2)}px`);
+        terminal.current.style.setProperty('--kanso-query-y', `${(kansoDepthY * kansoLanguageDepth.cards * 12).toFixed(2)}px`);
+        terminal.current.style.setProperty('--kanso-ast-x', `${(kansoDepthX * kansoLanguageDepth.connections * 24).toFixed(2)}px`);
+        terminal.current.style.setProperty('--kanso-ast-y', `${(kansoDepthY * kansoLanguageDepth.connections * 16).toFixed(2)}px`);
+        terminal.current.style.setProperty('--kanso-result-x', `${(kansoDepthX * kansoLanguageDepth.signals * 18).toFixed(2)}px`);
+        terminal.current.style.setProperty('--kanso-result-y', `${(kansoDepthY * kansoLanguageDepth.signals * 12).toFixed(2)}px`);
+        terminal.current.style.setProperty('--kanso-rotation', `${kansoRotation.toFixed(4)}deg`);
       }
       setLayer(kansoMiniBridge.current, gates.kansoMiniBridge * kmOpacity, 1, 0, 0, kmLogOut * 1.1);
       if (kansoMiniBridge.current) {
@@ -462,8 +484,8 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
         kansoMiniBridge.current.style.setProperty('--km-log-out', kmLogOut.toFixed(3));
       }
       if (cursorWorld.current) {
-        cursorWorld.current.style.height = `${120 + tTransform * window.innerHeight * 0.18}px`;
-        cursorWorld.current.style.transform = `translate(-50%,-50%) rotate(${tTransform * 90}deg)`;
+        cursorWorld.current.style.setProperty('--kanso-cursor-scale', (1 + tTransform * 1.35).toFixed(3));
+        cursorWorld.current.style.transform = `translate(-50%,-50%) rotate(${tTransform * 90}deg) scaleY(var(--kanso-cursor-scale))`;
       }
 
       const pi = vals[6];

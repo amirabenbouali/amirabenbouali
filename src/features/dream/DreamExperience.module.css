@@ -1458,6 +1458,7 @@
 }
 
 .conceptCursorWorld {
+  --kanso-cursor-scale: 1;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -1465,7 +1466,7 @@
   height: 100px;
   background: #b9dba8;
   box-shadow: 0 0 28px rgba(185, 219, 168, 0.7);
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%) scaleY(var(--kanso-cursor-scale));
   opacity: calc(0.28 + (var(--kanso-ast) * 0.5));
   transform-origin: center;
 }
@@ -4843,12 +4844,26 @@
   --kanso-ast: 0;
   --kanso-result: 0;
   --kanso-handoff: 0;
+  --kanso-grid-x: 0px;
+  --kanso-grid-y: 0px;
+  --kanso-query-x: 0px;
+  --kanso-query-y: 0px;
+  --kanso-ast-x: 0px;
+  --kanso-ast-y: 0px;
+  --kanso-result-x: 0px;
+  --kanso-result-y: 0px;
+  --kanso-rotation: 0deg;
   background:
     linear-gradient(rgba(155, 178, 153, 0.055) 1px, transparent 1px),
     linear-gradient(90deg, rgba(155, 178, 153, 0.055) 1px, transparent 1px),
     radial-gradient(circle at 72% 53%, rgba(104, 135, 100, 0.08), transparent 30%),
     #050706;
   background-size: 48px 48px, 48px 48px, auto, auto;
+  background-position:
+    var(--kanso-grid-x) var(--kanso-grid-y),
+    var(--kanso-grid-x) var(--kanso-grid-y),
+    calc(72% + var(--kanso-ast-x)) calc(53% + var(--kanso-ast-y)),
+    0 0;
 }
 
 .conceptKansoTitle {
@@ -4909,7 +4924,9 @@
   background: radial-gradient(circle at 50% 50%, rgba(144, 180, 137, 0.08), transparent 45%);
   box-shadow: none;
   opacity: calc(1 - var(--kanso-handoff));
-  transform: translate3d(calc(var(--kanso-handoff) * -16px), 0, 0);
+  transform: translate3d(calc(var(--kanso-handoff) * -16px + var(--kanso-grid-x)), var(--kanso-grid-y), 0)
+    rotate(var(--kanso-rotation));
+  transform-origin: center;
 }
 
 .conceptQueryOrbit,
@@ -4922,7 +4939,7 @@
 
 .conceptQueryOrbit {
   opacity: var(--kanso-orbit);
-  transform: scale(calc(1 - ((1 - var(--kanso-orbit)) * 0.025)));
+  transform: translate3d(var(--kanso-query-x), var(--kanso-query-y), 0) scale(calc(1 - ((1 - var(--kanso-orbit)) * 0.025)));
   will-change: opacity, transform;
 }
 
@@ -4937,17 +4954,17 @@
 
 .conceptKansoPipeline {
   opacity: var(--kanso-pipeline);
-  transform: translateY(calc((1 - var(--kanso-pipeline)) * 18px));
+  transform: translate3d(var(--kanso-query-x), calc((1 - var(--kanso-pipeline)) * 18px + var(--kanso-query-y)), 0);
 }
 
 .conceptAstPanel {
   opacity: var(--kanso-ast);
-  transform: translateY(calc((1 - var(--kanso-ast)) * 18px));
+  transform: translate3d(var(--kanso-ast-x), calc((1 - var(--kanso-ast)) * 18px + var(--kanso-ast-y)), 0);
 }
 
 .conceptResultPanel {
   opacity: var(--kanso-result);
-  transform: translateY(calc((1 - var(--kanso-result)) * 18px));
+  transform: translate3d(var(--kanso-result-x), calc((1 - var(--kanso-result)) * 18px + var(--kanso-result-y)), 0);
 }
 
 .conceptOrbitWord {

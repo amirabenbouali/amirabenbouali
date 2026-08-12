@@ -66,6 +66,15 @@ export const foundrySystemDepth = {
   typography: 0
 } as const satisfies Record<DepthLayer, number>;
 
+export const kansoLanguageDepth = {
+  background: 0.07,
+  grid: 0.11,
+  connections: 0.34,
+  cards: 0.48,
+  signals: 0.66,
+  typography: 0
+} as const satisfies Record<DepthLayer, number>;
+
 export const foundryMotionPhases = {
   prepare: [0, 0.06],
   enter: [0, 0.14],
@@ -73,6 +82,15 @@ export const foundryMotionPhases = {
   transform: [0.58, 0.68],
   resolve: [0.7, 0.82],
   exit: [0.78, 0.9]
+} as const satisfies CinematicPhases;
+
+export const kansoMotionPhases = {
+  prepare: [0, 0.1],
+  enter: [0.08, 0.22],
+  hold: [0.18, 0.54],
+  transform: [0.54, 0.72],
+  resolve: [0.72, 0.92],
+  exit: [0.82, 1]
 } as const satisfies CinematicPhases;
 
 export function getScenePersonality(sceneId: DreamSceneId) {

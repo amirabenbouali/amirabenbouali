@@ -1,5 +1,13 @@
 import { describe, expect, it } from 'vitest';
-import { foundryMotionPhases, foundrySystemDepth, getCameraPersonality, getPhaseValues, getScenePersonality } from './motionConfig';
+import {
+  foundryMotionPhases,
+  foundrySystemDepth,
+  getCameraPersonality,
+  getPhaseValues,
+  getScenePersonality,
+  kansoLanguageDepth,
+  kansoMotionPhases
+} from './motionConfig';
 
 describe('dream motion config', () => {
   it('assigns scene personalities without changing the timeline source of truth', () => {
@@ -30,5 +38,22 @@ describe('dream motion config', () => {
     expect(phases.transform).toBe(1);
     expect(phases.resolve).toBeGreaterThan(0);
     expect(phases.exit).toBe(0);
+  });
+
+  it('keeps KansoDB precise and language-led rather than heavy', () => {
+    expect(kansoLanguageDepth.typography).toBe(0);
+    expect(kansoLanguageDepth.signals).toBeGreaterThan(kansoLanguageDepth.cards);
+    expect(kansoLanguageDepth.grid).toBeLessThan(foundrySystemDepth.grid);
+    expect(getCameraPersonality('kansodb').rotation).toBeGreaterThan(getCameraPersonality('foundry').rotation);
+    expect(getCameraPersonality('kansodb').push).toBeLessThan(getCameraPersonality('foundry').push);
+  });
+
+  it('gives KansoDB a readable hold before structural transformation', () => {
+    const hold = getPhaseValues(0.36, kansoMotionPhases);
+    const transform = getPhaseValues(0.56, kansoMotionPhases);
+
+    expect(hold.hold).toBeGreaterThanOrEqual(0.49);
+    expect(hold.transform).toBe(0);
+    expect(transform.transform).toBeGreaterThan(0);
   });
 });
