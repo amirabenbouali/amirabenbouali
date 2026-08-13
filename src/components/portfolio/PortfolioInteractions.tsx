@@ -8,7 +8,7 @@ export function PortfolioInteractions() {
   useEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const dot = dotRef.current;
-    const flower = document.querySelector<HTMLElement>('[data-flower]');
+    const flowerSystem = document.querySelector<HTMLElement>('[data-flower-system]');
     const note = document.querySelector<HTMLElement>('[data-note]');
     const sideCard = document.querySelector<HTMLElement>('[data-side-card]');
     const pinkBall = document.querySelector<HTMLElement>('[data-pink-ball]');
@@ -22,8 +22,8 @@ export function PortfolioInteractions() {
       const dx = (event.clientX - centerX) / centerX;
       const dy = (event.clientY - centerY) / centerY;
 
-      if (flower) {
-        flower.style.transform = `translate3d(${dx * 14}px, ${dy * 12}px, 0) rotate(${dx * 3}deg)`;
+      if (flowerSystem) {
+        flowerSystem.style.transform = `translate3d(${dx * 18}px, ${dy * 14}px, 0) rotate(${dx * 2}deg)`;
       }
 
       if (note) {
@@ -68,7 +68,14 @@ export function PortfolioInteractions() {
       highlightTargets.forEach((target) => {
         target.dataset.visible = 'true';
       });
-      return () => window.removeEventListener('pointermove', moveDot);
+      return () => {
+        window.removeEventListener('pointermove', moveDot);
+        interactiveTargets.forEach((target) => {
+          target.removeEventListener('pointerenter', enlargeDot);
+          target.removeEventListener('pointerleave', shrinkDot);
+        });
+        sideCard?.removeEventListener('pointermove', movePinkBall);
+      };
     }
 
     const revealObserver = new IntersectionObserver(

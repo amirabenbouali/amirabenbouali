@@ -12,8 +12,8 @@ export function PortfolioPage() {
   return (
     <>
       <PortfolioInteractions />
-      <SiteHeader />
       <div className={styles.page}>
+        <SiteHeader />
         <main>
           <HeroSection />
         </main>

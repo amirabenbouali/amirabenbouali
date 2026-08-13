@@ -1,6 +1,6 @@
 import styles from './Portfolio.module.css';
 
-const marqueeText = 'TYPE SCRIPT * REACT * NEXT.JS * POSTGRESQL * SYSTEM DESIGN * PRODUCT ENGINEERING *';
+const marqueeText = 'PRODUCT ENGINEERING * FRONTEND * BACKEND * DATABASES * TESTING * CI/CD * SYSTEM DESIGN *';
 
 export function SkillsMarquee() {
   return (

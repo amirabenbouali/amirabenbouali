@@ -16,7 +16,7 @@ export function Flower({ size = 'large' }: FlowerProps) {
       <div className={`${styles.petal} ${styles.p3}`} />
       <div className={`${styles.petal} ${styles.p4}`} />
       <div className={`${styles.petal} ${styles.p5}`} />
-      <div className={styles.center} />
+      <div className={styles.center}>A</div>
     </div>
   );
 }
