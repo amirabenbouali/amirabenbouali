@@ -6,6 +6,7 @@ export function SiteHeader() {
     <header className={styles.topbar}>
       <a className={styles.brand} href="#top" aria-label="Amira Lina Benbouali home">
         AMIRA LINA BENBOUALI
+        <span aria-hidden="true" />
       </a>
       <nav className={`${styles.nav} ${styles.mono}`} aria-label="Main navigation">
         {navItems.map((item) => (

@@ -2,6 +2,7 @@ export type Project = {
   id: string;
   number: string;
   title: string;
+  category: string;
   summary: string;
   tech: string[];
   techLayers: string[];
@@ -27,6 +28,7 @@ export const projects: Project[] = [
     id: 'atria',
     number: '01 / ATRIA',
     title: 'Atria',
+    category: 'Calendar & productivity app',
     summary: 'Intelligent planning platform with smart scheduling, task management and interactive planning workflows.',
     tech: ['React', 'TypeScript', 'Zustand'],
     techLayers: ['01 · REACT / UI', '02 · TYPESCRIPT / MODEL', '03 · ZUSTAND / STATE'],
@@ -43,6 +45,7 @@ export const projects: Project[] = [
     id: 'foundry',
     number: '02 / FOUNDRY',
     title: 'Foundry',
+    category: 'Engineering operations platform',
     summary: 'Engineering operations workspace for issue triage, workflows, postmortems and CI.',
     tech: ['Next.js', 'PostgreSQL', 'Prisma'],
     techLayers: ['01 · NEXT.JS', '02 · PRISMA', '03 · POSTGRESQL'],
@@ -58,6 +61,7 @@ export const projects: Project[] = [
     id: 'kansodb',
     number: '03 / KANSODB',
     title: 'kansoDB',
+    category: 'SQL query engine',
     summary: 'A lightweight SQL query engine built to explore query processing and database internals.',
     tech: ['SQL', 'Parsing', 'Execution'],
     techLayers: ['01 · SQL / LANGUAGE', '02 · PARSER / AST', '03 · EXECUTION'],
@@ -73,6 +77,7 @@ export const projects: Project[] = [
     id: 'mini-ci',
     number: '04 / MINI CI',
     title: 'Mini CI',
+    category: 'Developer tool',
     summary: 'Developer tooling with CLI pipelines, build orchestration and status monitoring.',
     tech: ['Ruby', 'Bash', 'CI/CD'],
     techLayers: ['01 · RUBY / RUNNER', '02 · BASH / STEPS', '03 · CI / STATUS'],

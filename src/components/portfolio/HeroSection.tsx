@@ -13,20 +13,23 @@ export function HeroSection() {
           <span>Benbouali</span>
         </p>
         <div className={`${styles.role} ${styles.mono}`} data-reveal>
-          [ Software Engineer & Data Scientist ]
+          Software Engineer &
           <br />
-          full-stack products · data systems · developer tools
+          Data Scientist
         </div>
         <p className={styles.intro} data-reveal>
-          I build full-stack products from concept to deployment, with a focus on maintainable architecture, developer tooling,
-          data systems and interfaces that feel intuitive.
+          I build products from systems to the interface people touch.
+          <br />
+          Clean architecture. Intuitive experiences.
+          <br />
+          Thoughtful code.
         </p>
         <div className={styles.heroActions} data-reveal>
           <a className={`${styles.pill} ${styles.mono}`} href="#projects">
-            VIEW PROJECTS
+            VIEW SELECTED WORK →
           </a>
           <a className={`${styles.pill} ${styles.mono}`} href="#toolbox">
-            EXPLORE STACK
+            EXPLORE STACK ::
           </a>
         </div>
       </div>
@@ -42,6 +45,7 @@ export function HeroSection() {
           <div className={`${styles.orbitLabel} ${styles.orbitLabelCode} ${styles.mono}`}>CODE</div>
           <div className={`${styles.orbitLabel} ${styles.orbitLabelDesign} ${styles.mono}`}>DESIGN</div>
           <div className={styles.handNote}>thoughtful underneath</div>
+          <div className={styles.previewTag}>Preview</div>
           <Flower />
         </div>
         <div className={styles.stackCluster} aria-label="Engineering focus areas">

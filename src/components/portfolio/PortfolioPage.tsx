@@ -12,20 +12,22 @@ export function PortfolioPage() {
   return (
     <>
       <PortfolioInteractions />
-      <div className={styles.page}>
-        <SiteHeader />
-        <main>
-          <HeroSection />
-        </main>
-      </div>
-      <SkillsMarquee />
-      <div className={styles.page}>
-        <main>
-          <ProjectsSection />
-          <ToolboxSection />
-          <AboutSection />
-        </main>
-        <FooterSection />
+      <div className={styles.frame}>
+        <div className={styles.page}>
+          <SiteHeader />
+          <main>
+            <HeroSection />
+          </main>
+        </div>
+        <SkillsMarquee />
+        <div className={styles.page}>
+          <main>
+            <ProjectsSection />
+            <ToolboxSection />
+            <AboutSection />
+          </main>
+          <FooterSection />
+        </div>
       </div>
     </>
   );
