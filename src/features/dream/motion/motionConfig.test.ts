@@ -8,7 +8,9 @@ import {
   getPhaseValues,
   getScenePersonality,
   kansoLanguageDepth,
-  kansoMotionPhases
+  kansoMotionPhases,
+  miniMotionPhases,
+  miniTrackedDepth
 } from './motionConfig';
 
 describe('dream motion config', () => {
@@ -67,6 +69,20 @@ describe('dream motion config', () => {
     expect(atriaCalmDepth.cards).toBeLessThan(kansoLanguageDepth.cards);
     expect(atriaCalmDepth.signals).toBeLessThan(kansoLanguageDepth.signals);
     expect(getCameraPersonality('atria').rotation).toBeLessThan(getCameraPersonality('kansodb').rotation);
+    expect(hold.hold).toBeGreaterThan(0.5);
+    expect(hold.transform).toBe(0);
+    expect(transform.transform).toBeGreaterThan(0);
+  });
+
+  it('keeps Mini CI tracked, shallow and stationary through its readable hold', () => {
+    const hold = getPhaseValues(0.38, miniMotionPhases);
+    const transform = getPhaseValues(0.62, miniMotionPhases);
+
+    expect(miniTrackedDepth.typography).toBe(0);
+    expect(miniTrackedDepth.cards).toBeLessThan(kansoLanguageDepth.cards);
+    expect(miniTrackedDepth.signals).toBeLessThan(kansoLanguageDepth.signals);
+    expect(getCameraPersonality('mini-ci').rotation).toBe(0);
+    expect(getCameraPersonality('mini-ci').drift).toBeLessThan(getCameraPersonality('atria').drift);
     expect(hold.hold).toBeGreaterThan(0.5);
     expect(hold.transform).toBe(0);
     expect(transform.transform).toBeGreaterThan(0);

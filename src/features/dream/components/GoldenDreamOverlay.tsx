@@ -11,7 +11,9 @@ import {
   getCameraPersonality,
   getPhaseValues,
   kansoLanguageDepth,
-  kansoMotionPhases
+  kansoMotionPhases,
+  miniMotionPhases,
+  miniTrackedDepth
 } from '../motion/motionConfig';
 import styles from '../DreamExperience.module.css';
 
@@ -514,18 +516,25 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
       const m = vals[7];
       const miniSceneIn = miniEntrance;
       const miniSceneOut = phase(m, 0, 0.06);
-      const miniStory = phase(pi, 0.08, 0.94);
+      const miniPhases = getPhaseValues(pi, miniMotionPhases);
+      const miniStory = Math.max(miniPhases.prepare * 0.18, miniPhases.enter, miniPhases.hold, miniPhases.transform, miniPhases.resolve);
       setLayer(pipeline.current, gates.mini * clamp(miniSceneIn * 1.2 - miniSceneOut * 1.8), 0.96 + miniSceneIn * 0.04);
       if (pipeline.current) {
-        const commitOut = phase(miniStory, 0.16, 0.3);
-        const pipelineIn = phase(miniStory, 0.24, 0.38);
-        const pipelineOut = phase(miniStory, 0.74, 0.86);
-        const failureIn = phase(miniStory, 0.68, 0.8);
-        const failureOut = phase(miniStory, 0.86, 0.94);
-        const dashboardIn = phase(miniStory, 0.78, 0.9);
+        const commitOut = phase(pi, 0.26, 0.42);
+        const pipelineIn = miniPhases.enter;
+        const pipelineOut = miniPhases.exit;
+        const failureIn = phase(pi, 0.64, 0.7);
+        const failureOut = phase(pi, 0.76, 0.84);
+        const dashboardIn = miniPhases.resolve;
         const dashboardOut = 0;
         const finalIn = 0;
-        const travel = Math.pow(phase(miniStory, 0.16, 0.82), 1.45);
+        const travelToFailure = phase(pi, 0.52, 0.66) * 0.72;
+        const travelRetry = phase(pi, 0.76, 0.9) * 0.28;
+        const travel = clamp(travelToFailure + travelRetry);
+        const miniTracked = getCameraPersonality('mini-ci');
+        const miniTrackEnergy = Math.max(miniPhases.enter * 0.22, miniPhases.transform, miniPhases.resolve * 0.36) * (1 - miniPhases.exit);
+        const miniTrackX = (travel - 0.5) * miniTracked.push * miniTrackEnergy;
+        const miniPointerY = smy * miniTracked.pointer * miniTrackEnergy;
         pipeline.current.style.setProperty('--mini-story', miniStory.toFixed(3));
         pipeline.current.style.setProperty('--mini-commit', String(1 - commitOut));
         pipeline.current.style.setProperty('--mini-pipeline', String(pipelineIn * (1 - pipelineOut)));
@@ -534,6 +543,13 @@ export function GoldenDreamOverlay({ timeline, pointer }: GoldenDreamOverlayProp
         pipeline.current.style.setProperty('--mini-dashboard', String(dashboardIn * (1 - dashboardOut)));
         pipeline.current.style.setProperty('--mini-dashboard-in', dashboardIn.toFixed(3));
         pipeline.current.style.setProperty('--mini-final', String(finalIn));
+        pipeline.current.style.setProperty('--mini-track-x', `${(miniTrackX * miniTrackedDepth.signals * 42).toFixed(2)}px`);
+        pipeline.current.style.setProperty('--mini-track-y', `${(miniPointerY * miniTrackedDepth.signals * 10).toFixed(2)}px`);
+        pipeline.current.style.setProperty('--mini-grid-x', `${(miniTrackX * miniTrackedDepth.grid * 22).toFixed(2)}px`);
+        pipeline.current.style.setProperty('--mini-grid-y', `${(miniPointerY * miniTrackedDepth.grid * 8).toFixed(2)}px`);
+        pipeline.current.style.setProperty('--mini-rail-x', `${(miniTrackX * miniTrackedDepth.connections * 28).toFixed(2)}px`);
+        pipeline.current.style.setProperty('--mini-stage-x', `${(miniTrackX * miniTrackedDepth.cards * 24).toFixed(2)}px`);
+        pipeline.current.style.setProperty('--mini-stage-y', `${(miniPointerY * miniTrackedDepth.cards * 8).toFixed(2)}px`);
         [0, 0.25, 0.5, 0.75, 1].forEach((threshold, index) => {
           const passed = phase(travel, Math.max(0, threshold - 0.028), Math.min(1, threshold + 0.028));
           pipeline.current?.style.setProperty(`--mini-stage-${index + 1}`, passed.toFixed(3));

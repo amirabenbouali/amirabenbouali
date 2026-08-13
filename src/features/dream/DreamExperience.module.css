@@ -1887,6 +1887,13 @@
   --mini-stage-3: 0;
   --mini-stage-4: 0;
   --mini-stage-5: 0;
+  --mini-track-x: 0px;
+  --mini-track-y: 0px;
+  --mini-grid-x: 0px;
+  --mini-grid-y: 0px;
+  --mini-rail-x: 0px;
+  --mini-stage-x: 0px;
+  --mini-stage-y: 0px;
   color: #151714;
   background:
     linear-gradient(rgba(28, 32, 27, 0.026) 1px, transparent 1px),
@@ -1894,6 +1901,11 @@
     radial-gradient(circle at 68% 46%, rgba(111, 143, 114, 0.06), transparent 28%),
     #f7f7f4;
   background-size: 48px 48px, 48px 48px, auto, auto;
+  background-position:
+    var(--mini-grid-x) var(--mini-grid-y),
+    var(--mini-grid-x) var(--mini-grid-y),
+    calc(68% + var(--mini-rail-x)) 46%,
+    0 0;
 }
 
 .conceptMiniCiLayout {
@@ -2042,10 +2054,11 @@
 
 .conceptPipelineLayer {
   opacity: var(--mini-pipeline);
-  transform: translate3d(0, calc((1 - var(--mini-pipeline)) * 18px), 0);
+  transform: translate3d(var(--mini-stage-x), calc((1 - var(--mini-pipeline)) * 18px + var(--mini-stage-y)), 0);
 }
 
 .conceptMiniTrack {
+  container-type: inline-size;
   position: relative;
   width: min(88%, 840px);
   height: 260px;
@@ -2058,6 +2071,7 @@
   left: 7%;
   height: 1px;
   background: rgba(33, 37, 32, 0.15);
+  transform: translate3d(var(--mini-rail-x), 0, 0);
 }
 
 .conceptMiniStation {
@@ -2066,7 +2080,7 @@
   width: 116px;
   color: #151714;
   text-align: center;
-  transform: translate(-50%, -50%);
+  transform: translate3d(calc(-50% + var(--mini-stage-x)), calc(-50% + var(--mini-stage-y)), 0);
 }
 
 .conceptMiniStation i {
@@ -2159,26 +2173,26 @@
   position: absolute;
   z-index: 3;
   top: 50%;
-  left: calc(8% + 84% * var(--mini-travel));
+  left: 8%;
   width: 12px;
   height: 12px;
   border-radius: 50%;
   background: #1f231f;
-  transform: translate(-50%, -50%);
+  transform: translate3d(calc(-50% + (84cqw * var(--mini-travel)) + var(--mini-track-x)), calc(-50% + var(--mini-track-y)), 0);
 }
 
 .conceptMiniDotLabel {
   position: absolute;
   top: calc(50% + 34px);
-  left: calc(8% + 84% * var(--mini-travel));
+  left: 8%;
   color: #666c64;
   font: 9px ui-monospace, monospace;
-  transform: translateX(-50%);
+  transform: translate3d(calc(-50% + (84cqw * var(--mini-travel)) + var(--mini-track-x)), var(--mini-track-y), 0);
 }
 
 .conceptFailureLayer {
   opacity: var(--mini-failure);
-  transform: translate3d(0, calc((1 - var(--mini-failure)) * 16px), 0);
+  transform: translate3d(var(--mini-track-x), calc((1 - var(--mini-failure)) * 16px + var(--mini-track-y)), 0);
 }
 
 .conceptFailureCard {
@@ -2212,7 +2226,7 @@
 
 .conceptMiniDashboardLayer {
   opacity: var(--mini-dashboard);
-  transform: translate3d(0, calc((1 - var(--mini-dashboard-in)) * 18px), 0);
+  transform: translate3d(var(--mini-stage-x), calc((1 - var(--mini-dashboard-in)) * 18px + var(--mini-stage-y)), 0);
 }
 
 .conceptMiniApp {

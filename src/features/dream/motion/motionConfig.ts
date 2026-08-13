@@ -84,6 +84,15 @@ export const atriaCalmDepth = {
   typography: 0
 } as const satisfies Record<DepthLayer, number>;
 
+export const miniTrackedDepth = {
+  background: 0.04,
+  grid: 0.06,
+  connections: 0.12,
+  cards: 0.24,
+  signals: 0.52,
+  typography: 0
+} as const satisfies Record<DepthLayer, number>;
+
 export const foundryMotionPhases = {
   prepare: [0, 0.06],
   enter: [0, 0.14],
@@ -109,6 +118,15 @@ export const atriaMotionPhases = {
   transform: [0.58, 0.74],
   resolve: [0.74, 0.9],
   exit: [0.86, 1]
+} as const satisfies CinematicPhases;
+
+export const miniMotionPhases = {
+  prepare: [0, 0.12],
+  enter: [0.1, 0.24],
+  hold: [0.22, 0.52],
+  transform: [0.52, 0.78],
+  resolve: [0.76, 0.92],
+  exit: [0.9, 1]
 } as const satisfies CinematicPhases;
 
 export function getScenePersonality(sceneId: DreamSceneId) {
