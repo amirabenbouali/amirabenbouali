@@ -29,10 +29,16 @@ export function HeroSection() {
       </div>
 
       <div className={styles.flowerWrap}>
-        <Flower />
-        <div className={`${styles.stickyNote} ${styles.mono}`}>
+        <div className={styles.flowerOrbit}>
+          <div className={styles.orbitLine} />
+          <div className={styles.orbitDot} />
+          <Flower />
+        </div>
+        <div className={`${styles.stickyNote} ${styles.mono}`} data-note>
+          <span className={styles.pin} />
           currently building thoughtful software, learning in public and trying not to over-engineer the tiny things.
         </div>
+        <div className={`${styles.micro} ${styles.mono}`}>MOVE YOUR CURSOR →</div>
       </div>
     </section>
   );

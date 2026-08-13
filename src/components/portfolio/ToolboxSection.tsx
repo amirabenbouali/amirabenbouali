@@ -15,7 +15,8 @@ export function ToolboxSection() {
             </span>
           ))}
         </div>
-        <div className={styles.toolNote}>
+        <div className={styles.toolNote} data-side-card>
+          <span className={styles.pinkBall} data-pink-ball />
           <div className={styles.mono}>A SMALL RULE I LIKE</div>
           <p>Make the architecture boring enough to trust, and the interaction interesting enough to remember.</p>
         </div>

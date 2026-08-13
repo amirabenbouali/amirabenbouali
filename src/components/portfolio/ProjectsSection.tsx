@@ -10,19 +10,36 @@ export function ProjectsSection() {
 
       <div className={styles.projects}>
         {projects.map((project) => (
-          <article className={styles.project} data-reveal key={project.id}>
-            <div className={`${styles.num} ${styles.mono}`}>{project.number}</div>
-            <div>
-              <h3>{project.title}</h3>
-              <p>{project.summary}</p>
+          <details className={styles.project} data-project-row data-reveal key={project.id} open={project.demo === 'atria'}>
+            <summary className={styles.projectSummary}>
+              <span className={`${styles.num} ${styles.mono}`}>{project.number}</span>
+              <div>
+                <h3>{project.title}</h3>
+                <p>{project.summary}</p>
+              </div>
+              <div className={`${styles.projectTech} ${styles.mono}`}>
+                {project.tech.map((tech) => (
+                  <mark key={tech}>{tech}</mark>
+                ))}
+              </div>
+              <span className={`${styles.projectOpen} ${styles.mono}`} aria-hidden="true">
+                OPEN SYSTEM
+              </span>
+            </summary>
+            <div className={styles.projectPanel}>
+              <div className={styles.projectPanelCopy}>
+                <p>{project.detail}</p>
+              </div>
+              <div className={`${styles.flowDiagram} ${styles.mono}`} aria-label={`${project.title} system flow`}>
+                {project.flow.map((step) => (
+                  <span className={styles.flowNode} key={step}>
+                    {step}
+                  </span>
+                ))}
+              </div>
+              {project.demo === 'atria' ? <AtriaDemo /> : null}
             </div>
-            <div className={`${styles.projectTech} ${styles.mono}`}>
-              {project.tech.map((tech) => (
-                <mark key={tech}>{tech}</mark>
-              ))}
-            </div>
-            {project.demo === 'atria' ? <AtriaDemo /> : null}
-          </article>
+          </details>
         ))}
       </div>
     </section>

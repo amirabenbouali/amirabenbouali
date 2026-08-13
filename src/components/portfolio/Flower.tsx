@@ -10,7 +10,7 @@ export function Flower({ size = 'large' }: FlowerProps) {
   }
 
   return (
-    <div className={styles.flower} aria-hidden="true">
+    <div className={styles.flower} data-flower aria-hidden="true">
       <div className={`${styles.petal} ${styles.p1}`} />
       <div className={`${styles.petal} ${styles.p2}`} />
       <div className={`${styles.petal} ${styles.p3}`} />

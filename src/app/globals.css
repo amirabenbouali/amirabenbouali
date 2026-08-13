@@ -1,7 +1,9 @@
 :root {
   --cream: #f7ead8;
-  --pink: #ff54bf;
+  --cream-2: #fff4e8;
+  --pink: #ff4fbc;
   --pink-2: #ff83cf;
+  --pink-dark: #e738a4;
   --yellow: #ffe600;
   --ink: #171412;
   --muted: #6b625b;
@@ -62,13 +64,19 @@ mark {
   top: 0;
   left: 0;
   z-index: 100;
-  width: 9px;
-  height: 9px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   pointer-events: none;
   background: var(--pink);
   mix-blend-mode: multiply;
   transform: translate3d(-999px, -999px, 0);
+  transition: width 150ms ease, height 150ms ease;
+}
+
+.cursorDot[data-active="true"] {
+  width: 34px;
+  height: 34px;
 }
 
 @media (pointer: coarse), (prefers-reduced-motion: reduce) {

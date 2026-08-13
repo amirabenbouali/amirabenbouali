@@ -4,6 +4,8 @@ export type Project = {
   title: string;
   summary: string;
   tech: string[];
+  detail: string;
+  flow: string[];
   demo?: 'atria';
 };
 
@@ -21,6 +23,8 @@ export const projects: Project[] = [
     title: 'Atria',
     summary: 'Intelligent planning platform with smart scheduling, task management and interactive planning workflows.',
     tech: ['React', 'TypeScript', 'Zustand'],
+    detail: 'A planning environment that brings calendar events, tasks and weekly reflection into one calmer workspace.',
+    flow: ['Intent', 'Schedule', 'Focus', 'Review'],
     demo: 'atria'
   },
   {
@@ -28,21 +32,27 @@ export const projects: Project[] = [
     number: '02 / FOUNDRY',
     title: 'Foundry',
     summary: 'Engineering operations workspace for issue triage, workflows, postmortems and CI.',
-    tech: ['Next.js', 'PostgreSQL', 'Prisma']
+    tech: ['Next.js', 'PostgreSQL', 'Prisma'],
+    detail: 'A product-shaped system for understanding how operational work moves from signal to ownership.',
+    flow: ['Signal', 'Triage', 'Ownership', 'Resolution']
   },
   {
     id: 'kansodb',
     number: '03 / KANSODB',
     title: 'kansoDB',
     summary: 'A lightweight SQL query engine built to explore query processing and database internals.',
-    tech: ['SQL', 'Parsing', 'Execution']
+    tech: ['SQL', 'Parsing', 'Execution'],
+    detail: 'A small query engine built from scratch to understand how language becomes executable structure.',
+    flow: ['Query', 'Tokens', 'AST', 'Result']
   },
   {
     id: 'mini-ci',
     number: '04 / MINI CI',
     title: 'Mini CI',
     summary: 'Developer tooling with CLI pipelines, build orchestration and status monitoring.',
-    tech: ['Ruby', 'Bash', 'CI/CD']
+    tech: ['Ruby', 'Bash', 'CI/CD'],
+    detail: 'A miniature CI pipeline for studying how commits move through checks, artifacts and release status.',
+    flow: ['Commit', 'Build', 'Check', 'Release']
   }
 ];
 
