@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Amira Lina Benbouali
 
-## Getting Started
+Software Engineer & Data Scientist based in London.
 
-First, run the development server:
+I build thoughtful software, developer tools, and product experiences that make complex systems feel clearer.
+
+---
+
+## Currently Building
+
+This repository is both my GitHub profile README and the source for my portfolio.
+
+The portfolio is designed around a soft editorial visual language: flowers, annotated interfaces, handwritten accents, quiet motion, and product-focused case studies. The goal is to make the work feel personal without losing engineering clarity.
+
+## Selected Work
+
+### Atria
+
+An intelligent planning platform with smart scheduling, task management, and interactive planning workflows.
+
+`React` `TypeScript` `Zustand`
+
+### Foundry
+
+An engineering operations workspace for issue triage, workflows, postmortems, and CI.
+
+`Next.js` `PostgreSQL` `Prisma`
+
+### kansoDB
+
+A lightweight SQL query engine built to explore query processing and database internals.
+
+`SQL` `Parsing` `Execution`
+
+### Mini CI
+
+A small continuous-integration tool for understanding build orchestration, pipelines, and status monitoring.
+
+`Ruby` `Bash` `CI/CD`
+
+## Toolbox
+
+I enjoy working across the space where product thinking, interface design, and engineering systems meet.
+
+`TypeScript` `React` `Next.js` `Python` `SQL` `PostgreSQL` `JavaScript` `Node.js` `Git` `CI/CD` `System Design`
+
+## How I Build
+
+I care about software that is calm, legible, and useful.
+
+The kinds of problems I like usually involve turning something messy into something understandable: a planning workflow, a query engine, a deployment process, or a product interface that gives people room to think.
+
+I am especially interested in:
+
+- developer tools
+- product engineering
+- frontend architecture
+- data-informed interfaces
+- systems that explain themselves
+
+## Portfolio Stack
+
+This site is built with:
+
+`Next.js` `TypeScript` `React` `CSS Modules`
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run build
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Links
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+[GitHub](https://github.com/amirabenbouali)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Quiet software, carefully made.
