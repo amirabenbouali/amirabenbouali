@@ -42,11 +42,11 @@ export function HeroSection() {
           </button>
         </div>
 
-        <h1 className={styles.heroTitle} id="hero-title" data-reveal>
-          PORTFOLIO
-        </h1>
         <div className={`${styles.lens} ${styles.lensOne}`} data-lens-one aria-hidden="true" />
         <div className={`${styles.lens} ${styles.lensTwo}`} data-lens-two aria-hidden="true" />
+        <h1 className={styles.heroTitle} id="hero-title">
+          PORTFOLIO
+        </h1>
         <div className={`${styles.hint} ${styles.mono}`}>MOVE YOUR CURSOR · OPEN THE FILE</div>
       </div>
 

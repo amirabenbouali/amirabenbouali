@@ -280,8 +280,8 @@
 
 .star {
   position: absolute;
-  top: 62%;
-  left: 46%;
+  top: 64%;
+  left: 42%;
   z-index: 4;
   color: #353535;
   font-size: 72px;
@@ -294,11 +294,11 @@
   position: absolute;
   top: 44%;
   left: 50%;
-  z-index: 5;
+  z-index: 14;
   margin: 0;
   color: #f2eddf;
   font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(82px, 11vw, 176px);
+  font-size: clamp(92px, 10vw, 158px);
   line-height: 0.82;
   letter-spacing: -0.07em;
   white-space: nowrap;
@@ -309,15 +309,16 @@
 
 .nameScript {
   position: absolute;
-  top: 55%;
-  right: 14%;
+  top: 67%;
+  right: 8%;
   z-index: 6;
+  width: min(360px, 42%);
   color: #171713;
   font-family: "Snell Roundhand", "URW Chancery L", "Apple Chancery", cursive;
-  font-size: clamp(34px, 4vw, 62px);
-  line-height: 0.82;
+  font-size: clamp(34px, 3.7vw, 58px);
+  line-height: 0.9;
   text-align: center;
-  transform: rotate(-4deg);
+  transform: rotate(-4deg) translateY(-50%);
 }
 
 .lens {
@@ -352,15 +353,15 @@
 }
 
 .lensOne {
-  top: 53%;
-  left: -60px;
-  width: 470px;
+  top: 58%;
+  left: -92px;
+  width: 520px;
 }
 
 .lensTwo {
-  top: 25%;
-  right: -92px;
-  width: 360px;
+  top: 28%;
+  right: -130px;
+  width: 440px;
 }
 
 .hint {
@@ -411,7 +412,7 @@
 }
 
 .folderOpen .nameScript {
-  transform: rotate(0deg) scale(1.06);
+  transform: rotate(0deg) translateY(-50%) scale(1.04);
 }
 
 .folderOpen::before {
@@ -1210,6 +1211,19 @@
     height: 500px;
   }
 
+  .heroTitle {
+    top: 43%;
+    left: 50%;
+    font-size: clamp(76px, 14vw, 124px);
+  }
+
+  .nameScript {
+    top: 68%;
+    right: 7%;
+    width: min(300px, 46%);
+    font-size: clamp(30px, 5.7vw, 46px);
+  }
+
   .flowerWrap {
     min-height: 600px;
   }
@@ -1373,27 +1387,29 @@
   }
 
   .heroTitle {
-    top: 45%;
-    font-size: 18vw;
+    top: 42%;
+    left: 50%;
+    font-size: clamp(58px, 17vw, 86px);
   }
 
   .nameScript {
-    top: 58%;
-    right: 11%;
-    font-size: 34px;
+    top: 66%;
+    right: 7%;
+    width: 50%;
+    font-size: clamp(26px, 7.5vw, 34px);
   }
 
   .lensOne {
-    top: 55%;
+    top: 58%;
     left: -70px;
-    width: 260px;
+    width: 285px;
     height: 85px;
   }
 
   .lensTwo {
-    top: 27%;
-    right: -80px;
-    width: 230px;
+    top: 29%;
+    right: -92px;
+    width: 250px;
     height: 82px;
   }
 
