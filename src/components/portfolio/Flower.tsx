@@ -1,14 +1,6 @@
 import styles from './Portfolio.module.css';
 
-type FlowerProps = {
-  size?: 'large' | 'small';
-};
-
-export function Flower({ size = 'large' }: FlowerProps) {
-  if (size === 'small') {
-    return <div className={styles.flowerSmall} aria-hidden="true" />;
-  }
-
+export function Flower() {
   return (
     <div className={styles.flower} data-flower aria-hidden="true">
       <div className={`${styles.petal} ${styles.p1}`} />

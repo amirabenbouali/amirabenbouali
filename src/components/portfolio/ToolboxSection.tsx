@@ -1,48 +1,52 @@
-import { tools } from '@/data/portfolio';
-import { SectionHeading } from './SectionHeading';
 import styles from './Portfolio.module.css';
+
+const stackZones = [
+  {
+    label: '01 / INTERFACE',
+    title: 'Things people actually touch.',
+    items: ['React', 'Next.js', 'TypeScript', 'CSS']
+  },
+  {
+    label: '02 / APPLICATION',
+    title: 'Logic behind the interface.',
+    items: ['Node.js', 'REST APIs', 'State', 'Auth']
+  },
+  {
+    label: '03 / DATA',
+    title: 'Structure, query, understand.',
+    items: ['PostgreSQL', 'SQL', 'Python', 'Analytics']
+  },
+  {
+    label: '04 / SYSTEM',
+    title: 'Make it reliable. Then ship it.',
+    items: ['Testing', 'Git', 'CI/CD', 'System Design']
+  }
+];
 
 export function ToolboxSection() {
   return (
-    <section className={styles.section} id="toolbox">
-      <SectionHeading label="[ engineering stack ]">Not a wall of logos. A map of how I build.</SectionHeading>
-      <div className={styles.toolboxGrid}>
-        <article className={styles.toolboxCard}>
-          <h3 className={styles.mono}>[ PRODUCT LAYER ]</h3>
-          <div className={`${styles.chips} ${styles.mono}`}>
-            <span className={styles.chip}>React</span>
-            <span className={styles.chip}>Next.js</span>
-            <span className={styles.chip}>TypeScript</span>
-            <span className={styles.chip}>Interaction Design</span>
-          </div>
-          <p>Interfaces that feel obvious after the hard thinking is done.</p>
-        </article>
-        <article className={`${styles.toolboxCard} ${styles.toolboxCardPink}`}>
-          <h3 className={styles.mono}>[ SYSTEM LAYER ]</h3>
-          <div className={`${styles.chips} ${styles.mono}`}>
-            <span className={styles.chip}>Node.js</span>
-            <span className={styles.chip}>PostgreSQL</span>
-            <span className={styles.chip}>SQL</span>
-            <span className={styles.chip}>System Design</span>
-            <span className={styles.chip}>Testing</span>
-            <span className={styles.chip}>CI/CD</span>
-          </div>
-          <p>The parts underneath that make the product reliable.</p>
-        </article>
-      </div>
-      <div className={styles.toolbox}>
-        <div className={`${styles.toolList} ${styles.mono}`}>
-          {tools.map((tool) => (
-            <span className={styles.highlight} data-highlight key={tool}>
-              {tool}
-              <br />
-            </span>
+    <section className={styles.stackSection} id="toolbox">
+      <div className={`${styles.stackTitle} ${styles.mono}`}>[ engineering stack ]</div>
+      <div className={styles.stackMain}>
+        <h2>
+          Not a logo wall.
+          <br />A map of how I build.
+        </h2>
+        <div className={styles.stackBoard}>
+          {stackZones.map((zone) => (
+            <article className={styles.stackZone} data-reveal key={zone.label}>
+              <div className={`${styles.zoneLabel} ${styles.mono}`}>{zone.label}</div>
+              <div className={styles.zoneOrbit} />
+              <div className={styles.zoneBig}>{zone.title}</div>
+              <div className={`${styles.zoneItems} ${styles.mono}`}>
+                {zone.items.map((item) => (
+                  <span className={styles.zoneItem} key={item}>
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </article>
           ))}
-        </div>
-        <div className={styles.toolNote} data-side-card>
-          <span className={styles.pinkBall} data-pink-ball />
-          <div className={styles.mono}>A SMALL RULE I LIKE</div>
-          <p>Make the architecture boring enough to trust, and the interaction interesting enough to remember.</p>
         </div>
       </div>
     </section>

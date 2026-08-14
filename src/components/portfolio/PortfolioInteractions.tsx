@@ -10,8 +10,6 @@ export function PortfolioInteractions() {
     const dot = dotRef.current;
     const flowerSystem = document.querySelector<HTMLElement>('[data-flower-system]');
     const note = document.querySelector<HTMLElement>('[data-note]');
-    const sideCard = document.querySelector<HTMLElement>('[data-side-card]');
-    const pinkBall = document.querySelector<HTMLElement>('[data-pink-ball]');
 
     const moveDot = (event: PointerEvent) => {
       if (!dot || reduceMotion) return;
@@ -48,24 +46,10 @@ export function PortfolioInteractions() {
       target.addEventListener('pointerleave', shrinkDot);
     });
 
-    const movePinkBall = (event: PointerEvent) => {
-      if (!sideCard || !pinkBall || reduceMotion) return;
-      const rect = sideCard.getBoundingClientRect();
-      const x = event.clientX - rect.left - rect.width / 2;
-      const y = event.clientY - rect.top - rect.height / 2;
-      pinkBall.style.transform = `translate3d(${x * 0.08}px, ${y * 0.08}px, 0)`;
-    };
-
-    sideCard?.addEventListener('pointermove', movePinkBall, { passive: true });
-
     const revealTargets = Array.from(document.querySelectorAll<HTMLElement>('[data-reveal]'));
-    const highlightTargets = Array.from(document.querySelectorAll<HTMLElement>('[data-highlight]'));
 
     if (reduceMotion) {
       revealTargets.forEach((target) => {
-        target.dataset.visible = 'true';
-      });
-      highlightTargets.forEach((target) => {
         target.dataset.visible = 'true';
       });
       return () => {
@@ -74,7 +58,6 @@ export function PortfolioInteractions() {
           target.removeEventListener('pointerenter', enlargeDot);
           target.removeEventListener('pointerleave', shrinkDot);
         });
-        sideCard?.removeEventListener('pointermove', movePinkBall);
       };
     }
 
@@ -89,24 +72,7 @@ export function PortfolioInteractions() {
       { threshold: 0.18 }
     );
 
-    const highlightObserver = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-          highlightTargets.forEach((target, index) => {
-            window.setTimeout(() => {
-              target.dataset.visible = 'true';
-            }, index * 120);
-          });
-          highlightObserver.disconnect();
-        });
-      },
-      { threshold: 0.35 }
-    );
-
     revealTargets.forEach((target) => revealObserver.observe(target));
-    const firstHighlight = highlightTargets[0];
-    if (firstHighlight) highlightObserver.observe(firstHighlight.parentElement ?? firstHighlight);
 
     return () => {
       window.removeEventListener('pointermove', moveDot);
@@ -114,9 +80,7 @@ export function PortfolioInteractions() {
         target.removeEventListener('pointerenter', enlargeDot);
         target.removeEventListener('pointerleave', shrinkDot);
       });
-      sideCard?.removeEventListener('pointermove', movePinkBall);
       revealObserver.disconnect();
-      highlightObserver.disconnect();
     };
   }, []);
 
