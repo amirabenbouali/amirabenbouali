@@ -1455,6 +1455,274 @@
   animation: slowSpin 20s linear infinite;
 }
 
+.stackMapSection {
+  position: relative;
+  overflow: hidden;
+  margin-inline: calc((100% - 100vw) / 2);
+  padding: 0 max(32px, calc((100vw - 1450px) / 2));
+  color: #eee8dc;
+  background:
+    radial-gradient(circle at 12% 10%, rgba(255, 255, 255, 0.025), transparent 20%),
+    radial-gradient(circle at 82% 78%, rgba(255, 255, 255, 0.02), transparent 24%),
+    #0b0b0a;
+  border-bottom: 1px solid rgba(238, 232, 220, 0.16);
+}
+
+.stackMapSection::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E");
+  mix-blend-mode: screen;
+  opacity: 0.2;
+}
+
+.stackMapInner {
+  position: relative;
+  z-index: 1;
+  width: min(1450px, 100%);
+  margin: 0 auto;
+  padding: 70px 0 90px;
+}
+
+.stackMapTopline {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 34px;
+  align-items: start;
+  margin-bottom: 54px;
+}
+
+.stackMapEyebrow {
+  padding-top: 12px;
+  color: #c8b0d3;
+  font-size: 11px;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.stackMapTitleWrap h2 {
+  max-width: 980px;
+  margin: 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(64px, 7.4vw, 118px);
+  font-weight: 400;
+  line-height: 0.9;
+  letter-spacing: -0.055em;
+}
+
+.stackMapTitleWrap em {
+  font-style: italic;
+  font-weight: 400;
+}
+
+.stackMapSub {
+  max-width: 680px;
+  margin: 28px 0 0;
+  color: #9d968a;
+  font-size: 11px;
+  line-height: 1.8;
+}
+
+.stackMapGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.stackMapCard {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  min-height: 320px;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 30px 32px 26px;
+  border: 1px solid rgba(238, 232, 220, 0.16);
+  cursor: default;
+  transition:
+    transform 450ms cubic-bezier(0.2, 0.8, 0.2, 1),
+    box-shadow 450ms ease,
+    background 450ms ease;
+}
+
+.stackMapCard::before {
+  content: "";
+  position: absolute;
+  top: -42px;
+  right: -35px;
+  width: 170px;
+  height: 170px;
+  border: 1px dashed currentColor;
+  border-radius: 50%;
+  opacity: 0.15;
+  transition: transform 550ms ease;
+}
+
+.stackMapCard:hover {
+  transform: translateY(-7px);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.34);
+}
+
+.stackMapCard:hover::before {
+  transform: scale(1.12) rotate(14deg);
+}
+
+.stackMapPaper,
+.stackMapFolder {
+  color: #171611;
+}
+
+.stackMapPaper {
+  background: #ece1cf;
+}
+
+.stackMapDark {
+  color: #eee8dc;
+  background: #171613;
+}
+
+.stackMapArchive {
+  color: #eee8dc;
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03), transparent 40%),
+    #11110f;
+}
+
+.stackMapFolder {
+  background: #d8c6a5;
+}
+
+.stackMapPaper:hover {
+  background: #f1e8d8;
+}
+
+.stackMapDark:hover {
+  background: #1a1916;
+}
+
+.stackMapArchive:hover {
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035), transparent 40%),
+    #0f0f0e;
+}
+
+.stackMapFolder:hover {
+  background: #ddc9a6;
+}
+
+.stackMapPaper::after,
+.stackMapFolder::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.65' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.08'/%3E%3C/svg%3E");
+  mix-blend-mode: multiply;
+}
+
+.stackMapIndex {
+  position: relative;
+  z-index: 2;
+  font-size: 10px;
+  letter-spacing: 0.13em;
+  opacity: 0.65;
+}
+
+.stackMapCard h3 {
+  position: relative;
+  z-index: 2;
+  max-width: 470px;
+  margin: 26px 0 0;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(34px, 3.4vw, 58px);
+  font-weight: 400;
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+}
+
+.stackMapChips {
+  position: relative;
+  z-index: 3;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  padding-right: 150px;
+}
+
+.stackMapChip {
+  padding: 8px 11px;
+  border: 1px solid currentColor;
+  background: transparent;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  opacity: 0.82;
+  transition: transform 250ms ease;
+}
+
+.stackMapCard:hover .stackMapChip {
+  transform: translateY(-2px);
+}
+
+.stackMapMeta {
+  position: absolute;
+  right: 26px;
+  bottom: 78px;
+  z-index: 2;
+  width: 130px;
+  font-size: 9px;
+  line-height: 1.55;
+  text-align: right;
+  opacity: 0.35;
+  transform: rotate(-5deg);
+}
+
+.stackMapPin {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  z-index: 3;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: #25231f;
+  box-shadow: 0 7px 12px rgba(0, 0, 0, 0.25);
+  transform: translateX(-50%);
+}
+
+.stackMapPaperStrip {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 3;
+  width: 120px;
+  height: 22px;
+  background: repeating-linear-gradient(45deg, rgba(184, 164, 201, 0.7) 0 8px, rgba(216, 201, 229, 0.8) 8px 16px);
+  opacity: 0.7;
+  transform: rotate(-5deg);
+}
+
+.stackMapFooter {
+  display: flex;
+  gap: 20px;
+  justify-content: space-between;
+  margin-top: 36px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(238, 232, 220, 0.16);
+  color: #777168;
+  font-size: 9px;
+  letter-spacing: 0.12em;
+}
+
+@media (max-width: 900px) {
+  .stackMapTopline,
+  .stackMapGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
 .personnelSection {
   position: relative;
   overflow: hidden;
@@ -2708,12 +2976,84 @@
     padding: 72px 0;
   }
 
+  .stackMapSection {
+    padding-inline: 24px;
+  }
+
+  .stackMapInner {
+    padding: 58px 0 76px;
+  }
+
+  .stackMapTopline {
+    gap: 20px;
+    margin-bottom: 38px;
+  }
+
+  .stackMapEyebrow {
+    padding-top: 0;
+  }
+
+  .stackMapTitleWrap h2 {
+    font-size: clamp(52px, 11vw, 92px);
+  }
+
+  .stackMapChips {
+    padding-right: 0;
+  }
+
+  .stackMapMeta {
+    position: relative;
+    right: auto;
+    bottom: auto;
+    align-self: flex-end;
+    margin-top: 24px;
+  }
+
   .zoneBig {
     position: relative;
     top: auto;
     left: auto;
     margin-top: 42px;
     margin-bottom: 80px;
+  }
+}
+
+@media (max-width: 650px) {
+  .stackMapSection {
+    padding-inline: 12px;
+  }
+
+  .stackMapInner {
+    padding: 42px 0 70px;
+  }
+
+  .stackMapTitleWrap h2 {
+    font-size: 17vw;
+  }
+
+  .stackMapSub {
+    margin-top: 22px;
+  }
+
+  .stackMapCard {
+    min-height: 280px;
+    padding: 24px;
+  }
+
+  .stackMapCard h3 {
+    font-size: clamp(34px, 10vw, 48px);
+  }
+
+  .stackMapFooter {
+    display: block;
+  }
+
+  .stackMapFooter span {
+    display: block;
+  }
+
+  .stackMapFooter span + span {
+    margin-top: 10px;
   }
 }
 
@@ -2749,6 +3089,9 @@
   .lens::after,
   .revealFile,
   .stackCard,
+  .stackMapCard,
+  .stackMapCard::before,
+  .stackMapChip,
   .zoneItem,
   .social,
   .project::before,
