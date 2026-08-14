@@ -20,7 +20,7 @@ export function PortfolioPage() {
           </main>
         </div>
         <SkillsMarquee />
-        <div className={styles.page}>
+        <div className={`${styles.page} ${styles.contentPage}`}>
           <main>
             <ProjectsSection />
             <ToolboxSection />

@@ -8,8 +8,9 @@ export function PortfolioInteractions() {
   useEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const dot = dotRef.current;
-    const flowerSystem = document.querySelector<HTMLElement>('[data-flower-system]');
-    const note = document.querySelector<HTMLElement>('[data-note]');
+    const dossier = document.querySelector<HTMLElement>('[data-dossier]');
+    const lensOne = document.querySelector<HTMLElement>('[data-lens-one]');
+    const lensTwo = document.querySelector<HTMLElement>('[data-lens-two]');
 
     const moveDot = (event: PointerEvent) => {
       if (!dot || reduceMotion) return;
@@ -20,12 +21,18 @@ export function PortfolioInteractions() {
       const dx = (event.clientX - centerX) / centerX;
       const dy = (event.clientY - centerY) / centerY;
 
-      if (flowerSystem) {
-        flowerSystem.style.transform = `translate3d(${dx * 18}px, ${dy * 14}px, 0) rotate(${dx * 2}deg)`;
+      if (dossier) {
+        dossier.style.setProperty('--cursor-x', `${dx * 8}px`);
+        dossier.style.setProperty('--cursor-y', `${dy * 6}px`);
+        dossier.style.setProperty('--cursor-r', `${-1.6 + dx * 1.4}deg`);
       }
 
-      if (note) {
-        note.style.transform = `rotate(-3deg) translate3d(${dx * -8}px, ${dy * -6}px, 0)`;
+      if (lensOne) {
+        lensOne.style.transform = `translate3d(${dx * 18}px, ${dy * 10}px, 0)`;
+      }
+
+      if (lensTwo) {
+        lensTwo.style.transform = `translate3d(${dx * -15}px, ${dy * -8}px, 0)`;
       }
     };
 
