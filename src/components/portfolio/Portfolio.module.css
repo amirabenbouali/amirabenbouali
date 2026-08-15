@@ -616,7 +616,7 @@
 
 .workTransition {
   display: flex;
-  min-height: 30vh;
+  min-height: clamp(220px, 28vh, 330px);
   align-items: end;
   padding: 40px 0 28px;
   border-bottom: 1px solid rgba(238, 232, 220, 0.16);
@@ -652,7 +652,7 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 36px;
-  padding: 58px 0 42px;
+  padding: clamp(44px, 6vw, 64px) 0 clamp(34px, 4.5vw, 48px);
 }
 
 .archiveEyebrow {
@@ -686,7 +686,7 @@
 .archiveWorkspace {
   display: grid;
   grid-template-columns: minmax(280px, 420px) minmax(0, 1fr);
-  min-height: 720px;
+  min-height: clamp(640px, 72vh, 740px);
   border-top: 1px solid rgba(238, 232, 220, 0.16);
   border-bottom: 1px solid rgba(238, 232, 220, 0.16);
 }
@@ -767,14 +767,14 @@
 
 .archiveViewer {
   position: relative;
-  min-height: 720px;
+  min-height: clamp(640px, 72vh, 740px);
   overflow: hidden;
 }
 
 .archiveView {
   position: absolute;
   inset: 0;
-  padding: 52px 56px 40px;
+  padding: clamp(38px, 4vw, 56px) clamp(32px, 4.4vw, 58px) 40px;
   opacity: 0;
   pointer-events: none;
   transform: translateY(26px) scale(0.985);
@@ -820,7 +820,7 @@
 }
 
 .archiveSummary {
-  width: min(390px, 45%);
+  width: min(410px, 42%);
   margin: 46px 0 0;
   color: #aaa398;
   font-size: 11px;
@@ -849,10 +849,10 @@
 
 .archivePaper {
   position: absolute;
-  top: 8%;
-  right: 6%;
+  top: 7%;
+  right: clamp(20px, 4vw, 56px);
   z-index: 4;
-  width: 240px;
+  width: min(240px, 26%);
   min-height: 150px;
   padding: 22px;
   color: #181714;
@@ -877,10 +877,10 @@
 
 .archiveArt {
   position: absolute;
-  right: -35px;
-  bottom: 42px;
-  width: 68%;
-  height: 66%;
+  right: -18px;
+  bottom: 44px;
+  width: min(68%, 720px);
+  height: 62%;
   perspective: 1300px;
   transition: transform 420ms ease;
 }
@@ -1484,7 +1484,7 @@
   z-index: 1;
   width: min(1450px, 100%);
   margin: 0 auto;
-  padding: 70px 0 90px;
+  padding: clamp(58px, 7vw, 78px) 0 clamp(72px, 8vw, 96px);
 }
 
 .stackMapTopline {
@@ -1492,7 +1492,7 @@
   grid-template-columns: 240px 1fr;
   gap: 34px;
   align-items: start;
-  margin-bottom: 54px;
+  margin-bottom: clamp(40px, 5vw, 58px);
 }
 
 .stackMapEyebrow {
@@ -1536,7 +1536,7 @@
   position: relative;
   display: flex;
   overflow: hidden;
-  min-height: 320px;
+  min-height: clamp(292px, 30vw, 330px);
   flex-direction: column;
   justify-content: space-between;
   padding: 30px 32px 26px;
@@ -1754,7 +1754,7 @@
 
 .personnelChapter {
   display: flex;
-  min-height: 26vh;
+  min-height: clamp(220px, 24vh, 300px);
   align-items: end;
   border-bottom: 1px solid rgba(238, 232, 220, 0.15);
   padding: 38px 0 28px;
@@ -1797,14 +1797,14 @@
 
 .personnelGrid {
   display: grid;
-  grid-template-columns: minmax(0, 1.15fr) minmax(380px, 0.85fr);
+  grid-template-columns: minmax(0, 1.12fr) minmax(360px, 0.88fr);
   border-bottom: 1px solid rgba(238, 232, 220, 0.15);
 }
 
 .personnelIdentity {
   position: relative;
   display: flex;
-  min-height: 930px;
+  min-height: clamp(780px, 84vh, 930px);
   align-items: flex-end;
   justify-content: center;
   overflow: hidden;
@@ -1844,9 +1844,9 @@
 
 .badgeWrap {
   position: relative;
-  width: 470px;
-  height: 526px;
-  margin-top: 250px;
+  width: min(470px, 72%);
+  height: clamp(500px, 42vw, 526px);
+  margin-top: clamp(210px, 22vw, 250px);
   transform-style: preserve-3d;
 }
 
@@ -2027,13 +2027,13 @@
 
 .personnelNoteOne {
   top: 318px;
-  right: 8px;
+  right: clamp(0px, 2vw, 22px);
   transform: rotate(4deg);
 }
 
 .personnelNoteTwo {
   bottom: 74px;
-  left: 18px;
+  left: clamp(0px, 2vw, 28px);
   transform: rotate(-4deg);
 }
 
@@ -2047,8 +2047,8 @@
 
 .personnelExperience {
   position: relative;
-  min-height: 930px;
-  padding: 60px 0 60px 54px;
+  min-height: clamp(780px, 84vh, 930px);
+  padding: clamp(52px, 6vw, 64px) 0 clamp(52px, 6vw, 64px) clamp(38px, 4vw, 56px);
 }
 
 .personnelExperience h3 {
@@ -2324,7 +2324,7 @@
 
 .contactChapter {
   display: flex;
-  min-height: 24vh;
+  min-height: clamp(210px, 23vh, 280px);
   align-items: flex-end;
   padding: 38px 0 28px;
   border-bottom: 1px solid rgba(239, 233, 221, 0.16);
@@ -2370,16 +2370,16 @@
 
 .contactPanel {
   display: grid;
-  min-height: 100vh;
+  min-height: auto;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   border-bottom: 1px solid rgba(239, 233, 221, 0.16);
 }
 
 .contactLeft {
   position: relative;
-  min-height: 820px;
+  min-height: clamp(700px, 82vh, 820px);
   overflow: hidden;
-  padding: 66px 58px 60px 0;
+  padding: clamp(54px, 6vw, 68px) 58px clamp(54px, 6vw, 64px) 0;
   border-right: 1px solid rgba(239, 233, 221, 0.16);
 }
 
@@ -2404,7 +2404,7 @@
 .contactSignal {
   position: absolute;
   right: 55px;
-  bottom: 70px;
+  bottom: clamp(58px, 7vh, 76px);
   left: 0;
   display: flex;
   height: 360px;
@@ -2487,10 +2487,11 @@
 
 .contactRight {
   display: flex;
-  min-height: 820px;
+  min-height: clamp(700px, 82vh, 820px);
   flex-direction: column;
   justify-content: space-between;
-  padding: 66px 0 60px 58px;
+  gap: 28px;
+  padding: clamp(54px, 6vw, 68px) 0 clamp(54px, 6vw, 64px) 58px;
 }
 
 .contactTerminal {
@@ -2705,7 +2706,7 @@
 .contactFinal {
   position: relative;
   display: flex;
-  min-height: 32vh;
+  min-height: clamp(260px, 32vh, 370px);
   align-items: center;
   justify-content: space-between;
   gap: 40px;
@@ -2907,7 +2908,7 @@
   }
 
   .archiveViewer {
-    min-height: 680px;
+    min-height: 640px;
   }
 
   .archiveHead {
@@ -2916,11 +2917,12 @@
   }
 
   .archiveHead p {
-    width: 45vw;
+    width: min(440px, 45vw);
   }
 
   .archiveSummary {
-    width: min(430px, 52%);
+    width: min(430px, 54%);
+    margin-top: 34px;
   }
 
   .personnelSection {
@@ -2932,14 +2934,14 @@
   }
 
   .personnelIdentity {
-    min-height: 820px;
+    min-height: 780px;
     border-right: 0;
     border-bottom: 1px solid rgba(238, 232, 220, 0.15);
   }
 
   .personnelExperience {
     min-height: auto;
-    padding: 60px 0;
+    padding: 54px 0 62px;
   }
 
   .projectDemo {
@@ -3033,9 +3035,9 @@
   }
 
   .personnelIdentity {
-    min-height: 760px;
+    min-height: 690px;
     align-items: flex-end;
-    padding-bottom: 40px;
+    padding-bottom: 34px;
   }
 
   .personnelCopy {
@@ -3045,10 +3047,10 @@
   }
 
   .badgeWrap {
-    width: 88vw;
-    max-width: 510px;
-    height: 500px;
-    margin-top: 180px;
+    width: min(88vw, 430px);
+    max-width: 430px;
+    height: 455px;
+    margin-top: 170px;
   }
 
   .badgeTop {
@@ -3071,7 +3073,7 @@
   }
 
   .badgePhoto {
-    height: 190px;
+    height: 168px;
   }
 
   .badgeScript {
@@ -3086,9 +3088,9 @@
 
   .badgeStamp {
     right: 24px;
-    bottom: 70px;
-    width: 86px;
-    height: 86px;
+    bottom: 60px;
+    width: 78px;
+    height: 78px;
   }
 
   .personnelNote {
@@ -3148,16 +3150,16 @@
   }
 
   .archiveViewer {
-    min-height: 620px;
+    min-height: 560px;
   }
 
   .archiveView {
-    padding: 36px 18px;
+    padding: 34px 16px;
   }
 
   .archiveSummary {
-    width: 90%;
-    margin-top: 26px;
+    width: min(100%, 420px);
+    margin-top: 22px;
   }
 
   .archivePaper {
@@ -3168,7 +3170,8 @@
     right: -10px;
     bottom: 20px;
     width: 100%;
-    height: 48%;
+    height: 40%;
+    opacity: 0.82;
   }
 
   .archiveScreen {
@@ -3338,14 +3341,14 @@
   }
 
   .contactLeft {
-    min-height: 720px;
+    min-height: 660px;
     padding-right: 0;
     border-right: 0;
     border-bottom: 1px solid rgba(239, 233, 221, 0.16);
   }
 
   .contactRight {
-    min-height: 760px;
+    min-height: auto;
     padding-left: 0;
   }
 
@@ -3397,7 +3400,7 @@
   }
 
   .contactChapter {
-    min-height: 30vh;
+    min-height: 250px;
     padding-top: 42px;
   }
 
@@ -3413,10 +3416,11 @@
 
   .contactLeft,
   .contactRight {
-    min-height: 700px;
+    min-height: auto;
   }
 
   .contactLeft {
+    min-height: 620px;
     padding-top: 48px;
     padding-bottom: 54px;
   }
@@ -3432,8 +3436,8 @@
 
   .contactSignal {
     right: 0;
-    bottom: 78px;
-    height: 300px;
+    bottom: 72px;
+    height: 260px;
   }
 
   .contactRings {
