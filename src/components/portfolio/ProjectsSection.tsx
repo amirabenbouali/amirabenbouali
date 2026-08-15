@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useState } from 'react';
 import type { Project } from '@/data/portfolio';
 import { projects } from '@/data/portfolio';
@@ -156,13 +157,13 @@ export function ProjectsSection() {
                   <h3>{project.title}</h3>
                   <div className={`${styles.archiveMeta} ${styles.mono}`}>{projectMeta(project)}</div>
                   <p className={`${styles.archiveSummary} ${styles.mono}`}>{project.summary}</p>
-                  <a
+                  <Link
                     className={`${styles.archiveLink} ${styles.mono}`}
-                    href="#contact"
+                    href="/contact"
                     tabIndex={project.id === activeProject?.id ? 0 : -1}
                   >
                     VIEW CASE STUDY <span>↗</span>
-                  </a>
+                  </Link>
                 </div>
               </div>
 

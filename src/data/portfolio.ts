@@ -9,10 +9,10 @@ export type Project = {
 };
 
 export const navItems = [
-  { label: 'Projects', href: '#projects' },
-  { label: 'Stack', href: '#toolbox' },
-  { label: 'About', href: '#about' },
-  { label: 'Contact', href: '#contact' }
+  { label: 'Projects', href: '/projects' },
+  { label: 'Stack', href: '/stack' },
+  { label: 'About', href: '/about' },
+  { label: 'Contact', href: '/contact' }
 ];
 
 export const projects: Project[] = [
@@ -55,5 +55,5 @@ export const contactLinks = [
   { label: 'LinkedIn ↗', href: 'https://www.linkedin.com/' },
   { label: 'GitHub ↗', href: 'https://github.com/amirabenbouali' },
   { label: 'Email ↗', href: 'mailto:hello@example.com' },
-  { label: 'CV ↗', href: '#top' }
+  { label: 'CV ↗', href: '/' }
 ];

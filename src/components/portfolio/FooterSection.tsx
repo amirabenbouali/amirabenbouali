@@ -1,7 +1,8 @@
 'use client';
 
-import { contactLinks } from '@/data/portfolio';
+import Link from 'next/link';
 import { FormEvent, useMemo, useState } from 'react';
+import { contactLinks } from '@/data/portfolio';
 import styles from './Portfolio.module.css';
 
 export function FooterSection() {
@@ -12,7 +13,7 @@ export function FooterSection() {
   const contactChannels = [
     { label: '01 / CODE', title: 'GitHub ↗', href: linkMap.get('GitHub') ?? 'https://github.com/amirabenbouali' },
     { label: '02 / PROFILE', title: 'LinkedIn ↗', href: linkMap.get('LinkedIn') ?? 'https://www.linkedin.com/' },
-    { label: '03 / DOCUMENT', title: 'CV ↗', href: linkMap.get('CV') ?? '#top' }
+    { label: '03 / DOCUMENT', title: 'CV ↗', href: linkMap.get('CV') ?? '/' }
   ];
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -138,12 +139,19 @@ export function FooterSection() {
             </form>
 
             <nav className={styles.contactLinks} aria-label="Contact links">
-              {contactChannels.map((link) => (
-                <a className={`${styles.contactLink} ${styles.mono}`} href={link.href} key={link.label}>
-                  <span>{link.label}</span>
-                  <strong>{link.title}</strong>
-                </a>
-              ))}
+              {contactChannels.map((link) =>
+                link.href.startsWith('/') ? (
+                  <Link className={`${styles.contactLink} ${styles.mono}`} href={link.href} key={link.label}>
+                    <span>{link.label}</span>
+                    <strong>{link.title}</strong>
+                  </Link>
+                ) : (
+                  <a className={`${styles.contactLink} ${styles.mono}`} href={link.href} key={link.label}>
+                    <span>{link.label}</span>
+                    <strong>{link.title}</strong>
+                  </a>
+                )
+              )}
             </nav>
           </div>
         </section>
