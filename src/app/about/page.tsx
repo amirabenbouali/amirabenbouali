@@ -1,12 +1,5 @@
-import { AboutSection } from '@/components/portfolio/AboutSection';
-import { PortfolioShell } from '@/components/portfolio/PortfolioShell';
+import { PortfolioPage } from '@/components/portfolio/PortfolioPage';
 
 export default function AboutPage() {
-  return (
-    <PortfolioShell content>
-      <main>
-        <AboutSection />
-      </main>
-    </PortfolioShell>
-  );
+  return <PortfolioPage initialPage="about" />;
 }

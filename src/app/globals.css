@@ -48,49 +48,8 @@ mark {
   outline-offset: 4px;
 }
 
-[data-reveal] {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 700ms ease, transform 700ms ease;
-}
-
-[data-reveal][data-visible="true"] {
-  opacity: 1;
-  transform: none;
-}
-
-.cursorDot {
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 100;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  pointer-events: none;
-  background: var(--pink);
-  mix-blend-mode: multiply;
-  transform: translate3d(-999px, -999px, 0);
-  transition: width 150ms ease, height 150ms ease;
-}
-
-.cursorDot[data-active="true"] {
-  width: 34px;
-  height: 34px;
-}
-
 @media (pointer: coarse), (prefers-reduced-motion: reduce) {
-  .cursorDot {
-    display: none;
-  }
-
   html {
     scroll-behavior: auto;
-  }
-
-  [data-reveal] {
-    opacity: 1;
-    transform: none;
-    transition: none;
   }
 }

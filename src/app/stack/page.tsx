@@ -1,12 +1,5 @@
-import { PortfolioShell } from '@/components/portfolio/PortfolioShell';
-import { ToolboxSection } from '@/components/portfolio/ToolboxSection';
+import { PortfolioPage } from '@/components/portfolio/PortfolioPage';
 
 export default function StackPage() {
-  return (
-    <PortfolioShell content>
-      <main>
-        <ToolboxSection />
-      </main>
-    </PortfolioShell>
-  );
+  return <PortfolioPage initialPage="playground" />;
 }

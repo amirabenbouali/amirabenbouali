@@ -1,12 +1,5 @@
-import { PortfolioShell } from '@/components/portfolio/PortfolioShell';
-import { ProjectsSection } from '@/components/portfolio/ProjectsSection';
+import { PortfolioPage } from '@/components/portfolio/PortfolioPage';
 
 export default function ProjectsPage() {
-  return (
-    <PortfolioShell content>
-      <main>
-        <ProjectsSection />
-      </main>
-    </PortfolioShell>
-  );
+  return <PortfolioPage initialPage="work" />;
 }

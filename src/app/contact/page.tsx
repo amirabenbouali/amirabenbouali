@@ -1,10 +1,5 @@
-import { FooterSection } from '@/components/portfolio/FooterSection';
-import { PortfolioShell } from '@/components/portfolio/PortfolioShell';
+import { PortfolioPage } from '@/components/portfolio/PortfolioPage';
 
 export default function ContactPage() {
-  return (
-    <PortfolioShell content>
-      <FooterSection />
-    </PortfolioShell>
-  );
+  return <PortfolioPage initialPage="contact" />;
 }
