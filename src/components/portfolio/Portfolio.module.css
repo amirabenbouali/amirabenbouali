@@ -140,6 +140,8 @@
   --paper-y: 0px;
   --script-x: 0px;
   --script-y: 0px;
+  --title-x: 0px;
+  --title-y: 0px;
   position: relative;
   display: grid;
   grid-template-columns: 220px minmax(0, 1fr) 220px;
@@ -189,7 +191,7 @@
   color: #efe9dd;
   background: #030303;
   pointer-events: none;
-  animation: introWipe 2100ms cubic-bezier(0.76, 0, 0.24, 1) 180ms forwards;
+  animation: introWipe 2400ms cubic-bezier(0.76, 0, 0.24, 1) 160ms forwards;
 }
 
 .cinematicIntro::after {
@@ -198,7 +200,7 @@
   inset: 0;
   background: linear-gradient(180deg, transparent, rgba(239, 233, 221, 0.08), transparent);
   transform: translateY(-110%);
-  animation: introScan 1700ms cubic-bezier(0.76, 0, 0.24, 1) 420ms forwards;
+  animation: introScan 1850ms cubic-bezier(0.76, 0, 0.24, 1) 420ms forwards;
 }
 
 .introCard {
@@ -208,6 +210,7 @@
   font-size: clamp(11px, 1vw, 13px);
   letter-spacing: 0.22em;
   text-align: center;
+  animation: introCardSettle 1700ms cubic-bezier(0.2, 0.8, 0.2, 1) 120ms both;
 }
 
 .introCard span:last-child {
@@ -225,6 +228,8 @@
     linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 28%),
     repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 120px);
   mask-image: radial-gradient(ellipse at center, #000 35%, transparent 82%);
+  transform: translate3d(calc(var(--hero-x) * -8px), calc(var(--hero-y) * -5px), 0);
+  transition: transform 900ms cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .sidecopy,
@@ -272,7 +277,7 @@
   align-items: center;
   justify-content: center;
   perspective: 1200px;
-  animation: heroStageSettle 1300ms cubic-bezier(0.2, 0.8, 0.2, 1) 1200ms both;
+  animation: heroStageSettle 1450ms cubic-bezier(0.2, 0.8, 0.2, 1) 1120ms both;
 }
 
 .folder {
@@ -288,7 +293,7 @@
     linear-gradient(90deg, rgba(0, 0, 0, 0.07), transparent 2%, transparent 49%, rgba(255, 255, 255, 0.07) 50%, transparent 51%),
     #c9b28c;
   box-shadow: 0 35px 100px rgba(0, 0, 0, 0.42);
-  transform: rotate(var(--folder-r)) translate3d(var(--folder-x), calc(var(--folder-y) - 4px), 0);
+  transform: translate3d(var(--folder-x), calc(var(--folder-y) - 4px), 0) rotate(var(--folder-r));
   transition: transform 900ms cubic-bezier(0.19, 1, 0.22, 1), box-shadow 900ms ease;
   will-change: transform;
 }
@@ -302,6 +307,7 @@
   height: 44px;
   border-radius: 12px 12px 0 0;
   background: #c9b28c;
+  transform-origin: 20% 100%;
 }
 
 .folder::after {
@@ -313,6 +319,11 @@
   opacity: 0.45;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.12'/%3E%3C/svg%3E");
   mix-blend-mode: multiply;
+  transition: opacity 780ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.folderOpen::after {
+  opacity: 0.52;
 }
 
 .stage:hover .folder {
@@ -386,8 +397,9 @@
   white-space: nowrap;
   pointer-events: none;
   mix-blend-mode: screen;
-  transform: translate(-50%, -50%);
-  animation: portfolioTitleArrive 1500ms cubic-bezier(0.2, 0.8, 0.2, 1) 1280ms both;
+  transform: translate(calc(-50% + var(--title-x)), calc(-50% + var(--title-y)));
+  animation: portfolioTitleArrive 1650ms cubic-bezier(0.2, 0.8, 0.2, 1) 1200ms both;
+  will-change: transform;
 }
 
 .nameScript {
@@ -420,6 +432,16 @@
   box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.04), 0 15px 35px rgba(0, 0, 0, 0.38);
   transition: transform 900ms cubic-bezier(0.19, 1, 0.22, 1);
   will-change: transform;
+}
+
+.lens::before {
+  content: "";
+  position: absolute;
+  inset: -40%;
+  opacity: 0.34;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.16), transparent 62%);
+  transform: translateX(-70%) rotate(8deg);
+  animation: lensGlide 6200ms cubic-bezier(0.65, 0, 0.35, 1) 2600ms infinite;
 }
 
 .lens::after {
@@ -490,26 +512,27 @@
 }
 
 .folderOpen .note {
-  transform: translate3d(var(--paper-x), calc(var(--paper-y) - 24px), 0) rotate(-1deg);
+  transform: translate3d(calc(var(--paper-x) + 8px), calc(var(--paper-y) - 34px), 0) rotate(-1.4deg);
 }
 
 .folderOpen .star {
-  transform: translate3d(calc(var(--detail-x) - 8px), calc(var(--detail-y) - 7px), 0) rotate(10deg) scale(1.16);
+  transform: translate3d(calc(var(--detail-x) - 14px), calc(var(--detail-y) - 10px), 0) rotate(15deg) scale(1.18);
 }
 
 .folderOpen .nameScript {
-  transform: translate3d(calc(var(--script-x) + 12px), calc(var(--script-y) - 8px), 0) rotate(0deg) translateY(-50%) scale(1.035);
+  transform: translate3d(calc(var(--script-x) + 18px), calc(var(--script-y) - 13px), 0) rotate(-1deg) translateY(-50%) scale(1.045);
 }
 
 .folderOpen .tape {
-  transform: translate3d(calc(var(--detail-x) + 10px), calc(var(--detail-y) + 5px), 0) rotate(-1deg);
+  transform: translate3d(calc(var(--detail-x) + 16px), calc(var(--detail-y) + 8px), 0) rotate(1deg);
 }
 
 .folderOpen::before {
-  transform: translateY(-7px);
+  transform: translateY(-12px) rotate(-1deg);
 }
 
 .folderOpen {
+  transform: translate3d(var(--folder-x), calc(var(--folder-y) - 18px), 0) rotate(calc(var(--folder-r) + 0.5deg)) scale(1.012);
   box-shadow: 0 62px 150px rgba(0, 0, 0, 0.58);
 }
 
@@ -2873,6 +2896,19 @@
   }
 }
 
+@keyframes introCardSettle {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  42%,
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes heroStageSettle {
   from {
     opacity: 0.72;
@@ -2897,15 +2933,27 @@
   }
 }
 
+@keyframes lensGlide {
+  0%,
+  45% {
+    transform: translateX(-70%) rotate(8deg);
+  }
+
+  78%,
+  100% {
+    transform: translateX(72%) rotate(8deg);
+  }
+}
+
 @keyframes portfolioTitleArrive {
   from {
     opacity: 0;
-    transform: translate(-50%, -44%);
+    transform: translate(calc(-50% + var(--title-x)), calc(-44% + var(--title-y)));
   }
 
   to {
     opacity: 1;
-    transform: translate(-50%, -50%);
+    transform: translate(calc(-50% + var(--title-x)), calc(-50% + var(--title-y)));
   }
 }
 
@@ -3801,6 +3849,7 @@
   .folder,
   .cinematicIntro,
   .lens,
+  .lens::before,
   .marqueeTrack,
   .miniFlower,
   .contactArc,
