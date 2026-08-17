@@ -837,6 +837,318 @@
   transform: rotate(-3deg);
 }
 
+.kansoLayout {
+  height: 100%;
+  display: grid;
+  grid-template-columns: minmax(320px, 0.74fr) minmax(590px, 1.26fr);
+  gap: clamp(44px, 4.2vw, 58px);
+  align-items: center;
+}
+
+.kansoCopy {
+  position: relative;
+  z-index: 2;
+  max-width: 430px;
+}
+
+.kansoNumber {
+  font-size: 58px;
+  line-height: 0.8;
+  letter-spacing: -0.04em;
+  transform: rotate(3deg);
+}
+
+.kansoCopy h2 {
+  margin: 7px 0 12px;
+  font-size: clamp(66px, 7vw, 108px);
+  font-weight: 500;
+  line-height: 0.78;
+  letter-spacing: -0.065em;
+  text-transform: uppercase;
+}
+
+.kansoCopy h2 span {
+  position: relative;
+  display: inline-block;
+}
+
+.kansoCopy h2 span::after {
+  content: "";
+  position: absolute;
+  right: 5%;
+  bottom: -10px;
+  left: 0;
+  height: 2px;
+  background: #7b2b68;
+}
+
+.kansoSub {
+  margin: 24px 0 28px;
+  font-size: 18px;
+  line-height: 1.2;
+}
+
+.kansoCopy p {
+  max-width: 430px;
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.kansoStack {
+  margin-top: 24px;
+  padding-top: 15px;
+  border-top: 1px solid rgba(23, 23, 23, 0.16);
+  font-size: 10px;
+  line-height: 1.65;
+  text-transform: uppercase;
+}
+
+.kansoStack b {
+  display: block;
+  margin-bottom: 6px;
+  color: #7b2b68;
+}
+
+.kansoNote {
+  margin-top: 52px;
+  font-size: 15px;
+}
+
+.kansoVisual {
+  position: relative;
+}
+
+.kansoLab {
+  position: relative;
+  min-height: min(560px, 70vh);
+  border: 1px solid rgba(23, 23, 23, 0.16);
+  overflow: hidden;
+  background:
+    linear-gradient(rgba(23, 23, 23, 0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(23, 23, 23, 0.055) 1px, transparent 1px),
+    rgba(249, 247, 242, 0.76);
+  background-size: 32px 32px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.09);
+}
+
+.kansoLabTop {
+  display: flex;
+  height: 42px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 18px;
+  border-bottom: 1px solid rgba(23, 23, 23, 0.16);
+  font-size: 9px;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.kansoLabTop i {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-right: 7px;
+  border-radius: 50%;
+  background: #7b2b68;
+  box-shadow: 0 0 0 6px rgba(123, 43, 104, 0.08);
+}
+
+.kansoLabBody {
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 16px;
+  min-height: 518px;
+  padding: 22px;
+}
+
+.kansoQueryColumn,
+.kansoParseColumn {
+  display: grid;
+  min-width: 0;
+  border: 1px solid rgba(23, 23, 23, 0.16);
+  background: rgba(244, 241, 234, 0.6);
+}
+
+.kansoQueryColumn {
+  grid-template-rows: auto 1.05fr auto auto;
+}
+
+.kansoParseColumn {
+  grid-template-rows: auto 1fr auto;
+  gap: 18px;
+  padding-bottom: 20px;
+}
+
+.kansoPanelHead {
+  display: flex;
+  min-height: 36px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 0 14px;
+  border-bottom: 1px solid rgba(23, 23, 23, 0.16);
+  font-size: 8px;
+  text-transform: uppercase;
+}
+
+.kansoCode {
+  margin: 0;
+  padding: 26px 28px;
+  border-bottom: 1px solid rgba(23, 23, 23, 0.16);
+  font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: clamp(16px, 1.2vw, 21px);
+  line-height: 1.58;
+  white-space: pre-wrap;
+}
+
+.kansoCode span {
+  color: #7b2b68;
+  font-weight: 700;
+}
+
+.kansoCode em {
+  color: #8a8780;
+  font-style: normal;
+}
+
+.kansoTokenPanel,
+.kansoExecution {
+  border-bottom: 1px solid rgba(23, 23, 23, 0.16);
+}
+
+.kansoExecution {
+  border-bottom: 0;
+}
+
+.kansoTokens {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 14px;
+}
+
+.kansoTokens span {
+  padding: 8px 11px;
+  border: 1px solid rgba(23, 23, 23, 0.16);
+  background: rgba(249, 247, 242, 0.76);
+  font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.kansoExecution p {
+  margin: 0;
+  padding: 14px;
+  font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 10px;
+  line-height: 1.6;
+}
+
+.kansoTree {
+  display: grid;
+  align-content: center;
+  gap: 16px;
+  margin: 22px;
+  padding: 28px;
+  border: 1px solid rgba(23, 23, 23, 0.16);
+  background: rgba(249, 247, 242, 0.58);
+}
+
+.kansoTreeNode {
+  display: grid;
+  grid-template-columns: 16px minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+  font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.kansoTreeNode > span {
+  width: 10px;
+  height: 10px;
+  margin-top: 2px;
+  border: 1px solid #171717;
+  background: #f4f1ea;
+}
+
+.kansoTreeRoot {
+  border-color: #7b2b68 !important;
+  background: #7b2b68 !important;
+}
+
+.kansoTreeNode b,
+.kansoTreeNode small {
+  display: block;
+  font-size: 10px;
+  line-height: 1.35;
+}
+
+.kansoTreeNode small {
+  margin-top: 1px;
+}
+
+.kansoResult {
+  margin: 0 22px;
+  border: 1px solid rgba(23, 23, 23, 0.16);
+  background: rgba(249, 247, 242, 0.64);
+}
+
+.kansoResult table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 9px;
+}
+
+.kansoResult th,
+.kansoResult td {
+  padding: 11px 10px;
+  border-top: 1px solid rgba(23, 23, 23, 0.16);
+  border-right: 1px solid rgba(23, 23, 23, 0.16);
+  text-align: left;
+}
+
+.kansoResult th:last-child,
+.kansoResult td:last-child {
+  border-right: 0;
+}
+
+.kansoPulse {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  width: 12px;
+  height: 12px;
+  border: 1px solid #7b2b68;
+  border-radius: 50%;
+  animation: kansoPulse 2.2s ease-out infinite;
+}
+
+.kansoLabNote {
+  position: absolute;
+  right: 4px;
+  bottom: -28px;
+  margin: 0;
+  font-size: 15px;
+  transform: rotate(2deg);
+}
+
+@keyframes kansoPulse {
+  0% {
+    opacity: 0.9;
+    transform: scale(0.7);
+  }
+
+  80%,
+  100% {
+    opacity: 0;
+    transform: scale(5);
+  }
+}
+
 .scrapPlayGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -1033,24 +1345,29 @@
   .scrapAboutGrid,
   .scrapProjectLayout,
   .foundryLayout,
+  .kansoLayout,
   .scrapContactGrid {
     grid-template-columns: 1fr;
     gap: 32px;
   }
 
-  .foundryLayout {
+  .foundryLayout,
+  .kansoLayout {
     align-items: start;
   }
 
-  .foundryCopy {
+  .foundryCopy,
+  .kansoCopy {
     max-width: 680px;
   }
 
-  .foundryCopy h2 {
+  .foundryCopy h2,
+  .kansoCopy h2 {
     font-size: clamp(62px, 18vw, 112px);
   }
 
-  .foundryWorkspace {
+  .foundryWorkspace,
+  .kansoLab {
     min-height: 0;
   }
 
@@ -1078,6 +1395,16 @@
   }
 
   .foundryWorkspaceNote {
+    position: static;
+    margin-top: 18px;
+  }
+
+  .kansoLabBody {
+    min-height: auto;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .kansoLabNote {
     position: static;
     margin-top: 18px;
   }
@@ -1129,13 +1456,40 @@
     padding: 14px;
   }
 
-  .foundryIssueGrid {
+  .kansoLabTop {
+    display: grid;
+    height: auto;
+    gap: 8px;
+    padding: 14px;
+  }
+
+  .foundryIssueGrid,
+  .kansoLabBody {
     grid-template-columns: 1fr;
+  }
+
+  .kansoLabBody {
+    padding: 14px;
   }
 
   .foundryIssuePanel,
   .foundryLifecyclePanel {
     padding: 12px;
+  }
+
+  .kansoCode {
+    padding: 18px;
+    font-size: 14px;
+  }
+
+  .kansoTree {
+    margin: 14px;
+    padding: 18px;
+  }
+
+  .kansoResult {
+    margin: 0 14px;
+    overflow-x: auto;
   }
 
   .foundryWorkspaceHeading {

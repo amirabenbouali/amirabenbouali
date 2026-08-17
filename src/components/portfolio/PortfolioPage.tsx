@@ -5,8 +5,8 @@ import type { ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import styles from './ScrapbookPortfolio.module.css';
 
-type PortfolioView = 'home' | 'work' | 'about' | 'atria' | 'foundry' | 'playground' | 'contact';
-type PrimaryView = Exclude<PortfolioView, 'atria' | 'foundry'>;
+type PortfolioView = 'home' | 'work' | 'about' | 'atria' | 'foundry' | 'kansodb' | 'playground' | 'contact';
+type PrimaryView = Exclude<PortfolioView, 'atria' | 'foundry' | 'kansodb'>;
 
 type PortfolioPageProps = {
   initialPage?: PrimaryView;
@@ -25,7 +25,7 @@ const navItems: Array<{ id: PrimaryView; label: string; number: string }> = [
 const projects = [
   { index: '01', title: 'Atria', kind: 'Productivity app', year: '2026', target: 'atria' as const },
   { index: '02', title: 'Foundry', kind: 'Engineering OS', year: '2026', target: 'foundry' as const },
-  { index: '03', title: 'KansoDB', kind: 'SQL query engine', year: '2026' },
+  { index: '03', title: 'KansoDB', kind: 'SQL query engine', year: '2026', target: 'kansodb' as const },
   { index: '04', title: 'Mini CI/CD', kind: 'DevOps tooling', year: '2026' }
 ];
 
@@ -38,7 +38,7 @@ function Sidebar({
   footer?: string;
   onNavigate: (target: PortfolioView) => void;
 }) {
-  const activePrimary = active === 'atria' || active === 'foundry' ? 'work' : active;
+  const activePrimary = active === 'atria' || active === 'foundry' || active === 'kansodb' ? 'work' : active;
 
   return (
     <aside className={styles.scrapSidebar}>
@@ -401,6 +401,138 @@ function FoundryPage() {
   );
 }
 
+function KansoQueryLab() {
+  const tokens = ['SELECT', 'IDENTIFIER', 'FROM', 'IDENTIFIER', 'WHERE', 'EQUALS', 'STRING', 'ORDER_BY'];
+  const tree = [
+    ['Query', ''],
+    ['SelectClause →', 'name, role'],
+    ['FromClause →', 'engineers'],
+    ['WhereClause → stack', "= 'typescript'"],
+    ['OrderClause →', 'experience DESC']
+  ];
+  const rows = [
+    ['Amira', 'Engineer', '04'],
+    ['Lina', 'Builder', '03'],
+    ['Kanso', 'Engine', '01']
+  ];
+
+  return (
+    <div className={styles.kansoLab} aria-label="KansoDB query lab preview">
+      <div className={`${styles.kansoLabTop} ${styles.scrapMono}`}>
+        <span>KANSODB / QUERY LAB</span>
+        <span>
+          <i /> ENGINE READY
+        </span>
+      </div>
+      <div className={styles.kansoLabBody}>
+        <section className={styles.kansoQueryColumn}>
+          <div className={`${styles.kansoPanelHead} ${styles.scrapMono}`}>
+            <span>01 / Query</span>
+            <span>SQL-ish</span>
+          </div>
+          <pre className={styles.kansoCode}>
+            <span>SELECT</span> name, role{'\n'}
+            <span>FROM</span> engineers{'\n'}
+            <span>WHERE</span> stack = {'\n'}
+            <em>&apos;typescript&apos;</em>{'\n'}
+            <span>ORDER BY</span> experience{'\n'}
+            <span>DESC;</span>
+          </pre>
+          <div className={styles.kansoTokenPanel}>
+            <div className={`${styles.kansoPanelHead} ${styles.scrapMono}`}>
+              <span>02 / Tokens</span>
+            </div>
+            <div className={styles.kansoTokens}>
+              {tokens.map((token) => (
+                <span key={token}>{token}</span>
+              ))}
+            </div>
+          </div>
+          <div className={styles.kansoExecution}>
+            <div className={`${styles.kansoPanelHead} ${styles.scrapMono}`}>
+              <span>03 / Execution</span>
+            </div>
+            <p>scan → filter → project → sort → return</p>
+          </div>
+        </section>
+        <section className={styles.kansoParseColumn}>
+          <div className={`${styles.kansoPanelHead} ${styles.scrapMono}`}>
+            <span>04 / Parse tree</span>
+            <span>AST</span>
+          </div>
+          <div className={styles.kansoTree}>
+            {tree.map(([label, detail], index) => (
+              <div className={styles.kansoTreeNode} key={label}>
+                <span className={index === 0 ? styles.kansoTreeRoot : undefined} />
+                <div>
+                  <b>{label}</b>
+                  {detail ? <small>{detail}</small> : null}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className={styles.kansoResult}>
+            <div className={`${styles.kansoPanelHead} ${styles.scrapMono}`}>
+              <span>05 / Result</span>
+              <span>3 rows · 2ms</span>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>name</th>
+                  <th>role</th>
+                  <th>exp</th>
+                </tr>
+              </thead>
+              <tbody>
+                {rows.map(([name, role, exp]) => (
+                  <tr key={name}>
+                    <td>{name}</td>
+                    <td>{role}</td>
+                    <td>{exp}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+      <div className={styles.kansoPulse} aria-hidden="true" />
+    </div>
+  );
+}
+
+function KansoPage() {
+  return (
+    <div className={styles.kansoLayout}>
+      <div className={styles.kansoCopy}>
+        <div className={`${styles.kansoNumber} ${styles.scrapScribble}`}>03</div>
+        <h2><span>KANSODB</span></h2>
+        <div className={`${styles.kansoSub} ${styles.scrapScribble}`}>
+          tiny query engine.
+          <br />
+          big systems lesson.
+        </div>
+        <p>
+          A lightweight SQL-style query engine built to understand what happens between a query string and a result set
+          — from tokenisation and parsing to execution and output.
+        </p>
+        <div className={styles.kansoStack}>
+          <b>Core concepts</b>
+          <span>TYPESCRIPT · TOKENISER · PARSER · AST · QUERY EXECUTION · TESTING</span>
+        </div>
+        <div className={`${styles.kansoNote} ${styles.scrapScribble}`}>learning databases by building one ↗</div>
+      </div>
+      <div className={styles.kansoVisual}>
+        <KansoQueryLab />
+        <div className={`${styles.kansoLabNote} ${styles.scrapScribble}`}>
+          query → structure → execution → result ✦
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function PlaygroundPage() {
   return (
     <div className={styles.scrapPlayWrap}>
@@ -532,7 +664,7 @@ export function PortfolioPage({ initialPage = 'home' }: PortfolioPageProps) {
   const [isWiping, setIsWiping] = useState(false);
 
   const counterIndex = useMemo(() => {
-    const page = activePage === 'atria' || activePage === 'foundry' ? 'work' : activePage;
+    const page = activePage === 'atria' || activePage === 'foundry' || activePage === 'kansodb' ? 'work' : activePage;
     return Math.max(primaryOrder.indexOf(page), 0) + 1;
   }, [activePage]);
 
@@ -549,7 +681,7 @@ export function PortfolioPage({ initialPage = 'home' }: PortfolioPageProps) {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (!['ArrowRight', 'ArrowLeft'].includes(event.key)) return;
-      const current = activePage === 'atria' || activePage === 'foundry' ? 'work' : activePage;
+      const current = activePage === 'atria' || activePage === 'foundry' || activePage === 'kansodb' ? 'work' : activePage;
       const currentIndex = Math.max(primaryOrder.indexOf(current), 0);
       const nextIndex =
         event.key === 'ArrowRight' ? Math.min(primaryOrder.length - 1, currentIndex + 1) : Math.max(0, currentIndex - 1);
@@ -591,6 +723,15 @@ export function PortfolioPage({ initialPage = 'home' }: PortfolioPageProps) {
           topRight={<button className={styles.scrapBackButton} onClick={() => navigate('work')} type="button">← Back to work</button>}
         >
           <FoundryPage />
+        </PageShell>
+        <PageShell
+          active={activePage}
+          name="kansodb"
+          onNavigate={navigate}
+          sidebarFooter="Open all projects"
+          topRight={<button className={styles.scrapBackButton} onClick={() => navigate('work')} type="button">← Back to work</button>}
+        >
+          <KansoPage />
         </PageShell>
         <PageShell active={activePage} name="playground" onNavigate={navigate}>
           <PlaygroundPage />
