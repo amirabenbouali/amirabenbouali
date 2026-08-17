@@ -5,8 +5,8 @@ import type { ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import styles from './ScrapbookPortfolio.module.css';
 
-type PortfolioView = 'home' | 'work' | 'about' | 'atria' | 'playground' | 'contact';
-type PrimaryView = Exclude<PortfolioView, 'atria'>;
+type PortfolioView = 'home' | 'work' | 'about' | 'atria' | 'foundry' | 'playground' | 'contact';
+type PrimaryView = Exclude<PortfolioView, 'atria' | 'foundry'>;
 
 type PortfolioPageProps = {
   initialPage?: PrimaryView;
@@ -24,7 +24,7 @@ const navItems: Array<{ id: PrimaryView; label: string; number: string }> = [
 
 const projects = [
   { index: '01', title: 'Atria', kind: 'Productivity app', year: '2026', target: 'atria' as const },
-  { index: '02', title: 'Foundry', kind: 'Engineering OS', year: '2026' },
+  { index: '02', title: 'Foundry', kind: 'Engineering OS', year: '2026', target: 'foundry' as const },
   { index: '03', title: 'KansoDB', kind: 'SQL query engine', year: '2026' },
   { index: '04', title: 'Mini CI/CD', kind: 'DevOps tooling', year: '2026' }
 ];
@@ -38,7 +38,7 @@ function Sidebar({
   footer?: string;
   onNavigate: (target: PortfolioView) => void;
 }) {
-  const activePrimary = active === 'atria' ? 'work' : active;
+  const activePrimary = active === 'atria' || active === 'foundry' ? 'work' : active;
 
   return (
     <aside className={styles.scrapSidebar}>
@@ -224,7 +224,7 @@ function WorkPage({ onNavigate }: { onNavigate: (target: PortfolioView) => void 
             <span className={styles.scrapWorkTitle}>{project.title}</span>
             <span className={styles.scrapWorkKind}>{project.kind}</span>
             <span className={styles.scrapWorkYear}>{project.year}</span>
-            {project.target === 'atria' ? <MiniPeek /> : null}
+            {project.target ? <MiniPeek /> : null}
           </button>
         ))}
       </div>
@@ -287,6 +287,107 @@ function AtriaPage() {
       <div>
         <AtriaCalendar />
         <div className={`${styles.scrapCalendarNote} ${styles.scrapScribble}`}>drag / schedule / rearrange ✦</div>
+      </div>
+    </div>
+  );
+}
+
+function FoundryWorkspace() {
+  const issues = [
+    { id: 'FDY-021', title: 'Authentication callback failing after deploy', tags: ['BACKEND', 'P1'] },
+    { id: 'FDY-018', title: 'Slow query on project overview', tags: ['DATABASE', 'PERF'] },
+    { id: 'FDY-015', title: 'Improve postmortem ownership flow', tags: ['PRODUCT', 'UX'] }
+  ];
+
+  const lifecycle = [
+    ['01 / CAPTURE', 'Issue enters system'],
+    ['02 / TRIAGE', 'Severity + ownership'],
+    ['03 / RESOLVE', 'Fix + rollout'],
+    ['04 / LEARN', 'Postmortem + follow-up']
+  ];
+
+  return (
+    <div className={styles.foundryWorkspace} aria-label="Foundry engineering workspace preview">
+      <div className={`${styles.foundryWorkspaceTop} ${styles.scrapMono}`}>
+        <span>FOUNDRY / ENGINEERING WORKSPACE</span>
+        <span>
+          <i /> SYSTEM HEALTHY
+        </span>
+      </div>
+      <div className={styles.foundryWorkspaceBody}>
+        <aside className={`${styles.foundryWorkspaceNav} ${styles.scrapMono}`}>
+          <span>Overview</span>
+          <span>Domains</span>
+          <b>Issues</b>
+          <span>Triage</span>
+          <span>Postmortems</span>
+          <span>Settings</span>
+        </aside>
+        <section className={styles.foundryIssuePanel}>
+          <div className={`${styles.foundryPanelMeta} ${styles.scrapMono}`}>
+            <span>Queue</span>
+            <span>03</span>
+          </div>
+          {issues.map((issue) => (
+            <article className={styles.foundryIssueCard} key={issue.id}>
+              <span className={styles.foundryIssueId}>{issue.id}</span>
+              <strong>{issue.title}</strong>
+              <div className={styles.foundryIssueTags}>
+                {issue.tags.map((tag) => (
+                  <span key={tag}>{tag}</span>
+                ))}
+              </div>
+            </article>
+          ))}
+        </section>
+        <section className={styles.foundryLifecyclePanel}>
+          <div className={`${styles.foundryPanelMeta} ${styles.scrapMono}`}>
+            <span>Lifecycle</span>
+            <span>Live</span>
+          </div>
+          <div className={styles.foundryLifecycleTrack}>
+            {lifecycle.map(([title, detail], index) => (
+              <div className={styles.foundryLifecycleStep} key={title}>
+                <span className={index === 1 ? styles.foundryActiveNode : undefined} />
+                <div>
+                  <strong>{title}</strong>
+                  <p>{detail}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+}
+
+function FoundryPage() {
+  return (
+    <div className={styles.foundryLayout}>
+      <div className={styles.foundryCopy}>
+        <div className={styles.foundryNumber}>02</div>
+        <h2>FOUNDRY</h2>
+        <div className={`${styles.foundrySub} ${styles.scrapScribble}`}>
+          engineering work,
+          <br />
+          organised into a system.
+        </div>
+        <p>
+          A full-stack engineering workspace for planning work, triaging issues, tracking domains and turning incidents
+          into useful postmortems — designed around the workflows software teams actually use.
+        </p>
+        <div className={styles.foundryStack}>
+          <b>Core system</b>
+          <span>NEXT.JS · TYPESCRIPT · PRISMA · POSTGRESQL · VITEST · PLAYWRIGHT · GITHUB ACTIONS</span>
+        </div>
+        <div className={`${styles.foundryNote} ${styles.scrapScribble}`}>built to think like an engineer ↗</div>
+      </div>
+      <div>
+        <FoundryWorkspace />
+        <div className={`${styles.foundryWorkspaceNote} ${styles.scrapScribble}`}>
+          systems should make work clearer, not noisier ✦
+        </div>
       </div>
     </div>
   );
@@ -423,7 +524,7 @@ export function PortfolioPage({ initialPage = 'home' }: PortfolioPageProps) {
   const [isWiping, setIsWiping] = useState(false);
 
   const counterIndex = useMemo(() => {
-    const page = activePage === 'atria' ? 'work' : activePage;
+    const page = activePage === 'atria' || activePage === 'foundry' ? 'work' : activePage;
     return Math.max(primaryOrder.indexOf(page), 0) + 1;
   }, [activePage]);
 
@@ -440,7 +541,7 @@ export function PortfolioPage({ initialPage = 'home' }: PortfolioPageProps) {
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
       if (!['ArrowRight', 'ArrowLeft'].includes(event.key)) return;
-      const current = activePage === 'atria' ? 'work' : activePage;
+      const current = activePage === 'atria' || activePage === 'foundry' ? 'work' : activePage;
       const currentIndex = Math.max(primaryOrder.indexOf(current), 0);
       const nextIndex =
         event.key === 'ArrowRight' ? Math.min(primaryOrder.length - 1, currentIndex + 1) : Math.max(0, currentIndex - 1);
@@ -473,6 +574,15 @@ export function PortfolioPage({ initialPage = 'home' }: PortfolioPageProps) {
           topRight={<button className={styles.scrapBackButton} onClick={() => navigate('work')} type="button">← Back to work</button>}
         >
           <AtriaPage />
+        </PageShell>
+        <PageShell
+          active={activePage}
+          name="foundry"
+          onNavigate={navigate}
+          sidebarFooter="Open all projects"
+          topRight={<button className={styles.scrapBackButton} onClick={() => navigate('work')} type="button">← Back to work</button>}
+        >
+          <FoundryPage />
         </PageShell>
         <PageShell active={activePage} name="playground" onNavigate={navigate}>
           <PlaygroundPage />
