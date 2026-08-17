@@ -323,40 +323,48 @@ function FoundryWorkspace() {
           <span>Postmortems</span>
           <span>Settings</span>
         </aside>
-        <section className={styles.foundryIssuePanel}>
-          <div className={`${styles.foundryPanelMeta} ${styles.scrapMono}`}>
-            <span>Queue</span>
-            <span>03</span>
+        <div className={styles.foundryWorkspaceMain}>
+          <div className={styles.foundryWorkspaceHeading}>
+            <h3>Issue triage</h3>
+            <small>04 active / 01 blocked</small>
           </div>
-          {issues.map((issue) => (
-            <article className={styles.foundryIssueCard} key={issue.id}>
-              <span className={styles.foundryIssueId}>{issue.id}</span>
-              <strong>{issue.title}</strong>
-              <div className={styles.foundryIssueTags}>
-                {issue.tags.map((tag) => (
-                  <span key={tag}>{tag}</span>
+          <div className={styles.foundryIssueGrid}>
+            <section className={styles.foundryIssuePanel}>
+              <div className={`${styles.foundryPanelMeta} ${styles.scrapMono}`}>
+                <span>Queue</span>
+                <span>03</span>
+              </div>
+              {issues.map((issue) => (
+                <article className={styles.foundryIssueCard} key={issue.id}>
+                  <span className={styles.foundryIssueId}>{issue.id}</span>
+                  <strong>{issue.title}</strong>
+                  <div className={styles.foundryIssueTags}>
+                    {issue.tags.map((tag) => (
+                      <span key={tag}>{tag}</span>
+                    ))}
+                  </div>
+                </article>
+              ))}
+            </section>
+            <section className={styles.foundryLifecyclePanel}>
+              <div className={`${styles.foundryPanelMeta} ${styles.scrapMono}`}>
+                <span>Lifecycle</span>
+                <span>Live</span>
+              </div>
+              <div className={styles.foundryLifecycleTrack}>
+                {lifecycle.map(([title, detail], index) => (
+                  <div className={styles.foundryLifecycleStep} key={title}>
+                    <span className={index === 1 ? styles.foundryActiveNode : undefined} />
+                    <div>
+                      <strong>{title}</strong>
+                      <p>{detail}</p>
+                    </div>
+                  </div>
                 ))}
               </div>
-            </article>
-          ))}
-        </section>
-        <section className={styles.foundryLifecyclePanel}>
-          <div className={`${styles.foundryPanelMeta} ${styles.scrapMono}`}>
-            <span>Lifecycle</span>
-            <span>Live</span>
+            </section>
           </div>
-          <div className={styles.foundryLifecycleTrack}>
-            {lifecycle.map(([title, detail], index) => (
-              <div className={styles.foundryLifecycleStep} key={title}>
-                <span className={index === 1 ? styles.foundryActiveNode : undefined} />
-                <div>
-                  <strong>{title}</strong>
-                  <p>{detail}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+        </div>
       </div>
     </div>
   );
@@ -366,8 +374,8 @@ function FoundryPage() {
   return (
     <div className={styles.foundryLayout}>
       <div className={styles.foundryCopy}>
-        <div className={styles.foundryNumber}>02</div>
-        <h2>FOUNDRY</h2>
+        <div className={`${styles.foundryNumber} ${styles.scrapScribble}`}>02</div>
+        <h2><span>FOUNDRY</span></h2>
         <div className={`${styles.foundrySub} ${styles.scrapScribble}`}>
           engineering work,
           <br />
@@ -383,7 +391,7 @@ function FoundryPage() {
         </div>
         <div className={`${styles.foundryNote} ${styles.scrapScribble}`}>built to think like an engineer ↗</div>
       </div>
-      <div>
+      <div className={styles.foundryVisual}>
         <FoundryWorkspace />
         <div className={`${styles.foundryWorkspaceNote} ${styles.scrapScribble}`}>
           systems should make work clearer, not noisier ✦
