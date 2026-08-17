@@ -14,9 +14,12 @@ export function HeroSection() {
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reduceMotion) return;
+    const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
 
     let frame = 0;
     let bounds = hero.getBoundingClientRect();
+    let heroTop = window.scrollY + bounds.top;
+    let heroHeight = bounds.height;
     const target = {
       detailX: 0,
       detailY: 0,
@@ -33,13 +36,42 @@ export function HeroSection() {
       paperY: 0,
       scriptX: 0,
       scriptY: 0,
+      scrollFolderScale: 1,
+      scrollLensOneExit: 0,
+      scrollLensTwoExit: 0,
+      scrollSideOpacity: 1,
+      scrollTitleOpacity: 1,
+      scrollTitleScale: 1,
+      scrollY: 0,
       titleX: 0,
       titleY: 0
     };
     const current = { ...target };
 
+    const smoothstep = (value: number) => value * value * (3 - 2 * value);
+    const clamp = (value: number, min = 0, max = 1) => Math.min(max, Math.max(min, value));
+
+    const updateScrollTargets = () => {
+      const progress = clamp((window.scrollY - heroTop) / Math.max(heroHeight * 0.78, 1));
+      const edge = smoothstep(progress);
+      target.scrollY = edge * -28;
+      target.scrollFolderScale = 1 + edge * 0.018;
+      target.scrollLensOneExit = edge * 28;
+      target.scrollLensTwoExit = edge * -24;
+      target.scrollTitleOpacity = 1 - edge * 0.34;
+      target.scrollTitleScale = 1 - edge * 0.018;
+      target.scrollSideOpacity = 1 - edge * 0.52;
+    };
+
     const refreshBounds = () => {
       bounds = hero.getBoundingClientRect();
+      heroTop = window.scrollY + bounds.top;
+      heroHeight = bounds.height;
+      updateScrollTargets();
+    };
+
+    const handleScroll = () => {
+      updateScrollTargets();
     };
 
     const settle = (value: number, destination: number, ease = 0.08) => value + (destination - value) * ease;
@@ -60,6 +92,13 @@ export function HeroSection() {
       current.paperY = settle(current.paperY, target.paperY, 0.07);
       current.scriptX = settle(current.scriptX, target.scriptX, 0.075);
       current.scriptY = settle(current.scriptY, target.scriptY, 0.075);
+      current.scrollFolderScale = settle(current.scrollFolderScale, target.scrollFolderScale, 0.075);
+      current.scrollLensOneExit = settle(current.scrollLensOneExit, target.scrollLensOneExit, 0.075);
+      current.scrollLensTwoExit = settle(current.scrollLensTwoExit, target.scrollLensTwoExit, 0.075);
+      current.scrollSideOpacity = settle(current.scrollSideOpacity, target.scrollSideOpacity, 0.08);
+      current.scrollTitleOpacity = settle(current.scrollTitleOpacity, target.scrollTitleOpacity, 0.08);
+      current.scrollTitleScale = settle(current.scrollTitleScale, target.scrollTitleScale, 0.075);
+      current.scrollY = settle(current.scrollY, target.scrollY, 0.075);
       current.titleX = settle(current.titleX, target.titleX, 0.055);
       current.titleY = settle(current.titleY, target.titleY, 0.055);
 
@@ -72,6 +111,13 @@ export function HeroSection() {
       hero.style.setProperty('--detail-y', `${current.detailY.toFixed(2)}px`);
       hero.style.setProperty('--script-x', `${current.scriptX.toFixed(2)}px`);
       hero.style.setProperty('--script-y', `${current.scriptY.toFixed(2)}px`);
+      hero.style.setProperty('--scroll-folder-scale', current.scrollFolderScale.toFixed(4));
+      hero.style.setProperty('--scroll-lens-one-exit', `${current.scrollLensOneExit.toFixed(2)}px`);
+      hero.style.setProperty('--scroll-lens-two-exit', `${current.scrollLensTwoExit.toFixed(2)}px`);
+      hero.style.setProperty('--scroll-side-opacity', current.scrollSideOpacity.toFixed(3));
+      hero.style.setProperty('--scroll-title-opacity', current.scrollTitleOpacity.toFixed(3));
+      hero.style.setProperty('--scroll-title-scale', current.scrollTitleScale.toFixed(4));
+      hero.style.setProperty('--scroll-y', `${current.scrollY.toFixed(2)}px`);
       hero.style.setProperty('--lens-one-x', `${current.lensOneX.toFixed(2)}px`);
       hero.style.setProperty('--lens-one-y', `${current.lensOneY.toFixed(2)}px`);
       hero.style.setProperty('--lens-two-x', `${current.lensTwoX.toFixed(2)}px`);
@@ -85,26 +131,27 @@ export function HeroSection() {
     };
 
     const handlePointerMove = (event: PointerEvent) => {
+      if (coarsePointer) return;
       const x = (event.clientX - bounds.left) / bounds.width - 0.5;
-      const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+      const y = (event.clientY - (heroTop - window.scrollY)) / bounds.height - 0.5;
 
       hero.style.setProperty('--hero-x', x.toFixed(3));
       hero.style.setProperty('--hero-y', y.toFixed(3));
-      target.folderX = x * 16;
-      target.folderY = y * 11;
-      target.folderR = -1.35 + x * 1.1;
-      target.paperX = x * 26;
-      target.paperY = y * 18;
-      target.detailX = x * -18;
-      target.detailY = y * -12;
-      target.scriptX = x * 12;
-      target.scriptY = y * 8;
-      target.lensOneX = x * 38;
-      target.lensOneY = y * 24;
-      target.lensTwoX = x * -32;
-      target.lensTwoY = y * -20;
-      target.titleX = x * 7;
-      target.titleY = y * 4;
+      target.folderX = x * 6;
+      target.folderY = y * 4.5;
+      target.folderR = -1.35 + x * 0.55;
+      target.paperX = x * 9;
+      target.paperY = y * 6.5;
+      target.detailX = x * -12;
+      target.detailY = y * -8;
+      target.scriptX = x * 5;
+      target.scriptY = y * 3;
+      target.lensOneX = x * 15;
+      target.lensOneY = y * 9;
+      target.lensTwoX = x * -14;
+      target.lensTwoY = y * -8;
+      target.titleX = x * 1.7;
+      target.titleY = y * 1;
       target.lightX = event.clientX - bounds.left;
       target.lightY = event.clientY - bounds.top;
     };
@@ -131,23 +178,30 @@ export function HeroSection() {
       target.lightY = bounds.height * 0.48;
     };
 
+    updateScrollTargets();
     frame = window.requestAnimationFrame(updateMotion);
     window.addEventListener('resize', refreshBounds, { passive: true });
-    window.addEventListener('scroll', refreshBounds, { passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true });
     hero.addEventListener('pointermove', handlePointerMove, { passive: true });
     hero.addEventListener('pointerleave', handlePointerLeave);
 
     return () => {
       window.cancelAnimationFrame(frame);
       window.removeEventListener('resize', refreshBounds);
-      window.removeEventListener('scroll', refreshBounds);
+      window.removeEventListener('scroll', handleScroll);
       hero.removeEventListener('pointermove', handlePointerMove);
       hero.removeEventListener('pointerleave', handlePointerLeave);
     };
   }, []);
 
   return (
-    <section ref={heroRef} className={styles.hero} id="top" aria-labelledby="hero-title" data-home-hero>
+    <section
+      ref={heroRef}
+      className={`${styles.hero} ${isOpen ? styles.heroOpen : ''}`}
+      id="top"
+      aria-labelledby="hero-title"
+      data-home-hero
+    >
       <div className={styles.cinematicIntro} aria-hidden="true">
         <div className={`${styles.introCard} ${styles.mono}`}>
           <span>AMIRA LINA BENBOUALI</span>
@@ -180,6 +234,11 @@ export function HeroSection() {
             Amira Lina
             <br />
             Benbouali
+          </div>
+          <div className={`${styles.fileMeta} ${styles.mono}`} aria-hidden={!isOpen}>
+            <span>FILE 001</span>
+            <span>SOFTWARE ENGINEER</span>
+            <span>LONDON / 2026</span>
           </div>
           <button
             className={`${styles.revealFile} ${styles.mono}`}

@@ -197,6 +197,13 @@
   --paper-y: 0px;
   --script-x: 0px;
   --script-y: 0px;
+  --scroll-folder-scale: 1;
+  --scroll-lens-one-exit: 0px;
+  --scroll-lens-two-exit: 0px;
+  --scroll-side-opacity: 1;
+  --scroll-title-opacity: 1;
+  --scroll-title-scale: 1;
+  --scroll-y: 0px;
   --title-x: 0px;
   --title-y: 0px;
   position: relative;
@@ -210,11 +217,19 @@
   border-bottom: 1px solid rgba(240, 234, 220, 0.16);
   color: #f0eadc;
   background:
-    radial-gradient(circle at var(--light-x) var(--light-y), rgba(240, 234, 220, 0.075), transparent 18%),
+    radial-gradient(circle at var(--light-x) var(--light-y), rgba(240, 234, 220, 0.065), transparent 16%),
     radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.025), transparent 25%),
     radial-gradient(circle at 85% 20%, rgba(255, 255, 255, 0.02), transparent 24%),
     #0c0c0b;
   isolation: isolate;
+}
+
+.heroOpen {
+  background:
+    radial-gradient(circle at var(--light-x) var(--light-y), rgba(240, 234, 220, 0.105), transparent 14%),
+    radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.022), transparent 25%),
+    radial-gradient(circle at 85% 20%, rgba(255, 255, 255, 0.018), transparent 24%),
+    #090908;
 }
 
 .hero::before {
@@ -248,7 +263,7 @@
   color: #efe9dd;
   background: #030303;
   pointer-events: none;
-  animation: introWipe 2400ms cubic-bezier(0.76, 0, 0.24, 1) 160ms forwards;
+  animation: introWipe 1500ms cubic-bezier(0.76, 0, 0.24, 1) 180ms forwards;
 }
 
 .cinematicIntro::after {
@@ -257,7 +272,7 @@
   inset: 0;
   background: linear-gradient(180deg, transparent, rgba(239, 233, 221, 0.08), transparent);
   transform: translateY(-110%);
-  animation: introScan 1850ms cubic-bezier(0.76, 0, 0.24, 1) 420ms forwards;
+  animation: introScan 1280ms cubic-bezier(0.76, 0, 0.24, 1) 320ms forwards;
 }
 
 .introCard {
@@ -267,7 +282,7 @@
   font-size: clamp(11px, 1vw, 13px);
   letter-spacing: 0.22em;
   text-align: center;
-  animation: introCardSettle 1700ms cubic-bezier(0.2, 0.8, 0.2, 1) 120ms both;
+  animation: introCardSettle 920ms cubic-bezier(0.2, 0.8, 0.2, 1) 90ms both;
 }
 
 .introCard span:last-child {
@@ -280,13 +295,17 @@
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  opacity: 0.55;
+  opacity: 0.48;
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 28%),
     repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 120px);
   mask-image: radial-gradient(ellipse at center, #000 35%, transparent 82%);
-  transform: translate3d(calc(var(--hero-x) * -8px), calc(var(--hero-y) * -5px), 0);
-  transition: transform 900ms cubic-bezier(0.19, 1, 0.22, 1);
+  transform: translate3d(calc(var(--hero-x) * -3px), calc(var(--hero-y) * -2px), 0);
+  transition: opacity 900ms cubic-bezier(0.19, 1, 0.22, 1), transform 900ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.heroOpen .heroAtmosphere {
+  opacity: 0.62;
 }
 
 .sidecopy,
@@ -299,7 +318,11 @@
   font-size: 11px;
   line-height: 1.8;
   letter-spacing: 0.05em;
-  animation: heroTextSettle 1150ms cubic-bezier(0.2, 0.8, 0.2, 1) 1500ms both;
+  animation: heroTextSettle 920ms cubic-bezier(0.2, 0.8, 0.2, 1) 1560ms backwards;
+}
+
+.hero [data-reveal][data-visible="true"] {
+  opacity: var(--scroll-side-opacity);
 }
 
 .status {
@@ -334,8 +357,8 @@
   align-items: center;
   justify-content: center;
   perspective: 1200px;
-  transform: translateY(-18px);
-  animation: heroStageSettle 1450ms cubic-bezier(0.2, 0.8, 0.2, 1) 1120ms both;
+  transform: translateY(calc(-18px + var(--scroll-y)));
+  animation: heroStageSettle 1120ms cubic-bezier(0.2, 0.8, 0.2, 1) 860ms backwards;
 }
 
 .folder {
@@ -351,9 +374,10 @@
     linear-gradient(90deg, rgba(0, 0, 0, 0.07), transparent 2%, transparent 49%, rgba(255, 255, 255, 0.07) 50%, transparent 51%),
     #c9b28c;
   box-shadow: 0 35px 100px rgba(0, 0, 0, 0.42);
-  transform: translate3d(var(--folder-x), calc(var(--folder-y) - 4px), 0) rotate(var(--folder-r));
+  transform: translate3d(var(--folder-x), calc(var(--folder-y) - 4px), 0) rotate(var(--folder-r)) scale(var(--scroll-folder-scale));
   transition: transform 900ms cubic-bezier(0.19, 1, 0.22, 1), box-shadow 900ms ease;
   will-change: transform;
+  animation: folderSurfaceArrive 820ms cubic-bezier(0.22, 1, 0.36, 1) 920ms backwards;
 }
 
 .folder::before {
@@ -401,6 +425,7 @@
   box-shadow: 0 14px 32px rgba(43, 34, 22, 0.2);
   transform: translate3d(var(--paper-x), var(--paper-y), 0) rotate(2.4deg);
   will-change: transform;
+  animation: paperSurfaceArrive 840ms cubic-bezier(0.22, 1, 0.36, 1) 1040ms backwards;
 }
 
 .note::before {
@@ -426,6 +451,7 @@
   opacity: 0.75;
   transform: translate3d(var(--detail-x), var(--detail-y), 0) rotate(-4deg);
   will-change: transform;
+  animation: detailSurfaceArrive 740ms cubic-bezier(0.22, 1, 0.36, 1) 1200ms backwards;
 }
 
 .star {
@@ -439,6 +465,7 @@
   text-shadow: 1px 1px 0 #858585;
   transform: translate3d(var(--detail-x), var(--detail-y), 0) rotate(-11deg);
   will-change: transform;
+  animation: detailSurfaceArrive 740ms cubic-bezier(0.22, 1, 0.36, 1) 1240ms backwards;
 }
 
 .heroTitle {
@@ -455,9 +482,16 @@
   white-space: nowrap;
   pointer-events: none;
   mix-blend-mode: screen;
-  transform: translate(calc(-50% + var(--title-x)), calc(-50% + var(--title-y)));
-  animation: portfolioTitleArrive 1650ms cubic-bezier(0.2, 0.8, 0.2, 1) 1200ms both;
+  opacity: var(--scroll-title-opacity);
+  transform: translate(calc(-50% + var(--title-x)), calc(-50% + var(--title-y))) scale(var(--scroll-title-scale));
+  animation: portfolioTitleArrive 1120ms cubic-bezier(0.16, 1, 0.3, 1) 1020ms backwards;
   will-change: transform;
+  transition: opacity 760ms cubic-bezier(0.19, 1, 0.22, 1), transform 760ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.heroOpen .heroTitle {
+  opacity: 0.62;
+  transform: translate(calc(-50% + var(--title-x)), calc(-50% + var(--title-y))) scale(0.975);
 }
 
 .nameScript {
@@ -475,6 +509,25 @@
   will-change: transform;
 }
 
+.fileMeta {
+  position: absolute;
+  right: 64px;
+  bottom: 106px;
+  z-index: 8;
+  display: grid;
+  gap: 6px;
+  color: rgba(23, 23, 19, 0.68);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  opacity: 0;
+  clip-path: inset(0 0 100% 0);
+  transform: translate3d(0, 8px, 0);
+  transition:
+    clip-path 640ms cubic-bezier(0.19, 1, 0.22, 1),
+    opacity 420ms ease,
+    transform 640ms cubic-bezier(0.19, 1, 0.22, 1);
+}
+
 .lens {
   position: absolute;
   z-index: 9;
@@ -488,8 +541,9 @@
     repeating-radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0 2px, transparent 3px 6px),
     rgba(15, 15, 15, 0.93);
   box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.04), 0 15px 35px rgba(0, 0, 0, 0.38);
-  transition: transform 900ms cubic-bezier(0.19, 1, 0.22, 1);
+  transition: transform 900ms cubic-bezier(0.19, 1, 0.22, 1), opacity 700ms ease;
   will-change: transform;
+  animation: lensSurfaceArrive 820ms cubic-bezier(0.22, 1, 0.36, 1) 1240ms backwards;
 }
 
 .lens::before {
@@ -499,7 +553,7 @@
   opacity: 0.34;
   background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.16), transparent 62%);
   transform: translateX(-70%) rotate(8deg);
-  animation: lensGlide 6200ms cubic-bezier(0.65, 0, 0.35, 1) 2600ms infinite;
+  animation: lensGlide 2600ms cubic-bezier(0.65, 0, 0.35, 1) 1540ms both;
 }
 
 .lens::after {
@@ -520,14 +574,22 @@
   top: 58%;
   left: -92px;
   width: 520px;
-  transform: translate3d(var(--lens-one-x), var(--lens-one-y), 0);
+  transform: translate3d(calc(var(--lens-one-x) + var(--scroll-lens-one-exit)), var(--lens-one-y), 0);
 }
 
 .lensTwo {
   top: 28%;
   right: -130px;
   width: 440px;
-  transform: translate3d(var(--lens-two-x), var(--lens-two-y), 0);
+  transform: translate3d(calc(var(--lens-two-x) + var(--scroll-lens-two-exit)), var(--lens-two-y), 0);
+}
+
+.heroOpen .lensOne {
+  transform: translate3d(calc(var(--lens-one-x) - 26px + var(--scroll-lens-one-exit)), calc(var(--lens-one-y) + 8px), 0);
+}
+
+.heroOpen .lensTwo {
+  transform: translate3d(calc(var(--lens-two-x) + 22px + var(--scroll-lens-two-exit)), calc(var(--lens-two-y) - 6px), 0);
 }
 
 .hint {
@@ -579,10 +641,17 @@
 
 .folderOpen .nameScript {
   transform: translate3d(calc(var(--script-x) + 18px), calc(var(--script-y) - 13px), 0) rotate(-1deg) translateY(-50%) scale(1.045);
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.18);
 }
 
 .folderOpen .tape {
-  transform: translate3d(calc(var(--detail-x) + 16px), calc(var(--detail-y) + 8px), 0) rotate(1deg);
+  transform: translate3d(calc(var(--detail-x) + 10px), calc(var(--detail-y) + 4px), 0) rotate(0deg);
+}
+
+.folderOpen .fileMeta {
+  opacity: 1;
+  clip-path: inset(0);
+  transform: translate3d(0, 0, 0);
 }
 
 .folderOpen::before {
@@ -590,7 +659,7 @@
 }
 
 .folderOpen {
-  transform: translate3d(var(--folder-x), calc(var(--folder-y) - 18px), 0) rotate(calc(var(--folder-r) + 0.5deg)) scale(1.012);
+  transform: translate3d(var(--folder-x), calc(var(--folder-y) - 18px), 0) rotate(calc(var(--folder-r) + 0.95deg)) scale(1.025);
   box-shadow: 0 62px 150px rgba(0, 0, 0, 0.58);
 }
 
@@ -2970,12 +3039,12 @@
 @keyframes heroStageSettle {
   from {
     opacity: 0.72;
-    transform: translateY(6px) scale(0.985);
+    transform: translateY(calc(6px + var(--scroll-y))) scale(0.985);
   }
 
   to {
     opacity: 1;
-    transform: translateY(-18px) scale(1);
+    transform: translateY(calc(-18px + var(--scroll-y))) scale(1);
   }
 }
 
@@ -2994,24 +3063,78 @@
 @keyframes lensGlide {
   0%,
   45% {
-    transform: translateX(-70%) rotate(8deg);
+    transform: translateX(-78%) rotate(8deg);
   }
 
   78%,
   100% {
-    transform: translateX(72%) rotate(8deg);
+    transform: translateX(76%) rotate(8deg);
   }
 }
 
 @keyframes portfolioTitleArrive {
   from {
     opacity: 0;
-    transform: translate(calc(-50% + var(--title-x)), calc(-44% + var(--title-y)));
+    filter: blur(8px);
+    letter-spacing: -0.04em;
+    transform: translate(calc(-50% + var(--title-x)), calc(-50% + var(--title-y))) scale(0.96);
   }
 
   to {
     opacity: 1;
-    transform: translate(calc(-50% + var(--title-x)), calc(-50% + var(--title-y)));
+    filter: blur(0);
+    letter-spacing: -0.07em;
+    transform: translate(calc(-50% + var(--title-x)), calc(-50% + var(--title-y))) scale(var(--scroll-title-scale));
+  }
+}
+
+@keyframes folderSurfaceArrive {
+  from {
+    opacity: 0;
+    clip-path: inset(8% 4% 10% 4%);
+    filter: blur(4px);
+  }
+
+  to {
+    opacity: 1;
+    clip-path: inset(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes paperSurfaceArrive {
+  from {
+    opacity: 0;
+    clip-path: inset(0 0 26% 0);
+  }
+
+  to {
+    opacity: 1;
+    clip-path: inset(0);
+  }
+}
+
+@keyframes detailSurfaceArrive {
+  from {
+    opacity: 0;
+    clip-path: inset(0 45% 0 45%);
+  }
+
+  to {
+    opacity: 1;
+    clip-path: inset(0);
+  }
+}
+
+@keyframes lensSurfaceArrive {
+  from {
+    opacity: 0;
+    clip-path: inset(0 46% 0 46% round 999px);
+  }
+
+  to {
+    opacity: 1;
+    clip-path: inset(0 round 999px);
   }
 }
 
@@ -3913,8 +4036,12 @@
   .flowerOrbit,
   .folder,
   .cinematicIntro,
+  .heroAtmosphere,
   .lens,
   .lens::before,
+  .note,
+  .tape,
+  .star,
   .marqueeTrack,
   .miniFlower,
   .contactArc,
