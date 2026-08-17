@@ -4,12 +4,12 @@
 }
 
 .page {
-  width: min(1856px, calc(100vw - 88px));
+  width: 100%;
   margin: 0 auto;
 }
 
 .homePage {
-  width: min(1440px, calc(100% - 64px));
+  width: 100%;
 }
 
 .contentPage {
@@ -17,18 +17,14 @@
 }
 
 .frame {
-  min-height: calc(100vh - 16px);
+  min-height: 100vh;
   margin: 0 auto;
   overflow: hidden;
-  border: 2px solid #11100f;
-  border-radius: 34px;
   background: #0c0c0b;
 }
 
 .homeFrame {
-  min-height: 100vh;
-  border: 0;
-  border-radius: 0;
+  background: #0c0c0b;
 }
 
 .topbar {
@@ -40,6 +36,7 @@
   gap: 28px;
   align-items: center;
   height: 88px;
+  padding: 0 max(32px, calc((100vw - 1440px) / 2));
   border-bottom: 1px solid rgba(240, 234, 220, 0.16);
   color: #f0eadc;
   background:
@@ -209,7 +206,7 @@
   align-items: center;
   min-height: calc(100svh - 86px);
   overflow: hidden;
-  padding: 0 0 56px;
+  padding: 0 max(32px, calc((100vw - 1440px) / 2)) 56px;
   border-bottom: 1px solid rgba(240, 234, 220, 0.16);
   color: #f0eadc;
   background:
@@ -3310,16 +3307,13 @@
 
 @media (max-width: 620px) {
   .page {
-    width: min(100vw - 28px, 1500px);
-  }
-
-  .homePage {
-    width: min(100vw - 28px, 1440px);
+    width: 100%;
   }
 
   .topbar {
     gap: 12px;
     height: 72px;
+    padding-inline: 14px;
   }
 
   .yearMark {
@@ -3342,6 +3336,7 @@
 
   .hero {
     min-height: calc(100svh - 72px);
+    padding-inline: 14px;
     padding-top: 0;
   }
 
