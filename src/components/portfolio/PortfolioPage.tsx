@@ -4,7 +4,7 @@ import { SkillsMarquee } from './SkillsMarquee';
 
 export function PortfolioPage() {
   return (
-    <PortfolioShell afterPage={<SkillsMarquee />}>
+    <PortfolioShell afterPage={<SkillsMarquee />} homeNav>
       <main>
         <HeroSection />
       </main>

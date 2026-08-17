@@ -123,6 +123,23 @@
 }
 
 .hero {
+  --detail-x: 0px;
+  --detail-y: 0px;
+  --folder-r: -1.35deg;
+  --folder-x: 0px;
+  --folder-y: 0px;
+  --hero-x: 0;
+  --hero-y: 0;
+  --lens-one-x: 0px;
+  --lens-one-y: 0px;
+  --lens-two-x: 0px;
+  --lens-two-y: 0px;
+  --light-x: 50%;
+  --light-y: 48%;
+  --paper-x: 0px;
+  --paper-y: 0px;
+  --script-x: 0px;
+  --script-y: 0px;
   position: relative;
   display: grid;
   grid-template-columns: 220px minmax(0, 1fr) 220px;
@@ -134,9 +151,11 @@
   border-bottom: 1px solid rgba(240, 234, 220, 0.16);
   color: #f0eadc;
   background:
+    radial-gradient(circle at var(--light-x) var(--light-y), rgba(240, 234, 220, 0.075), transparent 18%),
     radial-gradient(circle at 20% 10%, rgba(255, 255, 255, 0.025), transparent 25%),
     radial-gradient(circle at 85% 20%, rgba(255, 255, 255, 0.02), transparent 24%),
     #0c0c0b;
+  isolation: isolate;
 }
 
 .hero::before {
@@ -150,6 +169,64 @@
   mix-blend-mode: screen;
 }
 
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: 1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center, transparent 42%, rgba(0, 0, 0, 0.35) 100%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.5), transparent 24%, transparent 76%, rgba(0, 0, 0, 0.52));
+}
+
+.cinematicIntro {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: grid;
+  place-items: center;
+  color: #efe9dd;
+  background: #030303;
+  pointer-events: none;
+  animation: introWipe 2100ms cubic-bezier(0.76, 0, 0.24, 1) 180ms forwards;
+}
+
+.cinematicIntro::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent, rgba(239, 233, 221, 0.08), transparent);
+  transform: translateY(-110%);
+  animation: introScan 1700ms cubic-bezier(0.76, 0, 0.24, 1) 420ms forwards;
+}
+
+.introCard {
+  display: grid;
+  gap: 13px;
+  color: #d8ccb6;
+  font-size: clamp(11px, 1vw, 13px);
+  letter-spacing: 0.22em;
+  text-align: center;
+}
+
+.introCard span:last-child {
+  color: #777168;
+  font-size: 10px;
+}
+
+.heroAtmosphere {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.55;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.025), transparent 28%),
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.018) 0 1px, transparent 1px 120px);
+  mask-image: radial-gradient(ellipse at center, #000 35%, transparent 82%);
+}
+
 .sidecopy,
 .status {
   position: relative;
@@ -160,6 +237,7 @@
   font-size: 11px;
   line-height: 1.8;
   letter-spacing: 0.05em;
+  animation: heroTextSettle 1150ms cubic-bezier(0.2, 0.8, 0.2, 1) 1500ms both;
 }
 
 .status {
@@ -188,12 +266,13 @@
 
 .stage {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   display: flex;
   min-height: 650px;
   align-items: center;
   justify-content: center;
   perspective: 1200px;
+  animation: heroStageSettle 1300ms cubic-bezier(0.2, 0.8, 0.2, 1) 1200ms both;
 }
 
 .folder {
@@ -209,8 +288,8 @@
     linear-gradient(90deg, rgba(0, 0, 0, 0.07), transparent 2%, transparent 49%, rgba(255, 255, 255, 0.07) 50%, transparent 51%),
     #c9b28c;
   box-shadow: 0 35px 100px rgba(0, 0, 0, 0.42);
-  transform: rotate(var(--cursor-r)) translate3d(var(--cursor-x), calc(var(--cursor-y) - 4px), 0);
-  transition: transform 700ms cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 700ms ease;
+  transform: rotate(var(--folder-r)) translate3d(var(--folder-x), calc(var(--folder-y) - 4px), 0);
+  transition: transform 900ms cubic-bezier(0.19, 1, 0.22, 1), box-shadow 900ms ease;
   will-change: transform;
 }
 
@@ -251,7 +330,8 @@
     repeating-linear-gradient(to bottom, transparent 0 27px, rgba(82, 92, 105, 0.18) 28px 29px),
     #e2d3b9;
   box-shadow: 0 14px 32px rgba(43, 34, 22, 0.2);
-  transform: rotate(2.4deg);
+  transform: translate3d(var(--paper-x), var(--paper-y), 0) rotate(2.4deg);
+  will-change: transform;
 }
 
 .note::before {
@@ -275,7 +355,8 @@
   height: 22px;
   background: repeating-linear-gradient(45deg, #b39bc5 0 8px, #d8cbe4 8px 16px);
   opacity: 0.75;
-  transform: rotate(-4deg);
+  transform: translate3d(var(--detail-x), var(--detail-y), 0) rotate(-4deg);
+  will-change: transform;
 }
 
 .star {
@@ -287,7 +368,8 @@
   font-size: 72px;
   line-height: 1;
   text-shadow: 1px 1px 0 #858585;
-  transform: rotate(-11deg);
+  transform: translate3d(var(--detail-x), var(--detail-y), 0) rotate(-11deg);
+  will-change: transform;
 }
 
 .heroTitle {
@@ -305,6 +387,7 @@
   pointer-events: none;
   mix-blend-mode: screen;
   transform: translate(-50%, -50%);
+  animation: portfolioTitleArrive 1500ms cubic-bezier(0.2, 0.8, 0.2, 1) 1280ms both;
 }
 
 .nameScript {
@@ -318,7 +401,8 @@
   font-size: clamp(34px, 3.7vw, 58px);
   line-height: 0.9;
   text-align: center;
-  transform: rotate(-4deg) translateY(-50%);
+  transform: translate3d(var(--script-x), var(--script-y), 0) rotate(-4deg) translateY(-50%);
+  will-change: transform;
 }
 
 .lens {
@@ -334,7 +418,7 @@
     repeating-radial-gradient(circle at center, rgba(255, 255, 255, 0.05) 0 2px, transparent 3px 6px),
     rgba(15, 15, 15, 0.93);
   box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.04), 0 15px 35px rgba(0, 0, 0, 0.38);
-  transition: transform 350ms ease;
+  transition: transform 900ms cubic-bezier(0.19, 1, 0.22, 1);
   will-change: transform;
 }
 
@@ -356,12 +440,14 @@
   top: 58%;
   left: -92px;
   width: 520px;
+  transform: translate3d(var(--lens-one-x), var(--lens-one-y), 0);
 }
 
 .lensTwo {
   top: 28%;
   right: -130px;
   width: 440px;
+  transform: translate3d(var(--lens-two-x), var(--lens-two-y), 0);
 }
 
 .hint {
@@ -400,23 +486,48 @@
 
 .folder *,
 .folder::before {
-  transition: transform 650ms cubic-bezier(0.2, 0.8, 0.2, 1);
+  transition: transform 780ms cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .folderOpen .note {
-  transform: rotate(-1deg) translateY(-18px);
+  transform: translate3d(var(--paper-x), calc(var(--paper-y) - 24px), 0) rotate(-1deg);
 }
 
 .folderOpen .star {
-  transform: rotate(10deg) scale(1.2);
+  transform: translate3d(calc(var(--detail-x) - 8px), calc(var(--detail-y) - 7px), 0) rotate(10deg) scale(1.16);
 }
 
 .folderOpen .nameScript {
-  transform: rotate(0deg) translateY(-50%) scale(1.04);
+  transform: translate3d(calc(var(--script-x) + 12px), calc(var(--script-y) - 8px), 0) rotate(0deg) translateY(-50%) scale(1.035);
+}
+
+.folderOpen .tape {
+  transform: translate3d(calc(var(--detail-x) + 10px), calc(var(--detail-y) + 5px), 0) rotate(-1deg);
 }
 
 .folderOpen::before {
   transform: translateY(-7px);
+}
+
+.folderOpen {
+  box-shadow: 0 62px 150px rgba(0, 0, 0, 0.58);
+}
+
+.workHint {
+  position: absolute;
+  right: 2px;
+  bottom: -40px;
+  z-index: 12;
+  color: #8f897f;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  transition: color 250ms ease, transform 250ms ease;
+}
+
+.workHint:hover,
+.workHint:focus-visible {
+  color: #f0eadc;
+  transform: translateY(3px);
 }
 
 .stickyNote {
@@ -2739,6 +2850,65 @@
   }
 }
 
+@keyframes introWipe {
+  0%,
+  54% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+
+  100% {
+    clip-path: inset(0 0 100% 0);
+    opacity: 1;
+  }
+}
+
+@keyframes introScan {
+  0% {
+    transform: translateY(-110%);
+  }
+
+  100% {
+    transform: translateY(110%);
+  }
+}
+
+@keyframes heroStageSettle {
+  from {
+    opacity: 0.72;
+    transform: translateY(24px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes heroTextSettle {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes portfolioTitleArrive {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -44%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
 @media (max-width: 1100px) {
   .contactTerminalBody {
     padding-right: 32px;
@@ -2817,6 +2987,19 @@
   .folder {
     width: 86vw;
     height: 500px;
+  }
+
+  .note {
+    right: 34px;
+    width: min(330px, 48vw);
+  }
+
+  .lensOne {
+    left: -170px;
+  }
+
+  .lensTwo {
+    right: -190px;
   }
 
   .heroTitle {
@@ -3043,6 +3226,61 @@
   .hero {
     min-height: calc(100vh - 72px);
     padding-top: 0;
+  }
+
+  .stage {
+    min-height: 600px;
+  }
+
+  .folder {
+    width: 88vw;
+    height: 430px;
+  }
+
+  .folder::before {
+    left: 36px;
+    width: 190px;
+  }
+
+  .note {
+    top: 48px;
+    right: 28px;
+    width: min(250px, 58vw);
+    height: 285px;
+  }
+
+  .tape {
+    right: 74px;
+    width: 130px;
+  }
+
+  .star {
+    top: 65%;
+    left: 36%;
+    font-size: 56px;
+  }
+
+  .lens {
+    height: 82px;
+  }
+
+  .lensOne {
+    top: 60%;
+    left: -190px;
+    width: 380px;
+  }
+
+  .lensTwo {
+    top: 30%;
+    right: -215px;
+    width: 340px;
+  }
+
+  .workHint {
+    right: 50%;
+    bottom: -26px;
+    white-space: nowrap;
+    transform: translateX(50%);
   }
 
   .workArchive {
@@ -3561,6 +3799,7 @@
   .flower,
   .flowerOrbit,
   .folder,
+  .cinematicIntro,
   .lens,
   .marqueeTrack,
   .miniFlower,
@@ -3604,5 +3843,16 @@
   .project::before,
   .workRow::before {
     transition: none;
+  }
+
+  .cinematicIntro {
+    display: none;
+  }
+
+  .heroTitle,
+  .sidecopy,
+  .stage,
+  .status {
+    animation: none;
   }
 }

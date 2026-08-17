@@ -8,32 +8,10 @@ export function PortfolioInteractions() {
   useEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const dot = dotRef.current;
-    const dossier = document.querySelector<HTMLElement>('[data-dossier]');
-    const lensOne = document.querySelector<HTMLElement>('[data-lens-one]');
-    const lensTwo = document.querySelector<HTMLElement>('[data-lens-two]');
 
     const moveDot = (event: PointerEvent) => {
       if (!dot || reduceMotion) return;
       dot.style.transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0) translate(-50%, -50%)`;
-
-      const centerX = window.innerWidth / 2;
-      const centerY = window.innerHeight / 2;
-      const dx = (event.clientX - centerX) / centerX;
-      const dy = (event.clientY - centerY) / centerY;
-
-      if (dossier) {
-        dossier.style.setProperty('--cursor-x', `${dx * 8}px`);
-        dossier.style.setProperty('--cursor-y', `${dy * 6}px`);
-        dossier.style.setProperty('--cursor-r', `${-1.6 + dx * 1.4}deg`);
-      }
-
-      if (lensOne) {
-        lensOne.style.transform = `translate3d(${dx * 18}px, ${dy * 10}px, 0)`;
-      }
-
-      if (lensTwo) {
-        lensTwo.style.transform = `translate3d(${dx * -15}px, ${dy * -8}px, 0)`;
-      }
     };
 
     window.addEventListener('pointermove', moveDot, { passive: true });

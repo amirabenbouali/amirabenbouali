@@ -7,15 +7,16 @@ type PortfolioShellProps = {
   afterPage?: ReactNode;
   children: ReactNode;
   content?: boolean;
+  homeNav?: boolean;
 };
 
-export function PortfolioShell({ afterPage, children, content = false }: PortfolioShellProps) {
+export function PortfolioShell({ afterPage, children, content = false, homeNav = false }: PortfolioShellProps) {
   return (
     <>
       <PortfolioInteractions />
       <div className={styles.frame}>
         <div className={`${styles.page} ${content ? styles.contentPage : ''}`}>
-          <SiteHeader />
+          <SiteHeader homeNav={homeNav} />
           {children}
         </div>
         {afterPage}
