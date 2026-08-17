@@ -14,8 +14,8 @@ export function PortfolioShell({ afterPage, children, content = false, homeNav =
   return (
     <>
       <PortfolioInteractions />
-      <div className={styles.frame}>
-        <div className={`${styles.page} ${content ? styles.contentPage : ''}`}>
+      <div className={`${styles.frame} ${homeNav ? styles.homeFrame : ''}`}>
+        <div className={`${styles.page} ${content ? styles.contentPage : ''} ${homeNav ? styles.homePage : ''}`}>
           <SiteHeader homeNav={homeNav} />
           {children}
         </div>

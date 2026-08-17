@@ -18,7 +18,7 @@ export function SiteHeader({ homeNav = false }: SiteHeaderProps) {
     : navItems;
 
   return (
-    <header className={styles.topbar}>
+    <header className={`${styles.topbar} ${homeNav ? styles.topbarHome : ''}`}>
       <Link className={`${styles.yearMark} ${styles.mono}`} href="/" aria-label="Amira Lina Benbouali home">
         <span className={styles.yearDot} aria-hidden="true" />
         <span className={styles.yearPill}>2026</span>
