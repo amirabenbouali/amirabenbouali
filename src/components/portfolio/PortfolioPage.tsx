@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import type { ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import styles from './ScrapbookPortfolio.module.css';
@@ -193,7 +194,9 @@ function HomePage() {
         </div>
       </div>
       <div className={styles.scrapPortraitWrap}>
-        <div className={styles.scrapPortraitCard} />
+        <div className={styles.scrapPortraitCard}>
+          <Image alt="Amira Lina Benbouali" height={1000} priority src="/images/amira-portrait.jpg" width={780} />
+        </div>
         <div className={`${styles.scrapAnnot} ${styles.scrapAnnotMe} ${styles.scrapScribble}`}>
           that&apos;s me
           <br />
