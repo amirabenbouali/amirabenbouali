@@ -1,80 +1,93 @@
-# Amira Lina Benbouali
+# amira benbouali
 
-Software Engineer & Data Scientist based in London.
+**software engineer · full-stack · product-minded**
 
-I build thoughtful software, developer tools, and product experiences that make complex systems feel clearer.
+`⌁` london, uk
+`↳` building software, systems & small experiments
+`◌` currently exploring developer tooling, infrastructure & product engineering
 
 ---
 
-## Currently Building
+### 01 / about
 
-This repository is both my GitHub profile README and the source for my portfolio.
+hi, i'm amira.
 
-The portfolio is designed around a soft editorial visual language: flowers, annotated interfaces, handwritten accents, quiet motion, and product-focused case studies. The goal is to make the work feel personal without losing engineering clarity.
+i'm a computer science graduate who likes understanding how things work — and then building my own version of them.
 
-## Selected Work
+my work sits somewhere between **software engineering, product and design**. i'm especially interested in systems that are thoughtfully engineered *and* enjoyable to interact with.
 
-### Atria
+most days you'll find me building something, breaking it, figuring out why, and making the next version a little better.
 
-An intelligent planning platform with smart scheduling, task management, and interactive planning workflows.
+---
 
-`React` `TypeScript` `Zustand`
+### 02 / selected work
 
-### Foundry
+**✦ foundry**
+an engineering operating system for managing domains, issues, triage and postmortems.
 
-An engineering operations workspace for issue triage, workflows, postmortems, and CI.
+`next.js` `typescript` `postgresql` `prisma`
 
-`Next.js` `PostgreSQL` `Prisma`
+↳ **explore the project →**
 
-### kansoDB
+<br>
 
-A lightweight SQL query engine built to explore query processing and database internals.
+**⌘ kansodb**
+a small SQL query engine built to understand what actually happens between a query and its result.
 
-`SQL` `Parsing` `Execution`
+`query parsing` `execution` `databases` `typescript`
 
-### Mini CI
+↳ **explore the project →**
 
-A small continuous-integration tool for understanding build orchestration, pipelines, and status monitoring.
+<br>
 
-`Ruby` `Bash` `CI/CD`
+**◌ atria**
+a calm, interaction-focused planning system for events, tasks and everyday organisation.
 
-## Toolbox
+`react` `typescript` `zustand` `motion`
 
-I enjoy working across the space where product thinking, interface design, and engineering systems meet.
+↳ **explore the project →**
 
-`TypeScript` `React` `Next.js` `Python` `SQL` `PostgreSQL` `JavaScript` `Node.js` `Git` `CI/CD` `System Design`
+<br>
 
-## How I Build
+**↗ mini ci/cd**
+a lightweight CI/CD system exploring pipelines, automation and developer tooling.
 
-I care about software that is calm, legible, and useful.
+`ruby` `bash` `automation` `ci/cd`
 
-The kinds of problems I like usually involve turning something messy into something understandable: a planning workflow, a query engine, a deployment process, or a product interface that gives people room to think.
+↳ **explore the project →**
 
-I am especially interested in:
+---
 
-- developer tools
-- product engineering
-- frontend architecture
-- data-informed interfaces
-- systems that explain themselves
+### 03 / toolbox
 
-## Portfolio Stack
-
-This site is built with:
-
-`Next.js` `TypeScript` `React` `CSS Modules`
-
-```bash
-npm install
-npm run dev
-npm run build
-npm run lint
+```text
+languages     →  typescript · javascript · python · sql · ruby
+frontend      →  react · next.js · css
+backend       →  node.js · postgresql · prisma
+engineering   →  git · github actions · testing · ci/cd
+learning      →  terraform · cloud infrastructure · distributed systems
 ```
 
-## Links
+---
 
-[GitHub](https://github.com/amirabenbouali)
+### 04 / currently
+
+```text
+building      foundry
+exploring     terraform + infrastructure
+learning      system design
+thinking      about what makes software feel good to use
+```
 
 ---
 
-Quiet software, carefully made.
+### 05 / elsewhere
+
+`↗` **portfolio** — amirabenbouali.com
+`↗` **linkedin** — let's connect
+
+<br>
+
+<sub>
+built with curiosity, too many browser tabs & probably a coffee nearby. ✦
+</sub>
