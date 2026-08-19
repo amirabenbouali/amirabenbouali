@@ -209,130 +209,6 @@
   align-content: center;
 }
 
-.scrapProjectLayout {
-  height: 100%;
-  display: grid;
-  grid-template-columns: 0.8fr 1.2fr;
-  gap: 64px;
-  align-items: center;
-}
-
-.scrapBigIndex {
-  font-size: 62px;
-  line-height: 0.8;
-}
-
-.scrapProjectHead h2 {
-  margin: 6px 0 14px;
-  font-size: 82px;
-  line-height: 0.9;
-  transform: rotate(-1deg);
-}
-
-.scrapProjectHead h2::after {
-  content: "*";
-  margin-left: 4px;
-  color: #7b2b68;
-  font-size: 0.55em;
-}
-
-.scrapProjectSub {
-  margin-bottom: 30px;
-  font-size: 18px;
-}
-
-.scrapProjectDesc {
-  max-width: 430px;
-  font-size: 14px;
-  line-height: 1.55;
-}
-
-.scrapTech {
-  margin-top: 28px;
-  font-size: 10px;
-  line-height: 1.7;
-  text-transform: uppercase;
-}
-
-.scrapTech b {
-  color: #7b2b68;
-}
-
-.scrapAppFrame {
-  padding: 12px;
-  border: 1px solid rgba(23, 23, 23, 0.16);
-  background: #f8f7f3;
-  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.12);
-  transform: rotate(0.4deg);
-  animation: scrapFloaty 5s ease-in-out infinite;
-}
-
-.scrapAppUi {
-  display: grid;
-  grid-template-columns: 110px 1fr;
-  aspect-ratio: 1.5;
-  border: 1px solid rgba(23, 23, 23, 0.16);
-  background: white;
-}
-
-.scrapAppNav {
-  padding: 14px;
-  border-right: 1px solid rgba(23, 23, 23, 0.16);
-  font-size: 9px;
-  line-height: 2;
-}
-
-.scrapCalendar {
-  padding: 16px;
-}
-
-.scrapCalHead {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 12px;
-  font-size: 10px;
-}
-
-.scrapCalGrid {
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 6px;
-}
-
-.scrapDay {
-  position: relative;
-  height: 58px;
-  border: 1px solid #e5e2dc;
-}
-
-.scrapEvent {
-  position: absolute;
-  top: 22px;
-  right: 5px;
-  left: 5px;
-  height: 15px;
-  padding: 2px;
-  border: 1px solid #d8b5cc;
-  background: #eed7e8;
-  font-size: 7px;
-}
-
-.scrapEventBlue {
-  border-color: #bcc9ec;
-  background: #dce3f8;
-}
-
-.scrapEventWarm {
-  border-color: #e0c5a6;
-  background: #f2dfc8;
-}
-
-.scrapCalendarNote {
-  margin-top: 18px;
-  font-size: 15px;
-  text-align: center;
-}
-
 .foundryLayout {
   height: 100%;
   display: grid;
@@ -1155,12 +1031,6 @@
   }
 }
 
-@keyframes scrapFloaty {
-  50% {
-    transform: translateY(-8px) rotate(-0.25deg);
-  }
-}
-
 @media (max-width: 900px) {
   .scrapStage {
     padding: 0;
@@ -1183,7 +1053,6 @@
   }
 
   .scrapAboutGrid,
-  .scrapProjectLayout,
   .foundryLayout,
   .kansoLayout,
   .scrapContactGrid {
@@ -1263,14 +1132,6 @@
     grid-template-columns: 1fr;
   }
 
-  .scrapAppUi {
-    grid-template-columns: 1fr;
-  }
-
-  .scrapAppNav {
-    display: none;
-  }
-
   .foundryWorkspaceTop {
     display: grid;
     height: auto;
@@ -1333,7 +1194,6 @@
 @media (prefers-reduced-motion: reduce) {
   .scrapPage,
   .scrapTransitionGo,
-  .scrapAppFrame,
   .scrapExpThumb {
     animation: none;
     transition: none;

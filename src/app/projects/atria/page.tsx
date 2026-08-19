@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { AtriaContent } from '@/components/portfolio/pages';
+import { DarkAtria } from '@/components/portfolio/DarkAtria';
 
 export const metadata: Metadata = {
   title: 'Atria — Amira Lina Benbouali',
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function AtriaPage() {
-  return <AtriaContent />;
+  return <DarkAtria />;
 }

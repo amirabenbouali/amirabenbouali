@@ -4,70 +4,6 @@ import type { FormEvent } from 'react';
 import { useState } from 'react';
 import styles from './ScrapbookPortfolio.module.css';
 
-function AtriaCalendar() {
-  const events = [
-    null,
-    null,
-    'Deep work',
-    null,
-    'Design review',
-    null,
-    null,
-    null,
-    'Run',
-    null,
-    null,
-    'Build',
-    null,
-    null,
-    null,
-    null,
-    'Meeting',
-    null,
-    null,
-    null,
-    null
-  ];
-
-  return (
-    <div className={styles.scrapAppFrame}>
-      <div className={styles.scrapAppUi}>
-        <div className={styles.scrapAppNav}>
-          Atria
-          <br />
-          <br />
-          Today
-          <br />
-          Calendar
-          <br />
-          Tasks
-          <br />
-          Insights
-          <br />
-          Settings
-        </div>
-        <div className={styles.scrapCalendar}>
-          <div className={styles.scrapCalHead}>
-            <b>April 2026</b>
-            <span>＋ Add event</span>
-          </div>
-          <div className={styles.scrapCalGrid}>
-            {events.map((event, index) => (
-              <div className={styles.scrapDay} key={`${event ?? 'empty'}-${index}`}>
-                {event ? (
-                  <div className={`${styles.scrapEvent} ${index % 3 === 2 ? styles.scrapEventBlue : ''} ${index % 4 === 1 ? styles.scrapEventWarm : ''}`}>
-                    {event}
-                  </div>
-                ) : null}
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 export function AboutContent() {
   return (
     <div className={styles.scrapAboutGrid}>
@@ -94,34 +30,6 @@ export function AboutContent() {
           <h4>Interests</h4>
           <p>Product design · Astronomy · Running<br />Developer tooling · Coffee · Travel</p>
         </div>
-      </div>
-    </div>
-  );
-}
-
-export function AtriaContent() {
-  return (
-    <div className={styles.scrapProjectLayout}>
-      <div className={styles.scrapProjectHead}>
-        <div className={`${styles.scrapBigIndex} ${styles.scrapScribble}`}>01</div>
-        <h2 className={styles.scrapScribble}>ATRIA</h2>
-        <div className={`${styles.scrapProjectSub} ${styles.scrapScribble}`}>
-          calendar made simple.
-          <br />
-          scheduling made smart.
-        </div>
-        <p className={styles.scrapProjectDesc}>
-          A modern calendar and task-management experience focused on clarity, speed and flexible interaction.
-        </p>
-        <div className={styles.scrapTech}>
-          <b>Tech stack</b>
-          <br />
-          React · TypeScript · Zustand · Framer Motion · date-fns
-        </div>
-      </div>
-      <div>
-        <AtriaCalendar />
-        <div className={`${styles.scrapCalendarNote} ${styles.scrapScribble}`}>drag / schedule / rearrange ✦</div>
       </div>
     </div>
   );
