@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import type { ReactNode } from 'react';
+import type { FormEvent, ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import styles from './ScrapbookPortfolio.module.css';
 
@@ -88,7 +88,11 @@ function PageShell({
   topRight?: ReactNode;
 }) {
   return (
-    <section className={`${styles.scrapPage} ${active === name ? styles.scrapPageActive : ''}`} aria-hidden={active !== name}>
+    <section
+      className={`${styles.scrapPage} ${active === name ? styles.scrapPageActive : ''}`}
+      aria-hidden={active !== name}
+      inert={active !== name ? true : undefined}
+    >
       <Sidebar active={active} footer={sidebarFooter} onNavigate={onNavigate} />
       <div className={styles.scrapContent}>
         <div className={styles.scrapTopRight}>{topRight}</div>
@@ -443,8 +447,8 @@ function KansoQueryLab() {
               <span>02 / Tokens</span>
             </div>
             <div className={styles.kansoTokens}>
-              {tokens.map((token) => (
-                <span key={token}>{token}</span>
+              {tokens.map((token, index) => (
+                <span key={`${token}-${index}`}>{token}</span>
               ))}
             </div>
           </div>
@@ -604,8 +608,45 @@ function PlaygroundPage() {
   );
 }
 
+type ContactStatus = 'idle' | 'sending' | 'sent' | 'error';
+
+const contactButtonLabel: Record<ContactStatus, string> = {
+  idle: 'Send message →',
+  sending: 'Sending…',
+  sent: 'MESSAGE SENT ✦',
+  error: 'Failed — try again'
+};
+
 function ContactPage() {
-  const [sent, setSent] = useState(false);
+  const [status, setStatus] = useState<ContactStatus>('idle');
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const payload = {
+      name: formData.get('name'),
+      email: formData.get('email'),
+      message: formData.get('message')
+    };
+
+    setStatus('sending');
+
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) throw new Error('Request failed');
+
+      setStatus('sent');
+      form.reset();
+    } catch {
+      setStatus('error');
+    }
+  };
 
   return (
     <div className={styles.scrapContactGrid}>
@@ -621,7 +662,7 @@ function ContactPage() {
         <div className={styles.scrapContactMeta}>
           <b>Email</b>
           <br />
-          amira@example.com
+          amiralinabenbouali@gmail.com
           <br />
           <br />
           <b>Location</b>
@@ -640,19 +681,18 @@ function ContactPage() {
           <br />
           message! →
         </div>
-        <form
-          className={styles.scrapForm}
-          onSubmit={(event) => {
-            event.preventDefault();
-            setSent(true);
-          }}
-        >
-          <input aria-label="Name" placeholder="NAME" />
-          <input aria-label="Email" placeholder="EMAIL" type="email" />
-          <textarea aria-label="Message" placeholder="MESSAGE" />
-          <button className={styles.scrapSend} type="submit">
-            {sent ? 'MESSAGE SENT ✦' : 'Send message →'}
+        <form className={styles.scrapForm} onSubmit={handleSubmit}>
+          <input aria-label="Name" name="name" placeholder="NAME" required />
+          <input aria-label="Email" name="email" placeholder="EMAIL" required type="email" />
+          <textarea aria-label="Message" name="message" placeholder="MESSAGE" required />
+          <button className={styles.scrapSend} disabled={status === 'sending'} type="submit">
+            {contactButtonLabel[status]}
           </button>
+          {status === 'error' ? (
+            <p className={styles.scrapFormError}>
+              Something went wrong — email me directly at amiralinabenbouali@gmail.com instead.
+            </p>
+          ) : null}
         </form>
       </div>
     </div>
