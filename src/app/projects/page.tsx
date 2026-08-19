@@ -1,5 +1,11 @@
-import { PortfolioPage } from '@/components/portfolio/PortfolioPage';
+import type { Metadata } from 'next';
+import { WorkContent } from '@/components/portfolio/pages';
+
+export const metadata: Metadata = {
+  title: 'Work — Amira Lina Benbouali',
+  description: 'Selected projects: Foundry, KansoDB, Atria, and a lightweight CI/CD tool.'
+};
 
 export default function ProjectsPage() {
-  return <PortfolioPage initialPage="work" />;
+  return <WorkContent />;
 }

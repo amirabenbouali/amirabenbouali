@@ -1,106 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import type { FormEvent, ReactNode } from 'react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import type { FormEvent } from 'react';
+import { useState } from 'react';
+import { useScrapNavigate } from './NavContext';
+import { projects } from './data';
 import styles from './ScrapbookPortfolio.module.css';
-
-type PortfolioView = 'home' | 'work' | 'about' | 'atria' | 'foundry' | 'kansodb' | 'playground' | 'contact';
-type PrimaryView = Exclude<PortfolioView, 'atria' | 'foundry' | 'kansodb'>;
-
-type PortfolioPageProps = {
-  initialPage?: PrimaryView;
-};
-
-const primaryOrder: PrimaryView[] = ['home', 'work', 'about', 'playground', 'contact'];
-
-const navItems: Array<{ id: PrimaryView; label: string; number: string }> = [
-  { id: 'home', label: 'Home', number: '01' },
-  { id: 'work', label: 'Work', number: '02' },
-  { id: 'about', label: 'About', number: '03' },
-  { id: 'playground', label: 'Playground', number: '04' },
-  { id: 'contact', label: 'Contact', number: '05' }
-];
-
-const projects = [
-  { index: '01', title: 'Atria', kind: 'Productivity app', year: '2026', target: 'atria' as const },
-  { index: '02', title: 'Foundry', kind: 'Engineering OS', year: '2026', target: 'foundry' as const },
-  { index: '03', title: 'KansoDB', kind: 'SQL query engine', year: '2026', target: 'kansodb' as const },
-  { index: '04', title: 'Mini CI/CD', kind: 'DevOps tooling', year: '2026' }
-];
-
-function Sidebar({
-  active,
-  onNavigate,
-  footer = '© 2026 Amira\nAll rights reserved'
-}: {
-  active: PortfolioView;
-  footer?: string;
-  onNavigate: (target: PortfolioView) => void;
-}) {
-  const activePrimary = active === 'atria' || active === 'foundry' || active === 'kansodb' ? 'work' : active;
-
-  return (
-    <aside className={styles.scrapSidebar}>
-      <div className={styles.scrapMark}>✣</div>
-      <nav className={styles.scrapNav} aria-label="Portfolio pages">
-        {navItems.map((item) => (
-          <button
-            className={activePrimary === item.id ? styles.scrapNavActive : undefined}
-            data-go={item.id}
-            key={item.id}
-            onClick={() => onNavigate(item.id)}
-            type="button"
-          >
-            <span className={styles.scrapNavNum}>{item.number}</span>
-            <span>{item.label}</span>
-          </button>
-        ))}
-      </nav>
-      <div className={styles.scrapFooterNote}>
-        {footer.split('\n').map((line) => (
-          <span key={line}>{line}</span>
-        ))}
-      </div>
-    </aside>
-  );
-}
-
-function PageShell({
-  active,
-  children,
-  name,
-  onNavigate,
-  topRight = (
-    <>
-      Based in London, UK
-      <br />
-      Available for work
-    </>
-  ),
-  sidebarFooter
-}: {
-  active: PortfolioView;
-  children: ReactNode;
-  name: PortfolioView;
-  onNavigate: (target: PortfolioView) => void;
-  sidebarFooter?: string;
-  topRight?: ReactNode;
-}) {
-  return (
-    <section
-      className={`${styles.scrapPage} ${active === name ? styles.scrapPageActive : ''}`}
-      aria-hidden={active !== name}
-      inert={active !== name ? true : undefined}
-    >
-      <Sidebar active={active} footer={sidebarFooter} onNavigate={onNavigate} />
-      <div className={styles.scrapContent}>
-        <div className={styles.scrapTopRight}>{topRight}</div>
-        {children}
-      </div>
-    </section>
-  );
-}
 
 function MiniPeek() {
   return (
@@ -181,7 +86,7 @@ function AtriaCalendar() {
   );
 }
 
-function HomePage() {
+export function HomeContent() {
   return (
     <div className={styles.scrapHomeWrap}>
       <div>
@@ -212,7 +117,9 @@ function HomePage() {
   );
 }
 
-function WorkPage({ onNavigate }: { onNavigate: (target: PortfolioView) => void }) {
+export function WorkContent() {
+  const navigate = useScrapNavigate();
+
   return (
     <div className={styles.scrapWorkWrap}>
       <div className={styles.scrapMicro}>(selected work)</div>
@@ -221,7 +128,7 @@ function WorkPage({ onNavigate }: { onNavigate: (target: PortfolioView) => void 
           <button
             className={styles.scrapWorkRow}
             key={project.title}
-            onClick={() => project.target && onNavigate(project.target)}
+            onClick={() => project.target && navigate(project.target)}
             type="button"
           >
             <span className={`${styles.scrapWorkIndex} ${styles.scrapScribble}`}>{project.index}</span>
@@ -237,7 +144,7 @@ function WorkPage({ onNavigate }: { onNavigate: (target: PortfolioView) => void 
   );
 }
 
-function AboutPage() {
+export function AboutContent() {
   return (
     <div className={styles.scrapAboutGrid}>
       <div className={styles.scrapAboutCopy}>
@@ -268,7 +175,7 @@ function AboutPage() {
   );
 }
 
-function AtriaPage() {
+export function AtriaContent() {
   return (
     <div className={styles.scrapProjectLayout}>
       <div className={styles.scrapProjectHead}>
@@ -374,7 +281,7 @@ function FoundryWorkspace() {
   );
 }
 
-function FoundryPage() {
+export function FoundryContent() {
   return (
     <div className={styles.foundryLayout}>
       <div className={styles.foundryCopy}>
@@ -506,7 +413,7 @@ function KansoQueryLab() {
   );
 }
 
-function KansoPage() {
+export function KansoContent() {
   return (
     <div className={styles.kansoLayout}>
       <div className={styles.kansoCopy}>
@@ -537,7 +444,7 @@ function KansoPage() {
   );
 }
 
-function PlaygroundPage() {
+export function PlaygroundContent() {
   return (
     <div className={styles.scrapPlayWrap}>
       <div className={styles.scrapMicro}>(playground)</div>
@@ -617,7 +524,7 @@ const contactButtonLabel: Record<ContactStatus, string> = {
   error: 'Failed — try again'
 };
 
-function ContactPage() {
+export function ContactContent() {
   const [status, setStatus] = useState<ContactStatus>('idle');
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -696,94 +603,5 @@ function ContactPage() {
         </form>
       </div>
     </div>
-  );
-}
-
-export function PortfolioPage({ initialPage = 'home' }: PortfolioPageProps) {
-  const [activePage, setActivePage] = useState<PortfolioView>(initialPage);
-  const [isWiping, setIsWiping] = useState(false);
-
-  const counterIndex = useMemo(() => {
-    const page = activePage === 'atria' || activePage === 'foundry' || activePage === 'kansodb' ? 'work' : activePage;
-    return Math.max(primaryOrder.indexOf(page), 0) + 1;
-  }, [activePage]);
-
-  const navigate = useCallback((target: PortfolioView) => {
-    if (target === activePage) return;
-    setIsWiping(false);
-    window.requestAnimationFrame(() => setIsWiping(true));
-    window.setTimeout(() => {
-      setActivePage(target);
-    }, 345);
-    window.setTimeout(() => setIsWiping(false), 760);
-  }, [activePage]);
-
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (!['ArrowRight', 'ArrowLeft'].includes(event.key)) return;
-      const current = activePage === 'atria' || activePage === 'foundry' || activePage === 'kansodb' ? 'work' : activePage;
-      const currentIndex = Math.max(primaryOrder.indexOf(current), 0);
-      const nextIndex =
-        event.key === 'ArrowRight' ? Math.min(primaryOrder.length - 1, currentIndex + 1) : Math.max(0, currentIndex - 1);
-      navigate(primaryOrder[nextIndex]);
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [activePage, navigate]);
-
-  return (
-    <main className={styles.scrapStage}>
-      <div className={styles.scrapPortfolio}>
-        <div className={`${styles.scrapTransitionLayer} ${isWiping ? styles.scrapTransitionGo : ''}`} aria-hidden="true" />
-
-        <PageShell active={activePage} name="home" onNavigate={navigate}>
-          <HomePage />
-        </PageShell>
-        <PageShell active={activePage} name="work" onNavigate={navigate}>
-          <WorkPage onNavigate={navigate} />
-        </PageShell>
-        <PageShell active={activePage} name="about" onNavigate={navigate}>
-          <AboutPage />
-        </PageShell>
-        <PageShell
-          active={activePage}
-          name="atria"
-          onNavigate={navigate}
-          sidebarFooter="Open all projects"
-          topRight={<button className={styles.scrapBackButton} onClick={() => navigate('work')} type="button">← Back to work</button>}
-        >
-          <AtriaPage />
-        </PageShell>
-        <PageShell
-          active={activePage}
-          name="foundry"
-          onNavigate={navigate}
-          sidebarFooter="Open all projects"
-          topRight={<button className={styles.scrapBackButton} onClick={() => navigate('work')} type="button">← Back to work</button>}
-        >
-          <FoundryPage />
-        </PageShell>
-        <PageShell
-          active={activePage}
-          name="kansodb"
-          onNavigate={navigate}
-          sidebarFooter="Open all projects"
-          topRight={<button className={styles.scrapBackButton} onClick={() => navigate('work')} type="button">← Back to work</button>}
-        >
-          <KansoPage />
-        </PageShell>
-        <PageShell active={activePage} name="playground" onNavigate={navigate}>
-          <PlaygroundPage />
-        </PageShell>
-        <PageShell active={activePage} name="contact" onNavigate={navigate}>
-          <ContactPage />
-        </PageShell>
-
-        <div className={`${styles.scrapPageCounter} ${styles.scrapScribble}`}>
-          {String(counterIndex).padStart(2, '0')} / 05
-        </div>
-      </div>
-    </main>
   );
 }
