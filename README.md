@@ -1,12 +1,8 @@
-# amira benbouali
+<p align="center">
+  <img src=".github/readme/banner.svg" alt="Amira Benbouali — software engineer, full-stack, product-minded, based in London" width="100%">
+</p>
 
-**software engineer · full-stack · product-minded**
-
-`⌁` london, uk
-`↳` building software, systems & small experiments
-`◌` currently exploring developer tooling, infrastructure & product engineering
-
----
+<img src="public/images/amira-portrait.jpg" align="right" width="190" alt="Amira Benbouali">
 
 ### 01 / about
 
@@ -18,6 +14,8 @@ my work sits somewhere between **software engineering, product and design**. i'm
 
 most days you'll find me building something, breaking it, figuring out why, and making the next version a little better.
 
+<br clear="right">
+
 ---
 
 ### 02 / selected work
@@ -27,7 +25,7 @@ an engineering operating system for managing domains, issues, triage and postmor
 
 `next.js` `typescript` `postgresql` `prisma`
 
-↳ **explore the project →**
+↳ **[explore the project →](https://github.com/amirabenbouali/foundry)**
 
 <br>
 
@@ -36,7 +34,7 @@ a small SQL query engine built to understand what actually happens between a que
 
 `query parsing` `execution` `databases` `typescript`
 
-↳ **explore the project →**
+↳ **[explore the project →](https://github.com/amirabenbouali/kansodb)**
 
 <br>
 
@@ -45,7 +43,7 @@ a calm, interaction-focused planning system for events, tasks and everyday organ
 
 `react` `typescript` `zustand` `motion`
 
-↳ **explore the project →**
+↳ **[explore the project →](https://github.com/amirabenbouali/atria)**
 
 <br>
 
@@ -54,7 +52,7 @@ a lightweight CI/CD system exploring pipelines, automation and developer tooling
 
 `ruby` `bash` `automation` `ci/cd`
 
-↳ **explore the project →**
+↳ **[explore the project →](https://github.com/amirabenbouali/miniCI)**
 
 ---
 
@@ -83,8 +81,8 @@ thinking      about what makes software feel good to use
 
 ### 05 / elsewhere
 
-`↗` **portfolio** — amirabenbouali.com
-`↗` **linkedin** — let's connect
+`↗` **linkedin** — [linkedin.com/in/amirabenbouali](https://www.linkedin.com/in/amirabenbouali)
+`↗` **more projects** — [github.com/amirabenbouali?tab=repositories](https://github.com/amirabenbouali?tab=repositories)
 
 <br>
 

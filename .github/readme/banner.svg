@@ -1,0 +1,27 @@
+<svg width="1200" height="320" viewBox="0 0 1200 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Amira Benbouali — software engineer, full-stack, product-minded, based in London">
+  <rect x="1" y="1" width="1198" height="318" rx="22" fill="#f7eadb" stroke="#171412" stroke-opacity="0.16"/>
+
+  <g stroke="#171412" stroke-opacity="0.06" stroke-dasharray="3 7">
+    <line x1="40" y1="150" x2="1160" y2="150"/>
+    <line x1="40" y1="180" x2="1160" y2="180"/>
+    <line x1="40" y1="210" x2="1160" y2="210"/>
+    <line x1="40" y1="240" x2="1160" y2="240"/>
+  </g>
+
+  <rect x="58" y="-14" width="112" height="34" fill="#ff8fd0" opacity="0.85" transform="rotate(-10 114 3)"/>
+  <rect x="1006" y="300" width="132" height="34" fill="#ffe65a" opacity="0.9" transform="rotate(8 1072 317)"/>
+
+  <text x="70" y="76" font-family="'Comic Sans MS','Bradley Hand',cursive" font-size="32" fill="#171412" transform="rotate(-8 70 76)">✣</text>
+  <text x="70" y="122" font-family="'Comic Sans MS','Bradley Hand',cursive" font-size="19" fill="#171412" transform="rotate(-1 70 122)">hello!</text>
+
+  <text x="64" y="200" font-family="'Comic Sans MS','Bradley Hand',cursive" font-weight="700" font-size="84" letter-spacing="-4" fill="#171412" transform="rotate(-1 64 200)">AMIRA</text>
+  <text x="64" y="272" font-family="'Comic Sans MS','Bradley Hand',cursive" font-weight="700" font-size="84" letter-spacing="-4" fill="#171412" transform="rotate(-1 64 272)">BENBOUALI</text>
+
+  <text x="1140" y="52" font-family="'Courier New',monospace" font-size="13" letter-spacing="1" fill="#171412" text-anchor="end">BASED IN LONDON, UK</text>
+  <text x="1140" y="72" font-family="'Courier New',monospace" font-size="13" letter-spacing="1" fill="#6b625b" text-anchor="end">AVAILABLE FOR WORK</text>
+
+  <text x="1140" y="110" font-family="'Courier New',monospace" font-size="13" letter-spacing="1" fill="#6b625b" text-anchor="end">SOFTWARE ENGINEER</text>
+  <text x="1140" y="130" font-family="'Courier New',monospace" font-size="13" letter-spacing="1" fill="#6b625b" text-anchor="end">FULL-STACK · PRODUCT-MINDED</text>
+
+  <text x="1142" y="282" font-family="'Comic Sans MS','Bradley Hand',cursive" font-size="28" fill="#ff4fb6" transform="rotate(10 1142 282)">✣</text>
+</svg>
