@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { Resend } from 'resend';
 
-const TO_EMAIL = 'amiralinabenbouali@gmail.com';
+const TO_EMAIL = 'amiralinabenbouali+1@gmail.com';
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(request: Request) {
