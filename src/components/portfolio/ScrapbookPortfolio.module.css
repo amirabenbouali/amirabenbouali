@@ -70,6 +70,7 @@
 }
 
 .scrapNav button {
+  position: relative;
   display: grid;
   grid-template-columns: 28px 1fr;
   gap: 12px;
@@ -86,6 +87,16 @@
 
 .scrapNavActive {
   font-weight: 700;
+}
+
+.scrapNavActive::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: -14px;
+  width: 3px;
+  height: 13px;
+  background: #7b2b68;
 }
 
 .scrapNavActive .scrapNavNum {
@@ -133,6 +144,7 @@
 }
 
 .scrapHomeWrap {
+  position: relative;
   height: 100%;
   display: grid;
   grid-template-columns: 1.1fr 0.8fr;
@@ -210,6 +222,85 @@
   right: 6%;
   color: #7b2b68;
   font-size: 33px;
+}
+
+.scrapHeroName {
+  margin: 0;
+  line-height: 0.86;
+  letter-spacing: -0.01em;
+  font-size: clamp(58px, 6.2vw, 100px);
+  transform: rotate(-1deg);
+}
+
+.scrapHomeLearning {
+  margin-top: 20px;
+  font-size: 15px;
+  text-align: left;
+}
+
+.scrapRoleTag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 26px;
+  color: #7b2b68;
+  font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.scrapDotGrid {
+  position: absolute;
+  top: 42%;
+  left: -16%;
+  width: 130px;
+  height: 130px;
+  background-image: radial-gradient(rgba(23, 20, 18, 0.22) 1.4px, transparent 1.4px);
+  background-size: 13px 13px;
+  pointer-events: none;
+}
+
+.scrapCurrentlyBlock {
+  position: absolute;
+  right: 0;
+  bottom: 86px;
+  max-width: 220px;
+  padding-left: 14px;
+  border-left: 2px solid #7b2b68;
+}
+
+.scrapCurrentlyBlock b {
+  display: block;
+  margin-bottom: 4px;
+  color: #7b2b68;
+  font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+.scrapCurrentlyBlock span {
+  display: block;
+  font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 11px;
+  line-height: 1.5;
+  text-transform: uppercase;
+  color: #8a8780;
+}
+
+.scrapExploreHint {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #8a8780;
+  font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .scrapAboutGrid,
@@ -1348,7 +1439,10 @@
 
   .scrapSidebar,
   .scrapTopRight,
-  .scrapPortraitCard {
+  .scrapPortraitCard,
+  .scrapDotGrid,
+  .scrapCurrentlyBlock,
+  .scrapExploreHint {
     display: none;
   }
 

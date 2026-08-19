@@ -5,6 +5,7 @@ import type { FormEvent } from 'react';
 import { useState } from 'react';
 import { useScrapNavigate } from './NavContext';
 import { projects } from './data';
+import { heroMarker } from './fonts';
 import styles from './ScrapbookPortfolio.module.css';
 
 function MiniPeek() {
@@ -91,18 +92,22 @@ export function HomeContent() {
     <div className={styles.scrapHomeWrap}>
       <div>
         <div className={`${styles.scrapHello} ${styles.scrapScribble}`}>hello!</div>
-        <h1 className={`${styles.scrapName} ${styles.scrapScribble}`}>AMIRA<br />BENBOUALI</h1>
+        <h1 className={`${styles.scrapHeroName} ${heroMarker.className}`}>AMIRA<br />BENBOUALI</h1>
+        <div className={styles.scrapRoleTag}>
+          <span>↗</span>
+          <span>Software engineer</span>
+        </div>
         <div className={styles.scrapRoleCopy}>
-          Software engineer
-          <br />
           I build digital experiences
           <br />
           that are useful, beautiful
           <br />
           and thoughtful.
         </div>
+        <div className={`${styles.scrapHomeLearning} ${styles.scrapScribble}`}>always learning ✶</div>
       </div>
       <div className={styles.scrapPortraitWrap}>
+        <div className={styles.scrapDotGrid} aria-hidden="true" />
         <div className={styles.scrapPortraitCard}>
           <Image alt="Amira Lina Benbouali" height={1000} priority src="/images/amira-portrait.jpg" width={780} />
         </div>
@@ -112,6 +117,15 @@ export function HomeContent() {
           ↙
         </div>
         <div className={`${styles.scrapAnnot} ${styles.scrapAnnotStar} ${styles.scrapScribble}`}>✣</div>
+      </div>
+      <div className={styles.scrapCurrentlyBlock}>
+        <b>Currently:</b>
+        <span>Building foundry, exploring infrastructure, shipping small things.</span>
+      </div>
+      <div className={styles.scrapExploreHint}>
+        <span>←</span>
+        <span>Use arrow keys to explore</span>
+        <span>→</span>
       </div>
     </div>
   );
