@@ -13,10 +13,38 @@ export const navItems: Array<{ id: PrimaryView; label: string; number: string }>
 ];
 
 export const projects = [
-  { index: '01', title: 'Atria', kind: 'Productivity app', year: '2026', target: 'atria' as const },
-  { index: '02', title: 'Foundry', kind: 'Engineering OS', year: '2026', target: 'foundry' as const },
-  { index: '03', title: 'KansoDB', kind: 'SQL query engine', year: '2026', target: 'kansodb' as const },
-  { index: '04', title: 'Mini CI/CD', kind: 'DevOps tooling', year: '2026' }
+  {
+    index: '01',
+    title: 'Atria',
+    kind: 'Productivity app',
+    year: '2026',
+    target: 'atria' as const,
+    stack: ['React · TypeScript', 'Zustand · Motion']
+  },
+  {
+    index: '02',
+    title: 'Foundry',
+    kind: 'Engineering OS',
+    year: '2026',
+    target: 'foundry' as const,
+    stack: ['Next.js · Prisma', 'Postgres · Testing']
+  },
+  {
+    index: '03',
+    title: 'KansoDB',
+    kind: 'SQL query engine',
+    year: '2026',
+    target: 'kansodb' as const,
+    stack: ['TypeScript · Parser', 'AST · Execution']
+  },
+  {
+    index: '04',
+    title: 'Mini CI/CD',
+    kind: 'DevOps tooling',
+    year: '2026',
+    stack: ['Ruby · Bash', 'Pipelines · Automation'],
+    href: 'https://github.com/amirabenbouali/miniCI'
+  }
 ];
 
 const viewPaths: Record<PortfolioView, string> = {

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { WorkContent } from '@/components/portfolio/pages';
+import { DarkWork } from '@/components/portfolio/DarkWork';
 
 export const metadata: Metadata = {
   title: 'Work — Amira Lina Benbouali',
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function ProjectsPage() {
-  return <WorkContent />;
+  return <DarkWork />;
 }

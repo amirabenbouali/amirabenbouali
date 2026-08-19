@@ -2,24 +2,7 @@
 
 import type { FormEvent } from 'react';
 import { useState } from 'react';
-import { useScrapNavigate } from './NavContext';
-import { projects } from './data';
 import styles from './ScrapbookPortfolio.module.css';
-
-function MiniPeek() {
-  return (
-    <div className={styles.scrapPeek} aria-hidden="true">
-      <div className={styles.scrapMiniWindow}>
-        <div className={styles.scrapMiniSide} />
-        <div className={styles.scrapMiniBody}>
-          {Array.from({ length: 8 }).map((_, index) => (
-            <span key={index} />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
 
 function AtriaCalendar() {
   const events = [
@@ -81,33 +64,6 @@ function AtriaCalendar() {
           </div>
         </div>
       </div>
-    </div>
-  );
-}
-
-export function WorkContent() {
-  const navigate = useScrapNavigate();
-
-  return (
-    <div className={styles.scrapWorkWrap}>
-      <div className={styles.scrapMicro}>(selected work)</div>
-      <div className={styles.scrapWorkList}>
-        {projects.map((project) => (
-          <button
-            className={styles.scrapWorkRow}
-            key={project.title}
-            onClick={() => project.target && navigate(project.target)}
-            type="button"
-          >
-            <span className={`${styles.scrapWorkIndex} ${styles.scrapScribble}`}>{project.index}</span>
-            <span className={styles.scrapWorkTitle}>{project.title}</span>
-            <span className={styles.scrapWorkKind}>{project.kind}</span>
-            <span className={styles.scrapWorkYear}>{project.year}</span>
-            {project.target ? <MiniPeek /> : null}
-          </button>
-        ))}
-      </div>
-      <div className={`${styles.scrapGithubNote} ${styles.scrapScribble}`}>more projects on github ↗</div>
     </div>
   );
 }

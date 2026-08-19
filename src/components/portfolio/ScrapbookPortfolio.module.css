@@ -203,110 +203,10 @@
   line-height: 1.6;
 }
 
-.scrapWorkWrap,
 .scrapPlayWrap {
   height: 100%;
   display: grid;
   align-content: center;
-}
-
-.scrapWorkList {
-  border-top: 1px solid rgba(23, 23, 23, 0.16);
-}
-
-.scrapWorkRow {
-  position: relative;
-  display: grid;
-  width: 100%;
-  grid-template-columns: 85px 1.2fr 1fr 95px;
-  gap: 18px;
-  align-items: center;
-  border: 0;
-  border-bottom: 1px solid rgba(23, 23, 23, 0.16);
-  padding: 20px 0;
-  color: inherit;
-  background: transparent;
-  cursor: pointer;
-  font: inherit;
-  text-align: left;
-  transition: padding 300ms ease;
-}
-
-.scrapWorkRow:hover,
-.scrapWorkRow:focus-visible {
-  padding-right: 14px;
-  padding-left: 14px;
-}
-
-.scrapWorkIndex {
-  font-size: 38px;
-}
-
-.scrapWorkTitle {
-  font-size: 31px;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-}
-
-.scrapWorkKind,
-.scrapWorkYear {
-  font-size: 10px;
-  text-transform: uppercase;
-}
-
-.scrapPeek {
-  position: absolute;
-  top: 50%;
-  right: 10px;
-  z-index: 4;
-  width: 260px;
-  height: 150px;
-  padding: 12px;
-  border: 1px solid rgba(23, 23, 23, 0.16);
-  opacity: 0;
-  pointer-events: none;
-  background: #efede7;
-  box-shadow: 0 16px 35px rgba(0, 0, 0, 0.14);
-  transform: translateY(-50%) scale(0.92) rotate(1deg);
-  transition: opacity 250ms ease, transform 250ms ease;
-}
-
-.scrapWorkRow:hover .scrapPeek,
-.scrapWorkRow:focus-visible .scrapPeek {
-  opacity: 1;
-  transform: translateY(-50%) scale(1) rotate(-1deg);
-}
-
-.scrapMiniWindow {
-  height: 100%;
-  display: grid;
-  grid-template-columns: 48px 1fr;
-  gap: 8px;
-  padding: 8px;
-  border: 1px solid rgba(23, 23, 23, 0.16);
-}
-
-.scrapMiniSide {
-  border-right: 1px solid rgba(23, 23, 23, 0.16);
-}
-
-.scrapMiniBody {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 4px;
-  align-content: center;
-}
-
-.scrapMiniBody span {
-  display: block;
-  height: 27px;
-  border: 1px solid rgba(23, 23, 23, 0.16);
-}
-
-.scrapGithubNote {
-  margin-top: 28px;
-  font-size: 15px;
-  text-align: center;
 }
 
 .scrapProjectLayout {
@@ -1352,27 +1252,9 @@
   .scrapPlayGrid {
     grid-template-columns: repeat(2, 1fr);
   }
-
-  .scrapWorkRow {
-    grid-template-columns: 55px 1fr 80px;
-  }
-
-  .scrapWorkKind {
-    display: none;
-  }
 }
 
 @media (max-width: 620px) {
-  .scrapName {
-    font-size: clamp(58px, 19vw, 86px);
-  }
-
-  .scrapWorkRow {
-    grid-template-columns: 46px 1fr;
-  }
-
-  .scrapWorkYear,
-  .scrapPeek,
   .scrapSendNote {
     display: none;
   }
@@ -1452,9 +1334,7 @@
   .scrapPage,
   .scrapTransitionGo,
   .scrapAppFrame,
-  .scrapExpThumb,
-  .scrapPeek,
-  .scrapWorkRow {
+  .scrapExpThumb {
     animation: none;
     transition: none;
   }

@@ -3,7 +3,6 @@
 import { usePathname, useRouter } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { NavigateContext } from './NavContext';
 import { isProjectView, navItems, pathForView, primaryForView, primaryOrder, viewForPathname } from './data';
 import type { PortfolioView } from './data';
 import styles from './ScrapbookPortfolio.module.css';
@@ -98,22 +97,20 @@ export function ScrapbookChrome({ children }: { children: ReactNode }) {
   );
 
   return (
-    <NavigateContext.Provider value={navigate}>
-      <main className={styles.scrapStage}>
-        <div className={styles.scrapPortfolio}>
-          <div className={`${styles.scrapTransitionLayer} ${isWiping ? styles.scrapTransitionGo : ''}`} aria-hidden="true" />
-          <section className={`${styles.scrapPage} ${styles.scrapPageActive}`}>
-            <Sidebar active={activeView} footer={isProject ? 'Open all projects' : undefined} onNavigate={navigate} />
-            <div className={styles.scrapContent}>
-              <div className={styles.scrapTopRight}>{topRight}</div>
-              {children}
-            </div>
-          </section>
-          <div className={`${styles.scrapPageCounter} ${styles.scrapScribble}`}>
-            {String(counterIndex).padStart(2, '0')} / 05
+    <main className={styles.scrapStage}>
+      <div className={styles.scrapPortfolio}>
+        <div className={`${styles.scrapTransitionLayer} ${isWiping ? styles.scrapTransitionGo : ''}`} aria-hidden="true" />
+        <section className={`${styles.scrapPage} ${styles.scrapPageActive}`}>
+          <Sidebar active={activeView} footer={isProject ? 'Open all projects' : undefined} onNavigate={navigate} />
+          <div className={styles.scrapContent}>
+            <div className={styles.scrapTopRight}>{topRight}</div>
+            {children}
           </div>
+        </section>
+        <div className={`${styles.scrapPageCounter} ${styles.scrapScribble}`}>
+          {String(counterIndex).padStart(2, '0')} / 05
         </div>
-      </main>
-    </NavigateContext.Provider>
+      </div>
+    </main>
   );
 }
