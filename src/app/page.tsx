@@ -1,5 +1,5 @@
-import { HomeContent } from '@/components/portfolio/pages';
+import { DarkLanding } from '@/components/portfolio/DarkLanding';
 
 export default function Home() {
-  return <HomeContent />;
+  return <DarkLanding />;
 }
