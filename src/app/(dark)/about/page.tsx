@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { AboutContent } from '@/components/portfolio/pages';
+import { DarkAbout } from '@/components/portfolio/DarkAbout';
 
 export const metadata: Metadata = {
   title: 'About — Amira Lina Benbouali',
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function AboutPage() {
-  return <AboutContent />;
+  return <DarkAbout />;
 }

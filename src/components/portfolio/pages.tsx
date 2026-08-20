@@ -2,37 +2,6 @@
 
 import styles from './ScrapbookPortfolio.module.css';
 
-export function AboutContent() {
-  return (
-    <div className={styles.scrapAboutGrid}>
-      <div className={styles.scrapAboutCopy}>
-        <div className={styles.scrapMicro}>(about me)</div>
-        <h2>I&apos;m a software engineer who loves building things that matter.</h2>
-        <p>
-          I enjoy turning complex problems into simple, elegant and intuitive solutions. I care about thoughtful design,
-          clean code and creating products people actually want to use.
-        </p>
-        <p>Currently based in London and open to new opportunities.</p>
-        <div className={`${styles.scrapLearning} ${styles.scrapScribble}`}>always learning ✶</div>
-      </div>
-      <div className={styles.scrapInfoStack}>
-        <div className={styles.scrapInfoBlock}>
-          <h4>Education</h4>
-          <p>BSc Computer Science<br />City, University of London</p>
-        </div>
-        <div className={styles.scrapInfoBlock}>
-          <h4>Tech stack</h4>
-          <p>TypeScript · React · Next.js<br />Node.js · PostgreSQL · Git<br />Docker · AWS · Testing</p>
-        </div>
-        <div className={styles.scrapInfoBlock}>
-          <h4>Interests</h4>
-          <p>Product design · Astronomy · Running<br />Developer tooling · Coffee · Travel</p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 function FoundryWorkspace() {
   const issues = [
     { id: 'FDY-021', title: 'Authentication callback failing after deploy', tags: ['BACKEND', 'P1'] },
