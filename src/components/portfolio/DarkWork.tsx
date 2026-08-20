@@ -6,12 +6,55 @@ import { useDarkChrome } from './DarkChromeContext';
 import shell from './DarkShell.module.css';
 import styles from './DarkWork.module.css';
 
-function ProjectPreview({ title }: { title: string }) {
+type PreviewInfo = {
+  tagline: string;
+  description: string;
+  role: string;
+  stack: string;
+  tag: string;
+};
+
+const previewInfo: Record<string, PreviewInfo> = {
+  Atria: {
+    tagline: 'calendar, without the friction.',
+    description:
+      'A modern calendar and task-management system focused on clarity, flexible scheduling and fast interaction.',
+    role: 'Product design + frontend engineering',
+    stack: 'React · TypeScript · Zustand · Framer Motion',
+    tag: 'calendar'
+  },
+  Foundry: {
+    tagline: 'engineering work, organised into a system.',
+    description:
+      'A full-stack workspace for issue triage, domains, incidents and postmortems — built around the workflows engineering teams actually use.',
+    role: 'Full-stack engineering + product design',
+    stack: 'Next.js · Prisma · Postgres · Testing',
+    tag: 'triage'
+  },
+  KansoDB: {
+    tagline: 'from text, to execution.',
+    description:
+      'A lightweight SQL-style engine exploring tokenisation, parsing, AST construction and query execution from the inside out.',
+    role: 'Systems exploration + implementation',
+    stack: 'TypeScript · Parser · AST · Execution',
+    tag: 'query engine'
+  },
+  'Mini CI/CD': {
+    tagline: 'commit, test, build, ship.',
+    description:
+      'A configuration-driven CI pipeline runner built in Ruby — running YAML-defined workflows with retries, timeouts and environment management.',
+    role: 'CLI + automation engineering',
+    stack: 'Ruby · Bash · Pipelines · Automation',
+    tag: 'pipeline'
+  }
+};
+
+function ProjectMock({ title }: { title: string }) {
   if (title === 'Atria') {
     return (
       <div className={styles.atriaUi}>
         <div className={styles.atriaSide} />
-        <div className={styles.atriaGrid}>
+        <div className={styles.cal}>
           {Array.from({ length: 15 }).map((_, index) => (
             <span key={index} />
           ))}
@@ -23,13 +66,13 @@ function ProjectPreview({ title }: { title: string }) {
   if (title === 'Foundry') {
     return (
       <div className={styles.foundryUi}>
-        <div className={styles.foundryCol}>
+        <div className={styles.col}>
           <div className={styles.issue} />
           <div className={styles.issue} />
           <div className={styles.issue} />
           <div className={styles.issue} />
         </div>
-        <div className={`${styles.foundryCol} ${styles.pipeline}`}>
+        <div className={`${styles.col} ${styles.pipe}`}>
           <div className={styles.node} />
           <div className={styles.node} />
           <div className={styles.node} />
@@ -43,17 +86,17 @@ function ProjectPreview({ title }: { title: string }) {
     return (
       <div className={styles.kansoUi}>
         <div className={styles.code}>
-          <span className={styles.kw}>SELECT</span> name
+          <b>SELECT</b> name, role
           <br />
-          <span className={styles.kw}>FROM</span> engineers
+          <b>FROM</b> engineers
           <br />
-          <span className={styles.kw}>WHERE</span> stack = &apos;ts&apos;;
+          <b>WHERE</b> stack = &apos;typescript&apos;;
         </div>
         <div className={styles.ast}>
           <div>Query</div>
-          <div>Select</div>
-          <div>From</div>
-          <div>Where</div>
+          <div>SelectClause</div>
+          <div>FromClause</div>
+          <div>WhereClause</div>
         </div>
       </div>
     );
@@ -65,19 +108,19 @@ function ProjectPreview({ title }: { title: string }) {
         $ mini-ci run
         <br />
         <br />
-        <span className={styles.ok}>✓ setup</span>
+        <b>✓ setup</b>
         <br />
-        <span className={styles.ok}>✓ tests</span>
+        <b>✓ test</b>
         <br />
-        <span className={styles.ok}>✓ build</span>
+        <b>✓ build</b>
         <br />
-        <span className={styles.ok}>✓ release</span>
+        <b>✓ release</b>
       </div>
       <div className={styles.stages}>
-        <div className={styles.stageCard}>01 setup</div>
-        <div className={styles.stageCard}>02 test</div>
-        <div className={styles.stageCard}>03 build</div>
-        <div className={styles.stageCard}>04 ship</div>
+        <div className={styles.stage}>01 setup</div>
+        <div className={styles.stage}>02 test</div>
+        <div className={styles.stage}>03 build</div>
+        <div className={styles.stage}>04 ship</div>
       </div>
     </div>
   );
@@ -88,104 +131,159 @@ export function DarkWork() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   const goHome = () => wipeTo(pathForView('home'));
+  const active = projects[activeIndex];
+  const info = previewInfo[active.title];
+
+  const openActive = () => {
+    if (active.target) {
+      wipeTo(pathForView(active.target));
+    } else if (active.href) {
+      window.open(active.href, '_blank', 'noopener,noreferrer');
+    }
+  };
 
   return (
     <main className={shell.shell}>
-      <header className={styles.top}>
-        <div className={styles.brand}>
+      <header className={shell.top}>
+        <div className={shell.brand}>
           AMIRA
           <br />
           BENBOUALI
         </div>
-        <div className={styles.sectionLabel}>
+        <div className={shell.role}>
           selected work
           <br />
-          software engineering
+          2026
         </div>
-        <button className={styles.back} onClick={goHome} type="button">
-          home
+        <button
+          className={styles.back}
+          onClick={goHome}
+          onMouseEnter={() => setIsBig(true)}
+          onMouseLeave={() => setIsBig(false)}
+          type="button"
+        >
+          ← home
         </button>
       </header>
 
-      <div className={styles.layout}>
-        <aside className={styles.intro}>
-          <div>
-            <h1>
-              selected
-              <em>work.</em>
-            </h1>
-            <p>
-              A selection of products, systems and developer tools I&apos;ve built — each one exploring a
-              different part of software engineering.
-            </p>
-          </div>
-          <div className={styles.meta}>
-            {projects.length} selected projects
-            <br />
-            product · systems · tooling
-          </div>
-        </aside>
+      <section className={styles.workWrap}>
+        <div className={styles.indexSide}>
+          <div className={styles.kicker}>projects / software engineering</div>
 
-        <section className={styles.projects}>
-          <div className={styles.ghost} aria-hidden="true">projects</div>
+          <h1 className={styles.bigTitle}>
+            WORK
+            <span>INDEX</span>
+          </h1>
 
-          {projects.map((project, index) => {
-            const detail = (
-              <>
-                <span className={styles.num}>{project.index}</span>
-                <span className={styles.title}>{project.title}</span>
-                <span className={styles.details}>
-                  <b>{project.kind}</b>
-                  {project.stack[0]}
-                  <br />
-                  {project.stack[1]}
-                </span>
-                <span className={styles.year}>{project.year}</span>
-                <span className={styles.arrow} aria-hidden="true" />
-                <div className={styles.preview}>
-                  <div className={styles.previewTop}>
-                    <span>{project.title}</span>
-                    <span>{project.kind}</span>
-                  </div>
-                  <div className={styles.previewBody}>
-                    <ProjectPreview title={project.title} />
-                  </div>
-                </div>
-              </>
-            );
+          <div className={styles.projectList}>
+            {projects.map((project, index) => {
+              const rowProps = {
+                className: `${styles.project} ${activeIndex === index ? styles.projectActive : ''}`,
+                onMouseEnter: () => {
+                  setActiveIndex(index);
+                  setIsBig(true);
+                },
+                onMouseLeave: () => setIsBig(false)
+              };
 
-            const rowProps = {
-              className: `${styles.project} ${activeIndex === index ? styles.projectActive : ''}`,
-              onMouseEnter: () => {
-                setActiveIndex(index);
-                setIsBig(true);
-              },
-              onMouseLeave: () => setIsBig(false)
-            };
+              const detail = (
+                <>
+                  <span className={styles.num}>{project.index}</span>
+                  <span className={styles.name}>{project.title}</span>
+                  <span className={styles.meta}>
+                    <b>{project.kind}</b>
+                    {project.stack[0]}
+                  </span>
+                  <span className={styles.arrow} aria-hidden="true" />
+                </>
+              );
 
-            if (project.target) {
+              if (project.target) {
+                return (
+                  <button
+                    {...rowProps}
+                    key={project.title}
+                    onClick={() => {
+                      setActiveIndex(index);
+                      wipeTo(pathForView(project.target!));
+                    }}
+                    type="button"
+                  >
+                    {detail}
+                  </button>
+                );
+              }
+
               return (
-                <button
+                <a
                   {...rowProps}
+                  href={project.href}
                   key={project.title}
-                  onClick={() => wipeTo(pathForView(project.target!))}
-                  type="button"
+                  onClick={() => setActiveIndex(index)}
+                  rel="noopener noreferrer"
+                  target="_blank"
                 >
                   {detail}
-                </button>
+                </a>
               );
-            }
+            })}
+          </div>
 
-            return (
-              <a {...rowProps} href={project.href} key={project.title} rel="noopener noreferrer" target="_blank">
-                {detail}
-              </a>
-            );
-          })}
+          <div className={styles.foot}>{projects.length} selected projects · hover to inspect</div>
+        </div>
 
-          <div className={styles.micro}>hover to inspect · click to open</div>
-        </section>
-      </div>
+        <div className={styles.previewSide}>
+          <div className={styles.previewCard}>
+            <div className={styles.flower} aria-hidden="true">
+              <i />
+              <i />
+              <i />
+              <i />
+              <i />
+              <i />
+            </div>
+
+            <div className={styles.previewHead}>
+              <span>
+                {active.index} / {active.title}
+              </span>
+              <span>{active.kind}</span>
+            </div>
+
+            <div className={styles.previewBody}>
+              <div className={styles.previewCopy}>
+                <h2>{active.title}</h2>
+                <div className={styles.type}>{info.tagline}</div>
+                <p>{info.description}</p>
+                <button
+                  className={styles.open}
+                  onClick={openActive}
+                  onMouseEnter={() => setIsBig(true)}
+                  onMouseLeave={() => setIsBig(false)}
+                  type="button"
+                >
+                  {active.target ? 'open case study' : 'view on github'} <span>→</span>
+                </button>
+              </div>
+
+              <div className={styles.mock} key={activeIndex}>
+                <div className={styles.mockTop}>
+                  <span>{active.title}</span>
+                  <span>{info.tag}</span>
+                </div>
+                <div className={styles.mockBody}>
+                  <ProjectMock title={active.title} />
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.previewFoot}>
+              <span>{info.role}</span>
+              <span>{info.stack}</span>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }
