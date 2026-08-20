@@ -59,12 +59,14 @@
   right: 4vw;
   top: 14vh;
   bottom: 5vh;
+  width: calc(100vw - 8vw);
   display: grid;
   grid-template-columns: 31% 69%;
   gap: 4vw;
 }
 
 .copy {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -146,6 +148,8 @@
 
 .product {
   position: relative;
+  min-width: 0;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -164,6 +168,7 @@
 .frame {
   position: relative;
   width: min(900px, 61vw);
+  max-width: 100%;
   aspect-ratio: 1.55;
   border: 1px solid rgba(255, 255, 255, 0.15);
   background: #0e0e0e;

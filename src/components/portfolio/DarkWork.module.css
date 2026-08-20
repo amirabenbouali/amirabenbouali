@@ -61,12 +61,14 @@
   right: 4vw;
   top: 14vh;
   bottom: 5vh;
+  width: calc(100vw - 8vw);
   display: grid;
   grid-template-columns: 25% 75%;
   gap: 3vw;
 }
 
 .intro {
+  min-width: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -101,6 +103,7 @@
 
 .projects {
   position: relative;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -121,8 +124,9 @@
 .project {
   position: relative;
   z-index: 2;
+  min-width: 0;
   display: grid;
-  grid-template-columns: 52px 1fr 220px 90px;
+  grid-template-columns: 52px minmax(0, 1fr) 220px 90px;
   align-items: center;
   min-height: 16.6vh;
   border: 0;
@@ -213,6 +217,7 @@
   top: 50%;
   z-index: 5;
   width: min(360px, 27vw);
+  max-width: 84%;
   aspect-ratio: 1.45;
   border: 1px solid rgba(255, 255, 255, 0.18);
   background: #0f0f0f;
