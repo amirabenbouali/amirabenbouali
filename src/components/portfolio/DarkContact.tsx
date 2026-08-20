@@ -3,7 +3,7 @@
 import type { FormEvent } from 'react';
 import { useState } from 'react';
 import { pathForView } from './data';
-import { useDarkCursor, useWipeNavigate } from './darkHooks';
+import { useDarkChrome } from './DarkChromeContext';
 import shell from './DarkShell.module.css';
 import styles from './DarkContact.module.css';
 
@@ -17,8 +17,7 @@ const sendLabel: Record<SendStatus, string> = {
 };
 
 export function DarkContact() {
-  const { isBig, setIsBig, cursor, hasMoved } = useDarkCursor();
-  const { isWiping, wipeTo } = useWipeNavigate();
+  const { setIsBig, wipeTo } = useDarkChrome();
   const [status, setStatus] = useState<SendStatus>('idle');
 
   const goHome = () => wipeTo(pathForView('home'));
@@ -55,15 +54,6 @@ export function DarkContact() {
 
   return (
     <main className={shell.shell}>
-      {hasMoved ? (
-        <div
-          className={`${shell.cursor} ${isBig ? shell.cursorBig : ''}`}
-          style={{ left: cursor.x, top: cursor.y }}
-        />
-      ) : null}
-
-      <div className={`${shell.wipe} ${isWiping ? shell.wipeGo : ''}`} aria-hidden="true" />
-
       <div className={shell.grain} aria-hidden="true" />
 
       <div className={shell.content}>

@@ -1,8 +1,9 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { pathForView, projects } from './data';
+import { useDarkChrome } from './DarkChromeContext';
+import shell from './DarkShell.module.css';
 import styles from './DarkWork.module.css';
 
 function ProjectPreview({ title }: { title: string }) {
@@ -83,42 +84,13 @@ function ProjectPreview({ title }: { title: string }) {
 }
 
 export function DarkWork() {
-  const router = useRouter();
+  const { setIsBig, wipeTo } = useDarkChrome();
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isBig, setIsBig] = useState(false);
-  const [isWiping, setIsWiping] = useState(false);
-  const [cursor, setCursor] = useState({ x: 0, y: 0 });
-  const [hasMoved, setHasMoved] = useState(false);
 
-  useEffect(() => {
-    const handleMove = (event: MouseEvent) => {
-      setHasMoved(true);
-      setCursor({ x: event.clientX, y: event.clientY });
-    };
-    window.addEventListener('mousemove', handleMove);
-    return () => window.removeEventListener('mousemove', handleMove);
-  }, []);
-
-  const wipeTo = useCallback((path: string) => {
-    setIsWiping(false);
-    window.requestAnimationFrame(() => setIsWiping(true));
-    window.setTimeout(() => router.push(path), 350);
-    window.setTimeout(() => setIsWiping(false), 700);
-  }, [router]);
-
-  const goHome = useCallback(() => wipeTo(pathForView('home')), [wipeTo]);
+  const goHome = () => wipeTo(pathForView('home'));
 
   return (
-    <main className={styles.shell}>
-      {hasMoved ? (
-        <div
-          className={`${styles.cursor} ${isBig ? styles.cursorBig : ''}`}
-          style={{ left: cursor.x, top: cursor.y }}
-        />
-      ) : null}
-
-      <div className={`${styles.wipe} ${isWiping ? styles.wipeGo : ''}`} aria-hidden="true" />
-
+    <main className={shell.shell}>
       <header className={styles.top}>
         <div className={styles.brand}>
           AMIRA

@@ -132,7 +132,7 @@
 }
 
 .wipeGo {
-  animation: wipe 0.72s cubic-bezier(0.76, 0, 0.24, 1);
+  animation: wipe 0.85s cubic-bezier(0.76, 0, 0.24, 1);
 }
 
 @keyframes wipe {

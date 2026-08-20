@@ -1,8 +1,8 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { useCallback, useEffect, useState } from 'react';
 import { pathForView } from './data';
+import { useDarkChrome } from './DarkChromeContext';
+import shell from './DarkShell.module.css';
 import styles from './DarkAtria.module.css';
 
 type Day = {
@@ -37,40 +37,12 @@ const days: Day[] = [
 const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
 
 export function DarkAtria() {
-  const router = useRouter();
-  const [isBig, setIsBig] = useState(false);
-  const [isWiping, setIsWiping] = useState(false);
-  const [cursor, setCursor] = useState({ x: 0, y: 0 });
-  const [hasMoved, setHasMoved] = useState(false);
+  const { setIsBig, wipeTo } = useDarkChrome();
 
-  useEffect(() => {
-    const handleMove = (event: MouseEvent) => {
-      setHasMoved(true);
-      setCursor({ x: event.clientX, y: event.clientY });
-    };
-    window.addEventListener('mousemove', handleMove);
-    return () => window.removeEventListener('mousemove', handleMove);
-  }, []);
-
-  const goBack = useCallback(() => {
-    const path = pathForView('work');
-    setIsWiping(false);
-    window.requestAnimationFrame(() => setIsWiping(true));
-    window.setTimeout(() => router.push(path), 350);
-    window.setTimeout(() => setIsWiping(false), 700);
-  }, [router]);
+  const goBack = () => wipeTo(pathForView('work'));
 
   return (
-    <main className={styles.shell}>
-      {hasMoved ? (
-        <div
-          className={`${styles.cursor} ${isBig ? styles.cursorBig : ''}`}
-          style={{ left: cursor.x, top: cursor.y }}
-        />
-      ) : null}
-
-      <div className={`${styles.wipe} ${isWiping ? styles.wipeGo : ''}`} aria-hidden="true" />
-
+    <main className={shell.shell}>
       <header className={styles.top}>
         <div className={styles.brand}>
           AMIRA
