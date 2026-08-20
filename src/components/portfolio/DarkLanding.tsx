@@ -1,40 +1,18 @@
 'use client';
 
-import { useLayoutEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { pathForView } from './data';
 import { useDarkCursor, useWipeNavigate } from './darkHooks';
 import shell from './DarkShell.module.css';
 import styles from './DarkLanding.module.css';
 
-const INTRO_SEEN_KEY = 'amira-portfolio-intro-seen';
-
-function useShowIntro() {
-  const [showIntro, setShowIntro] = useState(true);
-
-  useLayoutEffect(() => {
-    if (sessionStorage.getItem(INTRO_SEEN_KEY)) {
-      // sessionStorage isn't available during SSR, so this can only be read post-hydration.
-      // eslint-disable-next-line react-hooks/set-state-in-effect
-      setShowIntro(false);
-    } else {
-      sessionStorage.setItem(INTRO_SEEN_KEY, '1');
-    }
-  }, []);
-
-  return showIntro;
-}
-
 function IntroScreen() {
-  const showIntro = useShowIntro();
   const [hide, setHide] = useState(false);
 
-  useLayoutEffect(() => {
-    if (!showIntro) return;
+  useEffect(() => {
     const timer = window.setTimeout(() => setHide(true), 2200);
     return () => window.clearTimeout(timer);
-  }, [showIntro]);
-
-  if (!showIntro) return null;
+  }, []);
 
   return (
     <section className={`${styles.introScreen} ${hide ? styles.introHide : ''}`} aria-hidden="true">
