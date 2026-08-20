@@ -37,33 +37,39 @@
   letter-spacing: 0.12em;
 }
 
+.workHeading {
+  position: relative;
+  z-index: 2;
+  min-height: 22vh;
+  padding-top: 1vh;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 .bigTitle {
-  position: absolute;
-  top: 3%;
-  left: 0;
   margin: 0;
-  z-index: 0;
-  pointer-events: none;
   color: #fff;
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-  font-size: clamp(105px, 13vw, 225px);
-  line-height: 0.74;
+  font-size: clamp(96px, 11vw, 190px);
+  line-height: 0.78;
   letter-spacing: -0.055em;
   text-transform: uppercase;
 }
 
-.bigTitle span {
-  display: block;
-  margin-left: 9%;
-  color: transparent;
-  -webkit-text-stroke: 1.5px #fff;
+.workSub {
+  padding-left: 4px;
+  color: #77716d;
+  font: 9px ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
 }
 
 .projectList {
   position: relative;
   z-index: 2;
   min-width: 0;
-  margin-top: 7vh;
+  margin-top: 10vh;
   display: flex;
   flex-direction: column;
   gap: 2.2vh;
@@ -72,7 +78,7 @@
 .project {
   position: relative;
   min-width: 0;
-  min-height: 10.5vh;
+  min-height: 9.8vh;
   border-top: 1px solid rgba(247, 243, 239, 0.15);
   border-bottom: 1px solid rgba(247, 243, 239, 0.15);
   display: grid;
@@ -142,7 +148,7 @@
   z-index: 1;
   color: #383838;
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-  font-size: clamp(44px, 5vw, 82px);
+  font-size: clamp(36px, 4.1vw, 68px);
   line-height: 0.82;
   letter-spacing: -0.045em;
   text-transform: uppercase;
@@ -544,6 +550,12 @@
   }
 }
 
+@media (min-width: 1001px) {
+  .project:first-child {
+    margin-top: 1vh;
+  }
+}
+
 @media (max-width: 1000px) {
   .workWrap {
     position: relative;
@@ -556,14 +568,7 @@
   }
 
   .bigTitle {
-    position: relative;
-    top: auto;
-    left: auto;
     font-size: 90px;
-  }
-
-  .bigTitle span {
-    margin-left: 0;
   }
 
   .projectList {

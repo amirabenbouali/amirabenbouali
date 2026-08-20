@@ -170,10 +170,10 @@ export function DarkWork() {
         <div className={styles.indexSide}>
           <div className={styles.kicker}>projects / software engineering</div>
 
-          <h1 className={styles.bigTitle}>
-            WORK
-            <span>INDEX</span>
-          </h1>
+          <div className={styles.workHeading}>
+            <h1 className={styles.bigTitle}>WORK</h1>
+            <div className={styles.workSub}>selected projects · 01—04</div>
+          </div>
 
           <div className={styles.projectList}>
             {projects.map((project, index) => {
