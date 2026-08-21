@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { KansoContent } from '@/components/portfolio/pages';
+import { DarkKanso } from '@/components/portfolio/DarkKanso';
 
 export const metadata: Metadata = {
   title: 'KansoDB — Amira Lina Benbouali',
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function KansoDbPage() {
-  return <KansoContent />;
+  return <DarkKanso />;
 }
