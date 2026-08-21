@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { FoundryContent } from '@/components/portfolio/pages';
+import { DarkFoundry } from '@/components/portfolio/DarkFoundry';
 
 export const metadata: Metadata = {
   title: 'Foundry — Amira Lina Benbouali',
@@ -7,5 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function FoundryPage() {
-  return <FoundryContent />;
+  return <DarkFoundry />;
 }

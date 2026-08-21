@@ -158,341 +158,6 @@
   align-content: center;
 }
 
-.foundryLayout {
-  height: 100%;
-  display: grid;
-  grid-template-columns: minmax(320px, 0.76fr) minmax(590px, 1.24fr);
-  gap: clamp(42px, 4vw, 56px);
-  align-items: center;
-}
-
-.foundryCopy {
-  position: relative;
-  z-index: 2;
-  max-width: 430px;
-}
-
-.foundryNumber {
-  font-size: 58px;
-  line-height: 0.8;
-  letter-spacing: -0.04em;
-  transform: rotate(-4deg);
-}
-
-.foundryCopy h2 {
-  margin: 8px 0 10px;
-  font-size: clamp(66px, 7vw, 112px);
-  font-weight: 500;
-  line-height: 0.78;
-  letter-spacing: -0.065em;
-  text-transform: uppercase;
-}
-
-.foundryCopy h2 span {
-  position: relative;
-  display: inline-block;
-}
-
-.foundryCopy h2 span::after {
-  content: "";
-  position: absolute;
-  right: 0;
-  bottom: -9px;
-  left: 2%;
-  height: 3px;
-  background: #7b2b68;
-}
-
-.foundrySub {
-  margin: 24px 0 28px;
-  font-size: 18px;
-  line-height: 1.2;
-}
-
-.foundryCopy p {
-  max-width: 430px;
-  margin: 0;
-  font-size: 14px;
-  line-height: 1.55;
-}
-
-.foundryStack {
-  margin-top: 24px;
-  padding-top: 15px;
-  border-top: 1px solid rgba(23, 23, 23, 0.16);
-  font-size: 10px;
-  line-height: 1.65;
-  text-transform: uppercase;
-}
-
-.foundryStack b {
-  display: block;
-  margin-bottom: 6px;
-  color: #7b2b68;
-}
-
-.foundryNote {
-  margin-top: 26px;
-  font-size: 15px;
-}
-
-.foundryVisual {
-  position: relative;
-}
-
-.foundryWorkspace {
-  position: relative;
-  min-height: min(560px, 70vh);
-  border: 1px solid rgba(23, 23, 23, 0.16);
-  overflow: hidden;
-  background:
-    linear-gradient(rgba(23, 23, 23, 0.075) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(23, 23, 23, 0.075) 1px, transparent 1px),
-    rgba(249, 247, 242, 0.68);
-  background-size: 28px 28px;
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.09);
-}
-
-.foundryWorkspace::before {
-  content: "";
-  position: absolute;
-  inset: 18px;
-  border: 1px solid rgba(23, 23, 23, 0.16);
-  pointer-events: none;
-}
-
-.foundryWorkspace::after {
-  content: "";
-  position: absolute;
-  top: -42px;
-  right: -28px;
-  width: 110px;
-  height: 110px;
-  border: 1px dashed rgba(123, 43, 104, 0.45);
-  border-radius: 50%;
-}
-
-.foundryWorkspaceTop {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  height: 42px;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 0 18px;
-  border-bottom: 1px solid rgba(23, 23, 23, 0.16);
-  font-size: 9px;
-  line-height: 1;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.foundryWorkspaceTop i {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  margin-right: 7px;
-  background: #7b2b68;
-}
-
-.foundryWorkspaceBody {
-  position: absolute;
-  inset: 42px 0 0;
-  display: grid;
-  grid-template-columns: 118px minmax(0, 1fr);
-}
-
-.foundryWorkspaceNav {
-  display: block;
-  padding: 18px 12px;
-  border-right: 1px solid rgba(23, 23, 23, 0.16);
-  font-size: 9px;
-  line-height: 1.8;
-  text-transform: uppercase;
-}
-
-.foundryWorkspaceNav span {
-  display: block;
-  padding: 5px 7px;
-  margin-bottom: 2px;
-}
-
-.foundryWorkspaceNav b {
-  display: block;
-  padding: 5px 7px;
-  margin-bottom: 2px;
-  color: #f5f2ea;
-  background: #171717;
-}
-
-.foundryWorkspaceMain {
-  min-width: 0;
-  padding: 22px;
-  overflow: hidden;
-}
-
-.foundryWorkspaceHeading {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 18px;
-  margin-bottom: 20px;
-}
-
-.foundryWorkspaceHeading h3 {
-  margin: 0;
-  font-size: 22px;
-  font-weight: 500;
-  line-height: 1;
-  letter-spacing: -0.03em;
-}
-
-.foundryWorkspaceHeading small {
-  font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 8px;
-  text-transform: uppercase;
-}
-
-.foundryIssueGrid {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 14px;
-}
-
-.foundryIssuePanel,
-.foundryLifecyclePanel {
-  min-height: 360px;
-  padding: 12px;
-  border: 1px solid rgba(23, 23, 23, 0.16);
-  background: rgba(244, 241, 234, 0.72);
-}
-
-.foundryPanelMeta {
-  display: flex;
-  justify-content: space-between;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(23, 23, 23, 0.16);
-  font-size: 8px;
-  text-transform: uppercase;
-}
-
-.foundryIssueCard {
-  padding: 11px;
-  margin-top: 10px;
-  border: 1px solid rgba(23, 23, 23, 0.16);
-  background: #f8f6f1;
-  transition: box-shadow 250ms ease, transform 250ms ease;
-}
-
-.foundryIssueCard:hover {
-  box-shadow: 5px 5px 0 rgba(123, 43, 104, 0.1);
-  transform: translateX(5px);
-}
-
-.foundryIssueId {
-  display: block;
-  margin-bottom: 6px;
-  color: #7b2b68;
-  font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 8px;
-  font-weight: 700;
-  text-transform: uppercase;
-}
-
-.foundryIssueCard strong {
-  display: block;
-  max-width: none;
-  margin: 0 0 8px;
-  font-size: 10px;
-  font-weight: 600;
-  line-height: 1.16;
-}
-
-.foundryIssueTags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.foundryIssueTags span {
-  padding: 3px 5px;
-  border: 1px solid rgba(23, 23, 23, 0.16);
-  font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 7px;
-  text-transform: uppercase;
-}
-
-.foundryLifecycleTrack {
-  position: relative;
-  display: grid;
-  gap: 26px;
-  min-height: 318px;
-  align-content: center;
-  padding: 0 8px 0 0;
-}
-
-.foundryLifecycleTrack::before {
-  content: "";
-  position: absolute;
-  top: 48px;
-  bottom: 48px;
-  left: 30px;
-  width: 1px;
-  background: rgba(23, 23, 23, 0.16);
-}
-
-.foundryLifecycleStep {
-  display: grid;
-  grid-template-columns: 62px minmax(0, 1fr);
-  gap: 12px;
-  align-items: center;
-}
-
-.foundryLifecycleStep > span {
-  position: relative;
-  z-index: 1;
-  width: 16px;
-  height: 16px;
-  margin-left: 22px;
-  border: 1px solid #171717;
-  background: #f6f3eb;
-  transition: background 300ms ease, border-color 300ms ease, transform 300ms ease;
-}
-
-.foundryActiveNode {
-  border-color: #7b2b68 !important;
-  background: #7b2b68 !important;
-  transform: rotate(45deg);
-}
-
-.foundryLifecycleStep strong {
-  display: block;
-  max-width: none;
-  font-size: 9px;
-  line-height: 1.4;
-  text-transform: uppercase;
-}
-
-.foundryLifecycleStep p {
-  max-width: none;
-  margin: 0;
-  font-family: "Courier New", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 8px;
-  line-height: 1.5;
-  text-transform: uppercase;
-}
-
-.foundryWorkspaceNote {
-  position: absolute;
-  right: 2px;
-  bottom: -28px;
-  margin: 0;
-  font-size: 15px;
-  text-align: right;
-  transform: rotate(-3deg);
-}
-
 .kansoLayout {
   height: 100%;
   display: grid;
@@ -947,58 +612,22 @@
     display: none;
   }
 
-  .foundryLayout,
   .kansoLayout {
     grid-template-columns: 1fr;
     gap: 32px;
-  }
-
-  .foundryLayout,
-  .kansoLayout {
     align-items: start;
   }
 
-  .foundryCopy,
   .kansoCopy {
     max-width: 680px;
   }
 
-  .foundryCopy h2,
   .kansoCopy h2 {
     font-size: clamp(62px, 18vw, 112px);
   }
 
-  .foundryWorkspace,
   .kansoLab {
     min-height: 0;
-  }
-
-  .foundryWorkspaceBody {
-    position: static;
-    min-height: auto;
-    grid-template-columns: 1fr;
-  }
-
-  .foundryWorkspaceNav {
-    display: none;
-  }
-
-  .foundryWorkspaceMain {
-    padding: 18px;
-  }
-
-  .foundryIssueGrid {
-    grid-template-columns: 1fr 1fr;
-  }
-
-  .foundryIssuePanel,
-  .foundryLifecyclePanel {
-    min-height: 0;
-  }
-
-  .foundryWorkspaceNote {
-    position: static;
-    margin-top: 18px;
   }
 
   .kansoLabBody {
@@ -1021,13 +650,6 @@
     grid-template-columns: 1fr;
   }
 
-  .foundryWorkspaceTop {
-    display: grid;
-    height: auto;
-    gap: 8px;
-    padding: 14px;
-  }
-
   .kansoLabTop {
     display: grid;
     height: auto;
@@ -1035,18 +657,9 @@
     padding: 14px;
   }
 
-  .foundryIssueGrid,
   .kansoLabBody {
     grid-template-columns: 1fr;
-  }
-
-  .kansoLabBody {
     padding: 14px;
-  }
-
-  .foundryIssuePanel,
-  .foundryLifecyclePanel {
-    padding: 12px;
   }
 
   .kansoCode {
@@ -1062,21 +675,6 @@
   .kansoResult {
     margin: 0 14px;
     overflow-x: auto;
-  }
-
-  .foundryWorkspaceHeading {
-    display: grid;
-    gap: 10px;
-    align-items: start;
-  }
-
-  .foundryLifecycleTrack {
-    gap: 22px;
-    min-height: 260px;
-  }
-
-  .foundryWorkspaceNote {
-    text-align: left;
   }
 }
 
