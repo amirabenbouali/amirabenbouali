@@ -80,49 +80,105 @@ export function DarkContact() {
         </header>
 
         <div className={styles.contactWrap}>
-          <h1 className={styles.contactTitle}>CONTACT</h1>
+          <h1 className={styles.contactTitle}>
+            CONTACT
+            <span>ME</span>
+          </h1>
 
           <div className={styles.contactPanel}>
-            <div className={styles.contactCopy}>
-              <div className={styles.tiny}>Reach out</div>
-              <h2>Have something in mind?</h2>
-              <p>
-                For software engineering roles, collaborations, or anything worth building — send me a message.
-              </p>
+            <div className={styles.flower} aria-hidden="true">
+              <i />
+              <i />
+              <i />
+              <i />
+              <i />
+              <i />
             </div>
 
-            <form className={styles.contactForm} onSubmit={handleSubmit}>
-              <div className={styles.field}>
-                <label htmlFor="contact-first-name">First name</label>
-                <input id="contact-first-name" name="firstName" required />
-              </div>
-              <div className={styles.field}>
-                <label htmlFor="contact-last-name">Last name</label>
-                <input id="contact-last-name" name="lastName" />
-              </div>
-              <div className={`${styles.field} ${styles.fieldFull}`}>
-                <label htmlFor="contact-email">Email</label>
-                <input id="contact-email" name="email" required type="email" />
-              </div>
-              <div className={`${styles.field} ${styles.fieldFull}`}>
-                <label htmlFor="contact-message">Message</label>
-                <textarea id="contact-message" name="message" required />
+            <div className={styles.contactCopy}>
+              <div>
+                <div className={styles.tiny}>Get in touch</div>
+                <h2>
+                  Let&apos;s talk
+                  <span>about something worth building.</span>
+                </h2>
+
+                <div className={styles.links}>
+                  <a
+                    className={styles.contactLink}
+                    href="mailto:amiralinabenbouali@gmail.com"
+                    onMouseEnter={() => setIsBig(true)}
+                    onMouseLeave={() => setIsBig(false)}
+                  >
+                    <div className={styles.linkCopy}>
+                      <b>Email</b>
+                      <span>send me a message</span>
+                    </div>
+                    <div className={styles.linkArrow}>↗</div>
+                  </a>
+
+                  <a
+                    className={styles.contactLink}
+                    href="https://www.linkedin.com/in/amirabenbouali"
+                    onMouseEnter={() => setIsBig(true)}
+                    onMouseLeave={() => setIsBig(false)}
+                    rel="noreferrer"
+                    target="_blank"
+                  >
+                    <div className={styles.linkCopy}>
+                      <b>LinkedIn</b>
+                      <span>connect professionally</span>
+                    </div>
+                    <div className={styles.linkArrow}>↗</div>
+                  </a>
+                </div>
               </div>
 
-              {status === 'error' ? (
-                <p className={styles.formError}>Something went wrong — email me directly instead.</p>
-              ) : null}
+              <div className={styles.meta}>
+                <span>London, UK</span>
+                <span>Open to software roles</span>
+              </div>
+            </div>
 
-              <button
-                className={styles.send}
-                disabled={status === 'sending'}
-                onMouseEnter={() => setIsBig(true)}
-                onMouseLeave={() => setIsBig(false)}
-                type="submit"
-              >
-                {sendLabel[status]} <span>→</span>
-              </button>
-            </form>
+            <div className={styles.formWrap}>
+              <div className={styles.formHead}>
+                <span>or send a note</span>
+                <span>03 / 03</span>
+              </div>
+
+              <form className={styles.form} onSubmit={handleSubmit}>
+                <div className={styles.field}>
+                  <label htmlFor="contact-first-name">First name</label>
+                  <input id="contact-first-name" name="firstName" required />
+                </div>
+                <div className={styles.field}>
+                  <label htmlFor="contact-last-name">Last name</label>
+                  <input id="contact-last-name" name="lastName" />
+                </div>
+                <div className={`${styles.field} ${styles.fieldFull}`}>
+                  <label htmlFor="contact-email">Email</label>
+                  <input id="contact-email" name="email" required type="email" />
+                </div>
+                <div className={`${styles.field} ${styles.fieldFull}`}>
+                  <label htmlFor="contact-message">Message</label>
+                  <textarea id="contact-message" name="message" required />
+                </div>
+
+                {status === 'error' ? (
+                  <p className={styles.formError}>Something went wrong — email me directly instead.</p>
+                ) : null}
+
+                <button
+                  className={styles.send}
+                  disabled={status === 'sending'}
+                  onMouseEnter={() => setIsBig(true)}
+                  onMouseLeave={() => setIsBig(false)}
+                  type="submit"
+                >
+                  {sendLabel[status]} <span>→</span>
+                </button>
+              </form>
+            </div>
           </div>
         </div>
 
