@@ -285,7 +285,7 @@
   display: block;
   margin-top: 8px;
   margin-left: 12%;
-  font: italic 400 clamp(25px, 2.7vw, 44px) / 1 Georgia, serif;
+  font: italic 400 clamp(25px, 2.7vw, 44px) / 1 var(--font-serif-accent), Georgia, serif;
   text-transform: none;
   letter-spacing: -0.03em;
 }

@@ -286,7 +286,7 @@
 
 .previewCopy .type {
   margin: 12px 0 0;
-  font: italic 400 22px / 1 Georgia, serif;
+  font: italic 400 22px / 1 var(--font-serif-accent), Georgia, serif;
 }
 
 .previewCopy p {

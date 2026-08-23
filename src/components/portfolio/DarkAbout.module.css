@@ -74,7 +74,7 @@
   display: block;
   margin-top: 8px;
   margin-left: 13%;
-  font: italic 400 clamp(28px, 3vw, 48px) / 1 Georgia, serif;
+  font: italic 400 clamp(28px, 3vw, 48px) / 1 var(--font-serif-accent), Georgia, serif;
   text-transform: none;
   letter-spacing: -0.035em;
   color: #d7d2ce;
@@ -179,7 +179,7 @@
 
 .profileRow span {
   color: #21181c;
-  font: 13px / 1.35 Georgia, serif;
+  font: 13px / 1.35 var(--font-serif-accent), Georgia, serif;
 }
 
 .lower {
