@@ -237,7 +237,7 @@ export function DarkAbout() {
           <div className={styles.eyebrow}>01 / about</div>
           <h1 className={styles.heroTitle}>
             ABOUT
-            <span>AMIRA</span>
+            <span>Amira</span>
           </h1>
         </div>
 
