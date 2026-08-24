@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import type { MouseEvent } from 'react';
+import type { CSSProperties, MouseEvent } from 'react';
 import { pathForView } from './data';
 import { useDarkChrome } from './DarkChromeContext';
 import shell from './DarkShell.module.css';
@@ -55,22 +55,74 @@ const currentRows = [
   { label: 'Looking for', text: 'a software engineering role with real ownership' }
 ];
 
-function Petals() {
+type FlowerFrame = { top: number; right: number; size: number; rotate: number; scale: number };
+
+// One frame per section (01 hero → 06 currently). The flower glides continuously
+// between these based on scroll progress, rather than snapping between fixed states.
+const flowerFrames: FlowerFrame[] = [
+  { top: 50, right: 3.5, size: 110, rotate: 0, scale: 1 },
+  { top: 50, right: 3.5, size: 110, rotate: 0, scale: 1 },
+  { top: 26, right: 5, size: 110, rotate: 20, scale: 1.15 },
+  { top: 72, right: 7, size: 92, rotate: 0, scale: 1 },
+  { top: 24, right: 8, size: 126, rotate: 0, scale: 1 },
+  { top: 50, right: 50, size: 180, rotate: 0, scale: 1 }
+];
+
+const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
+const clamp01 = (n: number) => Math.min(1, Math.max(0, n));
+
+function mixHex(hexA: string, hexB: string, t: number) {
+  const a = parseInt(hexA.slice(1), 16);
+  const b = parseInt(hexB.slice(1), 16);
+  const r = Math.round(lerp((a >> 16) & 255, (b >> 16) & 255, t));
+  const g = Math.round(lerp((a >> 8) & 255, (b >> 8) & 255, t));
+  const bl = Math.round(lerp(a & 255, b & 255, t));
+  return `rgb(${r}, ${g}, ${bl})`;
+}
+
+function mixRgba(a: [number, number, number, number], b: [number, number, number, number], t: number) {
+  const [ar, ag, ab, aa] = a;
+  const [br, bg, bb, ba] = b;
+  return `rgba(${lerp(ar, br, t)}, ${lerp(ag, bg, t)}, ${lerp(ab, bb, t)}, ${lerp(aa, ba, t)})`;
+}
+
+function Petals({ progress }: { progress: number }) {
+  // Final leg of the scroll (into the "currently" section) blends the petals
+  // from small pink to large black, landing exactly at the end.
+  const segment = clamp01(progress) * (flowerFrames.length - 1);
+  const index = Math.min(flowerFrames.length - 2, Math.floor(segment));
+  const blend = index === flowerFrames.length - 2 ? segment - index : 0;
+  const revealFraction = clamp01(progress) * 6;
+
+  const width = lerp(28, 44, blend);
+  const height = lerp(47, 74, blend);
+  const background = blend > 0 ? mixHex('#efc4d4', '#111111', blend) : '#efc4d4';
+
   return (
     <>
-      <i />
-      <i />
-      <i />
-      <i />
-      <i />
-      <i />
+      {Array.from({ length: 6 }).map((_, petalIndex) => {
+        const revealed = clamp01(revealFraction - petalIndex);
+        const opacity = Math.max(lerp(0.22, 1, revealed), blend);
+        return (
+          <i
+            key={petalIndex}
+            style={{
+              width,
+              height,
+              background,
+              opacity,
+              transform: `translate(-50%, -100%) rotate(${petalIndex * 60}deg)`
+            }}
+          />
+        );
+      })}
     </>
   );
 }
 
 export function DarkAbout() {
   const { setIsBig, wipeTo } = useDarkChrome();
-  const [step, setStep] = useState(1);
+  const [scrollProgress, setScrollProgress] = useState(0);
   const rootRef = useRef<HTMLDivElement>(null);
 
   const goHome = () => wipeTo(pathForView('home'));
@@ -94,23 +146,44 @@ export function DarkAbout() {
     );
     reveals.forEach((el) => revealObserver.observe(el));
 
-    const sections = [...root.querySelectorAll<HTMLElement>('section[data-step]')];
-    const stepObserver = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-        if (visible) setStep(Number((visible.target as HTMLElement).dataset.step));
-      },
-      { threshold: [0.25, 0.45, 0.65] }
-    );
-    sections.forEach((el) => stepObserver.observe(el));
+    return () => revealObserver.disconnect();
+  }, []);
 
+  useEffect(() => {
+    const update = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      setScrollProgress(max > 0 ? clamp01(window.scrollY / max) : 0);
+    };
+
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
     return () => {
-      revealObserver.disconnect();
-      stepObserver.disconnect();
+      window.removeEventListener('scroll', update);
+      window.removeEventListener('resize', update);
     };
   }, []);
+
+  const segment = scrollProgress * (flowerFrames.length - 1);
+  const frameIndex = Math.min(flowerFrames.length - 2, Math.floor(segment));
+  const t = segment - frameIndex;
+  const from = flowerFrames[frameIndex];
+  const to = flowerFrames[frameIndex + 1];
+  const landingBlend = frameIndex === flowerFrames.length - 2 ? t : 0;
+
+  const orbitStyle = {
+    top: `${lerp(from.top, to.top, t)}%`,
+    right: `${lerp(from.right, to.right, t)}%`,
+    width: lerp(from.size, to.size, t),
+    height: lerp(from.size, to.size, t),
+    transform: `translate(${landingBlend * 50}%, -50%)`,
+    '--ring-border': mixRgba([255, 255, 255, 0.12], [0, 0, 0, 0.18], landingBlend),
+    '--dot-opacity': 1 - landingBlend
+  } as CSSProperties;
+
+  const flowerStyle = {
+    transform: `rotate(${lerp(from.rotate, to.rotate, t)}deg) scale(${lerp(from.scale, to.scale, t)})`
+  };
 
   const handlePrincipleMove = (event: MouseEvent<HTMLDivElement>) => {
     const row = event.currentTarget;
@@ -153,13 +226,13 @@ export function DarkAbout() {
         </button>
       </header>
 
-      <div className={styles.flowerOrbit} data-step={step} aria-hidden="true">
-        <div className={styles.flower}>
-          <Petals />
+      <div className={styles.flowerOrbit} style={orbitStyle} aria-hidden="true">
+        <div className={styles.flower} style={flowerStyle}>
+          <Petals progress={scrollProgress} />
         </div>
       </div>
 
-      <section className={`${styles.section} ${styles.intro}`} data-step={1}>
+      <section className={`${styles.section} ${styles.intro}`}>
         <div className={styles.heroWord}>
           <div className={styles.eyebrow}>01 / about</div>
           <h1 className={styles.heroTitle}>
@@ -182,7 +255,7 @@ export function DarkAbout() {
         </div>
       </section>
 
-      <section className={`${styles.section} ${styles.story}`} data-step={2}>
+      <section className={`${styles.section} ${styles.story}`}>
         <div data-reveal className={`${styles.storyLeft} ${styles.reveal}`}>
           <div className={styles.eyebrow}>02 / story</div>
           <h2 className={styles.bigHeading}>
@@ -207,7 +280,7 @@ export function DarkAbout() {
         </div>
       </section>
 
-      <section className={`${styles.section} ${styles.thinking}`} data-step={3}>
+      <section className={`${styles.section} ${styles.thinking}`}>
         <div data-reveal className={`${styles.thinkingHead} ${styles.reveal}`}>
           <div>
             <div className={styles.eyebrow}>03 / mindset</div>
@@ -237,7 +310,7 @@ export function DarkAbout() {
         </div>
       </section>
 
-      <section className={`${styles.section} ${styles.languages}`} data-step={4}>
+      <section className={`${styles.section} ${styles.languages}`}>
         <div data-reveal className={styles.reveal}>
           <div className={styles.eyebrow}>04 / languages</div>
           <h2 className={styles.bigHeading}>
@@ -263,7 +336,7 @@ export function DarkAbout() {
         </div>
       </section>
 
-      <section className={`${styles.section} ${styles.outside}`} data-step={5}>
+      <section className={`${styles.section} ${styles.outside}`}>
         <div data-reveal className={styles.reveal}>
           <div className={styles.eyebrow}>05 / outside code</div>
           <h2 className={styles.bigHeading}>
@@ -294,7 +367,7 @@ export function DarkAbout() {
         </div>
       </section>
 
-      <section className={`${styles.section} ${styles.currently}`} data-step={6}>
+      <section className={`${styles.section} ${styles.currently}`}>
         <div data-reveal className={styles.reveal}>
           <div className={styles.eyebrow}>06 / now</div>
           <h2 className={styles.bigHeading}>CURRENTLY</h2>
