@@ -1,38 +1,52 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import type { MouseEvent } from 'react';
 import { pathForView } from './data';
 import { useDarkChrome } from './DarkChromeContext';
 import shell from './DarkShell.module.css';
 import styles from './DarkAbout.module.css';
 
 const moments = [
-  { year: '2021', text: 'Moved to London and started building a new chapter around study, work and technology.' },
-  { year: '2024', text: 'Built professional experience across technical work, teamwork and real-world delivery.' },
+  { year: '2021', text: 'London became the place where study, work and technology started becoming one direction.' },
   {
-    year: '2026',
-    text: 'Completed a BSc in Computer Science at City, University of London and shifted full focus toward software engineering.'
+    year: '2024',
+    text: 'Professional work taught me how much good engineering depends on communication, ownership and delivery.'
   },
-  { year: 'NOW', text: 'Building products, developer tools and systems while looking for the right engineering team to grow with.' }
+  { year: '2026', text: 'Completed a BSc in Computer Science and started focusing fully on software engineering.' },
+  {
+    year: 'NOW',
+    text: 'Building products, systems and developer tools — and looking for the right engineering team to grow with.'
+  }
 ];
 
 const principles = [
-  { n: '01', title: 'Build', text: 'I learn fastest by turning an idea into something real.' },
-  { n: '02', title: 'Understand', text: 'I like knowing what happens underneath the abstraction.' },
-  { n: '03', title: 'Refine', text: 'Once the system works, the small details start to matter.' },
+  { n: '01', title: 'Build', text: 'I understand ideas fastest when I can turn them into something real.' },
+  {
+    n: '02',
+    title: 'Understand',
+    text: 'I like knowing what is happening underneath the abstraction, not only how to use it.'
+  },
+  { n: '03', title: 'Refine', text: 'Once the system works, the details become part of the engineering too.' },
   { n: '04', title: 'Learn', text: 'Every project should leave me knowing something I did not know before.' }
 ];
 
-const languages = ['English', 'French', 'Arabic', 'Spanish', 'Italian'];
+const languages = [
+  { name: 'English', note: 'communication' },
+  { name: 'French', note: 'communication' },
+  { name: 'Arabic', note: 'communication' },
+  { name: 'Spanish', note: 'communication' },
+  { name: 'Italian', note: 'communication' }
+];
 
-type Interest = { n: string; title: string; deco?: 'runline' | 'orbit' | 'steam' };
+type Interest = { n: string; label: string; title: string; deco?: 'route' | 'orbit' | 'steam' | 'gridArt' };
 
 const interests: Interest[] = [
-  { n: '01', title: 'Running', deco: 'runline' },
-  { n: '02', title: 'Astronomy', deco: 'orbit' },
-  { n: '03', title: 'Coffee', deco: 'steam' },
-  { n: '04', title: 'Travel' },
-  { n: '05', title: 'Design' }
+  { n: '01', label: 'movement', title: 'Running', deco: 'route' },
+  { n: '02', label: 'curiosity', title: 'Astronomy', deco: 'orbit' },
+  { n: '03', label: 'ritual', title: 'Coffee', deco: 'steam' },
+  { n: '04', label: 'perspective', title: 'Travel', deco: 'gridArt' },
+  { n: '05', label: 'detail', title: 'Design', deco: 'gridArt' }
 ];
 
 const currentRows = [
@@ -76,11 +90,11 @@ export function DarkAbout() {
           }
         });
       },
-      { threshold: 0.18 }
+      { threshold: 0.2 }
     );
     reveals.forEach((el) => revealObserver.observe(el));
 
-    const sections = [...root.querySelectorAll<HTMLElement>('[data-step]')];
+    const sections = [...root.querySelectorAll<HTMLElement>('section[data-step]')];
     const stepObserver = new IntersectionObserver(
       (entries) => {
         const visible = entries
@@ -88,7 +102,7 @@ export function DarkAbout() {
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
         if (visible) setStep(Number((visible.target as HTMLElement).dataset.step));
       },
-      { threshold: [0.2, 0.4, 0.6] }
+      { threshold: [0.25, 0.45, 0.65] }
     );
     sections.forEach((el) => stepObserver.observe(el));
 
@@ -97,6 +111,21 @@ export function DarkAbout() {
       stepObserver.disconnect();
     };
   }, []);
+
+  const handlePrincipleMove = (event: MouseEvent<HTMLDivElement>) => {
+    const row = event.currentTarget;
+    const word = row.querySelector<HTMLElement>(`.${styles.principleWord}`);
+    if (!word) return;
+    const rect = row.getBoundingClientRect();
+    const dx = ((event.clientX - (rect.left + rect.width / 2)) / rect.width) * 18;
+    word.style.transform = `translateX(${16 + dx}px)`;
+  };
+
+  const handlePrincipleLeave = (event: MouseEvent<HTMLDivElement>) => {
+    const word = event.currentTarget.querySelector<HTMLElement>(`.${styles.principleWord}`);
+    if (word) word.style.transform = '';
+    setIsBig(false);
+  };
 
   return (
     <div className={styles.page} ref={rootRef}>
@@ -109,7 +138,7 @@ export function DarkAbout() {
           BENBOUALI
         </div>
         <div className={`${shell.role} ${styles.role}`}>
-          about
+          about / personal
           <br />
           software engineer
         </div>
@@ -124,13 +153,15 @@ export function DarkAbout() {
         </button>
       </header>
 
-      <div className={styles.flowerProgress} data-step={step} aria-hidden="true">
-        <Petals />
+      <div className={styles.flowerOrbit} data-step={step} aria-hidden="true">
+        <div className={styles.flower}>
+          <Petals />
+        </div>
       </div>
 
       <section className={`${styles.section} ${styles.intro}`} data-step={1}>
-        <div data-reveal className={styles.reveal}>
-          <div className={styles.eyebrow}>01 / introduction</div>
+        <div className={styles.heroWord}>
+          <div className={styles.eyebrow}>01 / about</div>
           <h1 className={styles.heroTitle}>
             ABOUT
             <span>AMIRA</span>
@@ -138,11 +169,8 @@ export function DarkAbout() {
         </div>
 
         <div data-reveal className={`${styles.introCopy} ${styles.reveal}`}>
-          <h2>
-            Engineer. Builder.
-            <span>always curious.</span>
-          </h2>
-          <p>
+          <p className={styles.serif}>Engineer. Builder. Always curious.</p>
+          <p className={styles.mono}>
             Software engineer based in London. I enjoy taking an idea from the first sketch to a working product —
             thinking about the system underneath and the details people actually interact with.
           </p>
@@ -155,7 +183,7 @@ export function DarkAbout() {
       </section>
 
       <section className={`${styles.section} ${styles.story}`} data-step={2}>
-        <div data-reveal className={styles.reveal}>
+        <div data-reveal className={`${styles.storyLeft} ${styles.reveal}`}>
           <div className={styles.eyebrow}>02 / story</div>
           <h2 className={styles.bigHeading}>
             MY
@@ -182,14 +210,14 @@ export function DarkAbout() {
       <section className={`${styles.section} ${styles.thinking}`} data-step={3}>
         <div data-reveal className={`${styles.thinkingHead} ${styles.reveal}`}>
           <div>
-            <div className={styles.eyebrow}>03 / how I think</div>
+            <div className={styles.eyebrow}>03 / mindset</div>
             <h2 className={styles.bigHeading}>
               HOW I
               <br />
-              WORK
+              THINK
             </h2>
           </div>
-          <p>Not percentages. Not skill bars. Just the principles I actually bring into the work.</p>
+          <p className={styles.mono}>The principles behind how I approach software, rather than a list of percentages.</p>
         </div>
 
         <div data-reveal className={`${styles.principles} ${styles.reveal}`}>
@@ -198,10 +226,11 @@ export function DarkAbout() {
               className={styles.principle}
               key={principle.n}
               onMouseEnter={() => setIsBig(true)}
-              onMouseLeave={() => setIsBig(false)}
+              onMouseLeave={handlePrincipleLeave}
+              onMouseMove={handlePrincipleMove}
             >
               <div className={styles.n}>{principle.n}</div>
-              <b>{principle.title}</b>
+              <b className={styles.principleWord}>{principle.title}</b>
               <span>{principle.text}</span>
             </div>
           ))}
@@ -216,18 +245,19 @@ export function DarkAbout() {
             <br />
             CONNECT
           </h2>
-          <div className={styles.langNote}>language is another kind of interface.</div>
+          <p className={styles.langNote}>language is another kind of interface.</p>
         </div>
 
         <div data-reveal className={`${styles.langList} ${styles.reveal}`}>
           {languages.map((language) => (
             <div
               className={styles.lang}
-              key={language}
+              data-note={language.note}
+              key={language.name}
               onMouseEnter={() => setIsBig(true)}
               onMouseLeave={() => setIsBig(false)}
             >
-              {language}
+              {language.name}
             </div>
           ))}
         </div>
@@ -237,9 +267,9 @@ export function DarkAbout() {
         <div data-reveal className={styles.reveal}>
           <div className={styles.eyebrow}>05 / outside code</div>
           <h2 className={styles.bigHeading}>
-            WHEN I&rsquo;M
+            BEYOND
             <br />
-            NOT CODING
+            THE SCREEN
           </h2>
         </div>
 
@@ -251,10 +281,13 @@ export function DarkAbout() {
               onMouseEnter={() => setIsBig(true)}
               onMouseLeave={() => setIsBig(false)}
             >
-              <span className={styles.micro}>{interest.n}</span>
-              {interest.deco === 'runline' ? <div className={styles.runline} /> : null}
+              <span className={styles.micro}>
+                {interest.n} / {interest.label}
+              </span>
+              {interest.deco === 'route' ? <div className={styles.route} /> : null}
               {interest.deco === 'orbit' ? <div className={styles.orbit} /> : null}
               {interest.deco === 'steam' ? <div className={styles.steam} /> : null}
+              {interest.deco === 'gridArt' ? <div className={styles.gridArt} /> : null}
               <b>{interest.title}</b>
             </div>
           ))}
@@ -263,7 +296,7 @@ export function DarkAbout() {
 
       <section className={`${styles.section} ${styles.currently}`} data-step={6}>
         <div data-reveal className={styles.reveal}>
-          <div className={styles.eyebrow}>06 / currently</div>
+          <div className={styles.eyebrow}>06 / now</div>
           <h2 className={styles.bigHeading}>CURRENTLY</h2>
 
           <div className={styles.currentList}>
@@ -286,10 +319,7 @@ export function DarkAbout() {
           </button>
         </div>
 
-        <div data-reveal className={styles.reveal}>
-          <div className={styles.fullFlower} aria-hidden="true">
-            <Petals />
-          </div>
+        <div data-reveal className={`${styles.endMark} ${styles.reveal}`}>
           <div className={styles.albEnd}>ALB</div>
           <div className={styles.albCaption}>amira lina benbouali</div>
         </div>
