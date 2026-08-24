@@ -291,6 +291,7 @@ export function DarkAbout() {
             <Petals />
           </div>
           <div className={styles.albEnd}>ALB</div>
+          <div className={styles.albCaption}>amira lina benbouali</div>
         </div>
       </section>
 

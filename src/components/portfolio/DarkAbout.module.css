@@ -494,8 +494,11 @@
 /* currently */
 
 .currently {
+  min-height: auto;
   grid-template-columns: 0.9fr 1.1fr;
   gap: 6vw;
+  padding-top: 12vh;
+  padding-bottom: 12vh;
   background: #efc4d4;
   color: #111;
 }
@@ -556,17 +559,24 @@
 
 .fullFlower {
   position: relative;
-  width: 150px;
-  height: 150px;
+  width: 200px;
+  height: 200px;
   margin: 0 auto;
+  animation: fullFlowerFloat 6s ease-in-out infinite;
+}
+
+@keyframes fullFlowerFloat {
+  50% {
+    transform: translateY(-10px) rotate(3deg);
+  }
 }
 
 .fullFlower i {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 36px;
-  height: 60px;
+  width: 24%;
+  height: 40%;
   background: #111;
   border-radius: 60% 60% 50% 50%;
   transform-origin: 50% 100%;
@@ -597,10 +607,21 @@
 }
 
 .albEnd {
-  margin-top: 18px;
+  margin-top: 22px;
   text-align: center;
   font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-  font-size: 58px;
+  font-size: 72px;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+}
+
+.albCaption {
+  margin-top: 10px;
+  text-align: center;
+  color: #6b5961;
+  font: 8px ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
 }
 
 .footer {
