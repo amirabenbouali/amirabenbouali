@@ -70,17 +70,18 @@ export function DarkLanding() {
         <div className={styles.hero}>
           <div className={styles.kicker}>software engineer / selected work</div>
 
-          <h1 className={styles.name}>
-            AMIRA
-            <span className={styles.nameOutline}>BENBOUALI</span>
-          </h1>
+          <div className={`${styles.symbol} ${styles.star} ${styles.s1}`} aria-hidden="true" />
+          <div className={`${styles.symbol} ${styles.star} ${styles.s2}`} aria-hidden="true" />
+          <div className={`${styles.symbol} ${styles.orbitSymbol} ${styles.o1}`} aria-hidden="true" />
+          <div className={`${styles.symbol} ${styles.orbitSymbol} ${styles.o2}`} aria-hidden="true" />
 
-          <div
-            className={styles.flowerBadge}
-            onMouseEnter={() => setIsBig(true)}
-            onMouseLeave={() => setIsBig(false)}
-          >
-            <div className={styles.miniFlower}>
+          <div className={styles.nameWrap} onMouseEnter={() => setIsBig(true)} onMouseLeave={() => setIsBig(false)}>
+            <h1 className={styles.name}>
+              AMIRA
+              <span className={styles.nameOutline}>BENBOUALI</span>
+            </h1>
+
+            <div className={styles.nameFlower}>
               <i />
               <i />
               <i />
@@ -88,66 +89,49 @@ export function DarkLanding() {
               <i />
               <i />
             </div>
-          </div>
 
-          <div className={styles.pinkBlock}>
-            <div className={styles.introCopy}>
-              <div>
-                <h2>
-                  Software engineer
-                  <span>building across product, systems &amp; tooling.</span>
-                </h2>
-              </div>
-
-              <p className={styles.desc}>
-                I build full-stack applications, developer tools and interfaces — from architecture and data
-                models to the parts people actually use.
-              </p>
-
-              <div className={styles.homeMeta}>
-                <span>London, UK</span>
-                <span>Open to software roles</span>
-                <span>React · TypeScript · Next.js</span>
-              </div>
+            <div className={styles.engineer}>
+              software engineer
+              <strong>full-stack · product · tooling</strong>
             </div>
-
-            <nav className={styles.homeNav}>
-              <button
-                className={styles.navBtn}
-                onClick={() => wipeTo(pathForView('work'))}
-                onMouseEnter={() => setIsBig(true)}
-                onMouseLeave={() => setIsBig(false)}
-                type="button"
-              >
-                <span className={styles.n}>01</span>
-                <span className={styles.l}>Work</span>
-                <span className={styles.a}>→</span>
-              </button>
-              <button
-                className={styles.navBtn}
-                onClick={() => wipeTo(pathForView('about'))}
-                onMouseEnter={() => setIsBig(true)}
-                onMouseLeave={() => setIsBig(false)}
-                type="button"
-              >
-                <span className={styles.n}>02</span>
-                <span className={styles.l}>About</span>
-                <span className={styles.a}>→</span>
-              </button>
-              <button
-                className={styles.navBtn}
-                onClick={() => wipeTo(pathForView('contact'))}
-                onMouseEnter={() => setIsBig(true)}
-                onMouseLeave={() => setIsBig(false)}
-                type="button"
-              >
-                <span className={styles.n}>03</span>
-                <span className={styles.l}>Contact</span>
-                <span className={styles.a}>→</span>
-              </button>
-            </nav>
           </div>
         </div>
+
+        <nav className={styles.navStrip}>
+          <button
+            className={styles.navItem}
+            onClick={() => wipeTo(pathForView('work'))}
+            onMouseEnter={() => setIsBig(true)}
+            onMouseLeave={() => setIsBig(false)}
+            type="button"
+          >
+            <span className={styles.navNum}>01</span>
+            <span className={styles.navLabel}>Work</span>
+            <span className={styles.navArrow}>↗</span>
+          </button>
+          <button
+            className={styles.navItem}
+            onClick={() => wipeTo(pathForView('about'))}
+            onMouseEnter={() => setIsBig(true)}
+            onMouseLeave={() => setIsBig(false)}
+            type="button"
+          >
+            <span className={styles.navNum}>02</span>
+            <span className={styles.navLabel}>About</span>
+            <span className={styles.navArrow}>↗</span>
+          </button>
+          <button
+            className={styles.navItem}
+            onClick={() => wipeTo(pathForView('contact'))}
+            onMouseEnter={() => setIsBig(true)}
+            onMouseLeave={() => setIsBig(false)}
+            type="button"
+          >
+            <span className={styles.navNum}>03</span>
+            <span className={styles.navLabel}>Contact</span>
+            <span className={styles.navArrow}>↗</span>
+          </button>
+        </nav>
 
         <div className={shell.footerNote}>
           © 2026 AMIRA BENBOUALI
