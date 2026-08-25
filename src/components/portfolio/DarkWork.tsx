@@ -225,6 +225,10 @@ export function DarkWork() {
       </header>
 
       <section className={styles.featured}>
+        <div className={`${styles.symbol} ${styles.star} ${styles.s1}`} aria-hidden="true" />
+        <div className={`${styles.symbol} ${styles.star} ${styles.s2}`} aria-hidden="true" />
+        <div className={`${styles.symbol} ${styles.orbitSymbol} ${styles.o1}`} aria-hidden="true" />
+
         <div data-reveal className={styles.reveal}>
           <div className={styles.kicker}>01 / selected work</div>
           <h1 className={styles.workTitle}>WORK</h1>

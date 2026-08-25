@@ -418,10 +418,12 @@
   height: 8px;
   border: 1px solid #111;
   border-radius: 50%;
+  transition: background 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .chapterActive .chapterDot {
   background: #111;
+  transform: scale(1.15);
 }
 
 .signal {
