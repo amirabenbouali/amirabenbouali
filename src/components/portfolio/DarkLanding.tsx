@@ -1,16 +1,32 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import { pathForView } from './data';
 import { useDarkChrome } from './DarkChromeContext';
 import shell from './DarkShell.module.css';
 import styles from './DarkLanding.module.css';
 
+const INTRO_SEEN_KEY = 'amira-portfolio:intro-seen';
+const INTRO_HIDE_AT = 2200;
+const INTRO_FADE_MS = 800;
+
+function noopSubscribe() {
+  return () => {};
+}
+
+function getIntroSeenSnapshot() {
+  return window.localStorage.getItem(INTRO_SEEN_KEY) === '1';
+}
+
+function getIntroSeenServerSnapshot() {
+  return false;
+}
+
 function IntroScreen() {
   const [hide, setHide] = useState(false);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => setHide(true), 2200);
+    const timer = window.setTimeout(() => setHide(true), INTRO_HIDE_AT);
     return () => window.clearTimeout(timer);
   }, []);
 
@@ -34,10 +50,20 @@ function IntroScreen() {
 
 export function DarkLanding() {
   const { setIsBig, wipeTo } = useDarkChrome();
+  const introSeen = useSyncExternalStore(noopSubscribe, getIntroSeenSnapshot, getIntroSeenServerSnapshot);
+
+  useEffect(() => {
+    if (introSeen) return;
+    // Delayed until the intro fully fades out — writing sooner re-syncs the store mid-animation and cuts it short.
+    const timer = window.setTimeout(() => {
+      window.localStorage.setItem(INTRO_SEEN_KEY, '1');
+    }, INTRO_HIDE_AT + INTRO_FADE_MS);
+    return () => window.clearTimeout(timer);
+  }, [introSeen]);
 
   return (
     <main className={shell.shell}>
-      <IntroScreen />
+      {introSeen ? null : <IntroScreen />}
 
       <div className={shell.grain} aria-hidden="true" />
 
