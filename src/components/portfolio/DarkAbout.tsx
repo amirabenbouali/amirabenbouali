@@ -19,10 +19,10 @@ const moments = [
 ];
 
 const principles = [
-  { n: '01', title: 'Build', text: 'I understand ideas fastest when I can turn them into something real.' },
-  { n: '02', title: 'Understand', text: 'I like knowing what is happening underneath the abstraction.' },
-  { n: '03', title: 'Refine', text: 'Once the system works, the small details start to matter too.' },
-  { n: '04', title: 'Learn', text: 'Every project should teach me something I did not know before.' }
+  { n: '01', title: 'Build', text: 'Ideas prove themselves once they run — so I get to working code fast, then find out what is actually right.' },
+  { n: '02', title: 'Understand', text: 'I do not stop at using a tool. I want to know what it is doing underneath — the query, the render, the request.' },
+  { n: '03', title: 'Refine', text: 'The first version works. The one I ship is fast, tested, and does not need explaining.' },
+  { n: '04', title: 'Learn', text: 'Every project leaves with something I did not have before — a pattern, a bug I will recognize next time, a better way to ship.' }
 ];
 
 const languages = ['English', 'French', 'Arabic', 'Spanish', 'Italian'];
@@ -198,7 +198,7 @@ export function DarkAbout() {
               </h3>
             </div>
             <div className={styles.detailsNote}>
-              less &ldquo;skill percentages&rdquo;, more about the way I actually approach building software.
+              not a skill-percentage chart — this is how I actually think about building software.
             </div>
           </div>
 
