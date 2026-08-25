@@ -1,27 +1,27 @@
 <svg width="1200" height="320" viewBox="0 0 1200 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Amira Benbouali — software engineer, full-stack, product-minded, based in London">
-  <rect x="1" y="1" width="1198" height="318" rx="22" fill="#f7eadb" stroke="#171412" stroke-opacity="0.16"/>
+  <rect x="1" y="1" width="1198" height="318" rx="12" fill="#0a0a0a" stroke="#f7f3ef" stroke-opacity="0.14"/>
 
-  <g stroke="#171412" stroke-opacity="0.06" stroke-dasharray="3 7">
-    <line x1="40" y1="150" x2="1160" y2="150"/>
-    <line x1="40" y1="180" x2="1160" y2="180"/>
-    <line x1="40" y1="210" x2="1160" y2="210"/>
-    <line x1="40" y1="240" x2="1160" y2="240"/>
+  <line x1="64" y1="40" x2="64" y2="280" stroke="#efc4d4" stroke-opacity="0.45" stroke-width="1"/>
+
+  <g transform="translate(84,54)" stroke-linecap="round">
+    <rect x="-1.5" y="-13" width="3" height="26" rx="1.5" fill="#efc4d4" transform="rotate(45)"/>
+    <rect x="-1.5" y="-13" width="3" height="26" rx="1.5" fill="#efc4d4" transform="rotate(-45)"/>
   </g>
+  <text x="102" y="59" font-family="'Courier New',monospace" font-size="13" letter-spacing="2" fill="#efc4d4">ABOUT / 2026</text>
 
-  <rect x="58" y="-14" width="112" height="34" fill="#ff8fd0" opacity="0.85" transform="rotate(-10 114 3)"/>
-  <rect x="1006" y="300" width="132" height="34" fill="#ffe65a" opacity="0.9" transform="rotate(8 1072 317)"/>
+  <text x="82" y="190" font-family="Haettenschweiler,Impact,'Arial Narrow Bold',sans-serif" font-weight="700" font-size="86" letter-spacing="-3" fill="#f7f3ef">AMIRA</text>
+  <text x="82" y="264" font-family="Haettenschweiler,Impact,'Arial Narrow Bold',sans-serif" font-weight="700" font-size="86" letter-spacing="-3" fill="#f7f3ef">BENBOUALI</text>
 
-  <text x="70" y="76" font-family="'Comic Sans MS','Bradley Hand',cursive" font-size="32" fill="#171412" transform="rotate(-8 70 76)">✣</text>
-  <text x="70" y="122" font-family="'Comic Sans MS','Bradley Hand',cursive" font-size="19" fill="#171412" transform="rotate(-1 70 122)">hello!</text>
+  <line x1="84" y1="286" x2="520" y2="286" stroke="#efc4d4" stroke-width="2"/>
 
-  <text x="64" y="200" font-family="'Comic Sans MS','Bradley Hand',cursive" font-weight="700" font-size="84" letter-spacing="-4" fill="#171412" transform="rotate(-1 64 200)">AMIRA</text>
-  <text x="64" y="272" font-family="'Comic Sans MS','Bradley Hand',cursive" font-weight="700" font-size="84" letter-spacing="-4" fill="#171412" transform="rotate(-1 64 272)">BENBOUALI</text>
+  <text x="1140" y="52" font-family="'Courier New',monospace" font-size="13" letter-spacing="1" fill="#f7f3ef" text-anchor="end">BASED IN LONDON, UK</text>
+  <text x="1140" y="72" font-family="'Courier New',monospace" font-size="13" letter-spacing="1" fill="#f7f3ef" fill-opacity="0.55" text-anchor="end">AVAILABLE FOR WORK</text>
 
-  <text x="1140" y="52" font-family="'Courier New',monospace" font-size="13" letter-spacing="1" fill="#171412" text-anchor="end">BASED IN LONDON, UK</text>
-  <text x="1140" y="72" font-family="'Courier New',monospace" font-size="13" letter-spacing="1" fill="#6b625b" text-anchor="end">AVAILABLE FOR WORK</text>
+  <text x="1140" y="110" font-family="'Courier New',monospace" font-size="13" letter-spacing="1" fill="#f7f3ef" fill-opacity="0.55" text-anchor="end">SOFTWARE ENGINEER</text>
+  <text x="1140" y="130" font-family="'Courier New',monospace" font-size="13" letter-spacing="1" fill="#f7f3ef" fill-opacity="0.55" text-anchor="end">FULL-STACK · PRODUCT-MINDED</text>
 
-  <text x="1140" y="110" font-family="'Courier New',monospace" font-size="13" letter-spacing="1" fill="#6b625b" text-anchor="end">SOFTWARE ENGINEER</text>
-  <text x="1140" y="130" font-family="'Courier New',monospace" font-size="13" letter-spacing="1" fill="#6b625b" text-anchor="end">FULL-STACK · PRODUCT-MINDED</text>
-
-  <text x="1142" y="282" font-family="'Comic Sans MS','Bradley Hand',cursive" font-size="28" fill="#ff4fb6" transform="rotate(10 1142 282)">✣</text>
+  <g transform="rotate(-8 1120 250)" opacity="0.85">
+    <ellipse cx="1120" cy="250" rx="58" ry="22" fill="none" stroke="#efc4d4" stroke-width="1.2"/>
+    <circle cx="1178" cy="250" r="4" fill="#efc4d4"/>
+  </g>
 </svg>
