@@ -53,18 +53,6 @@ export function DarkLanding() {
             <br />
             London, UK
           </div>
-          <button
-            className={shell.menu}
-            onMouseEnter={() => setIsBig(true)}
-            onMouseLeave={() => setIsBig(false)}
-            type="button"
-          >
-            menu
-            <span className={shell.menuLines}>
-              <span />
-              <span />
-            </span>
-          </button>
         </header>
 
         <div className={styles.hero}>

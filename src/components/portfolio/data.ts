@@ -1,16 +1,6 @@
-export type PrimaryView = 'home' | 'work' | 'about' | 'playground' | 'contact';
+export type PrimaryView = 'home' | 'work' | 'about' | 'contact';
 export type ProjectView = 'atria' | 'foundry' | 'kansodb';
 export type PortfolioView = PrimaryView | ProjectView;
-
-export const primaryOrder: PrimaryView[] = ['home', 'work', 'about', 'playground', 'contact'];
-
-export const navItems: Array<{ id: PrimaryView; label: string; number: string }> = [
-  { id: 'home', label: 'Home', number: '01' },
-  { id: 'work', label: 'Work', number: '02' },
-  { id: 'about', label: 'About', number: '03' },
-  { id: 'playground', label: 'Playground', number: '04' },
-  { id: 'contact', label: 'Contact', number: '05' }
-];
 
 export const projects = [
   {
@@ -51,7 +41,6 @@ const viewPaths: Record<PortfolioView, string> = {
   home: '/',
   work: '/projects',
   about: '/about',
-  playground: '/stack',
   contact: '/contact',
   atria: '/projects/atria',
   foundry: '/projects/foundry',
@@ -76,7 +65,6 @@ export function viewForPathname(pathname: string): PortfolioView {
   if (pathname.startsWith('/projects/kansodb')) return 'kansodb';
   if (pathname.startsWith('/projects')) return 'work';
   if (pathname.startsWith('/about')) return 'about';
-  if (pathname.startsWith('/stack')) return 'playground';
   if (pathname.startsWith('/contact')) return 'contact';
   return 'home';
 }
