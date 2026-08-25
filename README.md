@@ -6,13 +6,13 @@
 
 ### 01 / about
 
-hi, i'm amira.
+there's a particular quiet that happens somewhere between an idea and its first working version — that's usually where you'll find me.
 
-i'm a computer science graduate who likes understanding how things work — and then building my own version of them.
+i'm a computer science graduate who likes understanding how things work, then building my own version to check.
 
-my work sits somewhere between **software engineering, product and design**. i'm especially interested in systems that are thoughtfully engineered *and* enjoyable to interact with.
+my work sits somewhere between **software engineering, product and design**. i'm especially interested in systems that are thoughtfully engineered *and* enjoyable to actually use.
 
-most days you'll find me building something, breaking it, figuring out why, and making the next version a little better.
+most days: building something, breaking it, figuring out why, making the next version a little better.
 
 <br clear="right">
 
@@ -20,8 +20,8 @@ most days you'll find me building something, breaking it, figuring out why, and 
 
 ### 02 / selected work
 
-**✦ foundry**
-an engineering operating system for managing domains, issues, triage and postmortems.
+**✦ foundry** — *engineering work, made visible.*
+an operating system for domains, issues, triage and postmortems — the parts of engineering that usually live in five different tabs.
 
 `next.js` `typescript` `postgresql` `prisma`
 
@@ -29,8 +29,8 @@ an engineering operating system for managing domains, issues, triage and postmor
 
 <br>
 
-**⌘ kansodb**
-a small SQL query engine built to understand what actually happens between a query and its result.
+**⌘ kansodb** — *from text, to execution.*
+a small SQL query engine, built to see exactly what happens between a query going in and a result coming out.
 
 `query parsing` `execution` `databases` `typescript`
 
@@ -38,7 +38,7 @@ a small SQL query engine built to understand what actually happens between a que
 
 <br>
 
-**◌ atria**
+**◌ atria** — *calendar, without the friction.*
 a calm, interaction-focused planning system for events, tasks and everyday organisation.
 
 `react` `typescript` `zustand` `motion`
@@ -47,8 +47,8 @@ a calm, interaction-focused planning system for events, tasks and everyday organ
 
 <br>
 
-**↗ mini ci/cd**
-a lightweight CI/CD system exploring pipelines, automation and developer tooling.
+**↗ mini ci/cd** — *pipelines, watched from the inside.*
+a lightweight CI/CD system, built to see how automation actually behaves once it's running.
 
 `ruby` `bash` `automation` `ci/cd`
 
@@ -57,6 +57,8 @@ a lightweight CI/CD system exploring pipelines, automation and developer tooling
 ---
 
 ### 03 / toolbox
+
+what i reach for, roughly in order of muscle memory:
 
 ```text
 languages     →  typescript · javascript · python · sql · ruby
@@ -69,6 +71,8 @@ learning      →  terraform · cloud infrastructure · distributed systems
 ---
 
 ### 04 / currently
+
+a rough snapshot, updated whenever it stops being true:
 
 ```text
 building      foundry
@@ -87,5 +91,5 @@ thinking      about what makes software feel good to use
 <br>
 
 <sub>
-built with curiosity, too many browser tabs & probably a coffee nearby. ✦
+built with curiosity, too many browser tabs, and a coffee that's gone cold nearby. ✦
 </sub>
