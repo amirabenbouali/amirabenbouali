@@ -2,6 +2,9 @@ export type PrimaryView = 'home' | 'work' | 'about' | 'contact';
 export type ProjectView = 'atria' | 'foundry' | 'kansodb';
 export type PortfolioView = PrimaryView | ProjectView;
 
+// U+FE0E forces text presentation — without it, iOS renders ↗ as a full-color emoji.
+export const ARROW_NE = '↗︎';
+
 export const projects = [
   {
     index: '01',

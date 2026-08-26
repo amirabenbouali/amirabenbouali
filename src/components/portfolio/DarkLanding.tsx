@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useSyncExternalStore } from 'react';
-import { pathForView } from './data';
+import { ARROW_NE, pathForView } from './data';
 import { useDarkChrome } from './DarkChromeContext';
 import shell from './DarkShell.module.css';
 import styles from './DarkLanding.module.css';
@@ -121,7 +121,7 @@ export function DarkLanding() {
           >
             <span className={styles.navNum}>01</span>
             <span className={styles.navLabel}>Work</span>
-            <span className={styles.navArrow}>↗</span>
+            <span className={styles.navArrow}>{ARROW_NE}</span>
           </button>
           <button
             className={styles.navItem}
@@ -132,7 +132,7 @@ export function DarkLanding() {
           >
             <span className={styles.navNum}>02</span>
             <span className={styles.navLabel}>About</span>
-            <span className={styles.navArrow}>↗</span>
+            <span className={styles.navArrow}>{ARROW_NE}</span>
           </button>
           <button
             className={styles.navItem}
@@ -143,7 +143,7 @@ export function DarkLanding() {
           >
             <span className={styles.navNum}>03</span>
             <span className={styles.navLabel}>Contact</span>
-            <span className={styles.navArrow}>↗</span>
+            <span className={styles.navArrow}>{ARROW_NE}</span>
           </button>
         </nav>
 

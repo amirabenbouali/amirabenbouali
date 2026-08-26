@@ -2,7 +2,7 @@
 
 import type { FormEvent } from 'react';
 import { useState } from 'react';
-import { pathForView } from './data';
+import { ARROW_NE, pathForView } from './data';
 import { useDarkChrome } from './DarkChromeContext';
 import shell from './DarkShell.module.css';
 import styles from './DarkContact.module.css';
@@ -146,7 +146,7 @@ export function DarkContact() {
                 type="submit"
               >
                 <span>{sendLabel[status]}</span>
-                <span>↗</span>
+                <span>{ARROW_NE}</span>
               </button>
             </form>
 
@@ -156,7 +156,7 @@ export function DarkContact() {
                 onMouseEnter={() => setIsBig(true)}
                 onMouseLeave={() => setIsBig(false)}
               >
-                Email ↗
+                Email {ARROW_NE}
               </a>
               <a
                 href="https://www.linkedin.com/in/amirabenbouali"
@@ -165,7 +165,7 @@ export function DarkContact() {
                 rel="noreferrer"
                 target="_blank"
               >
-                LinkedIn ↗
+                LinkedIn {ARROW_NE}
               </a>
             </div>
           </div>

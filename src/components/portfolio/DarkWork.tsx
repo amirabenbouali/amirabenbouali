@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { pathForView, projects } from './data';
+import { ARROW_NE, pathForView, projects } from './data';
 import { useDarkChrome } from './DarkChromeContext';
 import styles from './DarkWork.module.css';
 
@@ -261,7 +261,7 @@ export function DarkWork() {
                     <b>{project.kind}</b>
                     {project.stack[0]}
                   </div>
-                  <div className={styles.arrow}>↗</div>
+                  <div className={styles.arrow}>{ARROW_NE}</div>
                 </div>
 
                 <div className={styles.projectBody}>
@@ -277,7 +277,7 @@ export function DarkWork() {
                         onMouseLeave={() => setIsBig(false)}
                         type="button"
                       >
-                        {project.target ? 'open case study' : 'view on github'} <span>↗</span>
+                        {project.target ? 'open case study' : 'view on github'} <span>{ARROW_NE}</span>
                       </button>
                     </div>
 
@@ -345,7 +345,7 @@ export function DarkWork() {
 
               <div className={styles.cardStrip}>
                 <span>open project</span>
-                <span>↗</span>
+                <span>{ARROW_NE}</span>
               </div>
             </article>
           ))}
