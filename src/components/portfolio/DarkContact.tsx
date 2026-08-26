@@ -135,7 +135,7 @@ export function DarkContact() {
               </div>
 
               {status === 'error' ? (
-                <p className={styles.formError}>Something went wrong — email me directly instead.</p>
+                <p className={styles.formError}>Something went wrong. Email me directly instead.</p>
               ) : null}
 
               <button

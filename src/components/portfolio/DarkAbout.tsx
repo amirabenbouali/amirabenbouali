@@ -6,32 +6,26 @@ import { useDarkChrome } from './DarkChromeContext';
 import styles from './DarkAbout.module.css';
 
 const moments = [
-  { year: '2021', text: 'London became the place where study, work and technology started turning into one direction.' },
-  {
-    year: '2024',
-    text: 'Professional experience taught me how much good technical work depends on communication, ownership and delivery.'
-  },
-  { year: '2026', text: 'Completed a BSc in Computer Science and shifted my focus fully toward software engineering.' },
-  {
-    year: 'NOW',
-    text: 'Building products, systems and developer tools while looking for the right engineering team to grow with.'
-  }
+  { year: '2021', label: 'London' },
+  { year: '2024', label: 'Professional experience' },
+  { year: '2026', label: 'BSc Computer Science' },
+  { year: 'Now', label: 'Software engineering' }
 ];
 
-const principles = [
-  { n: '01', title: 'Build', text: 'Ideas prove themselves once they run — so I get to working code fast, then find out what is actually right.' },
-  { n: '02', title: 'Understand', text: 'I do not stop at using a tool. I want to know what it is doing underneath — the query, the render, the request.' },
-  { n: '03', title: 'Refine', text: 'The first version works. The one I ship is fast, tested, and does not need explaining.' },
-  { n: '04', title: 'Learn', text: 'Every project leaves with something I did not have before — a pattern, a bug I will recognize next time, a better way to ship.' }
+const toolbox = [
+  { label: 'Frontend', items: ['React', 'TypeScript', 'Next.js'] },
+  { label: 'Backend', items: ['Node', 'Prisma', 'Postgres'] },
+  { label: 'Tooling', items: ['Testing', 'GitHub Actions', 'Bash'] }
 ];
 
 const languages = ['English', 'French', 'Arabic', 'Spanish', 'Italian'];
 
 const interests = [
-  { label: 'movement', title: 'Running' },
-  { label: 'curiosity', title: 'Astronomy', deco: 'orbit' as const },
-  { label: 'ritual', title: 'Coffee' },
-  { label: 'perspective', title: 'Travel' }
+  { title: 'Running', descriptor: 'movement / discipline' },
+  { title: 'Astronomy', descriptor: 'curiosity / scale' },
+  { title: 'Coffee', descriptor: 'ritual / detail' },
+  { title: 'Travel', descriptor: 'perspective / place' },
+  { title: 'Design', descriptor: 'composition / taste' }
 ];
 
 const currentRows = [
@@ -145,7 +139,7 @@ export function DarkAbout() {
           <div data-reveal className={`${styles.heroIntro} ${styles.reveal}`}>
             <h2>Software engineer, product-minded, always curious.</h2>
             <p>
-              Based in London. I like taking an idea from the first sketch to a working product — thinking about the
+              Based in London. I like taking an idea from the first sketch to a working product, thinking about the
               system underneath and the parts people actually use.
             </p>
             <div className={styles.heroMeta}>
@@ -162,119 +156,138 @@ export function DarkAbout() {
           </div>
         </div>
 
-        <section className={styles.profile}>
-          <div data-reveal className={styles.reveal}>
-            <div className={styles.sectionLabel}>01 / story</div>
+        <section className={styles.editorialStory}>
+          <div className={styles.storyKicker}>01 / a little context</div>
+
+          <div data-reveal className={`${styles.storyPhrase} ${styles.reveal}`}>
+            <span>I MOVED</span>
+            <span className={styles.offset}>TO LONDON</span>
+            <span>AND STARTED</span>
+            <span className={styles.pinkWord}>BUILDING.</span>
+          </div>
+
+          <div data-reveal className={`${styles.storyCopyGrid} ${styles.reveal}`}>
+            <div className={styles.storyCopy}>
+              <p>
+                I studied Computer Science, but most of what made software feel real to me happened while building
+                products, tools, interfaces and systems that had to actually work.
+              </p>
+            </div>
+
+            <div className={styles.storySide}>
+              {moments.map((moment) => (
+                <div className={styles.storySideRow} key={moment.year}>
+                  <span>{moment.year}</span>
+                  <b>{moment.label}</b>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className={`${styles.sym} ${styles.symOrbit} ${styles.storyOrbit}`} aria-hidden="true" />
+        </section>
+
+        <section className={styles.buildSpread}>
+          <div data-reveal className={`${styles.buildLeft} ${styles.reveal}`}>
+            <div className={styles.sectionLabel}>02 / how I build</div>
+            <div className={styles.buildTitle}>
+              <span>PRODUCT</span>
+              <span>SYSTEMS</span>
+              <span>INTERACTION</span>
+            </div>
+          </div>
+
+          <div data-reveal className={`${styles.buildRight} ${styles.reveal}`}>
+            <div className={styles.buildNote}>
+              I build fast to see if an idea holds up, then refine until the details are right, always trying to{' '}
+              <em>understand what is happening underneath</em>, not just make it work.
+            </div>
+
+            <div className={styles.buildColumns}>
+              {toolbox.map((column) => (
+                <div key={column.label}>
+                  <small>{column.label}</small>
+                  <b>
+                    {column.items.map((item, index) => (
+                      <span key={item}>
+                        {item}
+                        {index < column.items.length - 1 ? <br /> : null}
+                      </span>
+                    ))}
+                  </b>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className={`${styles.sym} ${styles.symStar} ${styles.buildStar}`} aria-hidden="true" />
+        </section>
+
+        <section className={styles.languageSpread}>
+          <div data-reveal className={`${styles.languageHead} ${styles.reveal}`}>
+            <div className={styles.sectionLabel}>03 / communication</div>
             <h3>
-              MY
+              FIVE
               <br />
-              STORY
+              LANGUAGES
+            </h3>
+            <p>Language is another kind of interface.</p>
+          </div>
+
+          <div data-reveal className={`${styles.languageCloud} ${styles.reveal}`}>
+            {languages.map((language, index) => (
+              <span className={styles[`l${index + 1}`]} key={language}>
+                {language}
+              </span>
+            ))}
+          </div>
+
+          <div className={`${styles.sym} ${styles.symRings} ${styles.languageRings}`} aria-hidden="true" />
+        </section>
+
+        <section className={styles.personalSpread}>
+          <div data-reveal className={`${styles.personalHead} ${styles.reveal}`}>
+            <div className={styles.sectionLabel}>04 / outside code</div>
+            <h3>
+              THINGS THAT
+              <br />
+              KEEP ME CURIOUS
             </h3>
           </div>
 
-          <div data-reveal className={`${styles.storyList} ${styles.reveal}`}>
-            {moments.map((moment) => (
+          <div data-reveal className={`${styles.personalLines} ${styles.reveal}`}>
+            {interests.map((interest) => (
               <div
-                className={styles.storyRow}
-                key={moment.year}
+                className={styles.personalLine}
+                key={interest.title}
                 onMouseEnter={() => setIsBig(true)}
                 onMouseLeave={() => setIsBig(false)}
               >
-                <b>{moment.year}</b>
-                <p>{moment.text}</p>
+                <span>{interest.title}</span>
+                <small>{interest.descriptor}</small>
               </div>
             ))}
           </div>
+
+          <div className={`${styles.sym} ${styles.symBurst} ${styles.personalBurst}`} aria-hidden="true" />
         </section>
 
-        <section className={styles.details}>
-          <div data-reveal className={`${styles.detailsHead} ${styles.reveal}`}>
-            <div>
-              <div className={styles.sectionLabel}>02 / how I work</div>
-              <h3>
-                WHAT
-                <br />
-                MATTERS
-              </h3>
-            </div>
-            <div className={styles.detailsNote}>
-              not a skill-percentage chart — this is how I actually think about building software.
+        <section className={styles.currentlySpread}>
+          <div data-reveal className={`${styles.currentLeft} ${styles.reveal}`}>
+            <div className={styles.sectionLabel}>05 / currently</div>
+            <h3>NOW</h3>
+            <div className={styles.currentFlower}>
+              <Petals />
             </div>
           </div>
 
-          <div data-reveal className={`${styles.principles} ${styles.reveal}`}>
-            {principles.map((principle) => (
-              <article
-                className={styles.principle}
-                key={principle.n}
-                onMouseEnter={() => setIsBig(true)}
-                onMouseLeave={() => setIsBig(false)}
-              >
-                <small>{principle.n}</small>
-                <b>{principle.title}</b>
-                <p>{principle.text}</p>
-              </article>
+          <div data-reveal className={`${styles.currentRight} ${styles.reveal}`}>
+            {currentRows.map((row) => (
+              <div className={styles.currentLine} key={row.label}>
+                <span>{row.label}</span>
+                <b>{row.text}</b>
+              </div>
             ))}
-          </div>
-        </section>
-
-        <section className={styles.outside}>
-          <div data-reveal className={styles.reveal}>
-            <div className={styles.sectionLabel}>03 / beyond code</div>
-            <h3>
-              MORE
-              <br />
-              ABOUT ME
-            </h3>
-          </div>
-
-          <div data-reveal className={`${styles.outsideGrid} ${styles.reveal}`}>
-            <div className={styles.languagePanel}>
-              <div className={styles.sectionLabel}>Languages</div>
-              {languages.map((language) => (
-                <div
-                  className={styles.lang}
-                  key={language}
-                  onMouseEnter={() => setIsBig(true)}
-                  onMouseLeave={() => setIsBig(false)}
-                >
-                  {language} <span>communication</span>
-                </div>
-              ))}
-            </div>
-
-            <div className={styles.interests}>
-              {interests.map((interest) => (
-                <div
-                  className={styles.interest}
-                  key={interest.title}
-                  onMouseEnter={() => setIsBig(true)}
-                  onMouseLeave={() => setIsBig(false)}
-                >
-                  <small>{interest.label}</small>
-                  {interest.deco === 'orbit' ? <div className={styles.miniOrbit} /> : null}
-                  <b>{interest.title}</b>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className={styles.end}>
-          <div data-reveal className={styles.reveal}>
-            <div className={styles.sectionLabel}>04 / now</div>
-            <h3>CURRENTLY</h3>
-          </div>
-
-          <div data-reveal className={styles.reveal}>
-            <div className={styles.current}>
-              {currentRows.map((row) => (
-                <div className={styles.currentRow} key={row.label}>
-                  <b>{row.label}</b>
-                  <span>{row.text}</span>
-                </div>
-              ))}
-            </div>
 
             <button
               className={styles.contact}

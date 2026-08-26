@@ -67,7 +67,7 @@ export function DarkFoundry() {
               <div className={styles.tagline}>engineering work, made visible.</div>
 
               <p className={styles.desc}>
-                A full-stack workspace for issue triage, domains, incidents and postmortems — built around the
+                A full-stack workspace for issue triage, domains, incidents and postmortems, built around the
                 workflows engineering teams actually use.
               </p>
 

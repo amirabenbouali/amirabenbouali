@@ -74,7 +74,7 @@ const previewInfo: Record<string, PreviewInfo> = {
   Foundry: {
     tagline: 'engineering work, made visible.',
     description:
-      'A full-stack workspace for issue triage, domains, incidents and postmortems — built around the workflows engineering teams actually use.',
+      'A full-stack workspace for issue triage, domains, incidents and postmortems, built around the workflows engineering teams actually use.',
     stack: 'Next.js · Prisma · Postgres · Testing',
     tag: 'triage'
   },
@@ -88,7 +88,7 @@ const previewInfo: Record<string, PreviewInfo> = {
   'Mini CI/CD': {
     tagline: 'commit, test, build, ship.',
     description:
-      'A configuration-driven CI pipeline runner built in Ruby — running YAML-defined workflows with retries, timeouts and environment management.',
+      'A configuration-driven CI pipeline runner built in Ruby, running YAML-defined workflows with retries, timeouts and environment management.',
     stack: 'Ruby · Bash · Pipelines · Automation',
     tag: 'pipeline'
   }
