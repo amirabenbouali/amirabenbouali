@@ -20,7 +20,7 @@ export const projects = [
     kind: 'Engineering OS',
     year: '2026',
     target: 'foundry' as const,
-    stack: ['Next.js · Prisma', 'Postgres · Testing']
+    stack: ['Next.js · TypeScript', 'Prisma · PostgreSQL']
   },
   {
     index: '03',

@@ -82,7 +82,7 @@ export function DarkKanso() {
                   <b>Year</b>2026
                 </div>
                 <div>
-                  <b>Stack</b>TypeScript · Parser · AST · Testing
+                  <b>Stack</b>TypeScript · Parser · AST · Execution
                 </div>
                 <div>
                   <b>Focus</b>Language processing · execution · internals

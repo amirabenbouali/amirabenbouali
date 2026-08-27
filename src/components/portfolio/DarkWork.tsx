@@ -75,7 +75,7 @@ const previewInfo: Record<string, PreviewInfo> = {
     tagline: 'engineering work, made visible.',
     description:
       'A full-stack workspace for issue triage, domains, incidents and postmortems, built around the workflows engineering teams actually use.',
-    stack: 'Next.js · Prisma · Postgres · Testing',
+    stack: 'Next.js · TypeScript · Prisma · PostgreSQL',
     tag: 'triage'
   },
   KansoDB: {
