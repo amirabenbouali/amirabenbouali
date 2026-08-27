@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { ARROW_NE, pathForView, projects } from './data';
 import { useDarkChrome } from './DarkChromeContext';
 import styles from './DarkWork.module.css';
@@ -97,83 +97,55 @@ const previewInfo: Record<string, PreviewInfo> = {
 function ProjectMock({ title }: { title: string }) {
   if (title === 'Atria') {
     return (
-      <div className={styles.atriaUi}>
-        <div className={styles.atriaSide} />
-        <div className={styles.cal}>
-          {Array.from({ length: 15 }).map((_, index) => (
-            <span key={index} />
-          ))}
-        </div>
+      <div className={styles.cal}>
+        {Array.from({ length: 20 }).map((_, index) => (
+          <i key={index} />
+        ))}
       </div>
     );
   }
 
   if (title === 'Foundry') {
     return (
-      <div className={styles.foundryUi}>
-        <div className={styles.col}>
-          <div className={styles.issue} />
-          <div className={styles.issue} />
-          <div className={styles.issue} />
-          <div className={styles.issue} />
-        </div>
-        <div className={`${styles.col} ${styles.pipe}`}>
-          <div className={styles.node} />
-          <div className={styles.node} />
-          <div className={styles.node} />
-          <div className={styles.node} />
-        </div>
+      <div className={styles.nodes}>
+        <i />
+        <i />
+        <i />
+        <i />
       </div>
     );
   }
 
   if (title === 'KansoDB') {
     return (
-      <div className={styles.kansoUi}>
-        <div className={styles.code}>
-          <b>SELECT</b> name, role
-          <br />
-          <b>FROM</b> engineers
-          <br />
-          <b>WHERE</b> stack = &apos;typescript&apos;;
-        </div>
-        <div className={styles.ast}>
-          <div>Query</div>
-          <div>SelectClause</div>
-          <div>FromClause</div>
-          <div>WhereClause</div>
+      <div className={styles.code}>
+        <b>SELECT</b> name, role
+        <br />
+        <b>FROM</b> engineers
+        <br />
+        <b>WHERE</b> stack = &apos;typescript&apos;;
+        <div className={styles.tokens}>
+          <span>SELECT</span>
+          <span>IDENTIFIER</span>
+          <span>WHERE</span>
+          <span>STRING</span>
         </div>
       </div>
     );
   }
 
   return (
-    <div className={styles.ciUi}>
-      <div className={styles.terminal}>
-        $ mini-ci run
-        <br />
-        <br />
-        <b>✓ setup</b>
-        <br />
-        <b>✓ test</b>
-        <br />
-        <b>✓ build</b>
-        <br />
-        <b>✓ release</b>
-      </div>
-      <div className={styles.stages}>
-        <div className={styles.stage}>01 setup</div>
-        <div className={styles.stage}>02 test</div>
-        <div className={styles.stage}>03 build</div>
-        <div className={styles.stage}>04 ship</div>
-      </div>
+    <div className={styles.pipeline}>
+      <i />
+      <i />
+      <i />
+      <i />
     </div>
   );
 }
 
 export function DarkWork() {
   const { setIsBig, wipeTo } = useDarkChrome();
-  const [activeIndex, setActiveIndex] = useState<number | null>(0);
   const rootRef = useRef<HTMLDivElement>(null);
 
   const goHome = () => wipeTo(pathForView('home'));
@@ -192,16 +164,12 @@ export function DarkWork() {
           }
         });
       },
-      { threshold: 0.15 }
+      { threshold: 0.12 }
     );
     reveals.forEach((el) => revealObserver.observe(el));
 
     return () => revealObserver.disconnect();
   }, []);
-
-  const toggleProject = (index: number) => {
-    setActiveIndex((current) => (current === index ? null : index));
-  };
 
   return (
     <div className={styles.page} ref={rootRef}>
@@ -224,84 +192,131 @@ export function DarkWork() {
         </button>
       </header>
 
-      <section className={styles.featured}>
-        <div className={`${styles.symbol} ${styles.star} ${styles.s1}`} aria-hidden="true" />
-        <div className={`${styles.symbol} ${styles.star} ${styles.s2}`} aria-hidden="true" />
-        <div className={`${styles.symbol} ${styles.orbitSymbol} ${styles.o1}`} aria-hidden="true" />
-
+      <section className={styles.cover}>
         <div data-reveal className={styles.reveal}>
-          <div className={styles.kicker}>01 / selected work</div>
-          <h1 className={styles.workTitle}>WORK</h1>
-          <div className={styles.workSub}>selected projects · 01—04</div>
+          <div className={styles.kicker}>01 / work</div>
+          <h1 className={styles.coverTitle}>WORK</h1>
+          <div className={styles.statement}>
+            <span>FOUR PROJECTS.</span>
+            <span>FOUR DIFFERENT</span>
+            <span>SYSTEMS.</span>
+          </div>
+          <div className={styles.note}>Product work, systems work, and the engineering in between.</div>
+          <a
+            className={styles.enter}
+            href="#projects"
+            onMouseEnter={() => setIsBig(true)}
+            onMouseLeave={() => setIsBig(false)}
+          >
+            enter projects ↓
+          </a>
         </div>
 
-        <div data-reveal className={`${styles.projectList} ${styles.reveal}`}>
-          {projects.map((project, index) => {
+        <div data-reveal className={`${styles.coverIndex} ${styles.reveal}`}>
+          {projects.map((project) => {
             const info = previewInfo[project.title];
-            const isActive = activeIndex === index;
-            const openCaseStudy = () => {
-              if (project.target) {
-                wipeTo(pathForView(project.target));
-              } else if (project.href) {
-                window.open(project.href, '_blank', 'noopener,noreferrer');
-              }
-            };
-
             return (
-              <article className={`${styles.project} ${isActive ? styles.active : ''}`} key={project.title}>
-                <div
-                  className={styles.projectHead}
-                  onClick={() => toggleProject(index)}
-                  onMouseEnter={() => setIsBig(true)}
-                  onMouseLeave={() => setIsBig(false)}
-                >
-                  <div className={styles.num}>{project.index}</div>
-                  <div className={styles.name}>{project.title}</div>
-                  <div className={styles.meta}>
-                    <b>{project.kind}</b>
-                    {project.stack[0]}
-                  </div>
-                  <div className={styles.arrow}>{ARROW_NE}</div>
-                </div>
-
-                <div className={styles.projectBody}>
-                  <div className={styles.projectContent}>
-                    <div className={styles.projectCopy}>
-                      <div className={styles.tagline}>{info.tagline}</div>
-                      <p>{info.description}</p>
-                      <div className={styles.stack}>{info.stack}</div>
-                      <button
-                        className={styles.case}
-                        onClick={openCaseStudy}
-                        onMouseEnter={() => setIsBig(true)}
-                        onMouseLeave={() => setIsBig(false)}
-                        type="button"
-                      >
-                        {project.target ? 'open case study' : 'view on github'} <span>{ARROW_NE}</span>
-                      </button>
-                    </div>
-
-                    <div className={styles.visualStage}>
-                      <div className={styles.visualTop}>
-                        <span>{project.title}</span>
-                        <span>{info.tag}</span>
-                      </div>
-                      <div className={styles.visualBody}>
-                        <ProjectMock title={project.title} />
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </article>
+              <div
+                className={styles.indexRow}
+                key={project.title}
+                onMouseEnter={() => setIsBig(true)}
+                onMouseLeave={() => setIsBig(false)}
+              >
+                <small>{project.index}</small>
+                <b>{project.title}</b>
+                <em>
+                  {project.kind.toLowerCase()} / {info.tag}
+                </em>
+              </div>
             );
           })}
         </div>
       </section>
 
+      <main className={styles.projects} id="projects">
+        <div data-reveal className={`${styles.projectsIntro} ${styles.reveal}`}>
+          <div>
+            <div className={styles.kicker}>02 / selected projects</div>
+            <h2 className={styles.projectsHeading}>
+              SELECTED
+              <br />
+              WORK
+            </h2>
+          </div>
+          <p>
+            Four projects, each exploring a different layer of software, from interaction to infrastructure.
+          </p>
+        </div>
+
+        {projects.map((project, index) => {
+          const info = previewInfo[project.title];
+          const openCaseStudy = () => {
+            if (project.target) {
+              wipeTo(pathForView(project.target));
+            } else if (project.href) {
+              window.open(project.href, '_blank', 'noopener,noreferrer');
+            }
+          };
+
+          return (
+            <article
+              className={`${styles.spread} ${index % 2 === 1 ? styles.reverse : ''} ${styles.reveal}`}
+              data-reveal
+              key={project.title}
+            >
+              <div className={styles.copy}>
+                <div className={styles.number}>
+                  0{index + 1} / 0{projects.length}
+                </div>
+                <h3 className={styles.title}>
+                  {project.title === 'Mini CI/CD' ? (
+                    <>
+                      MINI
+                      <br />
+                      CI/CD
+                    </>
+                  ) : (
+                    project.title.toUpperCase()
+                  )}
+                </h3>
+                <div className={styles.desc}>{info.tagline}</div>
+                <div className={styles.detail}>{info.description}</div>
+                <div className={styles.stack}>{info.stack}</div>
+                <button
+                  className={styles.case}
+                  onClick={openCaseStudy}
+                  onMouseEnter={() => setIsBig(true)}
+                  onMouseLeave={() => setIsBig(false)}
+                  type="button"
+                >
+                  {project.target ? 'view case study' : 'view on github'} <span>{ARROW_NE}</span>
+                </button>
+              </div>
+
+              <div className={styles.visual}>
+                <div className={styles.visualLabel}>
+                  <span>{project.title}</span>
+                  <span>
+                    0{index + 1} / {info.tag}
+                  </span>
+                </div>
+                <div className={styles.window}>
+                  <div className={styles.bar}>
+                    <span>{info.tag}</span>
+                    <span>{project.target ? 'live' : 'passing'}</span>
+                  </div>
+                  <ProjectMock title={project.title} />
+                </div>
+              </div>
+            </article>
+          );
+        })}
+      </main>
+
       <section className={styles.more}>
         <div data-reveal className={`${styles.moreHead} ${styles.reveal}`}>
           <div>
-            <div className={styles.kicker}>02 / experiments · prototypes · smaller builds</div>
+            <div className={styles.kicker}>03 / experiments · prototypes · smaller builds</div>
             <h2 className={styles.moreTitle}>MORE WORK</h2>
           </div>
           <div className={styles.moreNote}>
@@ -362,7 +377,7 @@ export function DarkWork() {
 
       <footer className={styles.footer}>
         <span>© 2026 AMIRA BENBOUALI</span>
-        <span>work / selected + more</span>
+        <span>work / 01—04</span>
       </footer>
     </div>
   );
