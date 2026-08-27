@@ -215,9 +215,11 @@ export function DarkWork() {
         <div data-reveal className={`${styles.coverIndex} ${styles.reveal}`}>
           {projects.map((project) => {
             const info = previewInfo[project.title];
+            const slug = project.target ?? 'mini-ci-cd';
             return (
-              <div
+              <a
                 className={styles.indexRow}
+                href={`#${slug}`}
                 key={project.title}
                 onMouseEnter={() => setIsBig(true)}
                 onMouseLeave={() => setIsBig(false)}
@@ -227,7 +229,7 @@ export function DarkWork() {
                 <em>
                   {project.kind.toLowerCase()} / {info.tag}
                 </em>
-              </div>
+              </a>
             );
           })}
         </div>
@@ -262,6 +264,7 @@ export function DarkWork() {
             <article
               className={`${styles.spread} ${index % 2 === 1 ? styles.reverse : ''} ${styles.reveal}`}
               data-reveal
+              id={project.target ?? 'mini-ci-cd'}
               key={project.title}
             >
               <div className={styles.copy}>
