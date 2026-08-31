@@ -19,20 +19,48 @@ type SmallProject = {
   description: string;
   tone: 'pink' | 'dark';
   flower?: boolean;
-  visual?: 'capsules';
+  visual?: 'capsules' | 'nodes' | 'code' | 'pipeline';
+  href?: string;
 };
 
 const smallProjects: SmallProject[] = [
   {
-    index: '01 / experiment',
+    index: '01 / engineering',
     status: '2026',
+    title: 'Foundry',
+    description: 'Next.js · Prisma · PostgreSQL — engineering work, made visible.',
+    tone: 'dark',
+    visual: 'nodes',
+    href: 'https://github.com/amirabenbouali/foundry'
+  },
+  {
+    index: '02 / query engine',
+    status: '2026',
+    title: 'KansoDB',
+    description: 'TypeScript · Parser · AST — from text, to execution.',
+    tone: 'pink',
+    visual: 'code',
+    href: 'https://github.com/amirabenbouali/kansodb'
+  },
+  {
+    index: '03 / pipeline',
+    status: '2026',
+    title: 'Mini CI/CD',
+    description: 'Ruby · Bash · Automation — pipelines, watched from the inside.',
+    tone: 'dark',
+    visual: 'pipeline',
+    href: 'https://github.com/amirabenbouali/miniCI'
+  },
+  {
+    index: '04 / experiment',
+    status: 'in progress',
     title: 'Spotify Capsules',
     description: 'React · Spotify API · music memory experiment',
     tone: 'pink',
     visual: 'capsules'
   },
   {
-    index: '02 / next',
+    index: '05 / next',
     status: 'soon',
     title: 'In The Works',
     description: 'Another experiment, not started yet',
@@ -40,14 +68,14 @@ const smallProjects: SmallProject[] = [
     flower: true
   },
   {
-    index: '03 / idea',
+    index: '06 / idea',
     status: 'soon',
     title: 'Reserved',
     description: 'Space for the next small build',
     tone: 'dark'
   },
   {
-    index: '04 / next',
+    index: '07 / next',
     status: 'soon',
     title: 'Coming Soon',
     description: 'A product experiment, in progress',
@@ -55,7 +83,7 @@ const smallProjects: SmallProject[] = [
     flower: true
   },
   {
-    index: '05 / future',
+    index: '08 / future',
     status: 'next',
     title: 'Future Build',
     description: 'Reserved for whatever comes next.',
@@ -71,26 +99,12 @@ const previewInfo: Record<string, PreviewInfo> = {
     stack: 'React · TypeScript · Zustand · Framer Motion',
     tag: 'calendar'
   },
-  Foundry: {
-    tagline: 'engineering work, made visible.',
+  Metronome: {
+    tagline: 'the city, scored in real time.',
     description:
-      'A full-stack workspace for issue triage, domains, incidents and postmortems, built around the workflows engineering teams actually use.',
-    stack: 'Next.js · TypeScript · Prisma · PostgreSQL',
-    tag: 'triage'
-  },
-  KansoDB: {
-    tagline: 'from text, to execution.',
-    description:
-      'A lightweight SQL-style engine exploring tokenisation, parsing, AST construction and query execution from the inside out.',
-    stack: 'TypeScript · Parser · AST · Execution',
-    tag: 'query engine'
-  },
-  'Mini CI/CD': {
-    tagline: 'commit, test, build, ship.',
-    description:
-      'A configuration-driven CI pipeline runner built in Ruby, running YAML-defined workflows with retries, timeouts and environment management.',
-    stack: 'Ruby · Bash · Pipelines · Automation',
-    tag: 'pipeline'
+      'A live pulse dashboard for London that fuses real-time traffic, transit, weather and event data into a single score for every borough.',
+    stack: 'FastAPI · PostGIS · React · TypeScript',
+    tag: 'pulse'
   }
 };
 
@@ -105,41 +119,11 @@ function ProjectMock({ title }: { title: string }) {
     );
   }
 
-  if (title === 'Foundry') {
-    return (
-      <div className={styles.nodes}>
-        <i />
-        <i />
-        <i />
-        <i />
-      </div>
-    );
-  }
-
-  if (title === 'KansoDB') {
-    return (
-      <div className={styles.code}>
-        <b>SELECT</b> name, role
-        <br />
-        <b>FROM</b> engineers
-        <br />
-        <b>WHERE</b> stack = &apos;typescript&apos;;
-        <div className={styles.tokens}>
-          <span>SELECT</span>
-          <span>IDENTIFIER</span>
-          <span>WHERE</span>
-          <span>STRING</span>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className={styles.pipeline}>
-      <i />
-      <i />
-      <i />
-      <i />
+    <div className={styles.zones}>
+      {Array.from({ length: 24 }).map((_, index) => (
+        <i key={index} className={index % 7 === 0 ? styles.zoneHot : undefined} />
+      ))}
     </div>
   );
 }
@@ -197,8 +181,8 @@ export function DarkWork() {
           <div className={styles.kicker}>01 / work</div>
           <h1 className={styles.coverTitle}>WORK</h1>
           <div className={styles.statement}>
-            <span>FOUR PROJECTS.</span>
-            <span>FOUR DIFFERENT</span>
+            <span>TWO PROJECTS.</span>
+            <span>TWO DIFFERENT</span>
             <span>SYSTEMS.</span>
           </div>
           <div className={styles.note}>Product work, systems work, and the engineering in between.</div>
@@ -215,11 +199,10 @@ export function DarkWork() {
         <div data-reveal className={`${styles.coverIndex} ${styles.reveal}`}>
           {projects.map((project) => {
             const info = previewInfo[project.title];
-            const slug = project.target ?? 'mini-ci-cd';
             return (
               <a
                 className={styles.indexRow}
-                href={`#${slug}`}
+                href={`#${project.target}`}
                 key={project.title}
                 onMouseEnter={() => setIsBig(true)}
                 onMouseLeave={() => setIsBig(false)}
@@ -246,42 +229,26 @@ export function DarkWork() {
             </h2>
           </div>
           <p>
-            Four projects, each exploring a different layer of software, from interaction to infrastructure.
+            Two projects, each exploring a different layer of software, from interaction to infrastructure.
           </p>
         </div>
 
         {projects.map((project, index) => {
           const info = previewInfo[project.title];
-          const openCaseStudy = () => {
-            if (project.target) {
-              wipeTo(pathForView(project.target));
-            } else if (project.href) {
-              window.open(project.href, '_blank', 'noopener,noreferrer');
-            }
-          };
+          const openCaseStudy = () => wipeTo(pathForView(project.target));
 
           return (
             <article
               className={`${styles.spread} ${index % 2 === 1 ? styles.reverse : ''} ${styles.reveal}`}
               data-reveal
-              id={project.target ?? 'mini-ci-cd'}
+              id={project.target}
               key={project.title}
             >
               <div className={styles.copy}>
                 <div className={styles.number}>
                   0{index + 1} / 0{projects.length}
                 </div>
-                <h3 className={styles.title}>
-                  {project.title === 'Mini CI/CD' ? (
-                    <>
-                      MINI
-                      <br />
-                      CI/CD
-                    </>
-                  ) : (
-                    project.title.toUpperCase()
-                  )}
-                </h3>
+                <h3 className={styles.title}>{project.title.toUpperCase()}</h3>
                 <div className={styles.desc}>{info.tagline}</div>
                 <div className={styles.detail}>{info.description}</div>
                 <div className={styles.stack}>{info.stack}</div>
@@ -292,7 +259,7 @@ export function DarkWork() {
                   onMouseLeave={() => setIsBig(false)}
                   type="button"
                 >
-                  {project.target ? 'view case study' : 'view on github'} <span>{ARROW_NE}</span>
+                  view case study <span>{ARROW_NE}</span>
                 </button>
               </div>
 
@@ -306,7 +273,7 @@ export function DarkWork() {
                 <div className={styles.window}>
                   <div className={styles.bar}>
                     <span>{info.tag}</span>
-                    <span>{project.target ? 'live' : 'passing'}</span>
+                    <span>live</span>
                   </div>
                   <ProjectMock title={project.title} />
                 </div>
@@ -328,45 +295,80 @@ export function DarkWork() {
         </div>
 
         <div data-reveal className={`${styles.ribbon} ${styles.reveal}`}>
-          {smallProjects.map((project) => (
-            <article className={`${styles.card} ${styles[project.tone]}`} key={project.title}>
-              <div className={styles.cardTop}>
-                <span>{project.index}</span>
-                <span>{project.status}</span>
-              </div>
+          {smallProjects.map((project) => {
+            const openProject = () => {
+              if (project.href) window.open(project.href, '_blank', 'noopener,noreferrer');
+            };
 
-              <div className={styles.cardVisual}>
-                {project.visual === 'capsules' ? (
-                  <div className={styles.capsules}>
-                    <i />
-                    <i />
-                    <i />
-                    <i />
+            return (
+              <article
+                className={`${styles.card} ${styles[project.tone]} ${project.href ? styles.linkable : ''}`}
+                key={project.title}
+                onClick={openProject}
+                onMouseEnter={() => project.href && setIsBig(true)}
+                onMouseLeave={() => project.href && setIsBig(false)}
+              >
+                <div className={styles.cardTop}>
+                  <span>{project.index}</span>
+                  <span>{project.status}</span>
+                </div>
+
+                <div className={styles.cardVisual}>
+                  {project.visual === 'capsules' ? (
+                    <div className={styles.capsules}>
+                      <i />
+                      <i />
+                      <i />
+                      <i />
+                    </div>
+                  ) : null}
+                  {project.visual === 'nodes' ? (
+                    <div className={styles.miniNodes}>
+                      <i />
+                      <i />
+                      <i />
+                    </div>
+                  ) : null}
+                  {project.visual === 'code' ? (
+                    <div className={styles.miniCode}>
+                      <span>SELECT</span>
+                      <span>FROM</span>
+                      <span>WHERE</span>
+                    </div>
+                  ) : null}
+                  {project.visual === 'pipeline' ? (
+                    <div className={styles.miniPipeline}>
+                      <i />
+                      <i />
+                      <i />
+                    </div>
+                  ) : null}
+                  {project.flower ? (
+                    <div className={styles.miniFlower} aria-hidden="true">
+                      <i />
+                      <i />
+                      <i />
+                      <i />
+                      <i />
+                      <i />
+                    </div>
+                  ) : null}
+                </div>
+
+                <div className={styles.cardInfo}>
+                  <h3>{project.title}</h3>
+                  <p>{project.description}</p>
+                </div>
+
+                {project.href ? (
+                  <div className={styles.cardStrip}>
+                    <span>view on github</span>
+                    <span>{ARROW_NE}</span>
                   </div>
                 ) : null}
-                {project.flower ? (
-                  <div className={styles.miniFlower} aria-hidden="true">
-                    <i />
-                    <i />
-                    <i />
-                    <i />
-                    <i />
-                    <i />
-                  </div>
-                ) : null}
-              </div>
-
-              <div className={styles.cardInfo}>
-                <h3>{project.title}</h3>
-                <p>{project.description}</p>
-              </div>
-
-              <div className={styles.cardStrip}>
-                <span>open project</span>
-                <span>{ARROW_NE}</span>
-              </div>
-            </article>
-          ))}
+              </article>
+            );
+          })}
 
           <article className={`${styles.card} ${styles.addCard}`}>
             <div>
@@ -380,7 +382,7 @@ export function DarkWork() {
 
       <footer className={styles.footer}>
         <span>© 2026 AMIRA BENBOUALI</span>
-        <span>work / 01—04</span>
+        <span>work / 01—02</span>
       </footer>
     </div>
   );

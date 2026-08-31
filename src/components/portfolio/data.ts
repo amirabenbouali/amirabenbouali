@@ -1,5 +1,5 @@
 export type PrimaryView = 'home' | 'work' | 'about' | 'contact';
-export type ProjectView = 'atria' | 'foundry' | 'kansodb';
+export type ProjectView = 'atria' | 'metronome';
 export type PortfolioView = PrimaryView | ProjectView;
 
 // U+FE0E forces text presentation — without it, iOS renders ↗ as a full-color emoji.
@@ -16,27 +16,11 @@ export const projects = [
   },
   {
     index: '02',
-    title: 'Foundry',
-    kind: 'Engineering OS',
+    title: 'Metronome',
+    kind: 'City pulse dashboard',
     year: '2026',
-    target: 'foundry' as const,
-    stack: ['Next.js · TypeScript', 'Prisma · PostgreSQL']
-  },
-  {
-    index: '03',
-    title: 'KansoDB',
-    kind: 'SQL query engine',
-    year: '2026',
-    target: 'kansodb' as const,
-    stack: ['TypeScript · Parser', 'AST · Execution']
-  },
-  {
-    index: '04',
-    title: 'Mini CI/CD',
-    kind: 'DevOps tooling',
-    year: '2026',
-    stack: ['Ruby · Bash', 'Pipelines · Automation'],
-    href: 'https://github.com/amirabenbouali/miniCI'
+    target: 'metronome' as const,
+    stack: ['FastAPI · PostGIS', 'React · TypeScript']
   }
 ];
 
@@ -46,8 +30,7 @@ const viewPaths: Record<PortfolioView, string> = {
   about: '/about',
   contact: '/contact',
   atria: '/projects/atria',
-  foundry: '/projects/foundry',
-  kansodb: '/projects/kansodb'
+  metronome: '/projects/metronome'
 };
 
 export function pathForView(view: PortfolioView): string {
@@ -55,7 +38,7 @@ export function pathForView(view: PortfolioView): string {
 }
 
 export function isProjectView(view: PortfolioView): view is ProjectView {
-  return view === 'atria' || view === 'foundry' || view === 'kansodb';
+  return view === 'atria' || view === 'metronome';
 }
 
 export function primaryForView(view: PortfolioView): PrimaryView {
@@ -64,8 +47,7 @@ export function primaryForView(view: PortfolioView): PrimaryView {
 
 export function viewForPathname(pathname: string): PortfolioView {
   if (pathname.startsWith('/projects/atria')) return 'atria';
-  if (pathname.startsWith('/projects/foundry')) return 'foundry';
-  if (pathname.startsWith('/projects/kansodb')) return 'kansodb';
+  if (pathname.startsWith('/projects/metronome')) return 'metronome';
   if (pathname.startsWith('/projects')) return 'work';
   if (pathname.startsWith('/about')) return 'about';
   if (pathname.startsWith('/contact')) return 'contact';

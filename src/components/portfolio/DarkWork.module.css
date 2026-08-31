@@ -374,124 +374,110 @@
   }
 }
 
-/* mock: Foundry nodes */
+/* mock: Metronome zones */
 
-.nodes {
-  height: calc(100% - 38px);
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-}
-
-.nodes i {
-  width: 40px;
-  height: 40px;
-  border: 1px solid #fff;
-  position: relative;
-}
-
-.nodes i:not(:last-child)::after {
-  content: "";
-  position: absolute;
-  width: 6vw;
-  height: 1px;
-  background: #555;
-  left: 40px;
-  top: 19px;
-}
-
-.nodes i:nth-child(2) {
-  transform: translateY(-45px);
-}
-
-.nodes i:nth-child(3) {
-  transform: translateY(38px);
-}
-
-/* mock: KansoDB code */
-
-.code {
-  padding-top: 24px;
-  font: 11px / 1.8 ui-monospace, monospace;
-  color: #999;
-}
-
-.code b {
-  color: #fff;
-}
-
-.tokens {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin-top: 24px;
-}
-
-.tokens span {
-  border: 1px solid #555;
-  padding: 5px 8px;
-  animation: tokenPulse 3s ease-in-out infinite;
-}
-
-.tokens span:nth-child(2) {
-  animation-delay: 0.3s;
-}
-
-.tokens span:nth-child(3) {
-  animation-delay: 0.6s;
-}
-
-.tokens span:nth-child(4) {
-  animation-delay: 0.9s;
-}
-
-@keyframes tokenPulse {
-  50% {
-    border-color: #fff;
-    color: #fff;
-  }
-}
-
-/* mock: Mini CI/CD pipeline */
-
-.pipeline {
+.zones {
   height: calc(100% - 38px);
   margin-top: 12px;
   display: grid;
-  gap: 9px;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 5px;
 }
 
-.pipeline i {
-  height: 100%;
-  border: 1px solid #444;
+.zones i {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.zoneHot {
+  background: #efc4d4;
+  border-color: #efc4d4;
+  animation: zoneHotPulse 2.6s ease-in-out infinite;
+}
+
+@keyframes zoneHotPulse {
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* mini mocks: More Work ribbon cards */
+
+.miniNodes {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 14px;
+}
+
+.miniNodes i {
+  width: 22px;
+  height: 22px;
+  border: 1px solid currentColor;
+}
+
+.miniNodes i:nth-child(2) {
+  transform: translateY(-16px);
+}
+
+.miniNodes i:nth-child(3) {
+  transform: translateY(14px);
+}
+
+.miniCode {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  padding: 0 16px;
+  font: 9px ui-monospace, monospace;
+  text-transform: uppercase;
+}
+
+.miniCode span {
+  border: 1px solid currentColor;
+  padding: 4px 8px;
+  align-self: flex-start;
+}
+
+.miniPipeline {
+  position: absolute;
+  inset: 14px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.miniPipeline i {
+  border: 1px solid currentColor;
+  opacity: 0.4;
   position: relative;
+  overflow: hidden;
 }
 
-.pipeline i::before {
+.miniPipeline i::before {
   content: "";
   position: absolute;
   left: 0;
-  top: 0;
+  right: 0;
   bottom: 0;
-  width: 3px;
-  background: #efc4d4;
-  transform-origin: top;
-  animation: pipelinePass 3s ease-in-out infinite;
+  height: 40%;
+  background: currentColor;
+  animation: miniPipelineFill 2.6s ease-in-out infinite;
 }
 
-.pipeline i:nth-child(2)::before {
+.miniPipeline i:nth-child(2)::before {
   animation-delay: 0.3s;
 }
 
-.pipeline i:nth-child(3)::before {
+.miniPipeline i:nth-child(3)::before {
   animation-delay: 0.6s;
 }
 
-.pipeline i:nth-child(4)::before {
-  animation-delay: 0.9s;
-}
-
-@keyframes pipelinePass {
+@keyframes miniPipelineFill {
   0%,
   100% {
     transform: scaleY(0);
@@ -560,6 +546,10 @@
 
 .card:hover {
   transform: translateY(-7px);
+}
+
+.linkable {
+  cursor: pointer;
 }
 
 .dark {
