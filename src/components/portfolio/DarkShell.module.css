@@ -105,21 +105,30 @@
   transform: translateX(101%);
 }
 
-.wipeGo {
-  animation: wipe 0.85s cubic-bezier(0.76, 0, 0.24, 1);
+.wipeIn {
+  animation: wipeIn 0.45s cubic-bezier(0.76, 0, 0.24, 1) forwards;
 }
 
-@keyframes wipe {
-  0% {
+.wipeOut {
+  animation: wipeOut 0.45s cubic-bezier(0.76, 0, 0.24, 1) forwards;
+}
+
+@keyframes wipeIn {
+  from {
     transform: translateX(101%);
   }
 
-  45%,
-  55% {
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes wipeOut {
+  from {
     transform: translateX(0);
   }
 
-  100% {
+  to {
     transform: translateX(-101%);
   }
 }
