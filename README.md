@@ -20,6 +20,24 @@ most days: building something, breaking it, figuring out why, making the next ve
 
 ### 02 / selected work
 
+**◌ atria** · *calendar, without the friction.*
+a calm, interaction-focused planning system for events, tasks and everyday organisation.
+
+`react` `typescript` `zustand` `motion`
+
+↳ **[explore the project →](https://github.com/amirabenbouali/atria)**
+
+<br>
+
+**◐ metronome** · *the city, scored in real time.*
+a live pulse dashboard for london that fuses real-time traffic, transit, weather and event data into a single score for every borough.
+
+`fastapi` `postgis` `react` `typescript`
+
+↳ **[explore the project →](https://github.com/amirabenbouali/metronome)**
+
+<br>
+
 **✦ foundry** · *engineering work, made visible.*
 an operating system for domains, issues, triage and postmortems, the parts of engineering that usually live in five different tabs.
 
@@ -35,15 +53,6 @@ a small SQL query engine, built to see exactly what happens between a query goin
 `query parsing` `execution` `databases` `typescript`
 
 ↳ **[explore the project →](https://github.com/amirabenbouali/kansodb)**
-
-<br>
-
-**◌ atria** · *calendar, without the friction.*
-a calm, interaction-focused planning system for events, tasks and everyday organisation.
-
-`react` `typescript` `zustand` `motion`
-
-↳ **[explore the project →](https://github.com/amirabenbouali/atria)**
 
 <br>
 
@@ -63,7 +72,7 @@ what i reach for, roughly in order of muscle memory:
 ```text
 languages     →  typescript · javascript · python · sql · ruby
 frontend      →  react · next.js · css
-backend       →  node.js · postgresql · prisma
+backend       →  node.js · postgresql · prisma · fastapi · postgis
 engineering   →  git · github actions · testing · ci/cd
 learning      →  terraform · cloud infrastructure · distributed systems
 ```
@@ -75,7 +84,7 @@ learning      →  terraform · cloud infrastructure · distributed systems
 a rough snapshot, updated whenever it stops being true:
 
 ```text
-building      foundry
+building      a handful of things at once
 exploring     terraform + infrastructure
 learning      system design
 thinking      about what makes software feel good to use
