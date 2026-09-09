@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { pathForView } from './data';
+import { ARROW_NE, pathForView } from './data';
 import { useDarkChrome } from './DarkChromeContext';
 import shell from './DarkShell.module.css';
 import styles from './DarkMetronome.module.css';
@@ -19,10 +19,20 @@ const signals: Signal[] = [
   { label: 'Events', value: '74', detail: '6 events nearby' }
 ];
 
-const zoneStates: Array<'calm' | 'steady' | 'elevated' | 'busy' | 'intense'> = [
-  'calm', 'steady', 'calm', 'elevated', 'steady', 'calm',
-  'steady', 'busy', 'elevated', 'calm', 'steady', 'calm',
-  'calm', 'steady', 'intense', 'elevated', 'steady', 'calm'
+type MapPin = {
+  top: number;
+  left: number;
+  state: 'calm' | 'steady' | 'elevated' | 'busy' | 'intense';
+  icon: 'traffic' | 'transit' | 'weather' | 'event';
+};
+
+const mapPins: MapPin[] = [
+  { top: 20, left: 28, state: 'elevated', icon: 'traffic' },
+  { top: 36, left: 58, state: 'intense', icon: 'event' },
+  { top: 56, left: 22, state: 'calm', icon: 'weather' },
+  { top: 64, left: 60, state: 'busy', icon: 'transit' },
+  { top: 28, left: 78, state: 'steady', icon: 'traffic' },
+  { top: 78, left: 42, state: 'steady', icon: 'event' }
 ];
 
 const chapters = ['intro', 'signals', 'map', 'stack'];
@@ -45,7 +55,7 @@ export function DarkMetronome() {
             BENBOUALI
           </div>
           <div className={shell.role}>
-            selected work / 02
+            selected work / 01
             <br />
             city pulse dashboard
           </div>
@@ -63,7 +73,7 @@ export function DarkMetronome() {
         <section className={styles.stage}>
           <div className={styles.copy}>
             <div>
-              <div className={styles.kicker}>02 / Metronome</div>
+              <div className={styles.kicker}>01 / Metronome</div>
 
               <h1 className={styles.title}>
                 METRONOME
@@ -76,6 +86,14 @@ export function DarkMetronome() {
                 A live pulse dashboard for London that fuses real-time traffic, transit, weather and event data into
                 a single score for every borough, shown on an interactive map.
               </p>
+
+              <ul className={styles.features}>
+                <li>Composite 0–100 pulse score for 33 real London boroughs</li>
+                <li>Fuses TfL traffic, TfL transit, Open-Meteo weather and Ticketmaster event data</li>
+                <li>Borough boundaries mapped with PostGIS geospatial data</li>
+                <li>Score bucketed into five bands, from Calm to Intense</li>
+                <li>Auto-refreshes every 30 seconds for a genuinely live view</li>
+              </ul>
 
               <div className={styles.meta}>
                 <div>
@@ -91,9 +109,22 @@ export function DarkMetronome() {
                   <b>Focus</b>Real-time data · geospatial · live APIs
                 </div>
               </div>
+
+              <div className={styles.links}>
+                <a
+                  href="https://github.com/amirabenbouali/metronome"
+                  onMouseEnter={() => setIsBig(true)}
+                  onMouseLeave={() => setIsBig(false)}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  View on GitHub {ARROW_NE}
+                </a>
+                <span className={styles.soon}>Live version coming soon</span>
+              </div>
             </div>
 
-            <div className={styles.foot}>case study · 02 / 02</div>
+            <div className={styles.foot}>case study · 01 / 02</div>
           </div>
 
           <div className={styles.experience}>
@@ -141,9 +172,16 @@ export function DarkMetronome() {
                       ))}
                     </div>
 
-                    <div className={styles.zones}>
-                      {zoneStates.map((state, index) => (
-                        <div className={`${styles.zone} ${styles[state]}`} key={index} />
+                    <div className={styles.mapView}>
+                      <div className={styles.mapLabel}>Greater London</div>
+                      {mapPins.map((pin, index) => (
+                        <div
+                          className={`${styles.pin} ${styles[pin.state]}`}
+                          key={index}
+                          style={{ top: `${pin.top}%`, left: `${pin.left}%` }}
+                        >
+                          <span className={`${styles.pinIcon} ${styles[pin.icon]}`} />
+                        </div>
                       ))}
                     </div>
                   </div>

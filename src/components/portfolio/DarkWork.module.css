@@ -295,10 +295,18 @@
   position: relative;
   height: min(60vh, 560px);
   min-height: 360px;
-  background: #efc4d4;
+  background: #1a1a1a;
   color: #111;
   overflow: hidden;
   transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.visualAtria {
+  background: #f4dba6;
+}
+
+.visualMetronome {
+  background: #a9d8e6;
 }
 
 .spread:hover .visual {
@@ -340,14 +348,37 @@
   justify-content: space-between;
 }
 
-/* mock: Atria calendar */
+/* mock: shared mini app screenshot (mirrors each project's detail-page mockup) */
 
-.cal {
+.previewApp {
   height: calc(100% - 38px);
   margin-top: 12px;
   display: grid;
+  grid-template-columns: 66px 1fr;
+}
+
+.previewSidebar {
+  border-right: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  color: #777;
+  font: 7px ui-monospace, monospace;
+}
+
+.previewSideActive {
+  color: #fff;
+}
+
+/* mock: Atria calendar */
+
+.cal {
+  height: 100%;
+  padding: 8px;
+  display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 5px;
+  gap: 4px;
 }
 
 .cal i {
@@ -355,30 +386,57 @@
   position: relative;
 }
 
-.cal i:nth-child(7)::after,
-.cal i:nth-child(13)::after {
-  content: "";
+.cal em {
+  display: block;
   position: absolute;
-  left: 4px;
-  right: 4px;
+  left: 3px;
+  right: 3px;
   top: 38%;
-  height: 12px;
-  background: #efc4d4;
+  height: 10px;
+  background: #f4dba6;
   animation: calPulse 2.8s ease-in-out infinite;
 }
 
 @keyframes calPulse {
   50% {
-    transform: translateY(9px);
+    transform: translateY(7px);
     opacity: 0.55;
   }
 }
 
-/* mock: Metronome zones */
+/* mock: Metronome dashboard */
+
+.previewDash {
+  height: 100%;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.previewScoreRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.previewScore {
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.previewBand {
+  border: 1px solid #a9d8e6;
+  color: #a9d8e6;
+  border-radius: 999px;
+  padding: 3px 8px;
+  font: 6px ui-monospace, monospace;
+  text-transform: uppercase;
+}
 
 .zones {
-  height: calc(100% - 38px);
-  margin-top: 12px;
+  flex: 1;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   gap: 5px;
@@ -389,8 +447,8 @@
 }
 
 .zoneHot {
-  background: #efc4d4;
-  border-color: #efc4d4;
+  background: #a9d8e6;
+  border-color: #a9d8e6;
   animation: zoneHotPulse 2.6s ease-in-out infinite;
 }
 
@@ -401,29 +459,6 @@
 }
 
 /* mini mocks: More Work ribbon cards */
-
-.miniNodes {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  padding: 0 14px;
-}
-
-.miniNodes i {
-  width: 22px;
-  height: 22px;
-  border: 1px solid currentColor;
-}
-
-.miniNodes i:nth-child(2) {
-  transform: translateY(-16px);
-}
-
-.miniNodes i:nth-child(3) {
-  transform: translateY(14px);
-}
 
 .miniCode {
   position: absolute;
@@ -698,11 +733,17 @@
   text-transform: uppercase;
 }
 
-.cardInfo p {
+.cardStack {
   margin: 7px 0 0;
-  opacity: 0.65;
-  font: 8px / 1.5 ui-monospace, monospace;
+  opacity: 0.6;
+  font: 8px ui-monospace, monospace;
   text-transform: uppercase;
+}
+
+.cardBlurb {
+  margin: 6px 0 0;
+  opacity: 0.75;
+  font: 10px / 1.5 ui-monospace, monospace;
 }
 
 .cardStrip {
@@ -730,48 +771,6 @@
 
 .card:hover .cardStrip {
   transform: none;
-}
-
-.addCard {
-  display: grid;
-  place-items: center;
-  text-align: center;
-  border-style: dashed;
-}
-
-.addCircle {
-  width: 60px;
-  height: 60px;
-  margin: 0 auto 14px;
-  border: 1px solid #fff;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  font-size: 26px;
-  transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-.addCard:hover .addCircle {
-  background: #efc4d4;
-  color: #111;
-  border-color: #efc4d4;
-  transform: rotate(90deg);
-}
-
-.addCard b {
-  display: block;
-  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
-  font-size: 36px;
-  letter-spacing: -0.04em;
-  text-transform: uppercase;
-}
-
-.addCard span {
-  display: block;
-  margin-top: 6px;
-  color: #777;
-  font: 8px ui-monospace, monospace;
-  text-transform: uppercase;
 }
 
 /* footer */

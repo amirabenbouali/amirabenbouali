@@ -76,6 +76,29 @@
   text-transform: uppercase;
 }
 
+.features {
+  margin: 2.5vh 0 0;
+  padding: 0;
+  max-width: 480px;
+  list-style: none;
+}
+
+.features li {
+  position: relative;
+  margin-bottom: 8px;
+  padding-left: 16px;
+  color: #b5b0ac;
+  font: 9px / 1.6 ui-monospace, monospace;
+  text-transform: uppercase;
+}
+
+.features li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: #f4dba6;
+}
+
 .meta {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -96,6 +119,35 @@
   margin-bottom: 4px;
   color: #ddd8d4;
   font-weight: 400;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 2.5vh;
+}
+
+.links a {
+  color: #f4dba6;
+  text-decoration: none;
+  font: 9px ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid rgba(244, 219, 166, 0.4);
+  padding-bottom: 2px;
+  transition: border-color 0.25s ease;
+}
+
+.links a:hover {
+  border-color: #f4dba6;
+}
+
+.soon {
+  color: #6f6b67;
+  font: 9px ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .foot {
@@ -124,7 +176,7 @@
 .pinkField {
   position: absolute;
   inset: 4% 0 4% 6%;
-  background: #efc4d4;
+  background: #f4dba6;
   color: #080808;
   overflow: hidden;
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
@@ -285,7 +337,7 @@
   right: 4px;
   height: 15px;
   padding: 3px 4px;
-  background: #efc4d4;
+  background: #f4dba6;
   color: #111;
   font: 6px ui-monospace, monospace;
   white-space: nowrap;

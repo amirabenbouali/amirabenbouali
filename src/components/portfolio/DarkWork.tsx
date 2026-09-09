@@ -16,77 +16,49 @@ type SmallProject = {
   index: string;
   status: string;
   title: string;
-  description: string;
+  stack?: string;
+  blurb: string;
   tone: 'pink' | 'dark';
   flower?: boolean;
-  visual?: 'capsules' | 'nodes' | 'code' | 'pipeline';
+  visual?: 'capsules' | 'code' | 'pipeline';
   href?: string;
 };
 
 const smallProjects: SmallProject[] = [
   {
-    index: '01 / engineering',
-    status: '2026',
-    title: 'Foundry',
-    description: 'Next.js · Prisma · PostgreSQL — engineering work, made visible.',
-    tone: 'dark',
-    visual: 'nodes',
-    href: 'https://github.com/amirabenbouali/foundry'
-  },
-  {
-    index: '02 / query engine',
+    index: '01 / query engine',
     status: '2026',
     title: 'KansoDB',
-    description: 'TypeScript · Parser · AST — from text, to execution.',
+    stack: 'TypeScript · Parser · AST',
+    blurb: 'A small SQL query engine and educational database workbench.',
     tone: 'pink',
     visual: 'code',
     href: 'https://github.com/amirabenbouali/kansodb'
   },
   {
-    index: '03 / pipeline',
+    index: '02 / pipeline',
     status: '2026',
     title: 'Mini CI/CD',
-    description: 'Ruby · Bash · Automation — pipelines, watched from the inside.',
+    stack: 'Ruby · Bash · Automation',
+    blurb: "A lightweight CI/CD pipeline runner for exploring how automation behaves once it's actually running.",
     tone: 'dark',
     visual: 'pipeline',
     href: 'https://github.com/amirabenbouali/miniCI'
   },
   {
-    index: '04 / experiment',
+    index: '03 / experiment',
     status: 'in progress',
     title: 'Spotify Capsules',
-    description: 'React · Spotify API · music memory experiment',
+    stack: 'React · Spotify API',
+    blurb: 'An experiment turning old Spotify listening history into small, revisitable capsules of memory.',
     tone: 'pink',
     visual: 'capsules'
   },
   {
-    index: '05 / next',
-    status: 'soon',
-    title: 'In The Works',
-    description: 'Another experiment, not started yet',
-    tone: 'dark',
-    flower: true
-  },
-  {
-    index: '06 / idea',
-    status: 'soon',
-    title: 'Reserved',
-    description: 'Space for the next small build',
-    tone: 'dark'
-  },
-  {
-    index: '07 / next',
-    status: 'soon',
-    title: 'Coming Soon',
-    description: 'A product experiment, in progress',
-    tone: 'pink',
-    flower: true
-  },
-  {
-    index: '08 / future',
+    index: '04 / future',
     status: 'next',
     title: 'Future Build',
-    description: 'Reserved for whatever comes next.',
+    blurb: 'Reserved for whatever comes next.',
     tone: 'dark'
   }
 ];
@@ -111,19 +83,39 @@ const previewInfo: Record<string, PreviewInfo> = {
 function ProjectMock({ title }: { title: string }) {
   if (title === 'Atria') {
     return (
-      <div className={styles.cal}>
-        {Array.from({ length: 20 }).map((_, index) => (
-          <i key={index} />
-        ))}
+      <div className={styles.previewApp}>
+        <aside className={styles.previewSidebar}>
+          <span className={styles.previewSideActive}>Calendar</span>
+          <span>Tasks</span>
+          <span>Insights</span>
+        </aside>
+        <div className={styles.cal}>
+          {Array.from({ length: 20 }).map((_, index) => (
+            <i key={index}>{index === 6 || index === 12 ? <em /> : null}</i>
+          ))}
+        </div>
       </div>
     );
   }
 
   return (
-    <div className={styles.zones}>
-      {Array.from({ length: 24 }).map((_, index) => (
-        <i key={index} className={index % 7 === 0 ? styles.zoneHot : undefined} />
-      ))}
+    <div className={styles.previewApp}>
+      <aside className={styles.previewSidebar}>
+        <span className={styles.previewSideActive}>Boroughs</span>
+        <span>Signals</span>
+        <span>Alerts</span>
+      </aside>
+      <div className={styles.previewDash}>
+        <div className={styles.previewScoreRow}>
+          <span className={styles.previewScore}>62</span>
+          <span className={styles.previewBand}>Elevated</span>
+        </div>
+        <div className={styles.zones}>
+          {Array.from({ length: 24 }).map((_, index) => (
+            <i key={index} className={index % 7 === 0 ? styles.zoneHot : undefined} />
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
@@ -259,11 +251,11 @@ export function DarkWork() {
                   onMouseLeave={() => setIsBig(false)}
                   type="button"
                 >
-                  view case study <span>{ARROW_NE}</span>
+                  more details <span>{ARROW_NE}</span>
                 </button>
               </div>
 
-              <div className={styles.visual}>
+              <div className={`${styles.visual} ${styles[`visual${project.title}`]}`}>
                 <div className={styles.visualLabel}>
                   <span>{project.title}</span>
                   <span>
@@ -322,13 +314,6 @@ export function DarkWork() {
                       <i />
                     </div>
                   ) : null}
-                  {project.visual === 'nodes' ? (
-                    <div className={styles.miniNodes}>
-                      <i />
-                      <i />
-                      <i />
-                    </div>
-                  ) : null}
                   {project.visual === 'code' ? (
                     <div className={styles.miniCode}>
                       <span>SELECT</span>
@@ -357,7 +342,8 @@ export function DarkWork() {
 
                 <div className={styles.cardInfo}>
                   <h3>{project.title}</h3>
-                  <p>{project.description}</p>
+                  {project.stack ? <p className={styles.cardStack}>{project.stack}</p> : null}
+                  <p className={styles.cardBlurb}>{project.blurb}</p>
                 </div>
 
                 {project.href ? (
@@ -369,14 +355,6 @@ export function DarkWork() {
               </article>
             );
           })}
-
-          <article className={`${styles.card} ${styles.addCard}`}>
-            <div>
-              <div className={styles.addCircle}>+</div>
-              <b>Next Project</b>
-              <span>the archive grows with the work</span>
-            </div>
-          </article>
         </div>
       </section>
 

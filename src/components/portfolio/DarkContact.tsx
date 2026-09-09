@@ -167,6 +167,15 @@ export function DarkContact() {
               >
                 LinkedIn {ARROW_NE}
               </a>
+              <a
+                href="https://github.com/amirabenbouali"
+                onMouseEnter={() => setIsBig(true)}
+                onMouseLeave={() => setIsBig(false)}
+                rel="noreferrer"
+                target="_blank"
+              >
+                GitHub {ARROW_NE}
+              </a>
             </div>
           </div>
 

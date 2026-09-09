@@ -8,19 +8,19 @@ export const ARROW_NE = '↗︎';
 export const projects = [
   {
     index: '01',
-    title: 'Atria',
-    kind: 'Productivity app',
-    year: '2026',
-    target: 'atria' as const,
-    stack: ['React · TypeScript', 'Zustand · Motion']
-  },
-  {
-    index: '02',
     title: 'Metronome',
     kind: 'City pulse dashboard',
     year: '2026',
     target: 'metronome' as const,
     stack: ['FastAPI · PostGIS', 'React · TypeScript']
+  },
+  {
+    index: '02',
+    title: 'Atria',
+    kind: 'Productivity app',
+    year: '2026',
+    target: 'atria' as const,
+    stack: ['React · TypeScript', 'Zustand · Motion']
   }
 ];
 

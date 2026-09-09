@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { pathForView } from './data';
+import { ARROW_NE, pathForView } from './data';
 import { useDarkChrome } from './DarkChromeContext';
 import shell from './DarkShell.module.css';
 import styles from './DarkAtria.module.css';
@@ -56,7 +56,7 @@ export function DarkAtria() {
             BENBOUALI
           </div>
           <div className={shell.role}>
-            selected work / 01
+            selected work / 02
             <br />
             productivity system
           </div>
@@ -74,7 +74,7 @@ export function DarkAtria() {
         <section className={styles.stage}>
           <div className={styles.copy}>
             <div>
-              <div className={styles.kicker}>01 / Atria</div>
+              <div className={styles.kicker}>02 / Atria</div>
 
               <h1 className={styles.title}>
                 ATRIA
@@ -87,6 +87,14 @@ export function DarkAtria() {
                 A modern calendar and task-management system focused on clarity, flexible scheduling and fast
                 interaction.
               </p>
+
+              <ul className={styles.features}>
+                <li>Drag-and-drop event scheduling across day, week and month views</li>
+                <li>Tasks and calendar events live in one unified timeline</li>
+                <li>Fast, keyboard-driven interactions for adding and editing events</li>
+                <li>Persistent local state powered by Zustand</li>
+                <li>Smooth, physics-based transitions throughout, via Framer Motion</li>
+              </ul>
 
               <div className={styles.meta}>
                 <div>
@@ -102,9 +110,22 @@ export function DarkAtria() {
                   <b>Focus</b>Scheduling · interaction · state
                 </div>
               </div>
+
+              <div className={styles.links}>
+                <a
+                  href="https://github.com/amirabenbouali/atria"
+                  onMouseEnter={() => setIsBig(true)}
+                  onMouseLeave={() => setIsBig(false)}
+                  rel="noreferrer"
+                  target="_blank"
+                >
+                  View on GitHub {ARROW_NE}
+                </a>
+                <span className={styles.soon}>Live version coming soon</span>
+              </div>
             </div>
 
-            <div className={styles.foot}>case study · 01 / 04</div>
+            <div className={styles.foot}>case study · 02 / 02</div>
           </div>
 
           <div className={styles.experience}>

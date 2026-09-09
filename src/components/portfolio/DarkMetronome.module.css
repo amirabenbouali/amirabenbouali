@@ -76,6 +76,29 @@
   text-transform: uppercase;
 }
 
+.features {
+  margin: 2.5vh 0 0;
+  padding: 0;
+  max-width: 480px;
+  list-style: none;
+}
+
+.features li {
+  position: relative;
+  margin-bottom: 8px;
+  padding-left: 16px;
+  color: #b5b0ac;
+  font: 9px / 1.6 ui-monospace, monospace;
+  text-transform: uppercase;
+}
+
+.features li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  color: #a9d8e6;
+}
+
 .meta {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -96,6 +119,35 @@
   margin-bottom: 4px;
   color: #ddd8d4;
   font-weight: 400;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-top: 2.5vh;
+}
+
+.links a {
+  color: #a9d8e6;
+  text-decoration: none;
+  font: 9px ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid rgba(169, 216, 230, 0.4);
+  padding-bottom: 2px;
+  transition: border-color 0.25s ease;
+}
+
+.links a:hover {
+  border-color: #a9d8e6;
+}
+
+.soon {
+  color: #6f6b67;
+  font: 9px ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .foot {
@@ -124,7 +176,7 @@
 .pinkField {
   position: absolute;
   inset: 4% 0 4% 6%;
-  background: #efc4d4;
+  background: #a9d8e6;
   color: #080808;
   overflow: hidden;
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.3);
@@ -247,8 +299,8 @@
 }
 
 .band {
-  border: 1px solid #efc4d4;
-  color: #efc4d4;
+  border: 1px solid #a9d8e6;
+  color: #a9d8e6;
   border-radius: 999px;
   padding: 6px 12px;
   font: 8px ui-monospace, monospace;
@@ -287,48 +339,93 @@
   text-transform: uppercase;
 }
 
-.zones {
+.mapView {
+  position: relative;
   flex: 1;
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 5px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 46% 54% 58% 42% / 42% 46% 54% 58%;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.05), transparent 60%),
+    #131313;
 }
 
-.zone {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 2px;
+.mapLabel {
+  position: absolute;
+  left: 10px;
+  top: 8px;
+  z-index: 2;
+  color: #777;
+  font: 7px ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.pin {
+  position: absolute;
+  z-index: 1;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border-radius: 50%;
+  border: 1px solid currentColor;
+  display: grid;
+  place-items: center;
+}
+
+.pinIcon {
+  width: 6px;
+  height: 6px;
   background: currentColor;
 }
 
+.pinIcon.traffic {
+  clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+
+.pinIcon.transit {
+  border-radius: 1px;
+}
+
+.pinIcon.weather {
+  border-radius: 50%;
+  background: transparent;
+  border: 1px solid currentColor;
+}
+
+.pinIcon.event {
+  transform: rotate(45deg);
+}
+
 .calm {
-  color: rgba(239, 196, 212, 0.08);
+  color: rgba(169, 216, 230, 0.35);
 }
 
 .steady {
-  color: rgba(239, 196, 212, 0.22);
+  color: rgba(169, 216, 230, 0.55);
 }
 
 .elevated {
-  color: rgba(239, 196, 212, 0.4);
+  color: rgba(169, 216, 230, 0.75);
 }
 
 .busy {
-  color: rgba(239, 196, 212, 0.62);
+  color: #a9d8e6;
 }
 
 .intense {
-  color: #efc4d4;
-  animation: zonePulse 2.4s ease-in-out infinite;
+  color: #a9d8e6;
+  animation: pinPulse 2.4s ease-in-out infinite;
 }
 
-@keyframes zonePulse {
+@keyframes pinPulse {
   0%,
   100% {
-    opacity: 1;
+    box-shadow: 0 0 0 0 rgba(169, 216, 230, 0.5);
   }
 
   50% {
-    opacity: 0.5;
+    box-shadow: 0 0 0 5px rgba(169, 216, 230, 0);
   }
 }
 
