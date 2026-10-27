@@ -1,220 +1,250 @@
 'use client';
 
-import { useState } from 'react';
-import { ARROW_NE, pathForView } from './data';
+import { useEffect, useRef, useState } from 'react';
+import type { RefObject } from 'react';
+import { createPortal } from 'react-dom';
+import { CaseStudyHeader, CaseStudyJournal } from './CaseStudyPrimitives';
+import { pathForView } from './data';
 import { useDarkChrome } from './DarkChromeContext';
-import shell from './DarkShell.module.css';
 import styles from './DarkAtria.module.css';
 
-type Day = {
-  label: string;
-  events?: Array<{ text: string; slot: 'e1' | 'e2' | 'e3' }>;
-};
-
-const days: Day[] = [
-  { label: '13' },
-  { label: '14', events: [{ text: 'gym / push', slot: 'e1' }] },
-  { label: '15', events: [{ text: 'portfolio review', slot: 'e1' }, { text: 'run · 5k', slot: 'e2' }] },
-  { label: '16' },
-  { label: '17', events: [{ text: 'build atria', slot: 'e3' }] },
-  { label: '18' },
-  { label: '19' },
-  { label: '20' },
-  { label: '21', events: [{ text: 'deep work', slot: 'e1' }] },
-  { label: '22' },
-  { label: '23', events: [{ text: 'project planning', slot: 'e2' }] },
-  { label: '24' },
-  { label: '25' },
-  { label: '26' },
-  { label: '27' },
-  { label: '28', events: [{ text: 'interview prep', slot: 'e1' }] },
-  { label: '29' },
-  { label: '30', events: [{ text: 'ship update', slot: 'e3' }] },
-  { label: '01' },
-  { label: '02' },
-  { label: '03' }
+const features = [
+  { label: 'Drag-and-drop scheduling', detail: 'Across day, week and month views.' },
+  { label: 'Tasks and calendar events', detail: 'One unified timeline for both.' },
+  { label: 'Keyboard-driven editing', detail: 'Fast event creation and updates.' },
+  { label: 'Persistent local state', detail: 'Planning state powered by Zustand.' },
+  { label: 'Physics-based transitions', detail: 'Interaction motion via Framer Motion.' }
 ];
 
-const weekdays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-const chapters = ['intro', 'system', 'interaction', 'stack'];
+const days = ['Mon 13', 'Tue 14', 'Wed 15', 'Thu 16', 'Fri 17'];
+const events = [
+  { title: 'Deep work', time: '09:00', day: 1, row: 1, tone: 'moss' },
+  { title: 'Design review', time: '11:30', day: 2, row: 3, tone: 'rose' },
+  { title: 'Client call', time: '14:00', day: 3, row: 4, tone: 'gold' },
+  { title: 'Write', time: '15:30', day: 1, row: 5, tone: 'sage' },
+  { title: 'Weekly reflection', time: '16:30', day: 5, row: 5, tone: 'lavender' }
+];
 
 export function DarkAtria() {
   const { setIsBig, wipeTo } = useDarkChrome();
-  const [activeChapter, setActiveChapter] = useState(0);
+  const [expanded, setExpanded] = useState(false);
+  const [selectedDay, setSelectedDay] = useState(2);
+  const [planningMode, setPlanningMode] = useState<'Calm' | 'Balanced' | 'Planner'>('Balanced');
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const previewButtonRef = useRef<HTMLButtonElement>(null);
+  const interactiveHover = (active: boolean) => setIsBig(active);
 
-  const goBack = () => wipeTo(pathForView('work'));
+  useEffect(() => {
+    if (!expanded) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const previewButton = previewButtonRef.current;
+    document.body.style.overflow = 'hidden';
+    closeButtonRef.current?.focus();
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setExpanded(false);
+    };
+
+    window.addEventListener('keydown', closeOnEscape);
+    return () => {
+      window.removeEventListener('keydown', closeOnEscape);
+      document.body.style.overflow = previousOverflow;
+      previewButton?.focus();
+    };
+  }, [expanded]);
 
   return (
-    <main className={shell.shell}>
-      <div className={shell.grain} aria-hidden="true" />
+    <main className={styles.scene}>
+      <div className={styles.background} aria-hidden="true" />
+      <div className={styles.light} aria-hidden="true" />
+      <div className={styles.grain} aria-hidden="true" />
 
-      <div className={shell.content}>
-        <header className={shell.top}>
-          <div className={shell.brand}>
-            AMIRA
-            <br />
-            BENBOUALI
-          </div>
-          <div className={shell.role}>
-            selected work / 02
-            <br />
-            productivity system
-          </div>
-          <button
-            className={styles.back}
-            onClick={goBack}
-            onMouseEnter={() => setIsBig(true)}
-            onMouseLeave={() => setIsBig(false)}
-            type="button"
-          >
-            ← work
-          </button>
-        </header>
+      <CaseStudyHeader
+        onBack={() => wipeTo(pathForView('work'))}
+        onHover={interactiveHover}
+      />
 
-        <section className={styles.stage}>
-          <div className={styles.copy}>
-            <div>
-              <div className={styles.kicker}>02 / Atria</div>
+      <section className={styles.intro} aria-labelledby="atria-title">
+        <p className={styles.eyebrow}>Selected work / 2026</p>
+        <h1 id="atria-title">Atria</h1>
+        <p className={styles.tagline}>calendar, without the friction.</p>
+        <p className={styles.summary}>
+          A modern calendar and task-management system focused on clarity, flexible scheduling and fast interaction.
+        </p>
+      </section>
 
-              <h1 className={styles.title}>
-                ATRIA
-                <span>CALENDAR</span>
-              </h1>
+      <div className={styles.journalWrap}>
+        <CaseStudyJournal
+          features={features}
+          focus="Scheduling · interaction · state"
+          githubHref="https://github.com/amirabenbouali/atria"
+          onHover={interactiveHover}
+          role="Product design + frontend engineering"
+          stack="React · TypeScript · Zustand · Framer Motion"
+          status="Live version coming soon"
+          title="Space for your day."
+          year="2026"
+        />
+      </div>
 
-              <div className={styles.tagline}>calendar, without the friction.</div>
+      {expanded ? createPortal(
+        <AtriaWorkspace
+          closeButtonRef={closeButtonRef}
+          expanded
+          mode={planningMode}
+          onHover={interactiveHover}
+          onModeChange={setPlanningMode}
+          onSelectDay={setSelectedDay}
+          onToggle={() => setExpanded(false)}
+          previewButtonRef={previewButtonRef}
+          selectedDay={selectedDay}
+        />,
+        document.body
+      ) : (
+        <AtriaWorkspace
+          closeButtonRef={closeButtonRef}
+          expanded={false}
+          mode={planningMode}
+          onHover={interactiveHover}
+          onModeChange={setPlanningMode}
+          onSelectDay={setSelectedDay}
+          onToggle={() => setExpanded(true)}
+          previewButtonRef={previewButtonRef}
+          selectedDay={selectedDay}
+        />
+      )}
+    </main>
+  );
+}
 
-              <p className={styles.desc}>
-                A modern calendar and task-management system focused on clarity, flexible scheduling and fast
-                interaction.
-              </p>
+type WorkspaceProps = {
+  closeButtonRef: RefObject<HTMLButtonElement | null>;
+  expanded: boolean;
+  mode: 'Calm' | 'Balanced' | 'Planner';
+  onHover: (active: boolean) => void;
+  onModeChange: (mode: 'Calm' | 'Balanced' | 'Planner') => void;
+  onSelectDay: (day: number) => void;
+  onToggle: () => void;
+  previewButtonRef: RefObject<HTMLButtonElement | null>;
+  selectedDay: number;
+};
 
-              <ul className={styles.features}>
-                <li>Drag-and-drop event scheduling across day, week and month views</li>
-                <li>Tasks and calendar events live in one unified timeline</li>
-                <li>Fast, keyboard-driven interactions for adding and editing events</li>
-                <li>Persistent local state powered by Zustand</li>
-                <li>Smooth, physics-based transitions throughout, via Framer Motion</li>
-              </ul>
+function AtriaWorkspace({
+  closeButtonRef,
+  expanded,
+  mode,
+  onHover,
+  onModeChange,
+  onSelectDay,
+  onToggle,
+  previewButtonRef,
+  selectedDay
+}: WorkspaceProps) {
+  return (
+    <section
+      className={`${styles.preview} ${expanded ? styles.previewExpanded : ''}`}
+      aria-label="Interactive Atria planning workspace"
+      role={expanded ? 'dialog' : undefined}
+      aria-modal={expanded ? 'true' : undefined}
+    >
+      {expanded ? <button className={styles.scrim} onClick={onToggle} aria-label="Close expanded workspace" /> : null}
+      <div className={styles.previewWindow} data-mode={mode.toLowerCase()}>
+        <div className={styles.previewBar}>
+          <span className={styles.productMark}><i aria-hidden="true" /> Atria</span>
+          <span className={styles.previewActions}>
+            <small>Illustrative planning data</small>
+            <button
+              aria-expanded={expanded}
+              onClick={onToggle}
+              onMouseEnter={() => onHover(true)}
+              onMouseLeave={() => onHover(false)}
+              ref={expanded ? closeButtonRef : previewButtonRef}
+              type="button"
+            >
+              {expanded ? 'Close' : 'Expand workspace'} <span aria-hidden="true">{expanded ? '×' : '↗'}</span>
+            </button>
+          </span>
+        </div>
 
-              <div className={styles.meta}>
-                <div>
-                  <b>Role</b>Product design + frontend engineering
-                </div>
-                <div>
-                  <b>Year</b>2026
-                </div>
-                <div>
-                  <b>Stack</b>React · TypeScript · Zustand · Framer Motion
-                </div>
-                <div>
-                  <b>Focus</b>Scheduling · interaction · state
-                </div>
+        <div className={styles.workspaceBody}>
+          <aside className={styles.workspaceNav} aria-label="Atria views">
+            <strong>A</strong>
+            <span className={styles.navActive}>Calendar</span>
+            <span>Tasks</span>
+            <span>Today</span>
+            <span>Insights</span>
+            <small>Local first</small>
+          </aside>
+
+          <div className={styles.calendarPanel}>
+            <div className={styles.calendarTop}>
+              <div>
+                <small>Weekly orbit</small>
+                <strong>13–17 April</strong>
               </div>
-
-              <div className={styles.links}>
-                <a
-                  href="https://github.com/amirabenbouali/atria"
-                  onMouseEnter={() => setIsBig(true)}
-                  onMouseLeave={() => setIsBig(false)}
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  View on GitHub {ARROW_NE}
-                </a>
-                <span className={styles.soon}>Live version coming soon</span>
-              </div>
-            </div>
-
-            <div className={styles.foot}>case study · 02 / 02</div>
-          </div>
-
-          <div className={styles.experience}>
-            <div className={styles.pinkField}>
-              <div className={styles.giantWord} aria-hidden="true">
-                ATRIA
-              </div>
-
-              <div className={styles.flower} aria-hidden="true">
-                <i />
-                <i />
-                <i />
-                <i />
-                <i />
-                <i />
-              </div>
-
-              <div
-                className={styles.appCard}
-                onMouseEnter={() => setIsBig(true)}
-                onMouseLeave={() => setIsBig(false)}
-              >
-                <div className={styles.browser}>
-                  <span>atria / calendar</span>
-                  <span>apr 2026</span>
-                </div>
-
-                <div className={styles.app}>
-                  <aside className={styles.sidebar}>
-                    <b>Atria</b>
-                    <span className={styles.sideItem}>Today</span>
-                    <span className={`${styles.sideItem} ${styles.sideItemActive}`}>Calendar</span>
-                    <span className={styles.sideItem}>Tasks</span>
-                    <span className={styles.sideItem}>Insights</span>
-                    <span className={styles.sideItem}>Settings</span>
-                  </aside>
-
-                  <div className={styles.calendar}>
-                    <div className={styles.calHead}>
-                      <h3>April 2026</h3>
-                      <div
-                        className={styles.add}
-                        onMouseEnter={() => setIsBig(true)}
-                        onMouseLeave={() => setIsBig(false)}
-                      >
-                        + add event
-                      </div>
-                    </div>
-
-                    <div className={styles.week}>
-                      {weekdays.map((day) => (
-                        <span key={day}>{day}</span>
-                      ))}
-                    </div>
-
-                    <div className={styles.grid}>
-                      {days.map((day, index) => (
-                        <div className={styles.day} key={`${day.label}-${index}`}>
-                          {day.label}
-                          {day.events?.map((event) => (
-                            <div className={`${styles.event} ${styles[event.slot]}`} key={event.text}>
-                              {event.text}
-                            </div>
-                          ))}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.chapter}>
-                {chapters.map((chapter, index) => (
-                  <div
-                    className={`${styles.chapterItem} ${activeChapter === index ? styles.chapterActive : ''}`}
-                    key={chapter}
-                    onMouseEnter={() => setActiveChapter(index)}
+              <div className={styles.modePicker} aria-label="Planning density">
+                {(['Calm', 'Balanced', 'Planner'] as const).map((item) => (
+                  <button
+                    aria-pressed={mode === item}
+                    className={mode === item ? styles.modeActive : ''}
+                    key={item}
+                    onClick={() => onModeChange(item)}
+                    type="button"
                   >
-                    <span className={styles.dot} />
-                    <span>{chapter}</span>
-                  </div>
+                    {item}
+                  </button>
                 ))}
               </div>
+            </div>
 
-              <div className={styles.sideNote}>designed to feel calm, not busy.</div>
+            <div className={styles.dayTabs}>
+              {days.map((day, index) => (
+                <button
+                  aria-pressed={selectedDay === index + 1}
+                  className={selectedDay === index + 1 ? styles.dayActive : ''}
+                  key={day}
+                  onClick={() => onSelectDay(index + 1)}
+                  type="button"
+                >
+                  {day}
+                </button>
+              ))}
+            </div>
+
+            <div className={styles.schedule} aria-label="Illustrative weekly calendar">
+              <div className={styles.timeLabels} aria-hidden="true">
+                <span>09</span><span>11</span><span>13</span><span>15</span><span>17</span>
+              </div>
+              <div className={styles.scheduleGrid}>
+                {events.map((event) => (
+                  <button
+                    className={`${styles.event} ${styles[event.tone]} ${selectedDay === event.day ? styles.eventSelected : ''}`}
+                    key={`${event.day}-${event.title}`}
+                    onClick={() => onSelectDay(event.day)}
+                    style={{ gridColumn: event.day, gridRow: `${event.row} / span 2` }}
+                    type="button"
+                  >
+                    <strong>{event.title}</strong>
+                    <small>{event.time}</small>
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
-        </section>
+
+          <aside className={styles.taskPanel}>
+            <div><small>Today&apos;s focus</small><strong>Make space, then make progress.</strong></div>
+            <ul>
+              <li><i /> Write project update</li>
+              <li><i /> Review prototype</li>
+              <li><i /> Plan next sprint</li>
+            </ul>
+            <p><span>3</span> tasks · <span>4</span> events</p>
+          </aside>
+        </div>
       </div>
-    </main>
+      <p className={styles.previewMeta}>Interface concept · illustrative planning data</p>
+    </section>
   );
 }

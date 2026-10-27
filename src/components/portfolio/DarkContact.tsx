@@ -2,8 +2,9 @@
 
 import type { FormEvent } from 'react';
 import { useState } from 'react';
-import { ARROW_NE, pathForView } from './data';
+import { ARROW_NE } from './data';
 import { useDarkChrome } from './DarkChromeContext';
+import { PortfolioHeader } from './PortfolioHeader';
 import shell from './DarkShell.module.css';
 import styles from './DarkContact.module.css';
 
@@ -30,10 +31,9 @@ function Petals() {
 }
 
 export function DarkContact() {
-  const { setIsBig, wipeTo } = useDarkChrome();
+  const { setIsBig } = useDarkChrome();
   const [status, setStatus] = useState<SendStatus>('idle');
 
-  const goHome = () => wipeTo(pathForView('home'));
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -68,27 +68,7 @@ export function DarkContact() {
       <div className={shell.grain} aria-hidden="true" />
 
       <div className={shell.content}>
-        <header className={shell.top}>
-          <div className={shell.brand}>
-            AMIRA
-            <br />
-            BENBOUALI
-          </div>
-          <div className={shell.role}>
-            contact
-            <br />
-            London, UK
-          </div>
-          <button
-            className={styles.backHome}
-            onClick={goHome}
-            onMouseEnter={() => setIsBig(true)}
-            onMouseLeave={() => setIsBig(false)}
-            type="button"
-          >
-            ← home
-          </button>
-        </header>
+        <PortfolioHeader active="contact" />
 
         <section className={styles.wrap}>
           <div className={styles.left}>

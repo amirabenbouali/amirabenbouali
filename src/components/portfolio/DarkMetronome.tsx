@@ -1,211 +1,234 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import type { RefObject } from 'react';
+import { createPortal } from 'react-dom';
 import { ARROW_NE, pathForView } from './data';
 import { useDarkChrome } from './DarkChromeContext';
-import shell from './DarkShell.module.css';
+import { CaseStudyHeader } from './CaseStudyPrimitives';
 import styles from './DarkMetronome.module.css';
 
-type Signal = {
-  label: string;
-  value: string;
-  detail: string;
+type Borough = {
+  name: string;
+  score: number;
+  band: string;
+  signals: [number, number, number, number];
+  position: [number, number];
 };
 
-const signals: Signal[] = [
-  { label: 'Traffic', value: '61', detail: 'A406: serious delays' },
-  { label: 'Transit', value: '48', detail: 'Jubilee line: part suspended' },
-  { label: 'Weather', value: '22', detail: 'Clear, 14°C' },
-  { label: 'Events', value: '74', detail: '6 events nearby' }
+const boroughs: Borough[] = [
+  { name: 'Westminster', score: 46, band: 'Balanced', signals: [52, 38, 22, 71], position: [48, 42] },
+  { name: 'Camden', score: 34, band: 'Calm', signals: [31, 44, 18, 43], position: [44, 27] },
+  { name: 'Kensington & Chelsea', score: 58, band: 'Elevated', signals: [63, 41, 24, 76], position: [35, 49] },
+  { name: 'Southwark', score: 67, band: 'Busy', signals: [69, 55, 20, 83], position: [57, 62] },
+  { name: 'Hackney', score: 73, band: 'Intense', signals: [71, 62, 19, 91], position: [67, 35] }
 ];
 
-type MapPin = {
-  top: number;
-  left: number;
-  state: 'calm' | 'steady' | 'elevated' | 'busy' | 'intense';
-  icon: 'traffic' | 'transit' | 'weather' | 'event';
-};
-
-const mapPins: MapPin[] = [
-  { top: 20, left: 28, state: 'elevated', icon: 'traffic' },
-  { top: 36, left: 58, state: 'intense', icon: 'event' },
-  { top: 56, left: 22, state: 'calm', icon: 'weather' },
-  { top: 64, left: 60, state: 'busy', icon: 'transit' },
-  { top: 28, left: 78, state: 'steady', icon: 'traffic' },
-  { top: 78, left: 42, state: 'steady', icon: 'event' }
-];
-
-const chapters = ['intro', 'signals', 'map', 'stack'];
+const signalNames = ['Traffic', 'Transit', 'Weather', 'Events'];
 
 export function DarkMetronome() {
   const { setIsBig, wipeTo } = useDarkChrome();
-  const [activeChapter, setActiveChapter] = useState(0);
+  const [selected, setSelected] = useState(0);
+  const [expanded, setExpanded] = useState(false);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const activeBorough = boroughs[selected];
 
-  const goBack = () => wipeTo(pathForView('work'));
+  useEffect(() => {
+    if (!expanded) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    closeButtonRef.current?.focus();
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setExpanded(false);
+    };
+
+    window.addEventListener('keydown', closeOnEscape);
+    return () => {
+      window.removeEventListener('keydown', closeOnEscape);
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [expanded]);
+
+  const interactiveProps = {
+    onMouseEnter: () => setIsBig(true),
+    onMouseLeave: () => setIsBig(false)
+  };
 
   return (
-    <main className={shell.shell}>
-      <div className={shell.grain} aria-hidden="true" />
+    <main className={styles.scene}>
+      <div className={styles.background} aria-hidden="true" />
+      <div className={styles.light} aria-hidden="true" />
+      <div className={styles.grain} aria-hidden="true" />
 
-      <div className={shell.content}>
-        <header className={shell.top}>
-          <div className={shell.brand}>
-            AMIRA
-            <br />
-            BENBOUALI
+      <CaseStudyHeader
+        onBack={() => wipeTo(pathForView('work'))}
+        onHover={setIsBig}
+      />
+
+      <section className={styles.intro} aria-labelledby="metronome-title">
+        <p className={styles.eyebrow}>Selected work / 2026</p>
+        <h1 id="metronome-title">Metronome</h1>
+        <p className={styles.tagline}>the city, scored in real time.</p>
+        <p className={styles.summary}>
+          London&apos;s traffic, transit, weather and events, brought into one borough-by-borough pulse.
+        </p>
+      </section>
+
+      <section className={styles.notes} aria-labelledby="field-notes-title">
+        <div className={styles.notesHeading}>
+          <p>Field notes</p>
+          <span aria-hidden="true" />
+        </div>
+        <h2 id="field-notes-title">Listening to London.</h2>
+
+        <dl className={styles.projectMeta}>
+          <div>
+            <dt>Role</dt>
+            <dd>Full-stack engineering + data integration</dd>
           </div>
-          <div className={shell.role}>
-            selected work / 01
-            <br />
-            city pulse dashboard
+          <div>
+            <dt>Stack</dt>
+            <dd>FastAPI · PostGIS · React · TypeScript</dd>
           </div>
-          <button
-            className={styles.back}
-            onClick={goBack}
-            onMouseEnter={() => setIsBig(true)}
-            onMouseLeave={() => setIsBig(false)}
-            type="button"
-          >
-            ← work
-          </button>
-        </header>
+        </dl>
 
-        <section className={styles.stage}>
-          <div className={styles.copy}>
-            <div>
-              <div className={styles.kicker}>01 / Metronome</div>
+        <ul className={styles.facts}>
+          <li><span aria-hidden="true">◇</span> 33 London boroughs</li>
+          <li><span aria-hidden="true">⌁</span> Five bands, Calm to Intense</li>
+          <li><span aria-hidden="true">◷</span> Refreshes every 30 seconds</li>
+        </ul>
 
-              <h1 className={styles.title}>
-                METRONOME
-                <span>PULSE</span>
-              </h1>
+        <a
+          className={styles.github}
+          href="https://github.com/amirabenbouali/metronome"
+          rel="noreferrer"
+          target="_blank"
+          {...interactiveProps}
+        >
+          View on GitHub <span aria-hidden="true">{ARROW_NE}</span>
+        </a>
+        <p className={styles.comingSoon}>Live version coming soon.</p>
+      </section>
 
-              <div className={styles.tagline}>the city, scored in real time.</div>
-
-              <p className={styles.desc}>
-                A live pulse dashboard for London that fuses real-time traffic, transit, weather and event data into
-                a single score for every borough, shown on an interactive map.
-              </p>
-
-              <ul className={styles.features}>
-                <li>Composite 0–100 pulse score for 33 real London boroughs</li>
-                <li>Fuses TfL traffic, TfL transit, Open-Meteo weather and Ticketmaster event data</li>
-                <li>Borough boundaries mapped with PostGIS geospatial data</li>
-                <li>Score bucketed into five bands, from Calm to Intense</li>
-                <li>Auto-refreshes every 30 seconds for a genuinely live view</li>
-              </ul>
-
-              <div className={styles.meta}>
-                <div>
-                  <b>Role</b>Full-stack engineering + data integration
-                </div>
-                <div>
-                  <b>Year</b>2026
-                </div>
-                <div>
-                  <b>Stack</b>FastAPI · PostGIS · React · TypeScript
-                </div>
-                <div>
-                  <b>Focus</b>Real-time data · geospatial · live APIs
-                </div>
-              </div>
-
-              <div className={styles.links}>
-                <a
-                  href="https://github.com/amirabenbouali/metronome"
-                  onMouseEnter={() => setIsBig(true)}
-                  onMouseLeave={() => setIsBig(false)}
-                  rel="noreferrer"
-                  target="_blank"
-                >
-                  View on GitHub {ARROW_NE}
-                </a>
-                <span className={styles.soon}>Live version coming soon</span>
-              </div>
-            </div>
-
-            <div className={styles.foot}>case study · 01 / 02</div>
-          </div>
-
-          <div className={styles.experience}>
-            <div className={styles.pinkField}>
-              <div className={styles.giantWord} aria-hidden="true">
-                METRONOME
-              </div>
-
-              <div
-                className={styles.appCard}
-                onMouseEnter={() => setIsBig(true)}
-                onMouseLeave={() => setIsBig(false)}
-              >
-                <div className={styles.browser}>
-                  <span>metronome / london</span>
-                  <span>live</span>
-                </div>
-
-                <div className={styles.app}>
-                  <aside className={styles.sidebar}>
-                    <b>Metronome</b>
-                    <span className={styles.sideItem}>Overview</span>
-                    <span className={`${styles.sideItem} ${styles.sideItemActive}`}>Boroughs</span>
-                    <span className={styles.sideItem}>Signals</span>
-                    <span className={styles.sideItem}>Alerts</span>
-                    <span className={styles.sideItem}>Settings</span>
-                  </aside>
-
-                  <div className={styles.dash}>
-                    <div className={styles.scoreHead}>
-                      <div>
-                        <span className={styles.scoreLabel}>composite score</span>
-                        <div className={styles.scoreValue}>62</div>
-                      </div>
-                      <div className={styles.band}>ELEVATED</div>
-                    </div>
-
-                    <div className={styles.signals}>
-                      {signals.map((signal) => (
-                        <div className={styles.signal} key={signal.label}>
-                          <span className={styles.signalLabel}>{signal.label}</span>
-                          <span className={styles.signalValue}>{signal.value}</span>
-                          <span className={styles.signalDetail}>{signal.detail}</span>
-                        </div>
-                      ))}
-                    </div>
-
-                    <div className={styles.mapView}>
-                      <div className={styles.mapLabel}>Greater London</div>
-                      {mapPins.map((pin, index) => (
-                        <div
-                          className={`${styles.pin} ${styles[pin.state]}`}
-                          key={index}
-                          style={{ top: `${pin.top}%`, left: `${pin.left}%` }}
-                        >
-                          <span className={`${styles.pinIcon} ${styles[pin.icon]}`} />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.chapter}>
-                {chapters.map((chapter, index) => (
-                  <div
-                    className={`${styles.chapterItem} ${activeChapter === index ? styles.chapterActive : ''}`}
-                    key={chapter}
-                    onMouseEnter={() => setActiveChapter(index)}
-                  >
-                    <span className={styles.dot} />
-                    <span>{chapter}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className={styles.sideNote}>a city, read like a heartbeat.</div>
-            </div>
-          </div>
-        </section>
-      </div>
+      {expanded ? createPortal(
+        <DashboardPreview
+          activeBorough={activeBorough}
+          closeButtonRef={closeButtonRef}
+          expanded
+          onClose={() => setExpanded(false)}
+          onHover={setIsBig}
+          onSelect={setSelected}
+          selected={selected}
+        />,
+        document.body
+      ) : (
+        <DashboardPreview
+          activeBorough={activeBorough}
+          closeButtonRef={closeButtonRef}
+          expanded={false}
+          onClose={() => setExpanded(true)}
+          onHover={setIsBig}
+          onSelect={setSelected}
+          selected={selected}
+        />
+      )}
     </main>
+  );
+}
+
+type DashboardPreviewProps = {
+  activeBorough: Borough;
+  closeButtonRef: RefObject<HTMLButtonElement | null>;
+  expanded: boolean;
+  onClose: () => void;
+  onHover: (active: boolean) => void;
+  onSelect: (index: number) => void;
+  selected: number;
+};
+
+function DashboardPreview({
+  activeBorough,
+  closeButtonRef,
+  expanded,
+  onClose,
+  onHover,
+  onSelect,
+  selected
+}: DashboardPreviewProps) {
+  return (
+    <section
+      className={`${styles.dashboardWrap} ${expanded ? styles.dashboardExpanded : ''}`}
+      aria-label="Interactive Metronome dashboard preview"
+    >
+      {expanded && <button className={styles.scrim} onClick={onClose} aria-label="Close dashboard" />}
+      <div className={styles.dashboard}>
+        <div className={styles.dashboardBar}>
+          <div className={styles.productMark}><span /> metronome</div>
+          <div className={styles.dashboardActions}>
+            <span>Illustrative data</span>
+            <button
+              ref={closeButtonRef}
+              type="button"
+              aria-expanded={expanded}
+              onClick={onClose}
+              onMouseEnter={() => onHover(true)}
+              onMouseLeave={() => onHover(false)}
+            >
+              {expanded ? 'Close' : 'Expand dashboard'} <span aria-hidden="true">{expanded ? '×' : '↗'}</span>
+            </button>
+          </div>
+        </div>
+
+        <div className={styles.dashboardBody}>
+          <aside className={styles.boroughPicker}>
+            <p>Illustrative borough samples</p>
+            {boroughs.map((borough, index) => (
+              <button
+                className={selected === index ? styles.boroughActive : ''}
+                key={borough.name}
+                onClick={() => onSelect(index)}
+                type="button"
+                aria-pressed={selected === index}
+              >
+                {borough.name}
+              </button>
+            ))}
+          </aside>
+
+          <div className={styles.map} aria-label={`Illustrative map focused on ${activeBorough.name}`}>
+            <div className={styles.river} aria-hidden="true" />
+            <div className={styles.mapDistricts} aria-hidden="true">
+              {Array.from({ length: 18 }, (_, index) => <i key={index} />)}
+            </div>
+            <div
+              className={styles.mapPulse}
+              style={{ left: `${activeBorough.position[0]}%`, top: `${activeBorough.position[1]}%` }}
+              aria-hidden="true"
+            />
+            <p>London borough pulse</p>
+          </div>
+
+          <div className={styles.pulsePanel} aria-live="polite">
+            <p className={styles.boroughName}>{activeBorough.name}</p>
+            <span className={styles.pulseLabel}>Borough pulse</span>
+            <div className={styles.score}>{activeBorough.score}<small>/ 100</small></div>
+            <div className={styles.band}>{activeBorough.band}</div>
+            <div className={styles.signalList}>
+              {signalNames.map((name, index) => (
+                <div key={name}>
+                  <span>{name}</span>
+                  <i><b style={{ transform: `scaleX(${activeBorough.signals[index] / 100})` }} /></i>
+                  <strong>{activeBorough.signals[index]}</strong>
+                </div>
+              ))}
+            </div>
+            <small>Updated 14:03:20</small>
+          </div>
+        </div>
+      </div>
+      <p className={styles.dashboardCaption}>Interface concept · illustrative data</p>
+    </section>
   );
 }

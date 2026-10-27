@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { ARROW_NE, pathForView, projects } from './data';
 import { useDarkChrome } from './DarkChromeContext';
+import { PortfolioHeader } from './PortfolioHeader';
 import styles from './DarkWork.module.css';
 
 type PreviewInfo = {
@@ -124,7 +125,6 @@ export function DarkWork() {
   const { setIsBig, wipeTo } = useDarkChrome();
   const rootRef = useRef<HTMLDivElement>(null);
 
-  const goHome = () => wipeTo(pathForView('home'));
 
   useEffect(() => {
     const root = rootRef.current;
@@ -151,22 +151,7 @@ export function DarkWork() {
     <div className={styles.page} ref={rootRef}>
       <div className={styles.grain} aria-hidden="true" />
 
-      <header className={styles.top}>
-        <div className={styles.brand}>
-          AMIRA
-          <br />
-          BENBOUALI
-        </div>
-        <button
-          className={styles.back}
-          onClick={goHome}
-          onMouseEnter={() => setIsBig(true)}
-          onMouseLeave={() => setIsBig(false)}
-          type="button"
-        >
-          ← home
-        </button>
-      </header>
+      <PortfolioHeader active="work" fixed />
 
       <section className={styles.cover}>
         <div data-reveal className={styles.reveal}>

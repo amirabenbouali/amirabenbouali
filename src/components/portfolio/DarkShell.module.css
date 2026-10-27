@@ -100,9 +100,23 @@
   position: fixed;
   inset: 0;
   z-index: 90;
-  background: #efc4d4;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 72% 36%, rgba(116, 137, 90, 0.2), transparent 28%),
+    linear-gradient(145deg, #26382e, #14241e 58%, #0e1b17);
   pointer-events: none;
-  transform: translateX(101%);
+  transform: translateY(101%);
+}
+
+.wipe::after {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: rgba(226, 194, 119, 0.72);
+  box-shadow: 0 -10px 35px rgba(255, 226, 153, 0.3);
+  content: "";
 }
 
 .wipeIn {
@@ -115,21 +129,28 @@
 
 @keyframes wipeIn {
   from {
-    transform: translateX(101%);
+    transform: translateY(101%);
   }
 
   to {
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }
 
 @keyframes wipeOut {
   from {
-    transform: translateX(0);
+    transform: translateY(0);
   }
 
   to {
-    transform: translateX(-101%);
+    transform: translateY(-101%);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wipeIn,
+  .wipeOut {
+    animation-duration: 0.01ms;
   }
 }
 

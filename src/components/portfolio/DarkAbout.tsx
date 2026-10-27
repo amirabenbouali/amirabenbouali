@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { pathForView } from './data';
 import { useDarkChrome } from './DarkChromeContext';
+import { PortfolioHeader } from './PortfolioHeader';
 import styles from './DarkAbout.module.css';
 
 const moments = [
@@ -55,7 +56,6 @@ export function DarkAbout() {
   const { setIsBig, wipeTo } = useDarkChrome();
   const rootRef = useRef<HTMLDivElement>(null);
 
-  const goHome = () => wipeTo(pathForView('home'));
   const goContact = () => wipeTo(pathForView('contact'));
 
   useEffect(() => {
@@ -95,22 +95,7 @@ export function DarkAbout() {
           <div className={`${styles.sym} ${styles.symOrbit} ${styles.s8}`} />
         </div>
 
-        <header className={styles.top}>
-          <div className={styles.brand}>
-            AMIRA
-            <br />
-            BENBOUALI
-          </div>
-          <button
-            className={styles.back}
-            onClick={goHome}
-            onMouseEnter={() => setIsBig(true)}
-            onMouseLeave={() => setIsBig(false)}
-            type="button"
-          >
-            ← home
-          </button>
-        </header>
+        <PortfolioHeader active="about" tone="paper" />
 
         <section className={styles.hero}>
           <div data-reveal className={`${styles.heroWord} ${styles.reveal}`}>

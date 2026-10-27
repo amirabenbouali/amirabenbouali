@@ -66,7 +66,7 @@ export function DarkChrome({ children }: { children: ReactNode }) {
 
   return (
     <DarkChromeContext.Provider value={{ setIsBig, wipeTo }}>
-      {hasMoved ? (
+      {hasMoved && phase === 'idle' ? (
         <div
           className={`${shell.cursor} ${isBig ? shell.cursorBig : ''}`}
           style={{ left: cursor.x, top: cursor.y }}
