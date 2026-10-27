@@ -12,7 +12,7 @@ const serifAccent = Instrument_Serif({
 
 export const metadata: Metadata = {
   title: 'Amira Lina Benbouali — Portfolio',
-  description: 'Software engineer and data scientist building full-stack products, developer tooling, and data systems.'
+  description: 'Software engineer building thoughtful products, developer tools, and full-stack systems.'
 };
 
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {

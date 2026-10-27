@@ -1,6 +1,6 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import type { ReactNode } from 'react';
 import { useCallback, useEffect, useRef, useState, useTransition } from 'react';
 import { DarkChromeContext } from './DarkChromeContext';
@@ -16,6 +16,7 @@ const MIN_HOLD_MS = 140;
 
 export function DarkChrome({ children }: { children: ReactNode }) {
   const router = useRouter();
+  const pathname = usePathname();
   const [isPending, startTransition] = useTransition();
   const [isBig, setIsBig] = useState(false);
   const [phase, setPhase] = useState<WipePhase>('idle');
@@ -66,7 +67,7 @@ export function DarkChrome({ children }: { children: ReactNode }) {
 
   return (
     <DarkChromeContext.Provider value={{ setIsBig, wipeTo }}>
-      {hasMoved ? (
+      {pathname !== '/' && hasMoved ? (
         <div
           className={`${shell.cursor} ${isBig ? shell.cursorBig : ''}`}
           style={{ left: cursor.x, top: cursor.y }}

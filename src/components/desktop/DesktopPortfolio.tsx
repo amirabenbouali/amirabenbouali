@@ -1,0 +1,360 @@
+'use client';
+
+import Link from 'next/link';
+import { type CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
+import styles from './DesktopPortfolio.module.css';
+
+type WindowName = 'about' | 'work' | 'blog' | 'contact';
+type LockState = 'idle' | 'typing' | 'opening' | 'unlocked';
+
+const ACCESS_CODE_LENGTH = 8;
+
+const folders: Array<{ id: WindowName; label: string; tone: string }> = [
+  { id: 'about', label: 'about me', tone: 'coral' },
+  { id: 'work', label: 'work', tone: 'charcoal' },
+  { id: 'blog', label: 'blog', tone: 'lilac' },
+  { id: 'contact', label: 'contact', tone: 'silver' }
+];
+
+const projects = [
+  {
+    name: 'Atria',
+    descriptor: 'Calendar, without the friction.',
+    summary: 'A calendar and task-management system with flexible scheduling, keyboard-driven interactions and local state.',
+    stack: 'React · TypeScript · Zustand · Framer Motion',
+    github: 'https://github.com/amirabenbouali/atria',
+    route: '/projects/atria',
+    color: 'coral'
+  },
+  {
+    name: 'Metronome',
+    descriptor: 'The city, scored in real time.',
+    summary: 'A London live-pulse dashboard combining traffic, transit, weather and events across 33 boroughs.',
+    stack: 'FastAPI · PostGIS · React · TypeScript',
+    github: 'https://github.com/amirabenbouali/metronome',
+    route: '/projects/metronome',
+    color: 'charcoal'
+  }
+];
+
+export function DesktopPortfolio() {
+  const [lockState, setLockState] = useState<LockState>('idle');
+  const [passwordLength, setPasswordLength] = useState(0);
+  const [clock, setClock] = useState({ time: '20:26', date: 'Portfolio access' });
+  const [activeWindow, setActiveWindow] = useState<WindowName | null>(null);
+  const [selectedProject, setSelectedProject] = useState(0);
+  const [windowOrigin, setWindowOrigin] = useState('50% 50%');
+  const [isClosing, setIsClosing] = useState(false);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const openerRef = useRef<HTMLButtonElement | null>(null);
+  const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const unlockTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const typingTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    const updateClock = () => {
+      const now = new Date();
+      setClock({
+        time: new Intl.DateTimeFormat('en-GB', {
+          hour: '2-digit',
+          minute: '2-digit',
+          hour12: false
+        }).format(now),
+        date: new Intl.DateTimeFormat('en-GB', {
+          weekday: 'long',
+          day: 'numeric',
+          month: 'long'
+        }).format(now)
+      });
+    };
+
+    updateClock();
+    const timer = setInterval(updateClock, 60_000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const unlockPortfolio = () => {
+    if (lockState !== 'idle') return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setLockState('unlocked');
+      return;
+    }
+
+    setLockState('typing');
+    let nextLength = 0;
+    typingTimerRef.current = setInterval(() => {
+      nextLength += 1;
+      setPasswordLength(nextLength);
+
+      if (nextLength === ACCESS_CODE_LENGTH && typingTimerRef.current) {
+        clearInterval(typingTimerRef.current);
+        typingTimerRef.current = null;
+        unlockTimerRef.current = setTimeout(() => {
+          setLockState('opening');
+          unlockTimerRef.current = setTimeout(() => {
+            setLockState('unlocked');
+            unlockTimerRef.current = null;
+          }, 760);
+        }, 260);
+      }
+    }, 105);
+  };
+
+  const openWindow = (name: WindowName, opener: HTMLButtonElement) => {
+    const bounds = opener.getBoundingClientRect();
+    const originX = ((bounds.left + bounds.width / 2) / window.innerWidth) * 100;
+    const originY = ((bounds.top + bounds.height / 2) / window.innerHeight) * 100;
+
+    openerRef.current = opener;
+    setWindowOrigin(`${originX}% ${originY}%`);
+    setIsClosing(false);
+    setActiveWindow(name);
+  };
+
+  const closeWindow = useCallback(() => {
+    if (!activeWindow || isClosing) return;
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setActiveWindow(null);
+      requestAnimationFrame(() => openerRef.current?.focus());
+      return;
+    }
+
+    setIsClosing(true);
+    closeTimerRef.current = setTimeout(() => {
+      setActiveWindow(null);
+      setIsClosing(false);
+      closeTimerRef.current = null;
+      requestAnimationFrame(() => openerRef.current?.focus());
+    }, 340);
+  }, [activeWindow, isClosing]);
+
+  useEffect(() => () => {
+    if (closeTimerRef.current) clearTimeout(closeTimerRef.current);
+    if (unlockTimerRef.current) clearTimeout(unlockTimerRef.current);
+    if (typingTimerRef.current) clearInterval(typingTimerRef.current);
+  }, []);
+
+  useEffect(() => {
+    if (!activeWindow) return;
+    closeRef.current?.focus();
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') closeWindow();
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [activeWindow, closeWindow]);
+
+  return (
+    <main className={styles.desktop}>
+      <div className={styles.noise} aria-hidden="true" />
+      <div
+        aria-hidden={lockState !== 'unlocked'}
+        className={`${styles.desktopSurface} ${lockState === 'opening' ? styles.desktopPreparing : ''} ${lockState === 'unlocked' ? styles.desktopRevealed : ''}`}
+        inert={lockState !== 'unlocked'}
+      >
+        <header className={styles.topline}>
+          <span>Amira Benbouali</span>
+          <span>Portfolio / 2026</span>
+        </header>
+
+        <section className={styles.hero} aria-labelledby="portfolio-title">
+          <h1 id="portfolio-title" className={styles.word} aria-label="Portfolio">
+            <span className={styles.script}>P</span>
+            <span className={styles.serif}>or</span>
+            <span className={styles.sans}>t</span>
+            <span className={styles.loop}>f</span>
+            <span className={styles.pixel}>o</span>
+            <span className={styles.italic}>li</span>
+            <span className={styles.finalO}>o</span>
+            <span className={styles.star} aria-hidden="true">✦</span>
+          </h1>
+          <div className={styles.identity}>
+            <span>Amira Lina Benbouali</span>
+            <span>Software engineer</span>
+          </div>
+        </section>
+
+        <nav className={styles.folderField} aria-label="Desktop folders">
+          {folders.map((folder) => (
+            <button
+              className={`${styles.folder} ${styles[folder.id]} ${styles[folder.tone]}`}
+              key={folder.id}
+              onClick={(event) => openWindow(folder.id, event.currentTarget)}
+              type="button"
+            >
+              <span className={styles.folderIcon} aria-hidden="true"><i /></span>
+              <span className={styles.folderLabel}>{folder.label}</span>
+            </button>
+          ))}
+        </nav>
+      </div>
+
+      {lockState !== 'unlocked' ? (
+        <section
+          aria-label="Portfolio lock screen"
+          className={`${styles.lockScreen} ${lockState === 'opening' ? styles.lockOpening : ''}`}
+        >
+          <div className={styles.lockClock} aria-label={`${clock.time}, ${clock.date}`}>
+            <time>{clock.time}</time>
+            <span>{clock.date}</span>
+          </div>
+
+          <div className={styles.lockAccess}>
+            <span className={styles.lockAvatar} aria-hidden="true">AB</span>
+            <h1>Amira Lina Benbouali</h1>
+            <p>Software engineer · London</p>
+            <button
+              aria-live="polite"
+              className={`${styles.accessButton} ${lockState !== 'idle' ? styles.accessButtonActive : ''}`}
+              disabled={lockState !== 'idle'}
+              onClick={unlockPortfolio}
+              type="button"
+            >
+              {lockState === 'idle' ? (
+                <><span>Access portfolio</span><b aria-hidden="true">→</b></>
+              ) : (
+                <span className={styles.passwordDots} aria-label="Entering portfolio access code">
+                  {Array.from({ length: ACCESS_CODE_LENGTH }, (_, index) => (
+                    <i className={index < passwordLength ? styles.passwordDotFilled : ''} key={index} />
+                  ))}
+                </span>
+              )}
+            </button>
+            <small>{lockState === 'opening' ? 'Access granted' : 'Press to enter'}</small>
+          </div>
+
+          <div className={styles.lockFooter} aria-hidden="true">
+            <span>Portfolio / 2026</span>
+            <span>London, UK</span>
+          </div>
+        </section>
+      ) : null}
+
+      {activeWindow ? (
+        <div className={`${styles.backdrop} ${isClosing ? styles.backdropClosing : ''}`} onMouseDown={(event) => {
+          if (event.target === event.currentTarget) closeWindow();
+        }}>
+          <section
+            aria-labelledby="desktop-window-title"
+            aria-modal="true"
+            className={`${styles.window} ${styles[`window${activeWindow}`]} ${isClosing ? styles.windowClosing : ''}`}
+            role="dialog"
+            style={{ '--window-origin': windowOrigin } as CSSProperties}
+          >
+            <div className={styles.windowBar}>
+              <span className={styles.windowDots} aria-hidden="true"><i /><i /><i /></span>
+              <span className={styles.windowName}>{folders.find((folder) => folder.id === activeWindow)?.label}</span>
+              <button className={styles.close} onClick={closeWindow} ref={closeRef} type="button" aria-label="Close window">×</button>
+            </div>
+            <div className={styles.windowBody}>
+              <WindowContent
+                activeWindow={activeWindow}
+                selectedProject={selectedProject}
+                setSelectedProject={setSelectedProject}
+              />
+            </div>
+          </section>
+        </div>
+      ) : null}
+    </main>
+  );
+}
+
+function WindowContent({
+  activeWindow,
+  selectedProject,
+  setSelectedProject
+}: {
+  activeWindow: WindowName;
+  selectedProject: number;
+  setSelectedProject: (index: number) => void;
+}) {
+  if (activeWindow === 'about') {
+    return (
+      <>
+        <p className={styles.eyebrow}>A little introduction</p>
+        <h2 id="desktop-window-title">Hi, I&apos;m Amira.</h2>
+        <p className={styles.lead}>A software engineer based in London, building thoughtful products and the systems underneath them.</p>
+        <div className={styles.aboutGrid}>
+          <p>I&apos;m a Computer Science graduate interested in product engineering, developer tools and software that feels considered at every layer.</p>
+          <dl>
+            <div><dt>Based</dt><dd>London, UK</dd></div>
+            <div><dt>Focus</dt><dd>Full-stack · product · systems</dd></div>
+            <div><dt>Status</dt><dd><span className={styles.statusDot} /> Open to work</dd></div>
+          </dl>
+        </div>
+        <Link className={styles.textLink} href="/about">Open the full profile ↗</Link>
+      </>
+    );
+  }
+
+  if (activeWindow === 'work') {
+    const project = projects[selectedProject];
+    return (
+      <>
+        <p className={styles.eyebrow}>Selected work / 2026</p>
+        <h2 id="desktop-window-title">Things I&apos;ve made.</h2>
+        <div className={styles.workLayout}>
+          <div className={styles.projectTabs} role="tablist" aria-label="Projects">
+            {projects.map((item, index) => (
+              <button
+                aria-selected={selectedProject === index}
+                className={selectedProject === index ? styles.projectActive : ''}
+                key={item.name}
+                onClick={() => setSelectedProject(index)}
+                role="tab"
+                type="button"
+              >
+                <span>0{index + 1}</span>
+                <strong>{item.name}</strong>
+                <small>{item.descriptor}</small>
+              </button>
+            ))}
+          </div>
+          <article className={`${styles.projectDetail} ${styles[project.color]}`} role="tabpanel">
+            <span className={styles.projectGlyph} aria-hidden="true">{selectedProject === 0 ? '◌' : '⌁'}</span>
+            <p>{project.summary}</p>
+            <small>{project.stack}</small>
+            <div className={styles.projectLinks}>
+              <Link href={project.route}>Case study ↗</Link>
+              <a href={project.github} rel="noreferrer" target="_blank">GitHub ↗</a>
+            </div>
+            <em>Live version coming soon.</em>
+          </article>
+        </div>
+      </>
+    );
+  }
+
+  if (activeWindow === 'blog') {
+    return (
+      <>
+        <p className={styles.eyebrow}>Notes & ideas</p>
+        <h2 id="desktop-window-title">A little space to write.</h2>
+        <p className={styles.lead}>A future home for reflections on engineering, product decisions and the things I learn while building.</p>
+        <div className={styles.emptyNote}>
+          <span aria-hidden="true">✎</span>
+          <p>No posts yet.<br /><small>The first note is still being written.</small></p>
+        </div>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <p className={styles.eyebrow}>Say hello</p>
+      <h2 id="desktop-window-title">Let&apos;s connect.</h2>
+      <p className={styles.lead}>Have a role, a project or an interesting problem in mind? My inbox is open.</p>
+      <div className={styles.contactList}>
+        <a href="mailto:amiralinabenbouali@gmail.com"><span>Email</span><strong>Send a message</strong><b>↗</b></a>
+        <a href="https://www.linkedin.com/in/amirabenbouali/" rel="noreferrer" target="_blank"><span>LinkedIn</span><strong>Connect with me</strong><b>↗</b></a>
+        <a href="https://github.com/amirabenbouali" rel="noreferrer" target="_blank"><span>GitHub</span><strong>Explore the code</strong><b>↗</b></a>
+      </div>
+    </>
+  );
+}
