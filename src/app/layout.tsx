@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
 import { Instrument_Serif } from 'next/font/google';
+import { CursorStarTrail } from '@/components/desktop/CursorStarTrail';
 import './globals.css';
 
 const serifAccent = Instrument_Serif({
@@ -18,7 +19,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en" className={serifAccent.variable}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <CursorStarTrail />
+      </body>
     </html>
   );
 }

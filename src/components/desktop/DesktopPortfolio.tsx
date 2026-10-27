@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { type CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
+import { DesktopWorkArchive } from './DesktopWorkArchive';
 import styles from './DesktopPortfolio.module.css';
 
 type WindowName = 'about' | 'work' | 'blog' | 'contact';
@@ -16,33 +17,12 @@ const folders: Array<{ id: WindowName; label: string; tone: string }> = [
   { id: 'contact', label: 'contact', tone: 'silver' }
 ];
 
-const projects = [
-  {
-    name: 'Atria',
-    descriptor: 'Calendar, without the friction.',
-    summary: 'A calendar and task-management system with flexible scheduling, keyboard-driven interactions and local state.',
-    stack: 'React · TypeScript · Zustand · Framer Motion',
-    github: 'https://github.com/amirabenbouali/atria',
-    route: '/projects/atria',
-    color: 'coral'
-  },
-  {
-    name: 'Metronome',
-    descriptor: 'The city, scored in real time.',
-    summary: 'A London live-pulse dashboard combining traffic, transit, weather and events across 33 boroughs.',
-    stack: 'FastAPI · PostGIS · React · TypeScript',
-    github: 'https://github.com/amirabenbouali/metronome',
-    route: '/projects/metronome',
-    color: 'charcoal'
-  }
-];
-
 export function DesktopPortfolio() {
   const [lockState, setLockState] = useState<LockState>('idle');
+  const [lockReady, setLockReady] = useState(false);
   const [passwordLength, setPasswordLength] = useState(0);
   const [clock, setClock] = useState({ time: '20:26', date: 'Portfolio access' });
   const [activeWindow, setActiveWindow] = useState<WindowName | null>(null);
-  const [selectedProject, setSelectedProject] = useState(0);
   const [windowOrigin, setWindowOrigin] = useState('50% 50%');
   const [isClosing, setIsClosing] = useState(false);
   const closeRef = useRef<HTMLButtonElement>(null);
@@ -50,6 +30,16 @@ export function DesktopPortfolio() {
   const closeTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const unlockTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const typingTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      if (window.sessionStorage.getItem('amira-portfolio-unlocked') === 'true') {
+        setLockState('unlocked');
+      }
+      setLockReady(true);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, []);
 
   useEffect(() => {
     const updateClock = () => {
@@ -77,6 +67,7 @@ export function DesktopPortfolio() {
     if (lockState !== 'idle') return;
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      window.sessionStorage.setItem('amira-portfolio-unlocked', 'true');
       setLockState('unlocked');
       return;
     }
@@ -93,6 +84,7 @@ export function DesktopPortfolio() {
         unlockTimerRef.current = setTimeout(() => {
           setLockState('opening');
           unlockTimerRef.current = setTimeout(() => {
+            window.sessionStorage.setItem('amira-portfolio-unlocked', 'true');
             setLockState('unlocked');
             unlockTimerRef.current = null;
           }, 760);
@@ -194,7 +186,7 @@ export function DesktopPortfolio() {
         </nav>
       </div>
 
-      {lockState !== 'unlocked' ? (
+      {lockReady && lockState !== 'unlocked' ? (
         <section
           aria-label="Portfolio lock screen"
           className={`${styles.lockScreen} ${lockState === 'opening' ? styles.lockOpening : ''}`}
@@ -252,11 +244,7 @@ export function DesktopPortfolio() {
               <button className={styles.close} onClick={closeWindow} ref={closeRef} type="button" aria-label="Close window">×</button>
             </div>
             <div className={styles.windowBody}>
-              <WindowContent
-                activeWindow={activeWindow}
-                selectedProject={selectedProject}
-                setSelectedProject={setSelectedProject}
-              />
+              <WindowContent activeWindow={activeWindow} />
             </div>
           </section>
         </div>
@@ -265,15 +253,7 @@ export function DesktopPortfolio() {
   );
 }
 
-function WindowContent({
-  activeWindow,
-  selectedProject,
-  setSelectedProject
-}: {
-  activeWindow: WindowName;
-  selectedProject: number;
-  setSelectedProject: (index: number) => void;
-}) {
+function WindowContent({ activeWindow }: { activeWindow: WindowName }) {
   if (activeWindow === 'about') {
     return (
       <>
@@ -294,41 +274,7 @@ function WindowContent({
   }
 
   if (activeWindow === 'work') {
-    const project = projects[selectedProject];
-    return (
-      <>
-        <p className={styles.eyebrow}>Selected work / 2026</p>
-        <h2 id="desktop-window-title">Things I&apos;ve made.</h2>
-        <div className={styles.workLayout}>
-          <div className={styles.projectTabs} role="tablist" aria-label="Projects">
-            {projects.map((item, index) => (
-              <button
-                aria-selected={selectedProject === index}
-                className={selectedProject === index ? styles.projectActive : ''}
-                key={item.name}
-                onClick={() => setSelectedProject(index)}
-                role="tab"
-                type="button"
-              >
-                <span>0{index + 1}</span>
-                <strong>{item.name}</strong>
-                <small>{item.descriptor}</small>
-              </button>
-            ))}
-          </div>
-          <article className={`${styles.projectDetail} ${styles[project.color]}`} role="tabpanel">
-            <span className={styles.projectGlyph} aria-hidden="true">{selectedProject === 0 ? '◌' : '⌁'}</span>
-            <p>{project.summary}</p>
-            <small>{project.stack}</small>
-            <div className={styles.projectLinks}>
-              <Link href={project.route}>Case study ↗</Link>
-              <a href={project.github} rel="noreferrer" target="_blank">GitHub ↗</a>
-            </div>
-            <em>Live version coming soon.</em>
-          </article>
-        </div>
-      </>
-    );
+    return <DesktopWorkArchive />;
   }
 
   if (activeWindow === 'blog') {

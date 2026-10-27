@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import { DarkAtria } from '@/components/portfolio/DarkAtria';
+import { DesktopCaseStudy } from '@/components/desktop/DesktopCaseStudy';
+import { getDesktopProject } from '@/components/desktop/projectData';
 
 export const metadata: Metadata = {
   title: 'Atria — Amira Lina Benbouali',
@@ -7,5 +8,5 @@ export const metadata: Metadata = {
 };
 
 export default function AtriaPage() {
-  return <DarkAtria />;
+  return <DesktopCaseStudy project={getDesktopProject('atria')} />;
 }

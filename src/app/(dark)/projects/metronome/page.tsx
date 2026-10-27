@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
-import { DarkMetronome } from '@/components/portfolio/DarkMetronome';
+import { DesktopCaseStudy } from '@/components/desktop/DesktopCaseStudy';
+import { getDesktopProject } from '@/components/desktop/projectData';
 
 export const metadata: Metadata = {
   title: 'Metronome — Amira Lina Benbouali',
@@ -8,5 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function MetronomePage() {
-  return <DarkMetronome />;
+  return <DesktopCaseStudy project={getDesktopProject('metronome')} />;
 }

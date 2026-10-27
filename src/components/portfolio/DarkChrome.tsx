@@ -64,10 +64,17 @@ export function DarkChrome({ children }: { children: ReactNode }) {
   }, [isRevealing]);
 
   const wipeClass = phase === 'idle' ? '' : isRevealing ? shell.wipeOut : shell.wipeIn;
+  const isDesktopExperience =
+    pathname === '/' ||
+    pathname.startsWith('/projects/atria') ||
+    pathname.startsWith('/projects/metronome') ||
+    pathname.startsWith('/projects/foundry') ||
+    pathname.startsWith('/projects/kansodb') ||
+    pathname.startsWith('/projects/mini-ci');
 
   return (
     <DarkChromeContext.Provider value={{ setIsBig, wipeTo }}>
-      {pathname !== '/' && hasMoved ? (
+      {!isDesktopExperience && hasMoved ? (
         <div
           className={`${shell.cursor} ${isBig ? shell.cursorBig : ''}`}
           style={{ left: cursor.x, top: cursor.y }}

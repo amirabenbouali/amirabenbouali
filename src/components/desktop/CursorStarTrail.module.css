@@ -1,0 +1,25 @@
+.trail {
+  position: fixed;
+  z-index: 200;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  contain: strict;
+}
+
+.star {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  opacity: 0;
+  background: linear-gradient(145deg, #ff9ccf, #ec5eaa 68%);
+  clip-path: polygon(50% 0, 61% 38%, 100% 50%, 61% 62%, 50% 100%, 39% 62%, 0 50%, 39% 38%);
+  filter: drop-shadow(0 1px 2px rgba(198, 59, 132, .18));
+  will-change: transform, opacity;
+}
+
+@media (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .trail { display: none; }
+}
