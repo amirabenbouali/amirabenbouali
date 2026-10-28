@@ -319,6 +319,8 @@
 }
 .windowwork { width: min(1120px, calc(100vw - 48px)); }
 .windowwork .windowBody { padding: clamp(34px, 4.5vw, 56px) clamp(24px, 4vw, 54px) 48px; }
+.windowblog { width: min(1040px, calc(100vw - 48px)); }
+.windowblog .windowBody { padding: clamp(34px, 4vw, 52px) clamp(24px, 4vw, 48px) 44px; }
 .backdropClosing { animation: backdropOut .34s ease both; }
 .windowClosing {
   pointer-events: none;
@@ -344,19 +346,6 @@
 .windowBody h2 { margin: 0 0 22px; font: 700 clamp(27px, 3vw, 36px)/1.08 Arial, Helvetica, sans-serif; letter-spacing: -.035em; }
 .lead { max-width: 790px; margin: 0; color: #262225; font-size: clamp(18px, 1.65vw, 24px); line-height: 1.4; letter-spacing: -.025em; }
 
-.aboutGrid { margin-top: 38px; display: grid; grid-template-columns: 1.35fr .65fr; gap: 52px; padding-top: 31px; border-top: 1px solid #ddd4db; }
-.aboutGrid p { margin: 0; color: #403a3f; font: 17px/1.58 Arial, sans-serif; }
-.aboutGrid dl { margin: 0; display: grid; gap: 13px; }
-.aboutGrid dl div { display: grid; grid-template-columns: 70px 1fr; gap: 10px; }
-.aboutGrid dt { color: #958992; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; }
-.aboutGrid dd { margin: 0; font-size: 12px; }
-.statusDot { display: inline-block; width: 7px; height: 7px; margin-right: 6px; border-radius: 50%; background: #6aa878; }
-.textLink { display: inline-block; margin-top: 28px; padding-bottom: 4px; border-bottom: 1px solid #6d626a; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; }
-
-.emptyNote { margin-top: 36px; padding: 26px; border: 1px dashed #c7bbc4; display: flex; align-items: center; gap: 18px; color: #6f656d; }
-.emptyNote > span { font-size: 35px; }
-.emptyNote p { margin: 0; font: 600 17px/1.4 Arial, Helvetica, sans-serif; }
-.emptyNote small { color: #91858e; font: 11px/1.4 Arial, sans-serif; }
 .contactList { margin-top: 34px; border-top: 1px solid #d9d0d7; }
 .contactList a { padding: 18px 4px; border-bottom: 1px solid #d9d0d7; display: grid; grid-template-columns: 100px 1fr auto; align-items: center; gap: 16px; }
 .contactList span { color: #978c94; font-size: 9px; letter-spacing: .12em; text-transform: uppercase; }
@@ -413,8 +402,6 @@
   .windowBody { max-height: calc(100svh - 78px); padding: 34px 24px 38px; }
   .lockClock { top: 9vh; }
   .lockAccess { top: 58%; }
-  .aboutGrid { grid-template-columns: 1fr; }
-  .aboutGrid { gap: 24px; }
 }
 
 @media (max-width: 430px) {

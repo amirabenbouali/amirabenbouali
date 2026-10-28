@@ -66,6 +66,8 @@ export function DarkChrome({ children }: { children: ReactNode }) {
   const wipeClass = phase === 'idle' ? '' : isRevealing ? shell.wipeOut : shell.wipeIn;
   const isDesktopExperience =
     pathname === '/' ||
+    pathname === '/about' ||
+    pathname.startsWith('/notes') ||
     pathname.startsWith('/projects/atria') ||
     pathname.startsWith('/projects/metronome') ||
     pathname.startsWith('/projects/foundry') ||

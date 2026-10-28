@@ -1,8 +1,10 @@
 'use client';
 
-import Link from 'next/link';
 import { type CSSProperties, useCallback, useEffect, useRef, useState } from 'react';
+import { DesktopAboutPreview } from './DesktopAbout';
+import { DesktopNotesPreview } from './DesktopNotesPreview';
 import { DesktopWorkArchive } from './DesktopWorkArchive';
+import type { NoteSummary } from '@/lib/notes';
 import styles from './DesktopPortfolio.module.css';
 
 type WindowName = 'about' | 'work' | 'blog' | 'contact';
@@ -17,7 +19,7 @@ const folders: Array<{ id: WindowName; label: string; tone: string }> = [
   { id: 'contact', label: 'contact', tone: 'silver' }
 ];
 
-export function DesktopPortfolio() {
+export function DesktopPortfolio({ notes, notesPreview = false }: { notes: NoteSummary[]; notesPreview?: boolean }) {
   const [lockState, setLockState] = useState<LockState>('idle');
   const [lockReady, setLockReady] = useState(false);
   const [passwordLength, setPasswordLength] = useState(0);
@@ -244,7 +246,7 @@ export function DesktopPortfolio() {
               <button className={styles.close} onClick={closeWindow} ref={closeRef} type="button" aria-label="Close window">×</button>
             </div>
             <div className={styles.windowBody}>
-              <WindowContent activeWindow={activeWindow} />
+              <WindowContent activeWindow={activeWindow} notes={notes} notesPreview={notesPreview} />
             </div>
           </section>
         </div>
@@ -253,24 +255,9 @@ export function DesktopPortfolio() {
   );
 }
 
-function WindowContent({ activeWindow }: { activeWindow: WindowName }) {
+function WindowContent({ activeWindow, notes, notesPreview }: { activeWindow: WindowName; notes: NoteSummary[]; notesPreview: boolean }) {
   if (activeWindow === 'about') {
-    return (
-      <>
-        <p className={styles.eyebrow}>A little introduction</p>
-        <h2 id="desktop-window-title">Hi, I&apos;m Amira.</h2>
-        <p className={styles.lead}>A software engineer based in London, building thoughtful products and the systems underneath them.</p>
-        <div className={styles.aboutGrid}>
-          <p>I&apos;m a Computer Science graduate interested in product engineering, developer tools and software that feels considered at every layer.</p>
-          <dl>
-            <div><dt>Based</dt><dd>London, UK</dd></div>
-            <div><dt>Focus</dt><dd>Full-stack · product · systems</dd></div>
-            <div><dt>Status</dt><dd><span className={styles.statusDot} /> Open to work</dd></div>
-          </dl>
-        </div>
-        <Link className={styles.textLink} href="/about">Open the full profile ↗</Link>
-      </>
-    );
+    return <DesktopAboutPreview />;
   }
 
   if (activeWindow === 'work') {
@@ -278,17 +265,7 @@ function WindowContent({ activeWindow }: { activeWindow: WindowName }) {
   }
 
   if (activeWindow === 'blog') {
-    return (
-      <>
-        <p className={styles.eyebrow}>Notes & ideas</p>
-        <h2 id="desktop-window-title">A little space to write.</h2>
-        <p className={styles.lead}>A future home for reflections on engineering, product decisions and the things I learn while building.</p>
-        <div className={styles.emptyNote}>
-          <span aria-hidden="true">✎</span>
-          <p>No posts yet.<br /><small>The first note is still being written.</small></p>
-        </div>
-      </>
-    );
+    return <DesktopNotesPreview notes={notes} preview={notesPreview} />;
   }
 
   return (
